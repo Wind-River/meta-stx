@@ -1,0 +1,78 @@
+From 16a6c17822c725391db8089d1e8984ced6231a6f Mon Sep 17 00:00:00 2001
+From: babak sarashki <babak.sarashki@windriver.com>
+Date: Fri, 28 Jun 2019 10:15:14 -0700
+Subject: [PATCH] G++ chockes on not checking return values with Wall
+
+Check return values and handle truncation. Fix Makefile to install
+in ${libdir} rather than hardcoded lib64
+---
+ service-mgmt/sm-common-1.0.0/src/sm_node_utils.c |  3 ++-
+ service-mgmt/sm-common-1.0.0/src/sm_utils.c      |  3 ++-
+ service-mgmt/sm-db-1.0.0/src/Makefile            | 16 ++++++++++------
+ 3 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/service-mgmt/sm-common-1.0.0/src/sm_node_utils.c b/service-mgmt/sm-common-1.0.0/src/sm_node_utils.c
+index 1dd25c7..86f48c9 100644
+--- a/service-mgmt/sm-common-1.0.0/src/sm_node_utils.c
++++ b/service-mgmt/sm-common-1.0.0/src/sm_node_utils.c
+@@ -68,7 +68,8 @@ static SmErrorT sm_node_utils_read_platform_config( const char key[],
+         if( 1 == sscanf( line, format, val ) )
+         {
+             val[sizeof(val)-1] = '\0';
+-            snprintf( value, value_size, "%s", val );
++            if (snprintf( value, value_size, "%s", val ) < 0) 
++	    	fprintf(stderr,"%s:%d: snprintf failed!\n", __func__, __LINE__);	
+             break;
+         }
+     }
+diff --git a/service-mgmt/sm-common-1.0.0/src/sm_utils.c b/service-mgmt/sm-common-1.0.0/src/sm_utils.c
+index ade30e0..16ddc22 100644
+--- a/service-mgmt/sm-common-1.0.0/src/sm_utils.c
++++ b/service-mgmt/sm-common-1.0.0/src/sm_utils.c
+@@ -36,7 +36,8 @@ bool sm_utils_process_running( const char* pid_filename )
+     } else {
+         int pid;
+ 
+-        fscanf( fp, "%d", &pid );
++        if (fscanf( fp, "%d", &pid ) < 0)
++		fprintf(stderr, "%s:%d: fprintf failed!\n", __func__, __LINE__);
+         if( pid != getpid() )
+         {
+             result = kill( pid, 0 );
+diff --git a/service-mgmt/sm-db-1.0.0/src/Makefile b/service-mgmt/sm-db-1.0.0/src/Makefile
+index a29b1ac..2e3fd12 100644
+--- a/service-mgmt/sm-db-1.0.0/src/Makefile
++++ b/service-mgmt/sm-db-1.0.0/src/Makefile
+@@ -33,6 +33,10 @@ EXTRACCFLAGS= -D__STDC_FORMAT_MACROS
+ LDLIBS= -lsqlite3 -lglib-2.0 -luuid -lrt -lsm_common
+ LDFLAGS = -shared -rdynamic
+ 
++LIB_DIR=/usr/lib64 
++BIN_DIR=/usr/bin
++INC_DIR=/usr/include
++
+ build: libsm_db.so sm_db_build
+ 
+ .c.o:
+@@ -51,12 +55,12 @@ sm_db_build: ${OBJS}
+ 	$(CXX) $(INCLUDES) $(CCFLAGS) $(EXTRACCFLAGS) $(OBJS) $(LDLIBS) -o sm_db_build
+ 
+ install:
+-	install -d ${DEST_DIR}/usr/lib64
+-	install libsm_db.so.${VER} $(DEST_DIR)/usr/lib64
+-	cp -P libsm_db.so libsm_db.so.$(VER_MJR) $(DEST_DIR)/usr/lib64
+-	install -d ${DEST_DIR}/usr/include
+-	install -m 0644 *.h ${DEST_DIR}/usr/include
+-	install -d 755 ${DEST_DIR}/usr/bin
++	install -d ${DEST_DIR}/$(LIB_DIR)
++	install libsm_db.so.${VER} $(DEST_DIR)/$(LIB_DIR)
++	cp -P libsm_db.so libsm_db.so.$(VER_MJR) $(DEST_DIR)/$(LIB_DIR)
++	install -d ${DEST_DIR}/$(INC_DIR)
++	install -m 0644 *.h ${DEST_DIR}/$(INC_DIR)
++#	install -d 755 ${DEST_DIR}/$(BIN_DIR)
+ 
+ clean:
+ 	@rm -f *.o *.a *.so *.so.*
+-- 
+2.17.1
+

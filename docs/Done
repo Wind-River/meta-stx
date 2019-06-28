@@ -1,0 +1,49 @@
+#List of first stab recipes done
+# Legend:
+# P=Port
+# D=Depends
+# w=not started yet
+# d=initial port done
+stx-config:d
+	config-gate.bb
+	controllerconfig.bb
+	puppet-manifests.bb
+	puppet-modules-wrs.bb
+	storageconfig
+	worker-utils.bb
+	workerconfig.bb
+	pm-qos-mgr.bb
+	sysinv.bb
+TODO:stx-config:P+stx-openstack-helm:D+openstack-helm:D+openstack-helm-infra:D+kubernetes
+TODO:stx-config:P+stx-platform-helm:D+helm:D+openstack-helm-infra:D+kubernetes
+stx-fault:d
+	fm-doc.bb
+	fm-common.bb
+	fm-mgr.bb
+	fm-rest-api.bb
+	fm-api.bb
+	snmp-audittrail.bb
+	snmp-ext.bb
+
+stx-gui:d
+stx-metal:d
+	inventory.bb
+	mtce-common.bb:common:daemon
+	mtce-compute.bb
+	mtce-control.bb
+	mtce-storage.bb
+TODO:stx-metal:D+oslo-config-generator:D+post_run
+TODO:stx-metal:P+installer/pxe-network-installer
+TODO:stx-metal:P+kickstart
+stx-ha:d
+	sm-common.bb
+	sm-db.bb
+	sm.bb
+	sm-api.bb
+	sm-client.bb
+	sm-tools.bb
+stx-integ:w
+stx-ansible-playbooks:w
+stx-nfv:w
+stx-update:w
+stx-upstream:w

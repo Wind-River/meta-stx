@@ -1,0 +1,350 @@
+DESCRIPTION = "stx-metal"
+# TODO:
+# Fix the packaging on this. These packages depend on each other
+# and need to be present in sysroot. One possible solution:
+# Unpack the source in work-shared And built packages individually
+# That way dependencies and sysroots can be accounted for in the recipes.
+
+INSANE_SKIP_${PN} = "ldflags"
+
+STABLE = "starlingx/master"
+PROTOCOL = "https"
+BRANCH = "master"
+SRCREV = "fb019447503cc9e5bb8d290311a8c5d38d53a108"
+S = "${WORKDIR}/git"
+PV = "19.05"
+
+LICENSE = "Apache-2.0"
+
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+
+SRC_URI = "git://opendev.org/starlingx/metal.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://0001-Make-sure-objects-are-present-befor-archiving-into-..patch \
+	file://0001-Use-LLDFLAGS-to-avoid-collusion-with-LDFLAGS.patch \
+	file://0001-Make-fallthroughs-explicit-for-Poky-CFLAGS-Werror-im.patch \
+	file://0001-Remove-Wall-and-family-to-compile-the-code.patch \
+	file://0001-Remove-Wall-and-family-from-heartbeat-to-compile-the.patch \
+	"
+
+inherit setuptools
+
+DEPENDS = "\
+	python-pbr \
+	python-pbr-native \
+	libevent \
+	json-c \
+	"
+
+# Builds:
+# mtce-common/src/daemon
+# mtce-common/src/common
+# mtce-compute
+# mtce-control
+# mtce-storage
+# mtce
+
+# Skips:
+# installer/pxe-network-installer
+# kickstart
+
+
+
+do_configure () {
+# installer/pxe-network-installer: Do Nothing
+# kickstart: Do Nothing
+# mtce-common/src/daemon: Do Nothing
+# mtce-common/src/common: Do Nothing
+# mtce-compute: Do Nothing
+# mtce-control: Do Nothing
+# mtce-storage: Do Nothing
+# mtce: Do Nothing
+
+# inventory/inventory:
+	cd ${S}/inventory/inventory
+	distutils_do_configure
+
+# python-inventoryclient:
+	cd ${S}/python-inventoryclient/inventoryclient
+	distutils_do_configure
+}
+
+
+do_compile () {
+# installer/pxe-network-installer: Do Nothing
+# kickstart: Do Nothing
+# mtce-compute: Do Nothing
+# mtce-control: Do Nothing
+# mtce-storage: Do Nothing
+
+# inventory/inventory:
+	cd ${S}/inventory/inventory
+	distutils_do_compile
+
+# mtce-common/src/daemon:
+	cd ${S}/mtce-common/src/daemon
+	oe_runmake clean
+	oe_runmake -e lib VER=1 VER_MJR=1
+
+# mtce-common/src/common:
+	cd ${S}/mtce-common/src/common
+	oe_runmake clean
+	oe_runmake -e lib VER=1 VER_MJR=1 CCFLAGS="-fPIC -g -O2 -std=c++11" 
+
+# mtce:
+	cd ${S}/mtce/src/
+	oe_runmake -e VER=1 VER_MJR=1 \
+		INCLUDES="-I${S}/mtce-common/src/common -I${S}/mtce-common/src/daemon \
+			-I../alarm -I../heartbeat -I../maintenance \
+			-I../hostw -I../public -I../smash -I../common -I../hwmon \
+			" \
+		EXTRALDFLAGS="-L${S}/mtce-common/src/common -L${S}/mtce-common/src/daemon" \
+		build
+
+# python-inventoryclient:
+	cd ${S}/python-inventoryclient/inventoryclient
+	distutils_do_compile
+}
+
+do_install () {
+# installer/pxe-network-installer: Do Nothing
+# kickstart: Do Nothing
+
+# inventory/inventory:
+# See todo.txt
+	cd ${S}/inventory/inventory
+	distutils_do_install
+
+# mtce-common/src/daemon:
+	cd ${S}/mtce-common/src/daemon
+	install -m 755 -d ${D}/${libdir}
+	install -m 755 -d ${D}/${includedir}/mtce-daemon
+
+	install -m 644 -p -D libdaemon.a ${D}/${libdir}
+	install -m 644 -p -D daemon_ini.h ${D}/${includedir}/mtce-daemon
+	install -m 644 -p -D daemon_common.h ${D}/${includedir}/mtce-daemon
+	install -m 644 -p -D daemon_option.h ${D}/${includedir}/mtce-daemon
+# mtce-common/src/common:
+	cd ${S}/mtce-common/src/common
+	install -m 755 -d ${D}/${includedir}/mtce-common
+	install -m 644 -p -D libcommon.a ${D}/${libdir}
+	install -m 644 -p -D libthreadUtil.a ${D}/${libdir}
+	install -m 644 -p -D libipmiUtil.a ${D}/${libdir}
+	install -m 644 -p -D libpingUtil.a ${D}/${libdir}
+	install -m 644 -p -D libnodeBase.a ${D}/${libdir}
+	install -m 644 -p -D libregexUtil.a ${D}/${libdir}
+	install -m 644 -p -D libhostUtil.a ${D}/${libdir}
+
+	install -m 644 -p -D fitCodes.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D logMacros.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D returnCodes.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nodeTimers.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D hostClass.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D httpUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D jsonUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D msgClass.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nodeBase.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nodeEvent.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nodeMacro.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nodeUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D timeUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D alarmUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D hostUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D ipmiUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D nlEvent.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D pingUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D regexUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D threadUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D tokenUtil.h ${D}/${includedir}/mtce-common
+	install -m 644 -p -D secretUtil.h ${D}/${includedir}/mtce-common
+
+# mtce-compute: 
+	cd ${S}/mtce-compute/src/
+	oe_runmake buildroot=${D} \
+		_sysconfdir=${sysconfdir} _unitdir=${systemd_system_unitdir} _datarootdir=${datadir} \
+		install
+# mtce-control: 
+	cd ${S}/mtce-control/src/
+	oe_runmake buildroot=${D} \
+		_sysconfdir=${sysconfdir} _unitdir=${systemd_system_unitdir} _datarootdir=${datadir} \
+		install
+# mtce-storage:
+	cd ${S}/mtce-storage/src/
+	oe_runmake buildroot=${D} \
+		_sysconfdir=${sysconfdir} _unitdir=${systemd_system_unitdir} _datarootdir=${datadir} \
+		install
+# mtce:
+	install -m 755 -d ${D}/${bindir}
+	install -m 755 -d ${D}/${sbindir}
+	install -m 755 -d ${D}/${libdir}
+	install -m 755 -d ${D}/${libdir}/ocf/resource.d/platform
+	install -m 755 -d ${D}/${systemd_system_unitdir}
+
+	install -m 755 -d ${D}/${sysconfdir}
+	install -m 755 -d ${D}/${sysconfdir}/mtc/tmp
+	install -m 755 -d ${D}/${sysconfdir}/goenabled.d
+	install -m 755 -d ${D}/${sysconfdir}/bmc/server_profiles.d
+	install -m 755 -d ${D}/${sysconfdir}/init.d
+	install -m 755 -d ${D}/${sysconfdir}/pmon.d
+	install -m 755 -d ${D}/${sysconfdir}/logrotate.d
+
+	install -m 755 -d ${D}/${sysconfdir}/serverices.d
+	install -m 755 -d ${D}/${sysconfdir}/serverices.d/controller
+	install -m 755 -d ${D}/${sysconfdir}/serverices.d/worker
+	install -m 755 -d ${D}/${sysconfdir}/serverices.d/storage
+	
+	install -m 755 -d ${D}/var
+	install -m 755 -d ${D}/var/run
+
+
+	cd ${S}/mtce/src/
+	install -m 644 -p -D scripts/mtcAgent ${D}/${libdir}/ocf/resource.d/platform
+	install -m 755 -p -D hwmon/scripts/ocf/hwmon ${D}/${libdir}/ocf/resource.d/platform
+
+	# Config files
+	install -m 644 -p -D scripts/mtc.ini ${D}/${sysconfdir}/mtc.ini
+	install -m 644 -p -D scripts/mtc.conf ${D}/${sysconfdir}/mtc.conf
+	install -m 644 -p -D fsmon/scripts/fsmond.conf ${D}/${sysconfdir}/mtc/fsmond.conf
+	install -m 644 -p -D hwmon/scripts/hwmond.conf ${D}/${sysconfdir}/mtc/hwmond.conf
+	install -m 644 -p -D pmon/scripts/pmond.conf ${D}/${sysconfdir}/mtc/pmond.conf
+	install -m 644 -p -D lmon/scripts/lmond.conf ${D}/${sysconfdir}/mtc/lmond.conf
+	install -m 644 -p -D hostw/scripts/hostwd.conf ${D}/${sysconfdir}/mtc/hostwd.conf
+
+	install -m 644 -p -D scripts/sensor_hp360_v1_ilo_v4.profile ${D}/${sysconfdir}/bmc/server_profiles.d/
+	install -m 644 -p -D scripts/sensor_hp380_v1_ilo_v4.profile ${D}/${sysconfdir}/bmc/server_profiles.d/
+	install -m 644 -p -D scripts/sensor_quanta_v1_ilo_v4.profile ${D}/${sysconfdir}/bmc/server_profiles.d/
+
+
+	# binaries
+	install -m 755 -p -D maintenance/mtcAgent ${D}/${bindir}/mtcAgent
+	install -m 755 -p -D maintenance/mtcClient ${D}/${bindir}/mtcClient
+	install -m 755 -p -D heartbeat/hbsAgent ${D}/${bindir}/hbsAgent
+	install -m 755 -p -D heartbeat/hbsClient ${D}/${bindir}/hbsClient
+	install -m 755 -p -D pmon/pmond ${D}/${bindir}/pmond
+	install -m 755 -p -D lmon/lmond ${D}/${bindir}/lmond
+	install -m 755 -p -D hostw/hostwd ${D}/${bindir}/hostwd
+	install -m 755 -p -D fsmon/fsmond ${D}/${bindir}/fsmond
+	install -m 755 -p -D hwmon/hwmond ${D}/${bindir}/hwmond
+	install -m 755 -p -D mtclog/mtclogd ${D}/${bindir}/mtclogd
+	install -m 755 -p -D alarm/mtcalarmd ${D}/${bindir}/mtcalarmd
+	install -m 755 -p -D scripts/wipedisk ${D}/${bindir}/wipedisk
+	install -m 755 -p -D fsync/fsync ${D}/${sbindir}/fsync
+	install -m 700 -p -D pmon/scripts/pmon-restart ${D}/${sbindir}/pmon-restart
+	install -m 700 -p -D pmon/scripts/pmon-start ${D}/${sbindir}/pmon-start
+	install -m 700 -p -D pmon/scripts/pmon-stop ${D}/${sbindir}/pmon-stop
+
+	# init script files
+	install -m 755 -p -D scripts/mtcClient ${D}/${sysconfdir}/init.d/mtcClient
+	install -m 755 -p -D scripts/hbsClient ${D}/${sysconfdir}/init.d/hbsClient
+	install -m 755 -p -D hwmon/scripts/lsb/hwmon ${D}/${sysconfdir}/init.d/hwmon
+	install -m 755 -p -D fsmon/scripts/fsmon ${D}/${sysconfdir}/init.d/fsmon
+	install -m 755 -p -D scripts/mtclog ${D}/${sysconfdir}/init.d/mtclog
+	install -m 755 -p -D pmon/scripts/pmon ${D}/${sysconfdir}/init.d/pmon
+	install -m 755 -p -D lmon/scripts/lmon ${D}/${sysconfdir}/init.d/lmon
+	install -m 755 -p -D hostw/scripts/hostw ${D}/${sysconfdir}/init.d/hostw
+	install -m 755 -p -D alarm/scripts/mtcalarm.init ${D}/${sysconfdir}/init.d/mtcalarm
+	# install -m 755 -p -D scripts/config ${D}/${sysconfdir}/init.d/config
+
+	# TODO: Init hack. Should move to proper module
+	install -m 755 -p -D scripts/hwclock.sh ${D}/${sysconfdir}/init.d/hwclock.sh
+	install -m 644 -p -D scripts/hwclock.service ${D}/${systemd_system_unitdir}/hwclock.service
+
+
+	# systemd service files
+	install -m 644 -p -D fsmon/scripts/fsmon.service ${D}/${systemd_system_unitdir}/fsmon.service
+	install -m 644 -p -D hwmon/scripts/hwmon.service ${D}/${systemd_system_unitdir}/hwmon.service
+	install -m 644 -p -D pmon/scripts/pmon.service ${D}/${systemd_system_unitdir}/pmon.service
+	install -m 644 -p -D hostw/scripts/hostw.service ${D}/${systemd_system_unitdir}/hostw.service
+	install -m 644 -p -D scripts/mtcClient.service ${D}/${systemd_system_unitdir}/mtcClient.service
+	install -m 644 -p -D scripts/hbsClient.service ${D}/${systemd_system_unitdir}/hbsClient.service
+	install -m 644 -p -D scripts/mtclog.service ${D}/${systemd_system_unitdir}/mtclog.service
+	install -m 644 -p -D scripts/hbsClient.service ${D}/${systemd_system_unitdir}/hbsClient.service
+	install -m 644 -p -D scripts/mtclog.service ${D}/${systemd_system_unitdir}/mtclog.service
+	install -m 644 -p -D scripts/goenabled.service ${D}/${systemd_system_unitdir}/goenabled.service
+	install -m 644 -p -D scripts/runservices.service ${D}/${systemd_system_unitdir}/runservices.service
+	install -m 644 -p -D alarm/scripts/mtcalarm.service ${D}/${systemd_system_unitdir}/mtcalarm.service
+	install -m 644 -p -D lmon/scripts/lmon.service ${D}/${systemd_system_unitdir}/lmon.service
+
+
+	# go enabled stuff
+	install -m 755 -p -D scripts/goenabled ${D}/${sysconfdir}/init.d/goenabled
+
+	# start or stop services test script
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/worker
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/controller
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/storage 
+	install -m 755 -p -D scripts/runservices ${D}/${sysconfdir}/init.d/runservices
+
+
+	# test tools
+	install -m 755 -p -D scripts/dmemchk.sh ${D}/${sbindir}
+
+	# process monitor config files
+	install -m 644 -p -D scripts/mtcClient.conf ${D}/${sysconfdir}/pmon.d/mtcClient.conf
+	install -m 644 -p -D scripts/hbsClient.conf ${D}/${sysconfdir}/pmon.d/hbsClient.conf
+	install -m 644 -p -D pmon/scripts/acpid.conf ${D}/${sysconfdir}/pmon.d/acpid.conf
+	install -m 644 -p -D pmon/scripts/sshd.conf ${D}/${sysconfdir}/pmon.d/sshd.conf
+	install -m 644 -p -D pmon/scripts/syslog-ng.conf ${D}/${sysconfdir}/pmon.d/syslog-ng.conf
+	install -m 644 -p -D pmon/scripts/nslcd.conf ${D}/${sysconfdir}/pmon.d/nslcd.conf
+	install -m 644 -p -D fsmon/scripts/fsmon.conf ${D}/${sysconfdir}/pmon.d/fsmon.conf
+	install -m 644 -p -D scripts/mtclogd.conf ${D}/${sysconfdir}/pmon.d/mtclogd.conf
+	install -m 644 -p -D alarm/scripts/mtcalarm.pmon.conf ${D}/${sysconfdir}/pmon.d/mtcalarm.conf
+	install -m 644 -p -D lmon/scripts/lmon.pmon.conf ${D}/${sysconfdir}/pmon.d/lmon.conf
+
+	# log rotation
+	install -m 644 -p -D scripts/mtce.logrotate ${D}/${sysconfdir}/logrotate.d/mtce.logrotate
+	install -m 644 -p -D hostw/scripts/hostw.logrotate ${D}/${sysconfdir}/logrotate.d/hostw.logrotate
+	install -m 644 -p -D pmon/scripts/pmon.logrotate ${D}/${sysconfdir}/logrotate.d/pmon.logrotate
+	install -m 644 -p -D lmon/scripts/lmon.logrotate ${D}/${sysconfdir}/logrotate.d/lmon.logrotate
+	install -m 644 -p -D fsmon/scripts/fsmon.logrotate ${D}/${sysconfdir}/logrotate.d/fsmon.logrotate
+	install -m 644 -p -D hwmon/scripts/hwmon.logrotate ${D}/${sysconfdir}/logrotate.d/hwmon.logrotate
+	install -m 644 -p -D alarm/scripts/mtcalarm.logrotate ${D}/${sysconfdir}/logrotate.d/mtcalarm.logrotate
+
+	# software development files
+	install -m 644 -p -D heartbeat/mtceHbsCluster.h ${D}/${includedir}/mtceHbsCluster.h
+	install -m 755 -p -D public/libamon.so.1 ${D}/${libdir}/
+	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so.$MAJOR.$MINOR
+	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so
+
+# python-inventoryclient:
+	cd ${S}/python-inventoryclient/inventoryclient
+	distutils_do_install
+
+	install -d -m 755 ${D}/${sysconfdir}/bash_completion.d
+	install -p -D -m 664 tools/inventory.bash_completion ${D}/${sysconfdir}/bash_completion.d
+}
+
+pkg_postinst_ontarget_${PN} () {
+# mtce-compute: 
+	/bin/systemctl enable goenabled-worker.service
+	/bin/systemctl enable qemu_clean.service
+# mtce-control: 
+	/bin/systemctl enable lighttpd.service
+	/bin/systemctl enable qemu_clean.service
+	/bin/systemctl enable hbsAgent.service
+# mtce-storage:
+	/bin/systemctl enable goenabled-storage.service
+
+# mtce:
+	/bin/systemctl enable fsmon.service
+	/bin/systemctl enable mtcClient.service
+	/bin/systemctl enable hbsClient.service
+	/bin/systemctl enable mtclog.service
+	/bin/systemctl enable iscsid.service
+	/bin/systemctl enable rsyncd.service
+	/bin/systemctl enable goenabled.service
+	/bin/systemctl enable mtcalarm.service
+# mtce/mtce-hostw
+	/bin/systemctl enable hostw.service
+# mtce/mtce-pmon
+	/bin/systemctl enable pmon.service
+# mtce/mtce-lmon
+	/bin/systemctl enable lmon.service
+
+}
+
+FILES_${PN}_append += " ${datadir} \
+			${systemd_unitdir}/* \
+			${libdir} \
+			run \
+			"

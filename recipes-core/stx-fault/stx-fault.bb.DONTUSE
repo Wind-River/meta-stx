@@ -1,0 +1,197 @@
+DESCRIPTION = "stx-fault"
+
+INSANE_SKIP_${PN} = "ldflags"
+
+
+STABLE = "starlingx/master"
+PROTOCOL = "https"
+BRANCH = "master"
+SRCREV = "eeb2dee9023347f73d7153325190550a5dc87e7a"
+S = "${WORKDIR}/git"
+PV = "19.05"
+
+LICENSE = "Apache-2.0"
+
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+
+
+SRC_URI = "git://opendev.org/starlingx/fault.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://0001-Fix-compile-errors.patch \
+	"
+
+DEPENDS = " \
+	util-linux \
+	postgresql \
+	python \
+	python-pbr-native \
+	python-six \
+	python-oslo.i18n \
+	python-oslo.utils \
+	python-requests \
+	bash \
+	net-snmp \
+"
+
+RDEPENDS_${PN} += " bash"
+
+inherit setuptools
+
+
+cgcs_doc_deploy = "/opt/deploy/cgcs_doc"
+
+do_configure () {
+# fm-doc: Do Nothing
+# fm-mgr: Do Nothing
+# fm-rest-api: Do Nothing
+# snmp-ext: Do Nothing
+# snmp-audittrail: Do Nothing
+
+# fm-api
+	cd ${S}/fm-api
+	distutils_do_configure
+
+# fm-common: 
+	cd ${S}/fm-common/sources/
+	distutils_do_configure
+
+#fm-rest-api: 
+	cd ${S}/fm-rest-api/fm/
+	distutils_do_configure
+
+# python-fmclient:
+	cd ${S}/python-fmclient/fmclient
+	distutils_do_configure
+}
+
+do_compile() {
+
+# fm-doc: Do Nothing
+
+# fm-api
+	cd ${S}/fm-api
+	distutils_do_compile
+
+# fm-common:
+	cd ${S}/fm-common/sources/
+	oe_runmake -e BINDIR=${bindir} \
+		LIBDIR=${libdir} INCDIR=${includedir} \
+		CGCS_DOC_DEPLOY=${cgcs_doc_deploy}
+	distutils_do_compile
+
+# fm-mgr: 
+	cd ${S}/fm-mgr/sources/
+	oe_runmake -e \
+		INCLUDES="-I. -I../../fm-common/sources" \
+		LDFLAGS="$LDFLAGS -L../../fm-common/sources"
+
+#fm-rest-api: 
+	cd ${S}/fm-rest-api/fm/
+	distutils_do_configure
+
+# python-fmclient:
+	cd ${S}/python-fmclient/fmclient
+	distutils_do_compile
+
+# snmp-audittrail: 
+	cd ${S}/snmp-audittrail/sources/
+	oe_runmake -e LDFLAGS="$LDFLAGS -L../../fm-common/sources"
+
+# snmp-ext: 
+	cd ${S}/snmp-ext/sources/
+	# PATCH=${tis_patch_ver}
+	# tis_patch_ver = "0"
+	# mib_ver = "2.0"
+	oe_runmake -e PATCH=0 \
+		INCLUDES="-I. -I../../fm-common/sources" \
+		LDFLAGS="$LDFLAGS -L../../fm-common/sources -L../../snmp-audittrail/sources/"
+	
+}
+
+do_install () {
+	install -d -m 0755 ${D}/${systemd_system_unitdir}
+# fm-api
+	cd ${S}/fm-api
+	distutils_do_install
+
+# fm-common:
+	cd ${S}/fm-common/sources/
+	oe_runmake -e DESTDIR=${D} BINDIR=${bindir} \
+		LIBDIR=${libdir} INCDIR=${includedir} \
+		CGCS_DOC_DEPLOY=${cgcs_doc_deploy} install
+	distutils_do_install
+
+#fm-doc: 
+	cd ${S}/fm-doc/fm_doc/
+	install -d -m 755 ${D}/${cgcs_doc_deploy}
+	install -d -m 755 ${D}/${sysconfdir}/fm
+	install -m 744 events.yaml ${D}/${sysconfdir}/fm/
+	install -m 644 events.yaml ${D}/${cgcs_doc_deploy}
+	install -m 755 checkEventYaml ${D}/${cgcs_doc_deploy}
+	install -m 644 parseEventYaml.py ${D}/${cgcs_doc_deploy}
+	install -m 644 check_missing_alarms.py ${D}/${cgcs_doc_deploy}
+
+#fm-mgr: 
+	cd ${S}/fm-mgr/sources/
+	oe_runmake -e DESTDIR=${D} BINDIR=${bindir} \
+		LIBDIR=${libdir} UNITDIR=${systemd_system_unitdir} \
+		SYSCONFDIR=${sysconfdir} \
+		INCLUDES="-I. -I../../fm-common/sources" install
+#fm-rest-api: 
+	cd ${S}/fm-rest-api/fm/
+	distutils_do_install
+	install -p -D -m 644 scripts/fm-api.service ${D}/${systemd_system_unitdir}
+	install -d -m 0755 ${D}/${sysconfdir}/init.d
+	install -d -m 0755 ${D}/${sysconfdir}/pmon.d/
+	install -p -D -m 755 scripts/fm-api ${D}/${sysconfdir}/init.d/fm-api
+	install -p -D -m 644 fm-api-pmond.conf ${D}/${sysconfdir}/pmon.d/fm-api.conf
+	
+
+# python-fmclient:
+	cd ${S}/python-fmclient/fmclient
+	distutils_do_install
+
+	install -d -m 0755 ${D}/${sysconfdir}/bash_completion.d/
+	install -p -D -m 664 tools/fm.bash_completion ${D}/${sysconfdir}/bash_completion.d/fm.bash_completion
+
+# snmp-audittrail: 
+	cd ${S}/snmp-audittrail/sources/
+	# tis_patch_ver = "0"
+	# PATCH=${tis_patch_ver} 
+	oe_runmake -e DESTDIR=${D} LIB_DIR=${libdir} PATCH=0 install
+
+# snmp-ext: 
+	cd ${S}/snmp-ext/sources/
+	#tis_patch_ver = "0"
+	#mib_ver = "2.0"
+	oe_runmake -e DEST_DIR=${D} LIB_DIR=${libdir} \
+			MIBVER=0 \
+			PATCH=0 install
+}
+
+# TODO:
+# post install scripts 
+# fm-doc: constants.py and fmAPI.h
+# fm-rest-api: oslo-config-generator
+pkg_postinst_ontarget_${PN} () {
+
+# fm-rest-api:
+#	cd  oslo-config-generator --config-file fm/config-generator.conf \
+# 		--output-file /tmp/fm.conf.sample
+# 	install -p -D -m 644 /tmp/fm.conf.sample /etc/fm/fm.conf
+# fm-doc:
+#	cd ${datadir}/
+#	cp .../constants.py .../fmAlarm.h .
+#	./checkEventYaml
+#	rm constants.py* fmAlarm.h*
+
+}
+
+FILES_${PN}_append += " ${baselib} \
+	${systemd_unitdir} \
+	${systemd_system_unitdir} \
+	${systemd_system_unitdir}/worker-config-gate.service \
+	${systemd_system_unitdir}/config.service \
+	${datadir}/* \
+	opt/* \
+	"
