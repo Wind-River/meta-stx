@@ -1,3 +1,31 @@
+Staging:
+
+This is an initial layer to port starlingx to yocto linux, and 
+not ready for consumption yet.
+
+To use this layer:
+
+mkdir -p layers
+cd layers
+
+git clone --branch thud git://git.yoctoproject.org/poky.git 
+git clone --branch thud git://git.openembedded.org/meta-openembedded
+git clone --branch thud git://git.yoctoproject.org/meta-virtualization
+git clone --branch thud git://git.yoctoproject.org/meta-cloud-services
+git clone --branch thud git://git.yoctoproject.org/meta-intel
+
+git clone --branch thud git://git.yoctoproject.org/meta-selinux
+git clone --branch thud git://git.yoctoproject.org/meta-security
+git clone --branch thud https://github.com/jiazhang0/meta-secure-core.git
+git clone --branch thud https://github.com/flihp/meta-measured.git
+git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git
+git clone https://github.com/zbsarashki/meta-starlingX.git
+
+cd poky
+. ./oe-init-build-env /path/to/prj/dir
+
+Next steps: bblayers, local.conf, and setup starlinX repo:
+
 ###########################################################
 ************************************************************
 		bblayers.conf:
@@ -36,6 +64,7 @@ to include the following layers :
   PATH_TO_LOCAL_REPO/layers/meta-security/meta-tpm
   PATH_TO_LOCAL_REPO/layers/meta-selinux
   PATH_TO_LOCAL_REPO/layers/meta-intel
+  PATH_TO_LOCAL_REPO/layers/meta-iot-cloud
   PATH_TO_LOCAL_REPO/layers/meta-starlingX
 
 ###########################################################
