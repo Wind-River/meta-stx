@@ -1,4 +1,4 @@
-SUMMARY = "StarlingX/cgsc-root/stx/stx-config"
+SUMMARY = "StarlingX/cgsc-root/stx/stx-fault"
 PR = "r0"
 
 #
