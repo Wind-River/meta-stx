@@ -1,0 +1,10 @@
+# Enable:
+# drbd
+# IMA
+# intel-e1000e
+# intel-i40e
+# intel-i40evf
+# intel-ixgbe
+# intel-ixgbevf
+# qat17
+# tpmdd

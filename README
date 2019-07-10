@@ -3,7 +3,12 @@ Staging:
 This is an initial layer to port starlingx to yocto linux, and 
 not ready for consumption yet.
 
-To use this layer:
+###########################################################
+************************************************************
+		setup build environment
+************************************************************
+###########################################################
+
 
 mkdir -p layers
 cd layers
@@ -31,7 +36,6 @@ Next steps: bblayers, local.conf, and setup starlinX repo:
 		bblayers.conf:
 ************************************************************
 ###########################################################
-git checkout the thud branch of the layers below
 Then start a project and edit the bblayers.conf file 
 to include the following layers : 
   PATH_TO_LOCAL_REPO/layers/poky/meta
@@ -49,22 +53,18 @@ to include the following layers :
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-aio-deploy
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-compute-deploy
-  PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-compute-test-config
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-controller-deploy
-  PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-controller-test-config
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-qemu
   PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-swift-deploy
-  PATH_TO_LOCAL_REPO/layers/meta-measured
+  PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta
+  PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-tpm2
   PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-signing-key
   PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-efi-secure-boot
   PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-encrypted-storage
   PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-integrity
-  PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-tpm2
-  PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta
   PATH_TO_LOCAL_REPO/layers/meta-security/meta-tpm
   PATH_TO_LOCAL_REPO/layers/meta-selinux
   PATH_TO_LOCAL_REPO/layers/meta-intel
-  PATH_TO_LOCAL_REPO/layers/meta-iot-cloud
   PATH_TO_LOCAL_REPO/layers/meta-starlingX
 
 ###########################################################
@@ -76,26 +76,3 @@ to include the following layers :
 # Set distro features
 DISTRO_FEATURES_append = " virtualization"
 DISTRO_FEATURES_append = " openstack"
-
-# set external repo
-EXTERNALREPO="/path/to/starlingx/external_repo/cgcs-root/stx"
-
-
-###########################################################
-************************************************************
-			StarlingX:
-************************************************************
-###########################################################
-mkdir -p /path/to/starlingx/external_repo"
-cd /path/to/starlingx/external_repo"
-
-repo init -u https://opendev.org/starlingx/manifest -b master
-repo sync --force-sync
-
-###########################################################
-************************************************************
-		StarlingX Build Patches
-************************************************************
-###########################################################
-Apply patches under meta-starlingX/patches/stx-{ha,fault,metal}
-directly onto the starlingX source

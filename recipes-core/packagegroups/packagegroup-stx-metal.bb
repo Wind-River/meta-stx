@@ -14,12 +14,16 @@ PACKAGES = " \
 	packagegroup-stx-metal \
 	"
 
+# The mtce-common contains dev components only and since
+# the dev components endup in stx-metal-dev package, not 
+# adding mtce-common to packagegroup.
+
 RDEPENDS_packagegroup-stx-metal = " \
 	inventory \
 	mtce \
-	mtce-common \
 	mtce-compute \
 	mtce-control \
 	mtce-storage \
 	python-inventoryclient \
 	"
+
