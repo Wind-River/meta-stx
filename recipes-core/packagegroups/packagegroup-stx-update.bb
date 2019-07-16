@@ -19,5 +19,5 @@ RDEPENDS_packagegroup-stx-update = " \
 	enable-dev-patch \
 	patch-alarm \
 	tsconfig \
-	python-requests-toolbelt \
+	requests-toolbelt \
 	"

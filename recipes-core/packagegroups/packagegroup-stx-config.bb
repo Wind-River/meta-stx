@@ -21,7 +21,8 @@ RDEPENDS_packagegroup-stx-config = " \
 	puppet-modules-wrs \
 	storageconfig \
 	worker-utils \
-	workerconfig \
+	workerconfig-standalone \
+	workerconfig-subfunction \
 	pm-qos-mgr \
 	sysinv \
 	"

@@ -20,6 +20,7 @@ RDEPENDS_packagegroup-stx-nfv = " \
 	nfv-tools \
 	nfv-vim \
 	nfv-client \
-	mtce-guest \
+	mtce-guestagent \
+	mtce-guestserver \
 	nova-api-proxy \
 	"

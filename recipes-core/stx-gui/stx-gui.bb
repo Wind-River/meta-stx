@@ -1,5 +1,6 @@
 DESCRIPTION = "stx-gui"
 
+PACKAGES = "starlingx-dashboard"
 
 STABLE = "starlingx/master"
 PROTOCOL = "https"
@@ -15,10 +16,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 
 SRC_URI = "git://opendev.org/starlingx/gui.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
-
-inherit externalsrc
-EXTERNALSRC_pn-${PN}="${EXTERNALREPO}/stx-gui"
-cgcs_doc_deploy = "/opt/deploy/cgcs_doc"
 
 inherit setuptools
 
@@ -54,3 +51,7 @@ do_install () {
 	#install -p -D -m 755 build/lib/starlingx_dashboard/local/local_settings.d/* \
 	#	${D}/${datadir}/openstack-dashboard/openstack_dashboard/local/local_settings.d
 }
+
+FILES_starlingx-dashboard = " \
+	${libdir}/python2.7/site-packages/ \
+	"

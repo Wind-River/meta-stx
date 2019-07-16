@@ -21,21 +21,30 @@ PACKAGES = " \
 
 # TODO:
 # See docs/progress.txt file
-# Port required/missing packages.
+# Port required/missing packages :
+#	openstack-helm-infra.bb
+#	openstack-helm.bb 
+#	python-horizon.bbappend
 
 RDEPENDS_packagegroup-stx-upstream = " \
 	python-barbicanclient \
 	python-cinderclient \
 	python-glanceclient \
+	python-aodhclient \
 	python-heatclient \
 	python-horizon \
+	python-ironicclient \
 	python-keystoneauth1 \
 	python-keystoneclient \
 	python-magnumclient \
+	python-muranoclient \
 	python-neutronclient \
 	python-novaclient \
 	python-openstackclient \
 	python-openstacksdk \
 	stx-ocf-scripts \
 	rabbitmq-server-config \
+	openstack-ras \
+	python-gnocchiclient \
+	python-pankoclient \
 	"

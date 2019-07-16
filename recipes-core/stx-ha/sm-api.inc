@@ -1,5 +1,7 @@
 PACKAGES += " sm-api"
 
+RDEPENDS_sm-api += " bash"
+
 do_configure_prepend () {
 	cd ${S}/service-mgmt-api/sm-api
 	distutils_do_configure
@@ -25,4 +27,13 @@ do_install_prepend () {
 	install -m 644 etc/sm-api/policy.json ${D}/${sysconfdir}/sm-api
 }
 
-FILES_sm-api = " ${systemd_unitdir}/* "
+FILES_sm-api = " \
+	${libdir}/python2.7/site-packages/sm_api*.egg-info/ \
+	${libdir}/python2.7/site-packages/sm_api/ \
+	${systemd_system_unitdir}/sm-api.service \
+	${sysconfdir}/init.d/sm-api \
+	${sysconfdir}/pmon.d/sm-api.conf \
+	${sysconfdir}/sm/sm_api.ini \
+	${sysconfdir}/sm-api/policy.json \
+	${bindir}/sm-api \
+	"

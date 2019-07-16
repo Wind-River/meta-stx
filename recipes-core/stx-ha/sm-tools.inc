@@ -20,4 +20,17 @@ do_install_prepend () {
 	distutils_do_install
 }
 
-FILES_sm-tools = " "
+FILES_sm-tools = " \
+	${bindir}/sm-query \
+	${bindir}/sm-provision \
+	${bindir}/sm-restart \
+	${bindir}/sm-unmanage \
+	${bindir}/sm-dump \
+	${bindir}/sm-iface-state \
+	${bindir}/sm-configure \
+	${bindir}/sm-manage \
+	${bindir}/sm-deprovision \
+	${bindir}/sm-restart-safe \
+	${libdir}/python2.7/site-packages/sm_tools-*.egg-info/ \
+	${libdir}/python2.7/site-packages/sm_tools/ \
+	"

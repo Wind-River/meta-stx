@@ -18,7 +18,9 @@ RDEPENDS_packagegroup-stx-ha = " \
 	sm-api \
 	sm \
 	sm-client \
-	sm-common \
+	libsm-common \
+	sm-common-libs \
 	sm-db \
 	sm-tools \
+	sm-eru \
 	"

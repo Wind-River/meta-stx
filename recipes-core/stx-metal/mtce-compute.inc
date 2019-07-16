@@ -1,6 +1,6 @@
 PACKAGES += " mtce-compute"
 
-RDEPENDS_mtce-compute_append = " bash"
+RDEPENDS_mtce-compute += " bash"
 
 do_configure_prepend () {
 	:

@@ -1,9 +1,14 @@
 PACKAGES += " mtce"
+PACKAGES += " mtce-pmon"
+PACKAGES += " mtce-hwmon"
+PACKAGES += " mtce-hostw"
+PACKAGES += " mtce-lmon"
 
 #DEPENDS = " \
 #	mtce-common \
 #	"
 #
+RDEPENDS_mtce-pmon_append = " bash"
 RDEPENDS_mtce_append = " bash"
 #
 
@@ -164,10 +169,43 @@ pkg_postinst_ontarget_mtce_prepend () {
 	/bin/systemctl enable hbsAgent.service
 }
 
-FILES_mtce = " \
-	${bindir}/lmond \
-	${bindir}/hostwd \
+FILES_mtce-pmon = " \
+	${sbindir}/pmon-restart \
+	${sbindir}/pmon-start \
+	${sbindir}/pmon-stop \
+	${bindir}/pmond \
+	${systemd_system_unitdir}/pmon.service \
+	${sysconfdir}/mtc/pmond.conf \
+	${sysconfdir}/init.d/pmon \
+	${sysconfdir}/logrotate.d/pmon.logrotate \
+	"
+
+FILES_mtce-hwmon = " \
 	${bindir}/hwmond \
+	${sysconfdir}/init.d/hwmon \
+	${libdir}/ocf/resource.d/platform/hwmon \
+	${sysconfdir}/logrotate.d/hwmon.logrotate \
+	${systemd_system_unitdir}/hwmon.service \
+	${sysconfdir}/mtc/hwmond.conf \
+	"
+
+FILES_mtce-hostw = " \
+	${sysconfdir}/mtc/hostwd.conf \
+	${sysconfdir}/logrotate.d/hostw.logrotate \
+	${systemd_system_unitdir}/hostw.service \
+	${sysconfdir}/init.d/hostw \
+	${bindir}/hostwd \
+	"
+
+FILES_mtce-lmon= " \
+	${bindir}/lmond \
+	${sysconfdir}/mtc/lmond.conf \
+	${sysconfdir}/logrotate.d/lmon.logrotate \
+	${sysconfdir}/pmon.d/lmon.conf \
+	${sysconfdir}/init.d/lmon \
+	"
+
+FILES_mtce = " \
 	${bindir}/mtcAgent \
 	${bindir}/mtcClient \
 	${bindir}/fsmond \
@@ -175,30 +213,21 @@ FILES_mtce = " \
 	${bindir}/wipedisk \
 	${bindir}/hbsClient \
 	${bindir}/mtcalarmd \
-	${bindir}/pmond \
 	${bindir}/mtclogd \
-	${sbindir}/pmon-stop \
 	${sbindir}/fsync \
 	${sbindir}/dmemchk.sh \
-	${sbindir}/pmon-restart \
-	${sbindir}/pmon-start \
 	${libdir}/ocf/resource.d/platform/mtcAgent \
-	${libdir}/ocf/resource.d/platform/hwmon \
 	${libdir}/libamon.so.1 \
 	${systemd_system_unitdir}/mtcalarm.service \
 	${systemd_system_unitdir}/goenabled.service \
 	${systemd_system_unitdir}/mtclog.service \
-	${systemd_system_unitdir}/hostw.service \
 	${systemd_system_unitdir}/mtcClient.service \
 	${systemd_system_unitdir}/fsmon.service \
 	${systemd_system_unitdir}/hbsClient.service \
-	${systemd_system_unitdir}/hwmon.service \
-	${systemd_system_unitdir}/pmon.service \
 	${systemd_system_unitdir}/hwclock.service \
 	${systemd_system_unitdir}/runservices.service \
 	${systemd_system_unitdir}/lmon.service \
 	${sysconfdir}/pmon.d/nslcd.conf \
-	${sysconfdir}/pmon.d/lmon.conf \
 	${sysconfdir}/pmon.d/mtclogd.conf \
 	${sysconfdir}/pmon.d/mtcalarm.conf \
 	${sysconfdir}/pmon.d/syslog-ng.conf \
@@ -208,17 +237,13 @@ FILES_mtce = " \
 	${sysconfdir}/pmon.d/hbsClient.conf \
 	${sysconfdir}/pmon.d/mtcClient.conf \
 	${sysconfdir}/init.d/runservices \
-	${sysconfdir}/init.d/hostw \
 	${sysconfdir}/init.d/goenabled \
 	${sysconfdir}/init.d/mtcClient \
 	${sysconfdir}/init.d/hwclock.sh \
 	${sysconfdir}/init.d/mtclog \
 	${sysconfdir}/init.d/mtcalarm \
-	${sysconfdir}/init.d/lmon \
 	${sysconfdir}/init.d/hbsClient \
 	${sysconfdir}/init.d/fsmon \
-	${sysconfdir}/init.d/pmon \
-	${sysconfdir}/init.d/hwmon \
 	${sysconfdir}/mtc.conf \
 	${sysconfdir}/bmc/server_profiles.d/sensor_hp380_v1_ilo_v4.profile \
 	${sysconfdir}/bmc/server_profiles.d/sensor_hp360_v1_ilo_v4.profile \
@@ -226,18 +251,10 @@ FILES_mtce = " \
 	${sysconfdir}/serverices.d/worker/mtcTest \
 	${sysconfdir}/serverices.d/controller/mtcTest \
 	${sysconfdir}/serverices.d/storage/mtcTest \
-	${sysconfdir}/mtc/hostwd.conf \
 	${sysconfdir}/mtc/fsmond.conf \
-	${sysconfdir}/mtc/pmond.conf \
-	${sysconfdir}/mtc/lmond.conf \
-	${sysconfdir}/mtc/hwmond.conf \
 	${sysconfdir}/mtc/tmp/ \
 	${sysconfdir}/mtc.ini \
-	${sysconfdir}/logrotate.d/lmon.logrotate \
 	${sysconfdir}/logrotate.d/fsmon.logrotate \
-	${sysconfdir}/logrotate.d/pmon.logrotate \
-	${sysconfdir}/logrotate.d/hwmon.logrotate \
-	${sysconfdir}/logrotate.d/hostw.logrotate \
 	${sysconfdir}/logrotate.d/mtcalarm.logrotate \
 	${sysconfdir}/logrotate.d/mtce.logrotate \
 	"

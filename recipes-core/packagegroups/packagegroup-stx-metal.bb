@@ -21,6 +21,10 @@ PACKAGES = " \
 RDEPENDS_packagegroup-stx-metal = " \
 	inventory \
 	mtce \
+	mtce-pmon \
+	mtce-hwmon \
+	mtce-hostw \
+	mtce-lmon \
 	mtce-compute \
 	mtce-control \
 	mtce-storage \

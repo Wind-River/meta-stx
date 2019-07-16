@@ -1,6 +1,6 @@
 PACKAGES += " mtce-control"
 
-RDEPENDS_mtce-control_append = " bash"
+RDEPENDS_mtce-control += " bash"
 
 do_configure_prepend () {
 	:

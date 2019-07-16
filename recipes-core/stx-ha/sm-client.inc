@@ -17,4 +17,8 @@ do_install_prepend () {
 	install -m 755 usr/bin/smc ${D}/${bindir}
 }
 
-FILES_sm-client = " "
+FILES_sm-client = " \
+	${bindir}/smc \
+	${libdir}/python2.7/site-packages/sm_client*.egg-info/ \
+	${libdir}/python2.7/site-packages/sm_client/ \
+	"
