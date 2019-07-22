@@ -22,7 +22,7 @@ do_install_prepend () {
 	install -d -m 0755 ${D}/${systemd_system_unitdir}
 	install -m 644 scripts/sm_api.ini ${D}/${sysconfdir}/sm
 	install -m 755 scripts/sm-api ${D}/${sysconfdir}/init.d
-	install -m 644 scripts/sm-api.service ${D}/${systemd_system_unitdir/}
+	install -m 644 scripts/sm-api.service ${D}/${systemd_system_unitdir}
 	install -m 644 scripts/sm-api.conf ${D}/${sysconfdir}/pmon.d
 	install -m 644 etc/sm-api/policy.json ${D}/${sysconfdir}/sm-api
 }
