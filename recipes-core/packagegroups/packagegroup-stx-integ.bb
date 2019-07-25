@@ -44,18 +44,19 @@ RDEPENDS_packagegroup-stx-integ-cff = " \
 	iptables-config \
 	memcached-custom \
 	ntp-config \
-	pam-config \
 	rsync-config \
-	shadow-utils-config \
-	sudo-config \
 	syslog-ng-config \
 	util-linux-config \
 	"
+#	sudo-config \
+#	shadow-utils-config 
+#	pam-config 
 
 RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
-	puppet \
-	puppet-boolean \
-	puppet-create-resources \
-	puppet-dnsmasq \
-	puppet-drbd \
 	"
+#	puppet-boolean \
+#	puppet-create-resources \
+#	puppet-dnsmasq \
+#	puppet-drbd \
+#	"
+#	puppet 
