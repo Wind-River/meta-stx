@@ -30,7 +30,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 29:centos-logos:centos-logos-70.0.6-3.el7.centos.noarch.rpm:none::stx-none:stx-none::Not Need
 30:centos-release:centos-release-7-6.1810.2.el7.centos.x86_64.rpm:none::stx-none:stx-none::Not Need
 31:centos-release-config:centos-release-config-1.0-1.tis.noarch.rpm:none::stx-none:stx-none::Not Need
-32:ceph:ceph-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-base-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-common-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-fuse-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-mds-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-mgr-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-mon-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-osd-13.2.2-0.el7.tis.25.x86_64.rpm,ceph-radosgw-13.2.2-0.el7.tis.25.x86_64.rpm:ceph:13.2.2:stx-none:stx-none::
 33:ceph-manager:ceph-manager-1.0-5.tis.x86_64.rpm:none::stx-none:stx-none::
 34:cgcs-patch:cgcs-patch-1.0-27.tis.x86_64.rpm:none::cgcs-patch:19.05-r0::
 35:cgcs-patch-agent:cgcs-patch-agent-1.0-27.tis.x86_64.rpm:none::stx-none:stx-none::
@@ -726,7 +725,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 725:python-beautifulsoup4:python-beautifulsoup4-4.6.0-1.el7.noarch.rpm:python-beautifulsoup4:4.6.0:python-beautifulsoup4:4.4.1-r0::
 726:python-bson:python-bson-3.0.3-1.el7.x86_64.rpm:none::python-bson:3.7.1-r0::
 727:python-cachetools:python-cachetools-1.1.6-2.el7.noarch.rpm:python-cachetools:1.1.5+gitX:python-cachetools:1.1.5+git0+42853733d0-r0::
-728:python-cephclient:python-cephclient-13.2.2.0-0.tis.noarch.rpm:python-cephclient:0.1.0.5:stx-none:stx-none::
 729:python-ceph-compat:python-ceph-compat-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 730:python-cephfs:python-cephfs-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 731:python-cherrypy:python-cherrypy-3.2.2-4.el7.noarch.rpm:none::stx-none:stx-none::
