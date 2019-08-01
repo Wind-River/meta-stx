@@ -12,6 +12,10 @@ IMAGE_INSTALL_append = " \
 	packagegroup-cloud-network \
 	packagegroup-cloud-debug \
 	packagegroup-cloud-extras \
+	packagegroup-stx \
+	packagegroup-stak-python \
+	packagegroup-stak-base \
+	packagegroup-tpm2 \
 	"
 IMAGE_FEATURES += "ssh-server-openssh"
 

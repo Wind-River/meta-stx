@@ -3,9 +3,6 @@ DESCRIPTION = "This project provides first-class OAuth library support for Reque
 LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=22d117a849df10d047ed9b792838e863"
 
-#SRC_URI[md5sum] = ""
-#SRC_URI[sha256sum] = ""
-
 SRCREV = "e19ac082682ecf3ed06cdcc5538e3c4bb2aa7762"
 PROTOCOL = "https"
 BRANCH = "master"

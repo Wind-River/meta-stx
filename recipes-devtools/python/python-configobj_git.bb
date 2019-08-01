@@ -3,9 +3,6 @@ DESCRIPTION = "ConfigObj is a simple but powerful config file reader and writer:
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9a851af36881461de16b8fecf59a9e17"
 
-#SRC_URI[md5sum] = ""
-#SRC_URI[sha256sum] = ""
-
 SRCREV = "45fbf1b85b181853caea4d251e6d4c0232735e85"
 PROTOCOL = "https"
 BRANCH = "master"

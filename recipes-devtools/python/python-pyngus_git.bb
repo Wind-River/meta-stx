@@ -3,9 +3,6 @@ DESCRIPTION = "A messaging framework built on the QPID Proton engine. It provide
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 
-#SRC_URI[md5sum] = ""
-#SRC_URI[sha256sum] = ""
-
 SRCREV = "5392392046989f1bb84ba938c30e4d48311075f1"
 PROTOCOL = "https"
 BRANCH = "master"

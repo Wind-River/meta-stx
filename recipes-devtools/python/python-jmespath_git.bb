@@ -3,9 +3,6 @@ DESCRIPTION = "JMESPath (pronounced “james path”) allows you to declarativel
 LICENSE = "Amazon"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2683790f5fabb41a3f75b70558799eb4"
 
-#SRC_URI[md5sum] = ""
-#SRC_URI[sha256sum] = ""
-
 SRCREV = "4a4f6dbd98549b2b8fc71bbc19860d317a6abfdb"
 PROTOCOL = "https"
 BRANCH = "master"

@@ -3,9 +3,6 @@ DESCRIPTION = "An implementation of the JOSE Working Group documents: RFC 7515 -
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e6a600fd5e1d9cbde2d983680233ad02"
 
-#SRC_URI[md5sum] = ""
-#SRC_URI[sha256sum] = ""
-
 SRCREV = "437ea86caef224cf769e30cafe30f1c0b4e0f3e2"
 PROTOCOL = "https"
 BRANCH = "master"
