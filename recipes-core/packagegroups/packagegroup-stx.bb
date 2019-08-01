@@ -78,6 +78,7 @@ RDEPENDS_packagegroup-stx-ha = " \
 RDEPENDS_packagegroup-stx-integ = " \
 	packagegroup-stx-integ-base \
 	packagegroup-stx-integ-cff \
+	packagegroup-stx-integ-k8s \
 	packagegroup-stx-integ-puppet-modules \
 	"
 
@@ -105,6 +106,9 @@ RDEPENDS_packagegroup-stx-integ-cff = " \
 	syslog-ng-config \
 	util-linux-config \
 	"
+RDEPENDS_packagegroup-stx-integ-k8s = " \
+        registry-token-server \
+        "
 # To resolve conflicts use bbappends instead
 #	sudo-config \
 #	shadow-utils-config 
