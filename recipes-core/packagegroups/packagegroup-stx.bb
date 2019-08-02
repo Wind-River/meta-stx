@@ -25,6 +25,7 @@ PACKAGES = " \
 	packagegroup-stx-nfv \
 	packagegroup-stx-update \
 	packagegroup-stx-upstream \
+	packagegroup-stx-integ-k8s \
 	"
 
 RDEPENDS_packagegroup-stx = " \
