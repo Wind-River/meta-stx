@@ -344,15 +344,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 775:python-linux-procfs:python-linux-procfs-0.4.9-4.el7.noarch.rpm:none::stx-none:stx-none::
 781:python-migrate:python-migrate-0.11.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 785:python-openstackclient-lang:python-openstackclient-lang-3.18.0-1.tis.7.noarch.rpm:none::stx-none:stx-none::
-786:python-oslo-cache-lang:python-oslo-cache-lang-1.30.3-1.el7.noarch.rpm:none::stx-none:stx-none::
-787:python-oslo-concurrency-lang:python-oslo-concurrency-lang-3.27.0-1.el7.noarch.rpm:none::stx-none:stx-none::
-788:python-oslo-db-lang:python-oslo-db-lang-4.40.0-1.el7.noarch.rpm:none::stx-none:stx-none::
-789:python-oslo-i18n-lang:python-oslo-i18n-lang-3.17.1-1.el7.noarch.rpm:none::stx-none:stx-none::
-790:python-oslo-log-lang:python-oslo-log-lang-3.39.2-1.el7.noarch.rpm:none::stx-none:stx-none::
-791:python-oslo-middleware-lang:python-oslo-middleware-lang-3.36.0-1.el7.noarch.rpm:none::stx-none:stx-none::
-792:python-oslo-policy-lang:python-oslo-policy-lang-2.1.1-1.el7.noarch.rpm:none::stx-none:stx-none::
-793:python-oslo-utils-lang:python-oslo-utils-lang-3.40.3-1.el7.noarch.rpm:none::stx-none:stx-none::
-794:python-oslo-versionedobjects-lang:python-oslo-versionedobjects-lang-1.33.3-1.el7.noarch.rpm:none::stx-none:stx-none::
 797:python-paste-deploy:python-paste-deploy-1.5.2-6.el7.noarch.rpm:none::stx-none:stx-none::
 805:python-pycadf-common:python-pycadf-common-2.6.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 811:python-rados:python-rados-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
