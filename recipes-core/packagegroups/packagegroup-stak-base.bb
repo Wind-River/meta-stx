@@ -32,6 +32,8 @@ RDEPENDS_packagegroup-stak-base = " \
 	collectd \
 	conntrack-tools \
 	dosfstools \
+	docker \
+	docker-registry \
 	dracut \
 	drbd-utils \
 	efibootmgr \
