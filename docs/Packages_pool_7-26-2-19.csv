@@ -36,8 +36,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 74:distributedcloud-dcdbsync:distributedcloud-dcdbsync-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
 75:distributedcloud-dcmanager:distributedcloud-dcmanager-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
 76:distributedcloud-dcorch:distributedcloud-dcorch-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
-80:docker-ce:docker-ce-18.09.6-3.el7.x86_64.rpm,docker-ce-cli-18.09.6-3.el7.x86_64.rpm:docker-ce:18.09.0-ce+git6e632f7fc395d15bce46f426086e91c01598cf59:stx-none:stx-none::
-82:docker-distribution:docker-distribution-2.6.2-1.tis.0.x86_64.rpm:docker-distribution:v2.6.2:stx-none:stx-none::
 83:docker-forward-journald:docker-forward-journald-1.10.3-44.el7.centos.x86_64.rpm:none::stx-none:stx-none::
 85:dpkg:dpkg-1.18.24-0.tis.1.x86_64.rpm:dpkg:1.18.24:stx-none:stx-none::
 104:erlang-os_mon:erlang-os_mon-18.3.4.4-2.el7.x86_64.rpm:none::stx-none:stx-none::
@@ -46,7 +44,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 107:erlang-runtime_tools:erlang-runtime_tools-18.3.4.4-2.el7.x86_64.rpm:none::stx-none:stx-none::
 109:erlang-sd_notify:erlang-sd_notify-0.1-9.el7.x86_64.rpm:none::stx-none:stx-none::
 113:erlang-syntax_tools:erlang-syntax_tools-18.3.4.4-2.el7.x86_64.rpm:none::stx-none:stx-none::
-116:etcd:etcd-3.2.24-1.tis.1.x86_64.rpm:etcd:3.3.9+gitX:stx-none:stx-none::
 118:eventlog:eventlog-0.2.13-4.el7.x86_64.rpm:none::stx-none:stx-none::
 119:expat:expat-2.1.0-10.el7_3.x86_64.rpm:expat:2.2.6:stx-none:stx-none::
 123:filesystem:filesystem-3.2-25.el7.x86_64.rpm:none::stx-none:stx-none::
