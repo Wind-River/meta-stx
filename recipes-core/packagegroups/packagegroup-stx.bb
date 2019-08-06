@@ -108,7 +108,8 @@ RDEPENDS_packagegroup-stx-integ-cff = " \
 	util-linux-config \
 	"
 RDEPENDS_packagegroup-stx-integ-k8s = " \
-        registry-token-server \
+	etcd \
+	registry-token-server \
         "
 # To resolve conflicts use bbappends instead
 #	sudo-config \
