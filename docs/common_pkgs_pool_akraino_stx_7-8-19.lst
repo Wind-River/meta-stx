@@ -10,13 +10,6 @@ libpath_utils
 libref_array
 libss
 nmap-ncat
-perl-Carp
-perl-Data-Dumper
-perl-Exporter
-perl-File-Path
-perl-File-Temp
-perl-Filter
-perl-PathTools
 perl-Pod-Perldoc
 perl-Pod-Simple
 perl-Pod-Usage
