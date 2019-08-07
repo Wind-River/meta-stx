@@ -249,7 +249,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 514:puppet-filemapper:puppet-filemapper-1.1.3-0.tis.2.noarch.rpm:none::stx-none:stx-none::
 515:puppet-firewall:puppet-firewall-1.8.2-2.2f892e9git.el7.noarch.rpm:none::stx-none:stx-none::
 516:puppet-fm:puppet-fm-1.0.0-1.tis.noarch.rpm:none::stx-none:stx-none::
-517:puppet-haproxy:puppet-haproxy-1.5.0-4.6ffcb07git.el7.tis.4.noarch.rpm:none::stx-none:stx-none::
 518:puppet-horizon:puppet-horizon-11.5.0-1.el7.tis.1.noarch.rpm:none::stx-none:stx-none::
 519:puppet-inifile:puppet-inifile-1.6.0-2.c1f1d1egit.el7.noarch.rpm:none::stx-none:stx-none::
 520:puppet-keystone:puppet-keystone-11.3.0-1.el7.tis.8.noarch.rpm:none::stx-none:stx-none::

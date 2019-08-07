@@ -4,7 +4,6 @@ device-mapper-persistent-data
 fontpackages-filesystem
 gdisk
 gssproxy
-haproxy
 libbasicobjects
 libcollection
 libcom_err
