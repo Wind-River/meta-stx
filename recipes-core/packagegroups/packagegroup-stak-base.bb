@@ -14,6 +14,7 @@ inherit packagegroup
 PROVIDES = "${PACKAGES}"
 PACKAGES = " \
 	packagegroup-stak-base \
+	packagegroup-stak-perl \
 	packagegroup-stak-python \
 	"
 
@@ -157,6 +158,35 @@ RDEPENDS_packagegroup-stak-base = " \
         lmsensors-sensors \
         lmsensors-sensorsconfconvert \
         lmsensors-sensorsdetect \
+	"
+
+RDEPENDS_packagegroup-stak-perl = " \
+	filter-perl \
+	pathtools-perl \
+	podlators-perl \
+	scalar-list-utils-perl \
+	\
+	perl-module-carp \
+	perl-module-constant \
+	perl-module-data-dumper \
+	perl-module-encode \
+	perl-module-exporter \
+	perl-module-file-path \
+	perl-module-file-temp \
+	perl-module-getopt-long \
+	perl-module-http-tiny \
+	perl-module-parent \
+	perl-module-pod-escapes \
+	perl-module-pod-perldoc \
+	perl-module-pod-simple \
+	perl-module-pod-usage \
+	perl-module-socket \
+	perl-module-storable \
+	perl-module-text-parsewords \
+	perl-module-time-local \
+	perl-module-time-hires \
+	perl-module-threads \
+	perl-module-threads-shared \
 	"
 
 RDEPENDS_packagegroup-stak-python = " \
