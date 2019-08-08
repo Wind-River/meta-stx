@@ -105,6 +105,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	perf \
 	polkit \
 	popt \
+	procps \
 	pulseaudio \
 	screen \
 	seabios \
