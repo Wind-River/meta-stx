@@ -63,7 +63,6 @@ libmount
 libsmartcols
 libuuid
 nss-pem
-perl-Pod-Escapes
 ruby-irb
 rubygem-bigdecimal
 rubygem-io-console

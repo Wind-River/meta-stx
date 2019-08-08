@@ -192,13 +192,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 443:os-prober:os-prober-1.58-9.el7.x86_64.rpm:none::stx-none:stx-none::
 447:pam-config:pam-config-1.0-1.tis.noarch.rpm:none::stx-none:stx-none::
 451:pci-irq-affinity-agent:pci-irq-affinity-agent-1.0-1.tis.x86_64.rpm:none::stx-none:stx-none::
-459:perl-Encode:perl-Encode-2.51-7.el7.x86_64.rpm:libencode-perl:2.94:stx-none:stx-none::
-464:perl-Getopt-Long:perl-Getopt-Long-2.40-3.el7.noarch.rpm:getopt-long-perl:2.5:stx-none:stx-none::
-465:perl-HTTP-Tiny:perl-HTTP-Tiny-0.033-3.el7.noarch.rpm:http-tiny-perl:0.0.70:stx-none:stx-none::
-468:perl-Pod-Escapes:perl-Pod-Escapes-1.04-294.el7_6.noarch.rpm:none::stx-none:stx-none::
-473:perl-Scalar-List-Utils:perl-Scalar-List-Utils-1.27-248.el7.x86_64.rpm:scalar-list-utils-perl:1.5:stx-none:stx-none::
-474:perl-Socket:perl-Socket-2.010-4.el7.x86_64.rpm:socket-perl:2.027:stx-none:stx-none::
-479:perl-Time-HiRes:perl-Time-HiRes-1.9725-3.el7.x86_64.rpm:time-hires-perl:1.9754:stx-none:stx-none::
 482:pixman:pixman-0.34.0-1.el7.x86_64.rpm:pixman:0.34.0:stx-none:stx-none::
 484:platform-kickstarts:platform-kickstarts-1.0.0-3.tis.noarch.rpm:none::stx-none:stx-none::
 485:platform-util:platform-util-1.0-17.tis.noarch.rpm:none::stx-none:stx-none::
