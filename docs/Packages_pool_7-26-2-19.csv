@@ -82,12 +82,9 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 216:libaio:libaio-0.3.109-13.el7.x86_64.rpm:libaio:0.3.111:stx-none:stx-none::
 217:libassuan:libassuan-2.1.0-3.el7.x86_64.rpm:libassuan:2.5.1:stx-none:stx-none::
 218:libasyncns:libasyncns-0.8-7.el7.x86_64.rpm:none::stx-none:stx-none::
-220:libbasicobjects:libbasicobjects-0.1.1-32.el7.x86_64.rpm:none::stx-none:stx-none::
 221:libblkid:libblkid-2.23.2-59.el7.x86_64.rpm:none::stx-none:stx-none::
 222:libcacard:libcacard-2.5.2-2.1.el7.x86_64.rpm:none::stx-none:stx-none::
 225:libcephfs2:libcephfs2-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
-227:libcollection:libcollection-0.7.0-32.el7.x86_64.rpm:none::stx-none:stx-none::
-228:libcom_err:libcom_err-1.42.9-13.el7.x86_64.rpm:none::stx-none:stx-none::
 232:libdaemon:libdaemon-0.14-7.el7.x86_64.rpm:libdaemon:0.14:stx-none:stx-none::
 236:libedit:libedit-3.0-12.20121213cvs.el7.x86_64.rpm:libedit:20180525-3.1:stx-none:stx-none::
 237:libestr:libestr-0.1.9-2.el7.x86_64.rpm:libestr:0.1.10:stx-none:stx-none::
@@ -96,7 +93,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 247:libibumad:libibumad-45mlnx1-1.45101.tis.1.x86_64.rpm:none::stx-none:stx-none::
 248:libibverbs:libibverbs-45mlnx1-1.45101.tis.1.x86_64.rpm:libibverbs:1.1.7:stx-none:stx-none::
 250:libidn:libidn-1.28-4.el7.x86_64.rpm:libidn:1.35:stx-none:stx-none::
-251:libini_config:libini_config-1.3.1-32.el7.x86_64.rpm:none::stx-none:stx-none::
 252:libjpeg-turbo:libjpeg-turbo-1.2.90-6.el7.x86_64.rpm:libjpeg-turbo:2.0.0:stx-none:stx-none::
 254:libmnl:libmnl-1.0.3-7.el7.x86_64.rpm:libmnl:1.0.4:stx-none:stx-none::
 255:libmodman:libmodman-2.0.1-8.el7.x86_64.rpm:none::stx-none:stx-none::
@@ -108,7 +104,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 263:libnfnetlink:libnfnetlink-1.0.1-4.el7.x86_64.rpm:libnfnetlink:1.0.1:stx-none:stx-none::
 264:libnfsidmap:libnfsidmap-0.25-19.el7.x86_64.rpm:none::stx-none:stx-none::
 268:libogg:libogg-1.3.0-7.el7.x86_64.rpm:libogg:1.3.3:stx-none:stx-none::
-269:libpath_utils:libpath_utils-0.2.1-32.el7.x86_64.rpm:none::stx-none:stx-none::
 270:libpcap:libpcap-1.5.3-11.el7.x86_64.rpm:libpcap:1.8.1:stx-none:stx-none::
 271:libpciaccess:libpciaccess-0.14-1.el7.x86_64.rpm:libpciaccess:0.14:stx-none:stx-none::
 272:libpipeline:libpipeline-1.2.3-3.el7.x86_64.rpm:libpipeline:1.5.0:stx-none:stx-none::
@@ -117,12 +112,10 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 277:libradosstriper1:libradosstriper1-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 278:librbd1:librbd1-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 279:librdmacm:librdmacm-45mlnx1-1.45101.tis.1.x86_64.rpm:librdmacm:1.0.17:stx-none:stx-none::
-280:libref_array:libref_array-0.1.5-32.el7.x86_64.rpm:none::stx-none:stx-none::
 281:libreport-filesystem:libreport-filesystem-2.1.11-42.el7.centos.x86_64.rpm:none::stx-none:stx-none::
 282:librgw2:librgw2-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 288:libsmartcols:libsmartcols-2.23.2-59.el7.x86_64.rpm:none::stx-none:stx-none::
 289:libsndfile:libsndfile-1.0.25-10.el7.x86_64.rpm:libsndfile1:1.0.28:stx-none:stx-none::
-290:libss:libss-1.42.9-13.el7.x86_64.rpm:none::stx-none:stx-none::
 297:libteam:libteam-1.27-5.el7.x86_64.rpm:libteam:1.27:stx-none:stx-none::
 300:libtomcrypt:libtomcrypt-1.17-33.20170623gitcd6e602.el7.x86_64.rpm:none::stx-none:stx-none::
 301:libtommath:libtommath-1.0-8.el7.x86_64.rpm:none::stx-none:stx-none::
@@ -174,7 +167,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 393:netcf-libs:netcf-libs-0.2.8-4.el7.x86_64.rpm:none::stx-none:stx-none::
 400:nfscheck:nfscheck-1.0-0.tis.x86_64.rpm:none::stx-none:stx-none::
 402:nfs-utils-config:nfs-utils-config-1.0-1.tis.noarch.rpm:none::stx-none:stx-none::
-409:nmap-ncat:nmap-ncat-6.40-16.el7.x86_64.rpm:none::stx-none:stx-none::
 411:nscd:nscd-2.17-260.el7.x86_64.rpm:none::stx-none:stx-none::
 415:nss-pem:nss-pem-1.0.3-5.el7.x86_64.rpm:none::stx-none:stx-none::
 421:ntp-perl:ntp-perl-4.2.6p5-28.el7.centos.noarch.rpm:none::stx-none:stx-none::
@@ -199,7 +191,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 487:playbookconfig:playbookconfig-1.0-2.tis.x86_64.rpm:none::stx-none:stx-none::
 492:polkit-pkla-compat:polkit-pkla-compat-0.1-4.el7.x86_64.rpm:none::stx-none:stx-none::
 493:popt:popt-1.13-16.el7.x86_64.rpm:popt:1.16:stx-none:stx-none::
-495:procps-ng:procps-ng-3.3.10-23.el7.x86_64.rpm:none::stx-none:stx-none::
 497:pth:pth-2.0.7-23.el7.x86_64.rpm:none::stx-none:stx-none::
 500:puppet-apache:puppet-apache-1.10.0-2.05a0aacgit.el7.noarch.rpm:none::stx-none:stx-none::These could be same.
 501:puppet-barbican:puppet-barbican-11.3.0-1.el7.noarch.rpm:none::stx-none:stx-none::

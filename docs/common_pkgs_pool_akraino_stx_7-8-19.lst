@@ -1,12 +1,3 @@
-libbasicobjects
-libcollection
-libcom_err
-libini_config
-libpath_utils
-libref_array
-libss
-nmap-ncat
-procps-ng
 python-inotify
 python-linux-procfs
 setup
