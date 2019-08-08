@@ -95,6 +95,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	mtools \
 	mysql-python \
 	libnewt-python \
+	nmap \
 	nss-pam-ldapd \
 	ntfs-3g-ntfsprogs \
 	openipmi \
