@@ -240,8 +240,22 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-versiontools \
 	python-dogpile.cache \
 	python-dogpile.core \
+	python-oslo.cache \
+	python-oslo.concurrency \
+	python-oslo.config \
 	python-oslo.context \
 	python-oslo.db \
+	python-oslo.i18n \
+	python-oslo.log \
+	python-oslo.middleware \
+	python-oslo.messaging \
+	python-oslo.policy \
+	python-oslo.rootwrap \
+	python-oslo.serialization \
+	python-oslo.service \
+	python-oslo.upgradecheck \
+	python-oslo.utils \
+	python-oslo.versionedobjects \
 	python-configobj \
 	python-pyudev \
 	python-six \
@@ -471,7 +485,6 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-xstatic \
 	python-evdev \
 	python-passlib \
-	python-oslo.messaging \
 	python-horizon \
 	python-keyring \
 	"
