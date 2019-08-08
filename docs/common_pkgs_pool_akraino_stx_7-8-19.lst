@@ -1,7 +1,3 @@
-device-mapper-persistent-data
-fontpackages-filesystem
-gdisk
-gssproxy
 libbasicobjects
 libcollection
 libcom_err

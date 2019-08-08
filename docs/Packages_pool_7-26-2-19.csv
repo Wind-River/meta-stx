@@ -28,7 +28,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 64:dbus-glib:dbus-glib-0.100-7.el7.x86_64.rpm:dbus-glib:0.11:stx-none:stx-none::
 66:deltarpm:deltarpm-3.6-3.el7.x86_64.rpm:none::stx-none:stx-none::
 67:device-mapper:device-mapper-1.02.146-4.el7.x86_64.rpm,device-mapper-event-1.02.146-4.el7.x86_64.rpm,device-mapper-event-libs-1.02.146-4.el7.x86_64.rpm,device-mapper-libs-1.02.146-4.el7.x86_64.rpm:none::stx-none:stx-none::
-69:device-mapper-persistent-data:device-mapper-persistent-data-0.7.3-3.el7.x86_64.rpm:none::stx-none:stx-none::
 73:distributedcloud-client-dcmanagerclient:distributedcloud-client-dcmanagerclient-1.0.0-1.tis.19.noarch.rpm:none::stx-none:stx-none::
 74:distributedcloud-dcdbsync:distributedcloud-dcdbsync-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
 75:distributedcloud-dcmanager:distributedcloud-dcmanager-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
@@ -49,11 +48,9 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 127:firewalld:firewalld-0.5.3-5.el7.noarch.rpm,firewalld-filesystem-0.5.3-5.el7.noarch.rpm:none::stx-none:stx-none::
 134:fontawesome-fonts:fontawesome-fonts-4.4.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 135:fontawesome-fonts-web:fontawesome-fonts-web-4.4.0-1.el7.noarch.rpm:none::stx-none:stx-none::
-136:fontpackages-filesystem:fontpackages-filesystem-1.44-8.el7.noarch.rpm:none::stx-none:stx-none::
 137:freetype:freetype-2.8-12.el7.x86_64.rpm:freetype:2.9.1:stx-none:stx-none::
 139:gamin:gamin-0.1.10-16.el7.x86_64.rpm:none::stx-none:stx-none::
 142:gdbm:gdbm-1.10-8.el7.x86_64.rpm:gdbm:1.18:stx-none:stx-none::
-143:gdisk:gdisk-0.8.10-2.el7.x86_64.rpm:none::stx-none:stx-none::
 146:glib2:glib2-2.56.1-2.el7.x86_64.rpm:glib-2.0:2.58.0:stx-none:stx-none::
 148:glib-networking:glib-networking-2.56.1-1.el7.x86_64.rpm:glib-networking:2.54.1:stx-none:stx-none::
 150:gmp:gmp-6.0.0-15.el7.x86_64.rpm:gmp:6.1.2:stx-none:stx-none::
@@ -63,7 +60,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 161:grubby:grubby-8.28-25.el7.tis.3.x86_64.rpm:grubby:8.4:stx-none:stx-none::
 162:gsettings-desktop-schemas:gsettings-desktop-schemas-3.28.0-2.el7.x86_64.rpm:gsettings-desktop-schemas:3.28.0:stx-none:stx-none::
 163:gsm:gsm-1.0.13-11.el7.x86_64.rpm:none::stx-none:stx-none::
-164:gssproxy:gssproxy-0.7.0-21.el7.x86_64.rpm:none::stx-none:stx-none::
 168:hardlink:hardlink-1.0-19.el7.x86_64.rpm:none::stx-none:stx-none::
 169:helm:helm-2.13.1-0.tis.2.x86_64.rpm:none::stx-none:stx-none::
 171:hostname:hostname-3.13-3.el7.x86_64.rpm:nss-myhostname:0.3:stx-none:stx-none::
