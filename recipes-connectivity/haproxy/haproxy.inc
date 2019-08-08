@@ -22,7 +22,7 @@ DEPENDS = "libpcre openssl zlib"
 
 MAJOR_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-SRC_URI = "http://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz \
+SRC_URI = "https://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz \
            file://haproxy.service \
            file://haproxy.cfg \
           "
