@@ -10,17 +10,6 @@ libpath_utils
 libref_array
 libss
 nmap-ncat
-perl-Pod-Perldoc
-perl-Pod-Simple
-perl-Pod-Usage
-perl-Storable
-perl-Text-ParseWords
-perl-Time-Local
-perl-constant
-perl-parent
-perl-podlators
-perl-threads
-perl-threads-shared
 procps-ng
 python-inotify
 python-linux-procfs
