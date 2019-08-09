@@ -19,7 +19,10 @@ IMAGE_INSTALL_append = " \
 	packagegroup-stak-puppet \
 	packagegroup-tpm2 \
 	"
-IMAGE_FEATURES += "ssh-server-openssh"
+IMAGE_FEATURES += " \
+	package-management \
+	ssh-server-openssh \
+	"
 
 inherit core-image
 inherit openstack-base
