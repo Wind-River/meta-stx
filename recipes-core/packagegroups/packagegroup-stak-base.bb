@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	alsa-lib \
 	collectd \
 	conntrack-tools \
+	ding-libs \
 	dosfstools \
 	docker \
 	docker-registry \
