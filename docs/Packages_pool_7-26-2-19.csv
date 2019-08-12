@@ -307,7 +307,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 869:rdma:rdma-7.3_4.7_rc2-6.el7_3.noarch.rpm:rdma-core:18.1:stx-none:stx-none::
 870:rdma-core:rdma-core-45mlnx1-1.45101.tis.1.x86_64.rpm:rdma-core:18.1:stx-none:stx-none::
 871:readline:readline-6.2-10.el7.x86_64.rpm:readline:7:stx-none:stx-none::
-874:resource-agents:resource-agents-4.1.1-12.el7_6.7.tis.1.x86_64.rpm:resource-agents:4.0.1:stx-none:stx-none::
 875:roboto-fontface-common:roboto-fontface-common-0.5.0.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 876:roboto-fontface-fonts:roboto-fontface-fonts-0.5.0.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 877:rootfiles:rootfiles-8.1-11.el7.noarch.rpm:none::stx-none:stx-none::

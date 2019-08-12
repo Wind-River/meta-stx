@@ -94,6 +94,7 @@ RDEPENDS_packagegroup-stx-integ-base = " \
 	setup-config \
 	systemd-config \
 	lighttpd-config \
+	resource-agents \
 	"
 
 RDEPENDS_packagegroup-stx-integ-cff = " \
