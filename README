@@ -18,11 +18,11 @@ git clone --branch thud git://git.openembedded.org/meta-openembedded
 git clone --branch thud git://git.yoctoproject.org/meta-virtualization
 git clone --branch thud git://git.yoctoproject.org/meta-cloud-services
 git clone --branch thud git://git.yoctoproject.org/meta-intel
+git clone --branch thud git://git.yoctoproject.org/meta-intel-qat
 
 git clone --branch thud git://git.yoctoproject.org/meta-selinux
 git clone --branch thud git://git.yoctoproject.org/meta-security
 git clone --branch thud https://github.com/jiazhang0/meta-secure-core.git
-git clone --branch thud https://github.com/flihp/meta-measured.git
 git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git
 git clone https://github.com/zbsarashki/meta-starlingX.git
 
@@ -65,6 +65,7 @@ to include the following layers :
   PATH_TO_LOCAL_REPO/layers/meta-security/meta-tpm
   PATH_TO_LOCAL_REPO/layers/meta-selinux
   PATH_TO_LOCAL_REPO/layers/meta-intel
+  PATH_TO_LOCAL_REPO/layers/meta-intel-qat
   PATH_TO_LOCAL_REPO/layers/meta-starlingX
 
 ###########################################################

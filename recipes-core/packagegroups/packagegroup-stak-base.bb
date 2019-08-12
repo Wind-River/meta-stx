@@ -16,6 +16,8 @@ PACKAGES = " \
 	packagegroup-stak-base \
 	packagegroup-stak-perl \
 	packagegroup-stak-python \
+	packageroup-stak-ruby \
+	packageroup-stak-puppet \
 	"
 
 RDEPENDS_packagegroup-stak-base = " \
@@ -158,6 +160,18 @@ RDEPENDS_packagegroup-stak-base = " \
         lmsensors-sensors \
         lmsensors-sensorsconfconvert \
         lmsensors-sensorsdetect \
+	syslinux \
+	krb5 \
+	"
+
+RDEPENDS_packageroup-stak-ruby = " \
+	ruby-shadow \
+	ruby \
+	"
+
+RDEPENDS_packageroup-stak-puppet = " \
+	puppet \
+	puppet-vswitch \
 	"
 
 RDEPENDS_packagegroup-stak-perl = " \
@@ -217,6 +231,7 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-pyzmq \
 	python-xstatic-jquery.tablesorter \
 	python-xstatic-jquery.quicksearch \
+	python-xstatic-magic-search \
 	python-perf \
 	python-urwid \
 	python-urlgrabber \

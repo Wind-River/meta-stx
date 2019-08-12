@@ -15,6 +15,8 @@ IMAGE_INSTALL_append = " \
 	packagegroup-stx \
 	packagegroup-stak-python \
 	packagegroup-stak-base \
+	packageroup-stak-ruby \
+	packageroup-stak-puppet \
 	packagegroup-tpm2 \
 	"
 IMAGE_FEATURES += "ssh-server-openssh"
