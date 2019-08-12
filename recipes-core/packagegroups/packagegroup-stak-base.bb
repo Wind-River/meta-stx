@@ -51,6 +51,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	kexec-tools \
 	keyutils \
 	kubernetes \
+	libcomerr \
 	libcgroup \
 	libdrm \
 	libedit \
@@ -70,6 +71,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	libpwquality \
 	libseccomp \
 	libsm \
+	libss \
 	libssh2 \
 	sysfsutils \
 	libteam \
