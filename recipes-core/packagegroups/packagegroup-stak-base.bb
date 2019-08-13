@@ -16,8 +16,8 @@ PACKAGES = " \
 	packagegroup-stak-base \
 	packagegroup-stak-perl \
 	packagegroup-stak-python \
-	packageroup-stak-ruby \
-	packageroup-stak-puppet \
+	packagegroup-stak-ruby \
+	packagegroup-stak-puppet \
 	"
 
 RDEPENDS_packagegroup-stak-base = " \
@@ -164,12 +164,12 @@ RDEPENDS_packagegroup-stak-base = " \
 	krb5 \
 	"
 
-RDEPENDS_packageroup-stak-ruby = " \
+RDEPENDS_packagegroup-stak-ruby = " \
 	ruby-shadow \
 	ruby \
 	"
 
-RDEPENDS_packageroup-stak-puppet = " \
+RDEPENDS_packagegroup-stak-puppet = " \
 	puppet \
 	puppet-vswitch \
 	"
