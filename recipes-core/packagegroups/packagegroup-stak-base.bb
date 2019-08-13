@@ -507,4 +507,6 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-passlib \
 	python-horizon \
 	python-keyring \
+	python-pyinotify \
+	python3-linux-procfs \
 	"
