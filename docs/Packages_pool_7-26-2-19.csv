@@ -55,8 +55,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 277:libradosstriper1:libradosstriper1-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 278:librbd1:librbd1-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 282:librgw2:librgw2-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
-300:libtomcrypt:libtomcrypt-1.17-33.20170623gitcd6e602.el7.x86_64.rpm:none::stx-none:stx-none::
-301:libtommath:libtommath-1.0-8.el7.x86_64.rpm:none::stx-none:stx-none::
 303:libtpms:libtpms-0.6.0-2.tis.0.x86_64.rpm:none::stx-none:stx-none::
 305:libusbx:libusbx-1.0.21-1.el7.x86_64.rpm:none::stx-none:stx-none::
 348:lldpad:lldpad-1.0.1-3.git036e314.el7.x86_64.rpm:none::stx-none:stx-none::
@@ -167,14 +165,7 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 882:rtctl:rtctl-1.13-2.el7.noarch.rpm:none::stx-none:stx-none::
 883:rt-setup:rt-setup-1.59-5.el7.noarch.rpm:none::stx-none:stx-none::
 885:ruby-augeas:ruby-augeas-0.5.0-1.el7.x86_64.rpm:none::stx-none:stx-none::These could be the same.
-886:rubygem-bigdecimal:rubygem-bigdecimal-1.2.0-34.el7_6.x86_64.rpm:none::stx-none:stx-none::
-887:rubygem-io-console:rubygem-io-console-0.4.2-34.el7_6.x86_64.rpm:none::stx-none:stx-none::
-888:rubygem-json:rubygem-json-2.0.2-2.el7.x86_64.rpm:none::stx-none:stx-none::
-889:rubygem-psych:rubygem-psych-2.0.0-34.el7_6.x86_64.rpm:none::stx-none:stx-none::
-890:rubygem-rdoc:rubygem-rdoc-4.0.0-34.el7_6.noarch.rpm:none::stx-none:stx-none::
 891:rubygem-rgen:rubygem-rgen-0.6.6-2.el7.noarch.rpm:none::stx-none:stx-none::
-892:rubygems:rubygems-2.0.14.1-34.el7_6.noarch.rpm:none::stx-none:stx-none::
-893:ruby-irb:ruby-irb-2.0.0.648-34.el7_6.noarch.rpm:none::stx-none:stx-none::
 898:seavgabios-bin:seavgabios-bin-1.11.0-2.el7.noarch.rpm:none::stx-none:stx-none::
 901:selinux-policy-minimum:selinux-policy-minimum-3.13.1-229.el7_6.6.noarch.rpm:refpolicy-minimum:2.20170204:stx-none:stx-none::
 902:selinux-policy-mls:selinux-policy-mls-3.13.1-229.el7_6.6.noarch.rpm:refpolicy-mls:2.20170204:stx-none:stx-none::
