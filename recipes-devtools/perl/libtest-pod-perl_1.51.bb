@@ -17,4 +17,3 @@ S = "${WORKDIR}/Test-Pod-${PV}"
 
 inherit cpan
 
-PACKAGE_ARCH = "all"

@@ -24,4 +24,3 @@ S = "${WORKDIR}/MailTools-${PV}"
 
 inherit cpan
 
-PACKAGE_ARCH = "all"

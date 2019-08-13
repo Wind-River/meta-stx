@@ -22,4 +22,3 @@ S = "${WORKDIR}/libwww-perl-${PV}"
 
 inherit cpan
 
-PACKAGE_ARCH = "all"
