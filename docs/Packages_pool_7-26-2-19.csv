@@ -140,7 +140,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 743:python-deltarpm:python-deltarpm-3.6-3.el7.x86_64.rpm:none::stx-none:stx-none::
 746:python-django-bash-completion:python-django-bash-completion-1.11.20-1.el7.noarch.rpm:none::stx-none:stx-none::
 759:python-gobject-base:python-gobject-base-3.22.0-1.el7_4.1.x86_64.rpm:none::stx-none:stx-none::
-775:python-linux-procfs:python-linux-procfs-0.4.9-4.el7.noarch.rpm:none::stx-none:stx-none::
 785:python-openstackclient-lang:python-openstackclient-lang-3.18.0-1.tis.7.noarch.rpm:none::stx-none:stx-none::
 805:python-pycadf-common:python-pycadf-common-2.6.0-1.el7.noarch.rpm:none::stx-none:stx-none::
 811:python-rados:python-rados-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
