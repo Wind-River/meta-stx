@@ -63,7 +63,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 400:nfscheck:nfscheck-1.0-0.tis.x86_64.rpm:none::stx-none:stx-none::
 402:nfs-utils-config:nfs-utils-config-1.0-1.tis.noarch.rpm:none::stx-none:stx-none::
 411:nscd:nscd-2.17-260.el7.x86_64.rpm:none::stx-none:stx-none::
-415:nss-pem:nss-pem-1.0.3-5.el7.x86_64.rpm:none::stx-none:stx-none::
 426:openpgm:openpgm-5.2.122-2.el7.x86_64.rpm:none::stx-none:stx-none::
 427:openscap:openscap-1.2.17-2.el7.x86_64.rpm,openscap-scanner-1.2.17-2.el7.x86_64.rpm:none::stx-none:stx-none::
 441:openvswitch-config:openvswitch-config-1.0-1.tis.noarch.rpm:none::stx-none:stx-none::
@@ -171,7 +170,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 966:tpm2-tss-devel:tpm2-tss-devel-1.4.0-2.el7.x86_64.rpm:none::stx-none:stx-none::
 970:tss2:tss2-930-1.tis.1.x86_64.rpm:none::stx-none:stx-none::
 971:tuna:tuna-0.13-6.el7.noarch.rpm:none::stx-none:stx-none::
-972:tuned:tuned-2.8.0-5.el7.noarch.rpm:none::stx-none:stx-none::
 975:unbound-libs:unbound-libs-1.6.6-1.el7.x86_64.rpm:unbound:1.8.1:stx-none:stx-none::
 977:update-motd:update-motd-1.0-2.tis.x86_64.rpm:none::stx-none:stx-none::
 979:ustr:ustr-1.0.4-16.el7.x86_64.rpm:none::stx-none:stx-none::
