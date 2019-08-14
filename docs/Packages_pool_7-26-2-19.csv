@@ -15,7 +15,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 49:containerd.io:containerd.io-1.2.5-3.1.el7.x86_64.rpm:none::stx-none:stx-none::
 58:crontabs:crontabs-1.11-6.20121102git.el7.noarch.rpm:none::stx-none:stx-none::
 66:deltarpm:deltarpm-3.6-3.el7.x86_64.rpm:none::stx-none:stx-none::
-67:device-mapper:device-mapper-1.02.146-4.el7.x86_64.rpm,device-mapper-event-1.02.146-4.el7.x86_64.rpm,device-mapper-event-libs-1.02.146-4.el7.x86_64.rpm,device-mapper-libs-1.02.146-4.el7.x86_64.rpm:none::stx-none:stx-none::
 73:distributedcloud-client-dcmanagerclient:distributedcloud-client-dcmanagerclient-1.0.0-1.tis.19.noarch.rpm:none::stx-none:stx-none::
 74:distributedcloud-dcdbsync:distributedcloud-dcdbsync-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
 75:distributedcloud-dcmanager:distributedcloud-dcmanager-1.0.0-1.tis.66.noarch.rpm:none::stx-none:stx-none::
@@ -134,8 +133,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 854:pyxattr:pyxattr-0.5.1-5.el7.x86_64.rpm:none::stx-none:stx-none::
 856:qat17:qat17-4.5.0-00034.tis.1.x86_64.rpm:qat17:4.2.0-00012:stx-none:stx-none::
 857:qat17-rt:qat17-rt-4.5.0-00034.tis.1.x86_64.rpm:none::stx-none:stx-none::
-858:qemu-img-ev:qemu-img-ev-3.0.0-0.tis.100.x86_64.rpm:none::stx-none:stx-none::
-859:qemu-kvm-common-ev:qemu-kvm-common-ev-3.0.0-0.tis.100.x86_64.rpm:none::stx-none:stx-none::
 860:qemu-kvm-ev:qemu-kvm-ev-3.0.0-0.tis.100.x86_64.rpm:none::stx-none:stx-none::
 861:qemu-kvm-tools-ev:qemu-kvm-tools-ev-3.0.0-0.tis.100.x86_64.rpm:none::stx-none:stx-none::
 862:qpid-proton-c:qpid-proton-c-0.24.0-2.el7.x86_64.rpm:none::stx-none:stx-none::

@@ -1,6 +1,3 @@
-qemu-img-ev
-qemu-kvm-common-ev
-device-mapper
 nss-pem
 tuned
 containerd
