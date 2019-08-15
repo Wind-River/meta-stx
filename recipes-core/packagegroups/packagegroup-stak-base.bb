@@ -145,7 +145,6 @@ RDEPENDS_packagegroup-stak-base = " \
         glusterfs \
         gobject-introspection \
         gperftools \
-        gobject-introspection \
         gperftools \
         gpm \
         hiera \
@@ -169,7 +168,13 @@ RDEPENDS_packagegroup-stak-base = " \
         lmsensors-sensorsdetect \
 	syslinux \
 	krb5 \
+	rocksdb \
+	resource-agents \
+	go-phercloud \
+	haproxy \
+	cluster-glue \
 	"
+#	docker-distribution 
 
 RDEPENDS_packagegroup-stak-ruby = " \
 	ruby-shadow \
@@ -208,6 +213,19 @@ RDEPENDS_packagegroup-stak-perl = " \
 	perl-module-time-hires \
 	perl-module-threads \
 	perl-module-threads-shared \
+	filter-perl \
+	libhtml-tagset-perl \
+	libmailtools-perl \
+	libmailtools-perl \
+	libsocket6-perl \
+	libsocket6-perl \
+	libtest-pod-perl \
+	libtest-pod-perl \
+	libwww-perl \
+	libwww-perl \
+	pathtools-perl \
+	podlators-perl \
+	scalar-list-utils-perl \
 	"
 
 RDEPENDS_packagegroup-stak-python = " \
@@ -511,4 +529,6 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-keyring \
 	python-pyinotify \
 	python3-linux-procfs \
+	python-murano-pkg-check \
+	python-oslo.upgradecheck \
 	"

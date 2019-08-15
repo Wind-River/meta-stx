@@ -26,6 +26,7 @@ PACKAGES = " \
 	packagegroup-stx-update \
 	packagegroup-stx-upstream \
 	packagegroup-stx-integ-k8s \
+	packagegroup-stx-integ-ceph \
 	"
 
 RDEPENDS_packagegroup-stx = " \
@@ -38,10 +39,12 @@ RDEPENDS_packagegroup-stx = " \
 	packagegroup-stx-update \
 	packagegroup-stx-upstream \
 	starlingx-dashboard \
+	python-cephclient \
+	packagegroup-stx-integ-ceph \
 	"
 
 RDEPENDS_packagegroup-stx-config = " \
-	config-gate \
+	config-gate-worker \
 	controllerconfig \
 	puppet-manifests \
 	puppet-modules-wrs \
@@ -112,6 +115,7 @@ RDEPENDS_packagegroup-stx-integ-k8s = " \
 	etcd \
 	registry-token-server \
         "
+
 # To resolve conflicts use bbappends instead
 #	sudo-config \
 #	shadow-utils-config 
@@ -190,4 +194,11 @@ RDEPENDS_packagegroup-stx-upstream = " \
 	openstack-ras \
 	python-gnocchiclient \
 	python-pankoclient \
+	"
+
+RDEPENDS_packagegroup-stx-integ-ceph = " \
+	ceph \
+	ceph-manager \
+	ceph-python \
+	python-cephclient \
 	"

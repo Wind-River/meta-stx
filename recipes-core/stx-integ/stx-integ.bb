@@ -28,6 +28,7 @@ RDEPENDS_${PN}_append = " \
 
 require	stx-base.inc
 require	stx-config-files.inc
+require	stx-ceph.inc
 
 
 # ceph
