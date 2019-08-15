@@ -127,7 +127,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 759:python-gobject-base:python-gobject-base-3.22.0-1.el7_4.1.x86_64.rpm:none::stx-none:stx-none::
 819:python-schedutils:python-schedutils-0.4-6.el7.x86_64.rpm:none::stx-none:stx-none::
 825:python-smartpm:python-smartpm-1.4.1-0.tis.2.x86_64.rpm:none::stx-none:stx-none::
-830:python-unittest2:python-unittest2-1.1.0-4.el7.noarch.rpm:none::stx-none:stx-none::
 854:pyxattr:pyxattr-0.5.1-5.el7.x86_64.rpm:none::stx-none:stx-none::
 856:qat17:qat17-4.5.0-00034.tis.1.x86_64.rpm:qat17:4.2.0-00012:stx-none:stx-none::
 857:qat17-rt:qat17-rt-4.5.0-00034.tis.1.x86_64.rpm:none::stx-none:stx-none::
