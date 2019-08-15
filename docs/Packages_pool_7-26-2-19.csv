@@ -124,7 +124,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 729:python-ceph-compat:python-ceph-compat-13.2.2-0.el7.tis.25.x86_64.rpm:none::stx-none:stx-none::
 736:python-configshell:python-configshell-1.1.fb23-5.el7.noarch.rpm:none::stx-none:stx-none::
 743:python-deltarpm:python-deltarpm-3.6-3.el7.x86_64.rpm:none::stx-none:stx-none::
-746:python-django-bash-completion:python-django-bash-completion-1.11.20-1.el7.noarch.rpm:none::stx-none:stx-none::
 759:python-gobject-base:python-gobject-base-3.22.0-1.el7_4.1.x86_64.rpm:none::stx-none:stx-none::
 819:python-schedutils:python-schedutils-0.4-6.el7.x86_64.rpm:none::stx-none:stx-none::
 825:python-smartpm:python-smartpm-1.4.1-0.tis.2.x86_64.rpm:none::stx-none:stx-none::
