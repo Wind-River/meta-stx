@@ -60,7 +60,6 @@ RDEPENDS_packagegroup-stak-base = " \
 	libestr \
 	libev \
 	libgudev \
-	libibverbs \
 	libjpeg-turbo \
 	libndp \
 	oath \
@@ -176,9 +175,10 @@ RDEPENDS_packagegroup-stak-base = " \
 	cluster-glue \
 	dpkg \
 	eventlog \
-	rdma-core \
+	libibverbs \
 	libnfsidmap \
 	"
+#	libibverbs Conflicts with rdma-core
 #	docker-distribution 
 
 RDEPENDS_packagegroup-stak-ruby = " \
