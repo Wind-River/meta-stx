@@ -51,7 +51,9 @@ do_install_append () {
     install -m 0644 -D ${S}/udev/60-ceph-by-parttypeuuid.rules ${D}${libdir}/udev/rules.d/60-ceph-by-parttypeuuid.rules
 
     mkdir -p ${D}${localstatedir}/ceph
-    mkdir -p ${D}${localstatedir}/run/ceph
+    #TODO:
+    #mkdir -p /run/ceph must be done at init time.
+    #mkdir -p ${D}${localstatedir}/run/ceph
     mkdir -p ${D}${localstatedir}/log/ceph
     mkdir -p ${D}${localstatedir}/lib/ceph/tmp
     mkdir -p ${D}${localstatedir}/lib/ceph/mon
@@ -79,10 +81,14 @@ RDEPENDS_${PN} += "\
 "
 
 FILES_${PN} += "\
-        ${localstatedir} ${libdir} ${docdir} \
+        ${localstatedir} \
+	${docdir}/ceph/COPYING \
+	${libdir}/sysctl.d/90-ceph-osd.conf \
+	${libdir}/udev/rules.d/50-rbd.rules \
+	${libdir}/udev/rules.d/60-ceph-by-parttypeuuid.rules \
         ${systemd_system_unitdir}/mgr-restful-plugin.service \
         ${systemd_system_unitdir}/ceph-radosgw@.service \
         ${systemd_system_unitdir}/ceph.service \
-        ${systemd_system_unitdir}/docker.service.d \
-        /run \
+        ${systemd_system_unitdir}/docker.service.d/starlingx-docker-override.conf \
 "
+# /run/ceph

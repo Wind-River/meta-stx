@@ -38,6 +38,7 @@ RDEPENDS_packagegroup-stak-base = " \
 	dosfstools \
 	docker \
 	docker-registry \
+	containerd-opencontainers \
 	dracut \
 	drbd-utils \
 	efibootmgr \
@@ -173,6 +174,10 @@ RDEPENDS_packagegroup-stak-base = " \
 	go-phercloud \
 	haproxy \
 	cluster-glue \
+	dpkg \
+	eventlog \
+	rdma-core \
+	libnfsidmap \
 	"
 #	docker-distribution 
 
