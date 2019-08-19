@@ -46,7 +46,6 @@ No.:Package:StarlingX Package:Yocto Package:Yocto Package Version:meta-starlingX
 240:libfdt-devel:libfdt-devel-1.4.4-0.tis.1.x86_64.rpm:none::stx-none:stx-none::
 247:libibumad:libibumad-45mlnx1-1.45101.tis.1.x86_64.rpm:none::stx-none:stx-none::
 255:libmodman:libmodman-2.0.1-8.el7.x86_64.rpm:none::stx-none:stx-none::
-264:libnfsidmap:libnfsidmap-0.25-19.el7.x86_64.rpm:none::stx-none:stx-none::
 303:libtpms:libtpms-0.6.0-2.tis.0.x86_64.rpm:none::stx-none:stx-none::
 305:libusbx:libusbx-1.0.21-1.el7.x86_64.rpm:none::stx-none:stx-none::
 348:lldpad:lldpad-1.0.1-3.git036e314.el7.x86_64.rpm:none::stx-none:stx-none::

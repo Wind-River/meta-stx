@@ -4,7 +4,6 @@ crontabs
 fipscheck
 hardlink
 libdb
-libnfsidmap
 os-prober
 polkit-pkla-compat
 pth
