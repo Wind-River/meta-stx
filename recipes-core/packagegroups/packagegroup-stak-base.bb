@@ -74,6 +74,8 @@ RDEPENDS_packagegroup-stak-base = " \
 	libsm \
 	libss \
 	libssh2 \
+	libtomcrypt \
+	libtommath \
 	sysfsutils \
 	libteam \
 	libuser \
