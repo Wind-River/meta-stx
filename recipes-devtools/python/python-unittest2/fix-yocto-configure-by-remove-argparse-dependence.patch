@@ -1,0 +1,11 @@
+--- unittest2-1.1.0~/setup.py   2019-08-16 11:19:05.151595738 +0800
++++ unittest2-1.1.0/setup.py    2015-06-30 14:47:44.000000000 +0800
+@@ -57,7 +57,7 @@
+ # Both install and setup requires - because we read VERSION from within the
+ # package, and the package also exports all the APIs.
+ # six for compat helpers
+-REQUIRES = ['argparse', 'six>=1.4', 'traceback2'],
++REQUIRES = ['six>=1.4', 'traceback2'],
+
+ params = dict(
+     name=NAME,
