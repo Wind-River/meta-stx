@@ -221,15 +221,10 @@ RDEPENDS_packagegroup-stak-perl = " \
 	filter-perl \
 	libhtml-tagset-perl \
 	libmailtools-perl \
-	libmailtools-perl \
-	libsocket6-perl \
 	libsocket6-perl \
 	libtest-pod-perl \
-	libtest-pod-perl \
-	libwww-perl \
 	libwww-perl \
 	pathtools-perl \
-	podlators-perl \
 	scalar-list-utils-perl \
 	"
 
