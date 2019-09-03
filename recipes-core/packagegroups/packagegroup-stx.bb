@@ -27,6 +27,9 @@ PACKAGES = " \
 	packagegroup-stx-upstream \
 	packagegroup-stx-integ-k8s \
 	packagegroup-stx-integ-ceph \
+	packagegroup-stx-integ-tools \
+	packagegroup-stx-integ-filesystem \
+	packagegroup-stx-integ-logging \
 	"
 
 RDEPENDS_packagegroup-stx = " \
@@ -41,19 +44,32 @@ RDEPENDS_packagegroup-stx = " \
 	starlingx-dashboard \
 	python-cephclient \
 	packagegroup-stx-integ-ceph \
+	packagegroup-stx-integ-tools \
+	packagegroup-stx-integ-filesystem \
+	packagegroup-stx-integ-logging \
 	"
 
 RDEPENDS_packagegroup-stx-config = " \
 	config-gate-worker \
 	controllerconfig \
 	puppet-manifests \
-	puppet-modules-wrs \
+	puppet-mtce \
+	puppet-dcdbsync \
+	puppet-patching \
+	puppet-sshd \
+	puppet-dcmanager \
+	puppet-fm \
+	puppet-nfv \
+	puppet-smapi \
+	puppet-sysinv \
+	puppet-dcorch \
 	storageconfig \
 	worker-utils \
 	workerconfig-standalone \
 	workerconfig-subfunction \
 	pm-qos-mgr \
 	sysinv \
+	cgts-client \
 	"
 
 RDEPENDS_packagegroup-stx-fault = " \
@@ -84,7 +100,10 @@ RDEPENDS_packagegroup-stx-integ = " \
 	packagegroup-stx-integ-cff \
 	packagegroup-stx-integ-k8s \
 	packagegroup-stx-integ-puppet-modules \
+	packagegroup-stx-integ-tools \
+	ldapscripts \
 	"
+#	packagegroup-stx-integ-ldap 
 
 RDEPENDS_packagegroup-stx-integ-base = " \
 	cgcs-users \
@@ -110,24 +129,36 @@ RDEPENDS_packagegroup-stx-integ-cff = " \
 	rsync-config \
 	syslog-ng-config \
 	util-linux-config \
+	pam-config  \
+	shadow-utils-config \
+	sudo-config \
 	"
+
+# TODO: resolve conflicts use bbappends instead
+#	sudo-config \
+#	shadow-utils-config 
+#	pam-config 
+
 RDEPENDS_packagegroup-stx-integ-k8s = " \
 	etcd \
 	registry-token-server \
         "
 
-# To resolve conflicts use bbappends instead
-#	sudo-config \
-#	shadow-utils-config 
-#	pam-config 
 
 RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
+	puppet \
+	puppet-create-resources \
+	puppet-dnsmasq \
+	puppet-lvm \
+	puppet-boolean \
+	puppet-ldap \
+	puppet-drbd \
+	puppet-postgresql \
+	puppet-network \
+	puppet-filemapper \
+	puppet-puppi \
+	puppet-nslcd \
 	"
-#	puppet-boolean \
-#	puppet-create-resources \
-#	puppet-dnsmasq \
-#	puppet-drbd \
-#	"
 #	puppet 
 
 
@@ -161,6 +192,8 @@ RDEPENDS_packagegroup-stx-nfv = " \
 
 RDEPENDS_packagegroup-stx-update = " \
 	cgcs-patch \
+	cgcs-patch-agent \
+	cgcs-patch-controller \
 	enable-dev-patch \
 	patch-alarm \
 	tsconfig \
@@ -201,4 +234,22 @@ RDEPENDS_packagegroup-stx-integ-ceph = " \
 	ceph-manager \
 	ceph-python \
 	python-cephclient \
+	"
+
+RDEPENDS_packagegroup-stx-integ-tools = " \
+	collector \
+	"
+
+RDEPENDS_packagegroup-stx-integ-filesystem = " \
+	filesystem-scripts \
+	iscsi-initiator-utils-config \
+	nfscheck \
+	nfs-utils-config \
+	"
+#	TODO: Fix nfs-utils-config Conflicts. 
+
+
+RDEPENDS_packagegroup-stx-integ-logging = " \
+	logrotate-config \
+	logmgmt \
 	"

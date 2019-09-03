@@ -18,11 +18,11 @@ do_install_prepend () {
 
 	install -m644 files/login.defs ${D}/${datadir}/starlingx/login.defs
 	install -m644 files/clear_shadow_locks.service ${D}/${systemd_system_unitdir}/
-	install -m644 files/login.defs ${D}/${sysconfdir}/login.defs
+	install -m644 files/login.defs ${D}/${sysconfdir}/stx-login.defs
 }
 
 FILES_shadow-utils-config = " \
 	${datadir}/starlingx/login.defs \
 	${systemd_system_unitdir}/clear_shadow_locks.service \
-	${sysconfdir}/login.defs \
+	${sysconfdir}/stx-login.defs \
 	"

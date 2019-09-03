@@ -2,16 +2,12 @@ PACKAGES += " sysinv"
 
 do_configure_prepend() {
 	echo "Configure sysinv..."
-	cd ${S}/sysinv/cgts-client/cgts-client
-	distutils_do_configure
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_configure
 } 
 
 do_compile_prepend() {
 	echo "Building sysinv..."
-	cd ${S}/sysinv/cgts-client/cgts-client
-	distutils_do_compile
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_compile
 }
@@ -19,8 +15,6 @@ do_compile_prepend() {
 do_install_prepend() {
 
 	echo "Installing sysinv..."
-	cd ${S}/sysinv/cgts-client/cgts-client
-	distutils_do_install
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_install
 
@@ -44,7 +38,4 @@ FILES_sysinv = " \
 	${sysconfdir}/pmon.d/sysinv-agent.conf \
 	${sysconfdir}/init.d/sysinv-agent \
 	${libdir}/python2.7/site-packages/sysinv/ \
-	${libdir}/python2.7/site-packages/cgtsclient/ \
-	${libdir}/python2.7/site-packages/cgtsclient-*.egg-info \
-	${libdir}/python2.7/site-packages/sysinv-*.egg-info \
 	"

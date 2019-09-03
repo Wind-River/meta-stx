@@ -1,8 +1,12 @@
 PACKAGES += " cgcs-patch"
+PACKAGES += " cgcs-patch-agent"
+PACKAGES += " cgcs-patch-controller"
 
 inherit setuptools
 
 RDEPENDS_cgcs-patch_append = " bash"
+RDEPENDS_cgcs-patch-agent_append = " bash"
+RDEPENDS_cgcs-patch-controller_append = " bash"
 
 do_configure_append () {
 	cd ${S}/cgcs-patch/cgcs-patch
@@ -73,34 +77,39 @@ pkg_postinst_ontarget_cgcs-patch () {
 }
 
 FILES_cgcs-patch = " \
-	${sbindir}/upgrade-start-pkg-extract \
-	${sbindir}/rpm-audit \
-	${sbindir}/sw-patch \
-	${sbindir}/sw-patch-agent-restart \
-	${sbindir}/sw-patch-agent \
-	${sbindir}/run-patch-scripts \
-	${sbindir}/sw-patch-controller-daemon-restart \
-	${sbindir}/sw-patch-controller-daemon \
-	${libdir}/python2.7/site-packages/cgcs_make_patch \
-	${libdir}/python2.7/site-packages/cgcs_patch-1.0-py2.7.egg-info \
 	${libdir}/python2.7/site-packages/cgcs_patch \
+	${libdir}/python2.7/site-packages/cgcs_patch-1.0-py2.7.egg-info \
+	${libdir}/python2.7/site-packages/cgcs_make_patch \
 	${libdir}/python2.7/site-packages/cgcs_patch-1.0-py2.7.egg-info/top_level.txt \
+	${sbindir}/rpm-audit \
+	${sysconfdir}/patching/policy.json \
+	${sysconfdir}/patching/patching.conf \
+	${sysconfdir}/patching/patch-scripts \
+	${sysconfdir}/init.d/sw-patch \
 	${systemd_system_unitdir}/sw-patch.service \
-	${systemd_system_unitdir}/sw-patch-agent.service \
-	${systemd_system_unitdir}/sw-patch-controller.service \
-	${systemd_system_unitdir}/sw-patch-controller-daemon.service \
 	${sysconfdir}/goenabled.d/patch_check_goenabled.sh \
-	${sysconfdir}/pmon.d/sw-patch-controller-daemon.conf \
-	${sysconfdir}/pmon.d/sw-patch-agent.conf \
+	${sysconfdir}/logrotate.d/patching \
 	${sysconfdir}/tempfiles.d/patch-tmpdirs.conf \
 	${sysconfdir}/patching/patch-functions \
-	${sysconfdir}/patching/patching.conf \
-	${sysconfdir}/patching/policy.json \
-	${sysconfdir}/patching/patch-scripts \
-	${sysconfdir}/init.d/sw-patch-controller \
-	${sysconfdir}/init.d/sw-patch \
+"
+FILES_cgcs-patch-agent = " \
+	${sbindir}/sw-patch-agent \
+	${sbindir}/sw-patch-agent-restart \
+	${sysconfdir}/pmon.d/sw-patch-agent.conf \
+	${sbindir}/run-patch-scripts \
 	${sysconfdir}/init.d/sw-patch-agent \
-	${sysconfdir}/init.d/sw-patch-controller-daemon \
+	${systemd_system_unitdir}/sw-patch-agent.service \
 	${sysconfdir}/bash_completion.d/sw-patch \
-	${sysconfdir}/logrotate.d/patching \
+	"
+
+FILES_cgcs-patch-controller = " \
+	${sbindir}/sw-patch-controller-daemon-restart \
+	${sysconfdir}/init.d/sw-patch-controller-daemon \
+	${sbindir}/sw-patch-controller-daemon \
+	${sbindir}/upgrade-start-pkg-extract \
+	${sysconfdir}/pmon.d/sw-patch-controller-daemon.conf \
+	${systemd_system_unitdir}/sw-patch-controller-daemon.service \
+	${sbindir}/sw-patch \
+	${sysconfdir}/init.d/sw-patch-controller \
+	${systemd_system_unitdir}/sw-patch-controller.service \
 	"

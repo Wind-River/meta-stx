@@ -26,12 +26,12 @@ do_compile_prepend () {
 
 do_install_prepend () {
 	cd ${S}/config-files/sudo-config 
-	install -d -m755 ${D}/${sysconfdir}/sudoers.d
+	install -d -m755 ${D}/${sysconfdir}/stx-sudoers.d
 
 #	install -m644 files/sysadmin.sudo ${D}/${sysconfdir}/sudoers.d/
-	install -m644 files/wrs.sudo ${D}/${sysconfdir}/sudoers.d/sysadmin
+	install -m644 files/wrs.sudo ${D}/${sysconfdir}/stx-sudoers.d/stx-sysadmin
 }
 
 FILES_sudo-config = "  \
-	${sysconfdir}/sudoers.d/sysadmin \
+	${sysconfdir}/stx-sudoers.d/stx-sysadmin \
 	"

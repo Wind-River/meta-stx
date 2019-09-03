@@ -1,4 +1,4 @@
-DESCRIPTION = "puppet-dnsmasq"
+DESCRIPTION = "puppet module for dnsmasq"
 
 STABLE = "master"
 PROTOCOL = "https"

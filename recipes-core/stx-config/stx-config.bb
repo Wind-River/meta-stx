@@ -24,10 +24,20 @@ inherit setuptools
 require config-gate.inc
 require controllerconfig.inc
 require pm-qos-mgr.inc
-require puppet-modules-wrs.inc
-require puppet-manifests.inc
+require puppet-modules/puppet-manifests.inc
+require puppet-modules/puppet-mtce.inc
+require puppet-modules/puppet-dcdbsync.inc
+require puppet-modules/puppet-patching.inc
+require puppet-modules/puppet-sshd.inc
+require puppet-modules/puppet-dcmanager.inc
+require puppet-modules/puppet-fm.inc
+require puppet-modules/puppet-nfv.inc
+require puppet-modules/puppet-smapi.inc
+require puppet-modules/puppet-sysinv.inc
+require puppet-modules/puppet-dcorch.inc
 require storageconfig.inc
 require sysinv.inc
+require cgts-client.inc
 require workerconfig.inc
 require worker-utils.inc
 

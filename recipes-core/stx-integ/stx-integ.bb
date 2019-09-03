@@ -28,17 +28,14 @@ RDEPENDS_${PN}_append = " \
 
 require	stx-base.inc
 require	stx-config-files.inc
+require	stx-collector.inc
 require	stx-ceph.inc
-
-
-# ceph
-
-
-# config-files
+require	stx-filesystem.inc
+require stx-ldap.inc
+require stx-logging.inc
 
 # database
-
-# filesystem
+# Mariadb included from Yocto. TODO: Port relevant patches.
 
 # kernel
 
@@ -57,8 +54,6 @@ require	stx-ceph.inc
 # security
 
 # storage-drivers
-
-# tools
 
 # utilities 
 
