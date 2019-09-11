@@ -289,7 +289,6 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-requests-oauthlib \
 	python-versiontools \
 	python-dogpile.cache \
-	python-dogpile.core \
 	python-oslo.cache \
 	python-oslo.concurrency \
 	python-oslo.config \
@@ -544,3 +543,5 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-xstatic-term.js \
 	python-configshell \
 	"
+
+#	python-dogpile.core
