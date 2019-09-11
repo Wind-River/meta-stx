@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_append:= ":${THISDIR}/linux:"
 # Enable:
 # drbd
 # IMA
@@ -8,3 +9,5 @@
 # intel-ixgbevf
 # qat17
 # tpmdd
+
+SRC_URI += "file://stx-kconfig.cfg"
