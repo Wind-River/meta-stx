@@ -1,4 +1,4 @@
-CRIPTION = "WSGI object-dispatching web framework"
+DESCRIPTION = "WSGI object-dispatching web framework"
 
 HOMEPAGE = "https://pypi.python.org/pypi/pecan/"
 SECTION = "devel/python"
@@ -20,3 +20,8 @@ RDEPENDS_${PN} = "python3-mako \
 		  python3-logutils \
 		  python3-webtest  \
 		  "
+
+do_install_append() {
+        mv ${D}/${bindir}/gunicorn_pecan ${D}/${bindir}/gunicorn_pecan3
+        mv ${D}/${bindir}/pecan ${D}/${bindir}/pecan3
+}

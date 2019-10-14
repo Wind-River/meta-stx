@@ -4,7 +4,7 @@ meta-stx
 Introduction
 ------------------------
 
-This layer  is intended to enable starlingx on poky. 
+This layer enables starlingx on poky. 
 
 
 Dependencies
@@ -26,21 +26,17 @@ Maintenance
 -------------------------
 
 Maintainer:
-        Babak Sarashki  <babak.sarashki@windriver.com>
+
 
 
 Building the meta-stx layer
 ---------------------------
 
 
-Use Case: Virtual Network Setup
--------------------------------
-
-This script is inteded to setup virtual network between ns's on the host.
-
+Setup workspace
 ```
-mkdir -p layers
-cd layers
+mkdir -p $P/workspace/{layers,build}
+cd $P/workspace/layers
 
 git clone --branch thud git://git.yoctoproject.org/poky.git
 git clone --branch thud git://git.openembedded.org/meta-openembedded
@@ -48,56 +44,78 @@ git clone --branch thud git://git.yoctoproject.org/meta-virtualization
 git clone --branch thud git://git.yoctoproject.org/meta-cloud-services
 git clone --branch thud git://git.yoctoproject.org/meta-intel
 git clone --branch thud git://git.yoctoproject.org/meta-intel-qat
-
 git clone --branch thud git://git.yoctoproject.org/meta-selinux
 git clone --branch thud git://git.yoctoproject.org/meta-security
 git clone --branch thud https://github.com/jiazhang0/meta-secure-core.git
-git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git
+git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git 
 git clone --branch thud https://github.com/rauc/meta-rauc.git
+git clone --branch thud git://git.yoctoproject.org/meta-intel
+git clone --branch thud git://git.yoctoproject.org/meta-intel-qat
+git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git
 git clone https://github.com/zbsarashki/meta-stx.git
-
-cd poky
-. ./oe-init-build-env /path/to/prj/dir
 
 ```
 Add the following layers to conf/bblayers.conf
+
 ```
-PATH_TO_LOCAL_REPO/layers/poky/meta
-PATH_TO_LOCAL_REPO/layers/poky/meta-poky
-PATH_TO_LOCAL_REPO/layers/poky/meta-yocto-bsp
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-oe
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-networking
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-filesystems
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-perl
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-python
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-webserver
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-initramfs
-PATH_TO_LOCAL_REPO/layers/meta-openembedded/meta-gnome
-PATH_TO_LOCAL_REPO/layers/meta-virtualization
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-aio-deploy
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-compute-deploy
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-controller-deploy
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-qemu
-PATH_TO_LOCAL_REPO/layers/meta-cloud-services/meta-openstack-swift-deploy
-PATH_TO_LOCAL_REPO/layers/meta-measured
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-signing-key
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-efi-secure-boot
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-encrypted-storage
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-integrity
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta-tpm2
-PATH_TO_LOCAL_REPO/layers/meta-secure-core/meta
-PATH_TO_LOCAL_REPO/layers/meta-security
-PATH_TO_LOCAL_REPO/layers/meta-security/meta-security-compliance
-PATH_TO_LOCAL_REPO/layers/meta-selinux
-PATH_TO_LOCAL_REPO/layers/meta-intel
-PATH_TO_LOCAL_REPO/layers/meta-intel-qat
-PATH_TO_LOCAL_REPO/layers/meta-rauc
-PATH_TO_LOCAL_REPO/layers/meta-stx
-PATH_TO_LOCAL_REPO/layers/local
-PATH_TO_LOCAL_REPO/layers/meta-iot-cloud
+
+P=Path to workspace 
+
+cd $P/workspace/layers/poky
+source oe-init-build-env $P/workspace/build
+
+cat > conf/bblayers.conf << EOF
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+ 
+BBPATH = "\${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \\
+	$P/workspace/layers/poky/meta \\
+	$P/workspace/layers/poky/meta-poky \\
+	$P/workspace/layers/poky/meta-yocto-bsp \\
+	$P/workspace/layers/meta-openembedded/meta-oe \\
+	$P/workspace/layers/meta-openembedded/meta-networking \\
+	$P/workspace/layers/meta-openembedded/meta-filesystems \\
+	$P/workspace/layers/meta-openembedded/meta-perl \\
+	$P/workspace/layers/meta-openembedded/meta-python \\
+	$P/workspace/layers/meta-openembedded/meta-webserver \\
+	$P/workspace/layers/meta-openembedded/meta-initramfs \\
+	$P/workspace/layers/meta-openembedded/meta-gnome \\
+	$P/workspace/layers/meta-virtualization \\
+	$P/workspace/layers/meta-cloud-services \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack-aio-deploy \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack-compute-deploy \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack-controller-deploy \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack-qemu \\
+	$P/workspace/layers/meta-cloud-services/meta-openstack-swift-deploy \\
+	$P/workspace/layers/meta-secure-core/meta-signing-key \\
+	$P/workspace/layers/meta-secure-core/meta-efi-secure-boot \\
+	$P/workspace/layers/meta-secure-core/meta-encrypted-storage \\
+	$P/workspace/layers/meta-secure-core/meta-integrity \\
+	$P/workspace/layers/meta-secure-core/meta-tpm2 \\
+	$P/workspace/layers/meta-secure-core/meta \\
+	$P/workspace/layers/meta-security \\
+	$P/workspace/layers/meta-security/meta-security-compliance \\
+	$P/workspace/layers/meta-selinux \\
+	$P/workspace/layers/meta-intel \\
+	$P/workspace/layers/meta-intel-qat \\
+	$P/workspace/layers/meta-rauc \\
+	$P/workspace/layers/meta-iot-cloud \\
+	$P/workspace/layers/meta-stx \\
+	"
+EOF
+	sed -i -e 's/^\(#MACHINE.*\"qemuarm\"\)/MACHINE \?= \"intel-corei7-64\"\n\1/g' conf/local.conf
+	echo 'PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"' >> conf/local.conf
+
 ```
+
+Use Case:
+---------------------------
+
 
 # Legal Notices
 

@@ -1,0 +1,35 @@
+From 24a09759e49510123d04ca34746fed3e695f889b Mon Sep 17 00:00:00 2001
+From: Jackie Huang <jackie.huang@windriver.com>
+Date: Tue, 6 Aug 2019 16:12:30 +0800
+Subject: [PATCH] expand etcd arch validation
+
+original author: Jan Chaloupka <jchaloup@redhat.com>
+
+rebased for 3.3.13
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ src/import/etcdmain/etcd.go | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/import/etcdmain/etcd.go b/src/import/etcdmain/etcd.go
+index 87e9b25..9fcde77 100644
+--- a/src/import/etcdmain/etcd.go
++++ b/src/import/etcdmain/etcd.go
+@@ -387,6 +387,13 @@ func checkSupportArch() {
+ 	if runtime.GOARCH == "amd64" || runtime.GOARCH == "ppc64le" {
+ 		return
+ 	}
++
++	if runtime.GOARCH == "arm64" || runtime.GOARCH == "s390x" {
++		plog.Warningf("Running etcd on %s architecture is experimental.", runtime.GOARCH)
++		plog.Warningf("Please report any bugs you encounter: https://bugzilla.redhat.com/")
++		return
++	}
++
+ 	// unsupported arch only configured via environment variable
+ 	// so unset here to not parse through flag
+ 	defer os.Unsetenv("ETCD_UNSUPPORTED_ARCH")
+-- 
+2.7.4
+
