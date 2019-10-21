@@ -80,6 +80,7 @@ RDEPENDS_packagegroup-stx-misc = "\
 	python-ansible \
 	python-pynacl \
 	python-psycopg2 \
+	python-daemon \
 	playbookconfig \
 	tzdata \
 	go-dep \
