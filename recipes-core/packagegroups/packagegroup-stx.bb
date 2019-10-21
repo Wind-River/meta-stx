@@ -78,12 +78,22 @@ RDEPENDS_packagegroup-stx-misc = "\
 	python-keystoneauth1 \
 	python-keystoneclient \
 	python-ansible \
+	python-pynacl \
+	python-psycopg2 \
 	playbookconfig \
 	tzdata \
 	go-dep \
+	mariadb \
 	auditd \
+	spice-html5 \
+	postgresql-setup \
+	bind-utils \
+	nscd \
+	dnsmasq \
+	platform-util \
+	namespace-utils \
+	drbd-utils \
 	"
-#	mariadb 
 
 RDEPENDS_packagegroup-stx-ceph = "\
 	ceph \
@@ -125,6 +135,7 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python-pyudev \
 	python-ldap \
 	python-configparser \
+	python-httpretty \
 	"
 #	ceph-manager \
 #	sysinv \

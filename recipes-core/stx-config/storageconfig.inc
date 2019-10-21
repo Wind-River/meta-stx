@@ -5,6 +5,7 @@ do_install_prepend () {
 	cd ${S}/storageconfig/storageconfig/
         oe_runmake GOENABLEDDIR=${D}/${sysconfdir}/goenabled.d  INITDDIR=${D}/${sysconfdir}/init.d \
 	                        SYSTEMDDIR=${D}/${systemd_system_unitdir} install
+	sed -i -e 's:/usr/local/bin/:/usr/bin/:g' ${D}/${sysconfdir}/init.d/storage_config
 }
 
 FILES_storageconfig = " \

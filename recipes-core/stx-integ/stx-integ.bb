@@ -34,10 +34,10 @@ require	stx-collector.inc
 require	stx-filesystem.inc
 require stx-ldap.inc
 require stx-logging.inc
-
-# database
-# Mariadb included from Yocto. TODO: Port relevant patches.
-
+# utilities 
+require stx-utilities.inc
+# networking
+#require stx-networking.inc
 # kernel
 
 # kubernetes
@@ -48,7 +48,6 @@ require stx-logging.inc
 
 # monitoring
 
-# networking
 
 # python
 
@@ -56,7 +55,6 @@ require stx-logging.inc
 
 # storage-drivers
 
-# utilities 
 
 # virt
 
