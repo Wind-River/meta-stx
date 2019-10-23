@@ -23,7 +23,7 @@ do_install_append () {
 }
 
 pkg_postinst_ontarget_nfscheck () {
-	/usr/bin/systemctl enable nfscheck.service
+	/bin/systemctl enable nfscheck.service
 }	
 
 FILES_nfscheck_append += " \
