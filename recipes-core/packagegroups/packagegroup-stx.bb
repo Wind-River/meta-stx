@@ -94,6 +94,9 @@ RDEPENDS_packagegroup-stx-misc = "\
 	platform-util \
 	namespace-utils \
 	drbd-utils \
+	puppet-vswitch \
+	puppetlabs-stdlib \
+	puppetlabs-mysql \
 	"
 
 RDEPENDS_packagegroup-stx-ceph = "\
