@@ -1,0 +1,62 @@
+From a859da2344e36c88f500661972083ce16c532663 Mon Sep 17 00:00:00 2001
+From: Jackie Huang <jackie.huang@windriver.com>
+Date: Tue, 6 Aug 2019 16:46:47 +0800
+Subject: [PATCH] bz1350875-disaster-recovery-with-copies
+
+original author: Jan Chaloupka <jchaloup@redhat.com>
+
+rebased for 3.3.13
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ src/import/etcdctl/ctlv2/command/backup_command.go | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/src/import/etcdctl/ctlv2/command/backup_command.go b/src/import/etcdctl/ctlv2/command/backup_command.go
+index 82e61d8..10f9961 100644
+--- a/src/import/etcdctl/ctlv2/command/backup_command.go
++++ b/src/import/etcdctl/ctlv2/command/backup_command.go
+@@ -20,6 +20,7 @@ import (
+ 	"os"
+ 	"path"
+ 	"path/filepath"
++	"strconv"
+ 	"regexp"
+ 	"time"
+ 
+@@ -47,6 +48,9 @@ func NewBackupCommand() cli.Command {
+ 			cli.StringFlag{Name: "wal-dir", Value: "", Usage: "Path to the etcd wal dir"},
+ 			cli.StringFlag{Name: "backup-dir", Value: "", Usage: "Path to the backup dir"},
+ 			cli.StringFlag{Name: "backup-wal-dir", Value: "", Usage: "Path to the backup wal dir"},
++			cli.BoolFlag{Name: "keep-cluster-id", Usage: "Do not rewrite the cluster id"},
++			cli.StringFlag{Name: "node-id", Value: "", Usage: "Use custom node id instead of a random value"},
++
+ 			cli.BoolFlag{Name: "with-v3", Usage: "Backup v3 backend data"},
+ 		},
+ 		Action: handleBackup,
+@@ -83,8 +87,20 @@ func handleBackup(c *cli.Context) error {
+ 	saveDB(filepath.Join(destSnap, "db"), filepath.Join(srcSnap, "db"), state.Commit, withV3)
+ 
+ 	idgen := idutil.NewGenerator(0, time.Now())
+-	metadata.NodeID = idgen.Next()
+-	metadata.ClusterID = idgen.Next()
++	explicitNodeId := c.String("node-id")
++	if explicitNodeId != "" {
++		var err error
++		metadata.NodeID, err = strconv.ParseUint(explicitNodeId, 16, 64)
++		if err != nil {
++			log.Fatal(err)
++		}
++	} else {
++		metadata.NodeID = idgen.Next()
++	}
++	keepClusterId := c.Bool("keep-cluster-id")
++	if !keepClusterId {
++		metadata.ClusterID = idgen.Next()
++	}
+ 
+ 	neww, err := wal.Create(destWAL, pbutil.MustMarshal(&metadata))
+ 	if err != nil {
+-- 
+2.7.4
+

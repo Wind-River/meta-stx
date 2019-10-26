@@ -16,7 +16,44 @@ PACKAGES = " \
 	packagegroup-stx-kube \
 	packagegroup-stx-misc \
 	packagegroup-stx-ceph \
+	packagegroup-stx-config \
+	packagegroup-stx-fault \
+	packagegroup-stx-ha \
+	packagegroup-stx-integ \
+	packagegroup-stx-integ-base \
+	packagegroup-stx-integ-cff \
+	packagegroup-stx-integ-puppet-modules \
+	packagegroup-stx-metal \
+	packagegroup-stx-nfv \
+	packagegroup-stx-update \
+	packagegroup-stx-upstream \
+	packagegroup-stx-integ-k8s \
+	packagegroup-stx-integ-ceph \
+	packagegroup-stx-integ-tools \
+	packagegroup-stx-integ-filesystem \
+	packagegroup-stx-integ-logging \
+	packagegroup-stx \
 	"
+
+RDEPENDS_packagegroup-stx = " \
+        packagegroup-stx-kube \
+	packagegroup-stx-misc \
+	packagegroup-stx-ceph \
+        packagegroup-stx-config \
+        packagegroup-stx-fault \
+        packagegroup-stx-ha \
+        packagegroup-stx-integ \
+        packagegroup-stx-metal \
+        packagegroup-stx-nfv \
+        packagegroup-stx-update \
+        packagegroup-stx-upstream \
+        starlingx-dashboard \
+        python-cephclient \
+        packagegroup-stx-integ-ceph \
+        packagegroup-stx-integ-tools \
+        packagegroup-stx-integ-filesystem \
+        packagegroup-stx-integ-logging \
+        "
 
 RDEPENDS_packagegroup-stx-kube = "\
 	kubernetes \
@@ -37,6 +74,29 @@ RDEPENDS_packagegroup-stx-misc = "\
 	vim-common \
 	ntp \
 	python3-pip \
+	python-keystone \
+	python-keystoneauth1 \
+	python-keystoneclient \
+	python-ansible \
+	python-pynacl \
+	python-psycopg2 \
+	python-daemon \
+	playbookconfig \
+	tzdata \
+	go-dep \
+	mariadb \
+	auditd \
+	spice-html5 \
+	postgresql-setup \
+	bind-utils \
+	nscd \
+	dnsmasq \
+	platform-util \
+	namespace-utils \
+	drbd-utils \
+	puppet-vswitch \
+	puppetlabs-stdlib \
+	puppetlabs-mysql \
 	"
 
 RDEPENDS_packagegroup-stx-ceph = "\
@@ -70,8 +130,242 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python3-tempora \
 	python3-portend \
 	python3-zc-lockfile \
+	python3-netaddr \
+	python3-keyring \
+	python3-rpm \
 	python-oslo.messaging \
+	python-keyring \
+	python-cephclient \
+	python-pyudev \
+	python-ldap \
+	python-configparser \
+	python-httpretty \
 	"
-#	tsconfig \
 #	ceph-manager \
-#	sysinv
+#	sysinv \
+# 	controllerconfig \
+# 	worker-utils 
+
+# stx-upstream /**** Port needed */
+# python-keyrings.alt
+##############
+# FIXME:
+# /usr/local/bin/puppet-manifests.sh to /usr/bin/puppet-manifests.sh in
+# 	stx-ansible/playbooks/bootstrap/roles/apply-bootstrap-manifest/tasks/main.yml
+# 
+# Add user sysinv
+# fm-api fm-common fm-rest-api
+# python-fmclient
+# cgcs-patch cgcs-patch-agent cgcs-patch-controller cgcs-users
+# python-platform-utils from stx-integ
+# python-ldap cyrus-sasl
+# python-rpm
+# sql_connection failed
+# FIXME: ./site-packages/ansible/modules/cloud/docker/docker_swarm_service.py refers to ubuntu
+# 	"engine.labels.operatingsystem == ubuntu 14.04"
+
+RDEPENDS_packagegroup-stx-config = " \
+        config-gate-worker \
+        controllerconfig \
+        puppet-manifests \
+        puppet-mtce \
+        puppet-dcdbsync \
+        puppet-patching \
+        puppet-sshd \
+        puppet-dcmanager \
+        puppet-fm \
+        puppet-nfv \
+        puppet-smapi \
+        puppet-sysinv \
+        puppet-dcorch \
+        storageconfig \
+        worker-utils \
+        workerconfig-standalone \
+        workerconfig-subfunction \
+        pm-qos-mgr \
+        sysinv \
+        cgts-client \
+        "
+
+RDEPENDS_packagegroup-stx-fault = " \
+        fm-api \
+        fm-common \
+        fm-doc \
+        fm-mgr \
+        fm-rest-api \
+        python-fmclient \
+        snmp-audittrail \
+        snmp-ext \
+        "
+
+RDEPENDS_packagegroup-stx-ha = " \
+        sm-api \
+        sm \
+        sm-client \
+        libsm-common \
+        sm-common-libs \
+        sm-db \
+        sm-tools \
+        sm-eru \
+        "
+
+RDEPENDS_packagegroup-stx-integ = " \
+        packagegroup-stx-integ-base \
+        packagegroup-stx-integ-cff \
+        packagegroup-stx-integ-k8s \
+        packagegroup-stx-integ-puppet-modules \
+        packagegroup-stx-integ-tools \
+        ldapscripts \
+        "
+
+
+#	packagegroup-stx-integ-ldap 
+
+RDEPENDS_packagegroup-stx-integ-base = " \
+	cgcs-users \
+	dhcp-config \
+	dnsmasq-config \
+	haproxy-config \
+	initscripts-config \
+	net-snmp-config \
+	openssh-config \
+	setup-config \
+	systemd-config \
+	lighttpd-config \
+	resource-agents \
+	"
+
+RDEPENDS_packagegroup-stx-integ-cff = " \
+	audit-config \
+	docker-config \
+	io-scheduler \
+	iptables-config \
+	memcached-custom \
+	ntp-config \
+	rsync-config \
+	syslog-ng-config \
+	util-linux-config \
+	pam-config  \
+	shadow-utils-config \
+	sudo-config \
+	"
+
+# TODO: resolve conflicts use bbappends instead
+#	sudo-config \
+#	shadow-utils-config 
+#	pam-config 
+
+RDEPENDS_packagegroup-stx-integ-k8s = " \
+	etcd \
+	registry-token-server \
+        "
+
+
+RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
+	puppet \
+	puppet-create-resources \
+	puppet-dnsmasq \
+	puppet-lvm \
+	puppet-boolean \
+	puppet-ldap \
+	puppet-drbd \
+	puppet-postgresql \
+	puppet-network \
+	puppet-filemapper \
+	puppet-puppi \
+	puppet-nslcd \
+	"
+#	puppet 
+
+
+# The mtce-common contains dev components only and since
+# the dev components endup in stx-metal-dev package, not 
+# adding mtce-common to packagegroup.
+
+RDEPENDS_packagegroup-stx-metal = " \
+	inventory \
+	mtce \
+	mtce-pmon \
+	mtce-hwmon \
+	mtce-hostw \
+	mtce-lmon \
+	mtce-compute \
+	mtce-control \
+	mtce-storage \
+	python-inventoryclient \
+	"
+
+RDEPENDS_packagegroup-stx-nfv = " \
+	nfv-common \
+	nfv-plugins \
+	nfv-tools \
+	nfv-vim \
+	nfv-client \
+	mtce-guestagent \
+	mtce-guestserver \
+	nova-api-proxy \
+	"
+
+RDEPENDS_packagegroup-stx-update = " \
+	cgcs-patch \
+	cgcs-patch-agent \
+	cgcs-patch-controller \
+	enable-dev-patch \
+	patch-alarm \
+	tsconfig \
+	requests-toolbelt \
+	"
+
+# TODO:
+# Port required/missing packages :
+#	openstack-helm-infra.bb
+#	openstack-helm.bb 
+#	python-horizon.bbappend
+
+RDEPENDS_packagegroup-stx-upstream = " \
+	python-barbicanclient \
+	python-cinderclient \
+	python-glanceclient \
+	python-aodhclient \
+	python-heatclient \
+	python-horizon \
+	python-ironicclient \
+	python-keystoneauth1 \
+	python-keystoneclient \
+	python-magnumclient \
+	python-muranoclient \
+	python-neutronclient \
+	python-novaclient \
+	python-openstackclient \
+	python-openstacksdk \
+	stx-ocf-scripts \
+	rabbitmq-server-config \
+	openstack-ras \
+	python-gnocchiclient \
+	python-pankoclient \
+	"
+
+#RDEPENDS_packagegroup-stx-integ-ceph = " \
+#	ceph \
+#	ceph-manager \
+#	ceph-python \
+#	python-cephclient \
+#	"
+
+RDEPENDS_packagegroup-stx-integ-tools = " \
+	collector \
+	"
+
+RDEPENDS_packagegroup-stx-integ-filesystem = " \
+	filesystem-scripts \
+	iscsi-initiator-utils-config \
+	nfscheck \
+	nfs-utils-config \
+	"
+#	TODO: Fix nfs-utils-config Conflicts. 
+
+
+RDEPENDS_packagegroup-stx-integ-logging = " \
+	logrotate-config \
+	logmgmt \
+	"

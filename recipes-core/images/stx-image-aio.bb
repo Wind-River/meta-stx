@@ -7,8 +7,13 @@ IMAGE_INSTALL_append = " \
 	packagegroup-core-full-cmdline \
 	packagegroup-core-security \
 	packagegroup-core-selinux \
-	packagegroup-stx-kube \
-	packagegroup-stx-ceph \
+	packagegroup-core-lsb \
+	packagegroup-cloud-compute \
+	packagegroup-cloud-controller \
+	packagegroup-cloud-network \
+	packagegroup-cloud-debug \
+	packagegroup-cloud-extras \
+	packagegroup-stx \
 	"
 IMAGE_FEATURES += " \
 	package-management \
@@ -16,6 +21,7 @@ IMAGE_FEATURES += " \
 	"
 
 inherit core-image
+inherit distro_features_check
 inherit openstack-base
 inherit identity
 inherit monitor
