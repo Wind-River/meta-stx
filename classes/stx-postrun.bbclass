@@ -25,6 +25,18 @@ stx_postprocess_rootfs() {
 
 	echo 'sysadmin ALL=(ALL) NOPASSWD:ALL' >> ${IMAGE_ROOTFS}/etc/sudoers
 
+	CPWD=$(pwd)
+	cd ${IMAGE_ROOTFS}/etc/rc.d/init.d
+	for srv in $(echo hbsAgent runservices mtclog mtcalarm mtcClient \
+			pmon hwmon hostw lmon guestAgent guestServer fm-api \
+			)
+	do
+		rm -f $srv
+		ln -s /etc/init.d/$srv .
+		sed -i -e 's:^DAEMON="/usr/local/bin:DAEMON="/usr/bin:g' ../../init.d/$srv
+	done
+	cd $CPWD
+
 	cat > ${IMAGE_ROOTFS}/etc/build.info << \EOF
 OS="poky"
 SW_VERSION="19.01"
