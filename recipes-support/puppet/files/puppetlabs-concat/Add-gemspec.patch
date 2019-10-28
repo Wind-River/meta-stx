@@ -1,0 +1,15 @@
+--- /dev/null	2019-10-23 20:19:32.602763995 -0700
++++ b/puppetlabs-concat.gemspec	2019-10-28 14:05:25.733528380 -0700
+@@ -0,0 +1,12 @@
++Gem::Specification.new do |s|
++  s.name        = 'puppetlabs-concat'
++  s.version     = '2.2.0'
++  s.date        = '2016-06-27'
++  s.summary     = "Construct files from multiple fragments."
++  s.description = s.summary
++  s.authors     = ["Puppet Labs"]
++  s.email       = ''
++  s.files       = %w(LICENSE) + Dir.glob('{lib,spec}/**/*')
++  s.homepage    = 'https://github.com/derekhiggins/puppet-vlan.git'
++  s.license     = 'Apache 2.0'
++ end

@@ -60,8 +60,12 @@ EXTRA_OECONF = " \
 
 RDEPENDS_${PN} += "bash perl-module-getopt-long perl-module-exporter perl-module-constant perl-module-overloading perl-module-exporter-heavy"
 
+do_install_append() {
+	rm -rf ${D}/var/lock
+}
+
 FILES_${PN} = "\
-	/var \
+	/var/lib/drbd \
 	/run \
 	${base_sbindir}/drbdsetup \
 	${base_sbindir}/drbdadm \
