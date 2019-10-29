@@ -23,6 +23,7 @@ PACKAGES = " \
 	packagegroup-stx-integ-base \
 	packagegroup-stx-integ-cff \
 	packagegroup-stx-integ-puppet-modules \
+	packagegroup-stx-puppet \
 	packagegroup-stx-metal \
 	packagegroup-stx-nfv \
 	packagegroup-stx-update \
@@ -94,9 +95,35 @@ RDEPENDS_packagegroup-stx-misc = "\
 	platform-util \
 	namespace-utils \
 	drbd-utils \
-	puppet-vswitch \
+	grubby \
+	"
+
+RDEPENDS_packagegroup-stx-puppet = "\
+	puppetlabs-concat \
+	puppet-openstacklib \
+	puppetlabs-haproxy \
+	puppet-vlan \
+	puppetlabs-firewall \
+	puppet-barbican \
+	puppet-nssdb \
+	puppetlabs-apache \
+	puppetlabs-rabbitmq \
+	puppet-keystone \
+	puppet-ceph \
+	puppet-etcd \
+	puppet-kmod \
+	puppet-create-resources \
+	puppetlabs-inifile \
+	puppet-staging \
+	puppet-oslo \
+	puppet-sysctl \
+	puppet-memcached \
+	puppet-horizon \
+	puppet-certmonger \
 	puppetlabs-stdlib \
 	puppetlabs-mysql \
+	puppet-collectd \
+	puppet-vswitch \
 	"
 
 RDEPENDS_packagegroup-stx-ceph = "\
