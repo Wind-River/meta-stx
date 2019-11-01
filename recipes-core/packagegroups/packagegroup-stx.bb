@@ -97,6 +97,7 @@ RDEPENDS_packagegroup-stx-misc = "\
 	grubby \
 	grub \
 	grub-efi \
+	hiera \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
