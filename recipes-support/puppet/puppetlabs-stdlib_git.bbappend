@@ -1,12 +1,24 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+SRCREV = "f2492ee916c1c8e0345514045432c4a049674029"
+PROTOCOL = "https"
+BRANCH = "master"
+S = "${WORKDIR}/git"
+PV = "4.13.1"
+
+SRC_URI = " \
+    git://github.com/puppetlabs/puppetlabs-stdlib.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+        file://puppetlabs-stdlib/Add-gemspec.patch \
+	"
 # FIXME: 
 # For now this is a Workaround to not install broken links; otherwise the package strip and split fails.
 
 do_install_append () {
-	rm -rf ${D}/usr/lib/ruby/gems/2.5.0/gems/puppetlabs-stdlib-4.10.0/spec/fixtures/modules/stdlib/manifests
-	rm -rf ${D}/usr/lib/ruby/gems/2.5.0/gems/puppetlabs-stdlib-4.10.0/spec/fixtures/modules/stdlib/lib
-	cp -r ${S}/manifests \
-		${D}/usr/lib/ruby/gems/2.5.0/gems/puppetlabs-stdlib-4.10.0/spec/fixtures/modules/stdlib/
-	cp -r ${S}/lib \
-		${D}/usr/lib/ruby/gems/2.5.0/gems/puppetlabs-stdlib-4.10.0/spec/fixtures/modules/stdlib/
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/stdlib
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/stdlib
 }
+
+FILES_${PN} += " ${datadir}"

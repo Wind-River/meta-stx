@@ -10,7 +10,8 @@ BRANCH = "master"
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/rcritten/puppet-nssdb.git;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
-	file://puppet-nssdb/Add-gemspec.patch \
+	file://${PN}/Add-gemspec.patch \
+	file://${PN}/metadata.json.patch \
 	"
 
 inherit ruby
@@ -29,5 +30,8 @@ RDEPENDS_${PN} += " \
 RUBY_INSTALL_GEMS = "puppet-nssdb-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/nssdb
+	cp -R ${S}/* ${D}/${datadir}/puppet/modules/nssdb
 }
+
+FILES_${PN} += " ${datadir}"

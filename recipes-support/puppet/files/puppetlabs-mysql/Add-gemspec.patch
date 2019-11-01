@@ -1,11 +1,11 @@
---- /dev/null	2019-10-23 20:19:32.602763995 -0700
-+++ b/puppetlabs-mysql.gemspec	2019-10-24 18:37:03.348286718 -0700
+--- /dev/null	2019-10-28 19:50:04.372284581 -0700
++++ b/puppetlabs-mysql.gemspec	2019-10-31 11:20:18.066704740 -0700
 @@ -0,0 +1,12 @@
 +Gem::Specification.new do |s|
 +  s.name        = 'puppetlabs-mysql'
-+  s.version     = '10.2.0'
++  s.version     = '3.11.0'
 +  s.date        = '2019-09-24'
-+  s.summary     = "Puppet Labs myql module"
++  s.summary     = "Installs, configures, and manages the MySQL service."
 +  s.description = s.summary
 +  s.authors     = ["Puppet Labs"]
 +  s.email       = ''

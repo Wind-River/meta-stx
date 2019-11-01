@@ -36,5 +36,8 @@ RDEPENDS_${PN} += " \
 RUBY_INSTALL_GEMS = "puppet-memcached-${PV}.gem"
 
 do_install_append() { 
-	:
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/memcached
+	cp -R ${S}/* ${D}/${datadir}/puppet/modules/memcached
 }
+
+FILES_${PN} += " ${datadir}"

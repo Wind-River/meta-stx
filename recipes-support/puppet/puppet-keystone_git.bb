@@ -34,5 +34,8 @@ RDEPENDS_${PN} += " \
 RUBY_INSTALL_GEMS = "puppet-keystone-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/keystone
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/keystone
 }
+
+FILES_${PN} += " ${datadir}"

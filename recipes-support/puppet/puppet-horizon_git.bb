@@ -35,4 +35,9 @@ RDEPENDS_${PN} += " \
 
 RUBY_INSTALL_GEMS = "puppet-horizon-${PV}.gem"
 
-# do_install_append() { : }
+do_install_append() { 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/horizon
+	cp -R ${S}/* ${D}/${datadir}/puppet/modules/horizon
+}
+
+FILES_${PN} += " ${datadir}"

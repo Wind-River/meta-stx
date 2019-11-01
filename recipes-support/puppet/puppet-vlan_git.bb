@@ -10,7 +10,8 @@ BRANCH = "master"
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/derekhiggins/puppet-vlan.git;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
-	file://puppet-vlan/Add-gemspec.patch \
+	file://${PN}/Add-gemspec.patch \
+	file://${PN}/metadata.json.patch \
 	"
 
 inherit ruby
@@ -26,9 +27,11 @@ RDEPENDS_${PN} += " \
 	puppet \
 	"
 
-RUBY_INSTALL_GEMS = "puppet-vlan-${PV}.gem"
+RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/vlan
+	cp -R ${S}/* ${D}/${datadir}/puppet/modules/vlan
 }
 
+FILES_${PN} += " ${datadir}"
