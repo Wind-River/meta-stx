@@ -22,7 +22,7 @@ SRC_URI = "git://opendev.org/starlingx/integ.git;protocol=${PROTOCOL};rev=${SRCR
 
 RDEPENDS_${PN}_append = " \
 	puppet-boolean \
-	puppet-create-resources \
+	puppetlabs-create-resources \
 	puppet-dnsmasq \
 	"
 
