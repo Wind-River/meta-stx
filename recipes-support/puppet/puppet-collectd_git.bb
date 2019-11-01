@@ -10,7 +10,7 @@ BRANCH = "master"
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/voxpupuli/puppet-collectd;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
-	file://puppet-collectd/Add-gemspec.patch \
+	file://${PN}/Add-gemspec.patch \
 	"
 
 inherit ruby
@@ -26,8 +26,12 @@ RDEPENDS_${PN} += " \
 	puppet \
 	"
 
-RUBY_INSTALL_GEMS = "puppet-collectd-${PV}.gem"
+RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
+
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/collectd
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/collectd
 }
+
+FILES_${PN} += " ${datadir}"

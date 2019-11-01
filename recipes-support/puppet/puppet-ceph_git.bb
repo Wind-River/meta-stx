@@ -39,5 +39,8 @@ RDEPENDS_${PN} += " \
 RUBY_INSTALL_GEMS = "puppet-ceph-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/ceph
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/ceph
 }
+
+FILES_${PN} += " ${datadir}"

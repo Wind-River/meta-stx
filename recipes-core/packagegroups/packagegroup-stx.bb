@@ -81,6 +81,7 @@ RDEPENDS_packagegroup-stx-misc = "\
 	python-ansible \
 	python-pynacl \
 	python-psycopg2 \
+	python-voluptuous \
 	python-daemon \
 	playbookconfig \
 	tzdata \
@@ -96,6 +97,8 @@ RDEPENDS_packagegroup-stx-misc = "\
 	namespace-utils \
 	drbd-utils \
 	grubby \
+	grub \
+	grub-efi \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -112,7 +115,7 @@ RDEPENDS_packagegroup-stx-puppet = "\
 	puppet-ceph \
 	puppet-etcd \
 	puppet-kmod \
-	puppet-create-resources \
+	puppetlabs-create-resources \
 	puppetlabs-inifile \
 	puppet-staging \
 	puppet-oslo \
@@ -290,13 +293,13 @@ RDEPENDS_packagegroup-stx-integ-k8s = " \
 
 RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
 	puppet \
-	puppet-create-resources \
+	puppetlabs-create-resources \
 	puppet-dnsmasq \
-	puppet-lvm \
+	puppetlabs-lvm \
 	puppet-boolean \
 	puppet-ldap \
 	puppet-drbd \
-	puppet-postgresql \
+	puppetlabs-postgresql \
 	puppet-network \
 	puppet-filemapper \
 	puppet-puppi \

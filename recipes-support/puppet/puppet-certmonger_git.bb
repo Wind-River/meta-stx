@@ -32,5 +32,8 @@ RDEPENDS_${PN} += " \
 RUBY_INSTALL_GEMS = "puppet-certmonger-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/certmonger
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/certmonger
 }
+
+FILES_${PN} += " ${datadir}"

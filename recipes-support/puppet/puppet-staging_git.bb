@@ -9,7 +9,8 @@ PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/nanliu/puppet-staging;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
+SRC_URI = " \
+	git://github.com/nanliu/puppet-staging;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
 	file://puppet-staging/Add-gemspec.patch \
 	"
 
@@ -26,8 +27,12 @@ RDEPENDS_${PN} += " \
 	puppet \
 	"
 
-RUBY_INSTALL_GEMS = "puppet-staging-${PV}.gem"
+RUBY_BUILD_GEMS = "nanliu-staging.gemspec"
+RUBY_INSTALL_GEMS = "nanliu-staging-${PV}.gem"
 
 do_install_append() {
-	: 
+	install -d -m 0755 ${D}/${datadir}/puppet/modules/staging
+	cp -r ${S}/* ${D}/${datadir}/puppet/modules/staging
 }
+
+FILES_${PN} += " ${datadir}"
