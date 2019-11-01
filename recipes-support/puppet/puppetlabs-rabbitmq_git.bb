@@ -18,7 +18,6 @@ SRC_URI = "git://github.com/puppetlabs/puppetlabs-rabbitmq;protocol=${PROTOCOL};
 	file://puppetlabs-rabbitmq/0005-Remove-the-rabbitmq_nodename-fact.patch \
 	file://puppetlabs-rabbitmq/0006-Set-rabbitmq-dependency-to-nanliu-staging.patch \
 	"
-
 inherit ruby
 
 DEPENDS += " \
