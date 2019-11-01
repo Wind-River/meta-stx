@@ -1,5 +1,8 @@
 PACKAGES += " sysinv"
 
+RDEPENDS_sysinv += " python"
+RDEPENDS_sysinv += " bash"
+
 do_configure_prepend() {
 	echo "Configure sysinv..."
 	cd ${S}/sysinv/sysinv/sysinv
@@ -21,6 +24,38 @@ do_install_prepend() {
 	install -p -D -m 755 ${S}/sysinv/sysinv-agent/sysinv-agent ${D}/${sysconfdir}/init.d/sysinv-agent
 	install -p -D -m 644 ${S}/sysinv/sysinv-agent/sysinv-agent.conf ${D}/${sysconfdir}/pmon.d/sysinv-agent.conf
 	install -p -D -m 644 ${S}/sysinv/sysinv-agent/sysinv-agent.service ${D}/${systemd_system_unitdir}/sysinv-agent.service
+
+	install -d -m 755 ${D}${sysconfdir}/goenabled.d
+	install -p -D -m 755 etc/sysinv/sysinv_goenabled_check.sh ${D}${sysconfdir}/goenabled.d/sysinv_goenabled_check.sh
+	
+	install -d -m 755 ${D}${sysconfdir}/sysinv
+	install -p -D -m 755 etc/sysinv/policy.json ${D}${sysconfdir}/sysinv/policy.json
+	install -p -D -m 640 etc/sysinv/profileSchema.xsd ${D}${sysconfdir}/sysinv/profileSchema.xsd
+	
+	install -p -D -m 644 etc/sysinv/crushmap-storage-model.txt ${D}${sysconfdir}/sysinv/crushmap-storage-model.txt
+	install -p -D -m 644 etc/sysinv/crushmap-controller-model.txt ${D}${sysconfdir}/sysinv/crushmap-controller-model.txt
+	install -p -D -m 644 etc/sysinv/crushmap-aio-sx.txt ${D}${sysconfdir}/sysinv/crushmap-aio-sx.txt
+	
+	install -d -m 755 ${D}${sysconfdir}/motd.d
+	install -p -D -m 755 etc/sysinv/motd-system ${D}${sysconfdir}/motd.d/10-system
+	
+	install -d -m 755 ${D}${sysconfdir}/sysinv/upgrades
+	install -p -D -m 755 etc/sysinv/delete_load.sh ${D}${sysconfdir}/sysinv/upgrades/delete_load.sh
+	
+	install -m 755 -p -D scripts/sysinv-api ${D}/usr/lib/ocf/resource.d/platform/sysinv-api
+	install -m 755 -p -D scripts/sysinv-conductor ${D}/usr/lib/ocf/resource.d/platform/sysinv-conductor
+	
+	install -m 644 -p -D scripts/sysinv-api.service ${D}${systemd_system_unitdir}/sysinv-api.service
+	install -m 644 -p -D scripts/sysinv-conductor.service ${D}${systemd_system_unitdir}/sysinv-conductor.service
+	
+	#install -p -D -m 755 ${D}/usr/bin/sysinv-api ${D}/usr/bin/sysinv-api
+	#install -p -D -m 755 ${D}/usr/bin/sysinv-agent ${D}/usr/bin/sysinv-agent
+	#install -p -D -m 755 ${D}/usr/bin/sysinv-conductor ${D}/usr/bin/sysinv-conductor
+	
+	install -d -m 755 ${D}${bindir}/
+	install -p -D -m 755 sysinv/cmd/partition_info.sh ${D}${bindir}/partition_info.sh
+	install -p -D -m 755 sysinv/cmd/manage-partitions ${D}${bindir}/manage-partitions
+	install -p -D -m 755 sysinv/cmd/query_pci_id ${D}${bindir}/query_pci_id
 }
 
 FILES_sysinv = " \
@@ -38,4 +73,24 @@ FILES_sysinv = " \
 	${sysconfdir}/pmon.d/sysinv-agent.conf \
 	${sysconfdir}/init.d/sysinv-agent \
 	${libdir}/python2.7/site-packages/sysinv/ \
+	${bindir}/manage-partitions \
+	${bindir}/query_pci_id \
+	${bindir}/partition_info.sh \
+	${libdir}/ocf \
+	${libdir}/ocf/resource.d \
+	${libdir}/ocf/resource.d/platform \
+	${libdir}/ocf/resource.d/platform/sysinv-conductor \
+	${libdir}/ocf/resource.d/platform/sysinv-api \
+	${sysconfdir}/motd.d \
+	${sysconfdir}/sysinv \
+	${sysconfdir}/motd.d/10-system \
+	${sysconfdir}/sysinv/profileSchema.xsd \
+	${sysconfdir}/sysinv/crushmap-controller-model.txt \
+	${sysconfdir}/sysinv/crushmap-storage-model.txt \
+	${sysconfdir}/sysinv/crushmap-aio-sx.txt \
+	${sysconfdir}/sysinv/policy.json \
+	${sysconfdir}/sysinv/upgrades \
+	${sysconfdir}/sysinv/upgrades/delete_load.sh \
+	${systemd_system_unitdir}/sysinv-api.service \
+	${systemd_system_unitdir}/sysinv-conductor.service \
 	"
