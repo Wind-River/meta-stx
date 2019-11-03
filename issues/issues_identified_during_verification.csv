@@ -2,7 +2,6 @@ Type,name,description,note,status
 pkgs,puppet-avs-1.0.0-11.tis.noarch,,,
 pkgs,puppet-4.8.2-1.el7.tis.2.noarch,,,
 other,Enable operationgsystem related facter variables,treat yocto(poky) as centos,1. add_poky_lsbdistid.diff 2. /etc/redhat-release,
-other,/usr/bin/systemctl is assumed in puppet files,"in current yocto /bin/systemctl path is used, like: ./platform/manifests/ptp.pp:      command => '/usr/bin/systemctl disable ptp4l.service',",,
 pkgs,openldap-clients-2.4.44-20.el7.tis.9.x86_64,,,
 pkgs,openldap-config-1.0-0.tis.noarch,,,
 pkgs,openldap-servers-2.4.44-20.el7.tis.9.x86_64,,,
@@ -31,3 +30,5 @@ pkgs,libgssapi-krb5-2-1.16.1-r0.corei7_64.rpm,,,
 pkgs,libkrb5-3-1.16.1-r0.corei7_64.rpm,,,
 pkgs,libgssapi-krb5-2-1.16.1-r0.corei7_64.rpm,,,
 pkgs,ldapscripts-2.0.8-r0.corei7_64.rpm,"And in STX ldapscripts package, ¡®/usr/local/etc/ldapscripts/ldapscripts.passwd¡¯ is assumed, but in Yocto, ¡®/etc/ldapscripts.passwd¡¯, it looks like a prefix problem again.",,
+pkgs,mlx4-config
+pkgs,slapd
