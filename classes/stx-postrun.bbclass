@@ -1,9 +1,17 @@
+# This class is intended to include workarounds and finetuning of the rootfs
+# Most of the stuff in here needs to go else where.
 
 ROOTFS_POSTPROCESS_COMMAND_append = " stx_postprocess_rootfs;"
 ETHDEV = "enp0s4"
 
 stx_postprocess_rootfs() {
+
+	# Fix permission issues in python-httpretty
 	chmod -R go+r ${IMAGE_ROOTFS}/usr/lib/python2.7/site-packages/httpretty-0.9.5-py2.7.egg-info
+
+	# Fix paths
+	ln -s /bin/systemctl ${IMAGE_ROOTFS}/${bindir}
+
 	sed -i -e 's/^\(ExecStartPre.*gencert.sh\)/#\1/g' ${IMAGE_ROOTFS}/lib/systemd/system/haproxy.service
 	mkdir -p ${IMAGE_ROOTFS}/usr/share/haproxy
 	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/haproxy.service
