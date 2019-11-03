@@ -2,7 +2,6 @@ Type,name,description,note,status
 pkgs,puppet-avs-1.0.0-11.tis.noarch,,,
 pkgs,puppet-4.8.2-1.el7.tis.2.noarch,,,
 pkgs,hiera-1.3.4-5.el7.noarch,,,
-other,modprobe is not visible,"modprobe binary is put /sbin/modprobe, but /sbin is not in PATH env",,
 other,Enable operationgsystem related facter variables,treat yocto(poky) as centos,1. add_poky_lsbdistid.diff 2. /etc/redhat-release,
 other,/usr/bin/systemctl is assumed in puppet files,"in current yocto /bin/systemctl path is used, like: ./platform/manifests/ptp.pp:      command => '/usr/bin/systemctl disable ptp4l.service',",,
 pkgs,openldap-clients-2.4.44-20.el7.tis.9.x86_64,,,
