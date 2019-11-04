@@ -7,8 +7,6 @@ PR = "r0"
 #
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-
-
 inherit packagegroup
 
 PROVIDES = "${PACKAGES}"
@@ -22,7 +20,6 @@ PACKAGES = " \
 	packagegroup-stx-integ \
 	packagegroup-stx-integ-base \
 	packagegroup-stx-integ-cff \
-	packagegroup-stx-integ-puppet-modules \
 	packagegroup-stx-puppet \
 	packagegroup-stx-metal \
 	packagegroup-stx-nfv \
@@ -48,6 +45,7 @@ RDEPENDS_packagegroup-stx = " \
         packagegroup-stx-nfv \
         packagegroup-stx-update \
         packagegroup-stx-upstream \
+	packagegroup-stx-puppet \
         starlingx-dashboard \
         python-cephclient \
         packagegroup-stx-integ-ceph \
@@ -99,9 +97,11 @@ RDEPENDS_packagegroup-stx-misc = "\
 	grubby \
 	grub \
 	grub-efi \
+	hiera \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
+	puppet \
 	puppetlabs-concat \
 	puppet-openstacklib \
 	puppetlabs-haproxy \
@@ -115,7 +115,6 @@ RDEPENDS_packagegroup-stx-puppet = "\
 	puppet-ceph \
 	puppet-etcd \
 	puppet-kmod \
-	puppetlabs-create-resources \
 	puppetlabs-inifile \
 	puppet-staging \
 	puppet-oslo \
@@ -127,6 +126,17 @@ RDEPENDS_packagegroup-stx-puppet = "\
 	puppetlabs-mysql \
 	puppet-collectd \
 	puppet-vswitch \
+	puppetlabs-create-resources \
+	puppet-dnsmasq \
+	puppetlabs-lvm \
+	puppet-boolean \
+	puppet-ldap \
+	puppet-drbd \
+	puppetlabs-postgresql \
+	puppet-network \
+	puppet-filemapper \
+	puppet-puppi \
+	puppet-nslcd \
 	"
 
 RDEPENDS_packagegroup-stx-ceph = "\
@@ -243,7 +253,6 @@ RDEPENDS_packagegroup-stx-integ = " \
         packagegroup-stx-integ-base \
         packagegroup-stx-integ-cff \
         packagegroup-stx-integ-k8s \
-        packagegroup-stx-integ-puppet-modules \
         packagegroup-stx-integ-tools \
         ldapscripts \
         "
@@ -289,24 +298,6 @@ RDEPENDS_packagegroup-stx-integ-k8s = " \
 	etcd \
 	registry-token-server \
         "
-
-
-RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
-	puppet \
-	puppetlabs-create-resources \
-	puppet-dnsmasq \
-	puppetlabs-lvm \
-	puppet-boolean \
-	puppet-ldap \
-	puppet-drbd \
-	puppetlabs-postgresql \
-	puppet-network \
-	puppet-filemapper \
-	puppet-puppi \
-	puppet-nslcd \
-	"
-#	puppet 
-
 
 # The mtce-common contains dev components only and since
 # the dev components endup in stx-metal-dev package, not 
