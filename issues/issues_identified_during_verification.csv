@@ -1,11 +1,7 @@
 Type,name,description,note,status
 pkgs,puppet-avs-1.0.0-11.tis.noarch,,,
 pkgs,puppet-4.8.2-1.el7.tis.2.noarch,,,
-pkgs,openldap-clients-2.4.44-20.el7.tis.9.x86_64,,,
-pkgs,openldap-config-1.0-0.tis.noarch,,,
-pkgs,openldap-servers-2.4.44-20.el7.tis.9.x86_64,,,
 pkgs,nss-pam-ldapd-0.8.13-16.el7.x86_64,,,
-pkgs,openldap-2.4.44-20.el7.tis.9.x86_64,,,
 pkgs,python2-ldappool-2.1.0-1.el7.noarch,,,
 pkgs,nscd,,,
 pkgs,pxe-network-installer-1.0-28.tis.x86_64? ,"if we target AIO simplex as a temporary goal, we can skip it for now, but bootstrap relies on directory of /pxeboot/ which is created by this package",,
@@ -27,4 +23,3 @@ pkgs,libkrb5-3-1.16.1-r0.corei7_64.rpm,,,
 pkgs,libgssapi-krb5-2-1.16.1-r0.corei7_64.rpm,,,
 pkgs,ldapscripts-2.0.8-r0.corei7_64.rpm,"And in STX ldapscripts package, ¡®/usr/local/etc/ldapscripts/ldapscripts.passwd¡¯ is assumed, but in Yocto, ¡®/etc/ldapscripts.passwd¡¯, it looks like a prefix problem again.",,
 pkgs,mlx4-config
-pkgs,slapd
