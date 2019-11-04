@@ -45,6 +45,11 @@ stx_postprocess_rootfs() {
 	done
 	cd $CPWD
 
+	# Fake being redhat for dev purpose only. This must be removed 
+	cat > ${IMAGE_ROOTFS}/etc/redhat-release << \EOF
+CentOS Linux release 7.3.1611 (Core)
+EOF
+
 	cat > ${IMAGE_ROOTFS}/etc/build.info << \EOF
 OS="poky"
 SW_VERSION="19.01"
