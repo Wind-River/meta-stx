@@ -1,7 +1,7 @@
 From c4906ff521df3f1c9fc4a302300fc135447ee40a Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:38:21 -0800
-Subject: [PATCH 07/19] openldap userconfig setgid
+Subject: [PATCH 07/20] openldap userconfig setgid
 
 From Stx 1901: openldap-userconfig-setgid.patch
 

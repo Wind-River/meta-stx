@@ -1,7 +1,7 @@
 From b7f7a583e8a63b1787c3a98f4c43ccbb6c3e39df Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:36:48 -0800
-Subject: [PATCH 06/19] openldap ldaprc currentdir
+Subject: [PATCH 06/20] openldap ldaprc currentdir
 
 From Stx 1901: openldap-ldaprc-currentdir.patch
 

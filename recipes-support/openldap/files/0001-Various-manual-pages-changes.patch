@@ -1,7 +1,7 @@
 From 462675a5b797afb411de4506425f12ac6ebdf56a Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:28:29 -0800
-Subject: [PATCH 01/19] Various manual pages changes:
+Subject: [PATCH 01/20] Various manual pages changes:
 
 remove LIBEXECDIR from slapd.8
 remove references to non-existing manpages (bz 624616)

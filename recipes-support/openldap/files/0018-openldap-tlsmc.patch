@@ -1,7 +1,7 @@
 From 35b08487213749c6da625a446f605b6e7f74d07f Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 15:24:11 -0800
-Subject: [PATCH 18/19] openldap tlsmc
+Subject: [PATCH 18/20] openldap tlsmc
 
 From Stx 1901: openldap-tlsmc.patch
 ---

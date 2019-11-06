@@ -27,7 +27,10 @@ SRC_URI += " \
 	file://0016-openldap-man-ldap-conf.patch \
 	file://0017-openldap-bdb_idl_fetch_key-correct-key-pointer.patch \
 	file://0018-openldap-tlsmc.patch \
-	file://0019-openldap-fedora-systemd.patch \
+	file://0019-openldap-openssl-ITS7596-Add-EC-support.patch \
+	file://0020-openldap-openssl-ITS7596-Add-EC-support-patch-2.patch \
+	file://0021-openldap-and-stx-source-and-config-files.patch \
+	file://0022-ltb-project-openldap-ppolicy-check-password-1.1.patch \
 	"
 
 inherit pkgconfig
@@ -40,6 +43,8 @@ DEPENDS += " \
 	mariadb-native \
 	libtirpc \
 	"
+
+RDEPENDS_${PN}_append = " bash"
 
 
 # Defaults:
@@ -94,12 +99,47 @@ do_configure_append () {
    ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/{sha2.{c,h},slapd-sha2.c} servers/slapd/overlays
 }
 
+
 # If liblmdb is needed, then patch the Makefile
 #do_compile_append () {
-#   cd ${S}/libraries/liblmdb
+#   cd ${S}/ltb-project-openldap-ppolicy-check-password-1.1
 #   oe_runmake
 #}
 
-FILES_${PN}_append = " ${libexecdir}/openldap/*"
+do_install_append () {
+	
+	# For this we need to build ltb-project-openldap
+	#install -m 755 check_password.so.%{check_password_version} %{buildroot}%{_libdir}/openldap/
 
+	cd ${S}/stx-sources
+	install -m 0755 -d ${D}/var/run/openldap
+	install -m 0755 -d ${D}/${sysconfdir}/tmpfiles.d
+	install -m 0755 ${S}/stx-sources/slapd.tmpfiles ${D}/${sysconfdir}/tmpfiles.d/slapd.conf 
+	install -m 0755 ${S}/stx-sources/openldap.tmpfiles ${D}/${sysconfdir}/tmpfiles.d/openldap.conf 
+	install -m 0755 ${S}/stx-sources/ldap.conf ${D}/${sysconfdir}/tmpfiles.d/ldap.conf 
 
+	install -m 0644 libexec-functions ${D}/${libexecdir}/openldap/functions
+	install -m 0755 libexec-convert-config.sh ${D}/${libexecdir}/openldap/convert-config.sh
+	install -m 0755 libexec-check-config.sh ${D}/${libexecdir}/openldap/check-config.sh
+	install -m 0755 libexec-upgrade-db.sh ${D}/${libexecdir}/openldap/upgrade-db.sh
+
+	install -m 0755 libexec-create-certdb.sh ${D}/${libexecdir}/openldap/create-certdb.sh
+	install -m 0755 libexec-generate-server-cert.sh ${D}/${libexecdir}/openldap/generate-server-cert.sh
+	install -m 0755 libexec-update-ppolicy-schema.sh ${D}/${libexecdir}/openldap/update-ppolicy-schema.sh
+
+	install -m 0644  slapd.service ${D}/${systemd_unitdir}/stx-slapd.service
+	install -m 0755 -d ${D}/${sysconfdir}/sysconfig
+	install -m 0644 slapd.sysconfig ${D}/${sysconfdir}/sysconfig/slapd.sysconfig
+	install -m 0755 -d ${D}/${datadir}/openldap-servers
+	install -m 0644 slapd.ldif ${D}/${datadir}/openldap-servers/slapd.ldif
+	install -m 0750 -d ${D}/${sysconfdir}/openldap/slapd.d
+}
+
+FILES_${PN}_append = " \
+		${datadir}/openldap-servers/ \
+		${libexecdir}/openldap/ \
+		/run/openldap \
+		${sysconfdir}/sysconfig \
+		${sysconfdir}/tmpfiles.d \
+		${systemd_unitdir}/stx-slapd.service \
+		"

@@ -1,7 +1,7 @@
 From 35907952c646b971ba5b14002db2aac8d2324f21 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:30:27 -0800
-Subject: [PATCH 02/19] Correct log levels in ppolicy overlay
+Subject: [PATCH 02/20] Correct log levels in ppolicy overlay
 
 From STX 1901 openldap-ppolicy-loglevels.patch
 ---

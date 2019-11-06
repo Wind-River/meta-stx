@@ -1,7 +1,7 @@
 From 75e89e30c2ef819169b5f77b0ac8d450271f516b Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:35:23 -0800
-Subject: [PATCH 05/19] openldap smbk5pwd overlay
+Subject: [PATCH 05/20] openldap smbk5pwd overlay
 
 Compile smbk5pwd together with other overlays.
 

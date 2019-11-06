@@ -1,7 +1,7 @@
 From 6fcc222021258cf00cef05bdc487c614c33ab371 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:44:05 -0800
-Subject: [PATCH 10/19] openldap ai addrconfig
+Subject: [PATCH 10/20] openldap ai addrconfig
 
 From stx 1901: openldap-ai-addrconfig.patch
 use AI_ADDRCONFIG if defined in the environment

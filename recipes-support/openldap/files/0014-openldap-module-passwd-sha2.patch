@@ -1,7 +1,7 @@
 From 1281efe5b451e0fd030406bc68be9d1f9356adc5 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:55:58 -0800
-Subject: [PATCH 14/19] openldap module passwd sha2
+Subject: [PATCH 14/20] openldap module passwd sha2
 
 From Stx 1901: openldap-module-passwd-sha2.patch
 Include sha2 module

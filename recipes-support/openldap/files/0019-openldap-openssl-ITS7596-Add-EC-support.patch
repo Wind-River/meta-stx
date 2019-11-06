@@ -1,15 +1,26 @@
-ITS#7595 Add Elliptic Curve support for OpenSSL
+From dc82cdf9c6c25c69c7eee203d1c4f4c91f969ba9 Mon Sep 17 00:00:00 2001
+From: babak sarashki <babak.sarashki@windriver.com>
+Date: Tue, 5 Nov 2019 09:30:49 -0800
+Subject: [PATCH 19/20] openldap openssl ITS7596 Add EC support
 
-Cherry-picked upstream e631ce808ed56119e61321463d06db7999ba5a08
-Author:    Howard Chu <hyc@openldap.org>
-Date:      Sat Sep 7 09:47:19 2013 -0700
+From e631ce808ed56119e61321463d06db7999ba5a08
+From stx 1901 openldap-openssl-ITS7595-Add-EC-support-1.patch
+---
+ doc/man/man5/slapd-config.5  |  7 +++++++
+ doc/man/man5/slapd.conf.5    |  7 +++++++
+ include/ldap.h               |  1 +
+ libraries/libldap/ldap-int.h |  2 ++
+ libraries/libldap/tls2.c     | 17 +++++++++++++++++
+ libraries/libldap/tls_o.c    | 33 ++++++++++++++++++++++++++++++---
+ servers/slapd/bconfig.c      | 12 +++++++++++-
+ 7 files changed, 75 insertions(+), 4 deletions(-)
 
 diff --git a/doc/man/man5/slapd-config.5 b/doc/man/man5/slapd-config.5
-index 49a3959ae..9cd0a4dd1 100644
+index 42032d4..733ff1e 100644
 --- a/doc/man/man5/slapd-config.5
 +++ b/doc/man/man5/slapd-config.5
-@@ -918,6 +918,13 @@ from the default, otherwise no certificate exchanges or verification will
- be done. When using GnuTLS or Mozilla NSS these parameters are always generated randomly
+@@ -922,6 +922,13 @@ are not used.
+ When using Mozilla NSS these parameters are always generated randomly
  so this directive is ignored.
  .TP
 +.B olcTLSECName: <name>
@@ -23,12 +34,12 @@ index 49a3959ae..9cd0a4dd1 100644
  Specifies minimum SSL/TLS protocol version that will be negotiated.
  If the server doesn't support at least that version,
 diff --git a/doc/man/man5/slapd.conf.5 b/doc/man/man5/slapd.conf.5
-index e2344547e..4eb238162 100644
+index 2d4431f..ffe74ff 100644
 --- a/doc/man/man5/slapd.conf.5
 +++ b/doc/man/man5/slapd.conf.5
-@@ -1149,6 +1149,13 @@ from the default, otherwise no certificate exchanges or verification will
- be done. When using GnuTLS these parameters are always generated randomly so
- this directive is ignored.  This directive is ignored when using Mozilla NSS.
+@@ -1153,6 +1153,13 @@ are not used.
+ When using Mozilla NSS these parameters are always generated randomly
+ so this directive is ignored.
  .TP
 +.B TLSECName <name>
 +Specify the name of a curve to use for Elliptic curve Diffie-Hellman
@@ -41,7 +52,7 @@ index e2344547e..4eb238162 100644
  Specifies minimum SSL/TLS protocol version that will be negotiated.
  If the server doesn't support at least that version,
 diff --git a/include/ldap.h b/include/ldap.h
-index d4d10fa79..9922c9fa8 100644
+index 7bc0644..bb22cb8 100644
 --- a/include/ldap.h
 +++ b/include/ldap.h
 @@ -158,6 +158,7 @@ LDAP_BEGIN_DECL
@@ -53,7 +64,7 @@ index d4d10fa79..9922c9fa8 100644
  
  #define LDAP_OPT_X_TLS_MOZNSS_COMPATIBILITY_DISABLED	0
 diff --git a/libraries/libldap/ldap-int.h b/libraries/libldap/ldap-int.h
-index 1a26b3cb0..5fff785d8 100644
+index 15092c1..f504f44 100644
 --- a/libraries/libldap/ldap-int.h
 +++ b/libraries/libldap/ldap-int.h
 @@ -165,6 +165,7 @@ struct ldaptls {
@@ -73,7 +84,7 @@ index 1a26b3cb0..5fff785d8 100644
  #define ldo_tls_cacertdir	ldo_tls_info.lt_cacertdir
  #define ldo_tls_ciphersuite	ldo_tls_info.lt_ciphersuite
 diff --git a/libraries/libldap/tls2.c b/libraries/libldap/tls2.c
-index a616133da..f39546450 100644
+index 198d0b1..ba4b9c5 100644
 --- a/libraries/libldap/tls2.c
 +++ b/libraries/libldap/tls2.c
 @@ -121,6 +121,10 @@ ldap_int_tls_destroy( struct ldapoptions *lo )
@@ -106,7 +117,7 @@ index a616133da..f39546450 100644
  #endif
  	return rc;
  }
-@@ -674,6 +683,10 @@ ldap_pvt_tls_get_option( LDAP *ld, int option, void *arg )
+@@ -686,6 +695,10 @@ ldap_pvt_tls_get_option( LDAP *ld, int option, void *arg )
  		*(char **)arg = lo->ldo_tls_dhfile ?
  			LDAP_STRDUP( lo->ldo_tls_dhfile ) : NULL;
  		break;
@@ -117,7 +128,7 @@ index a616133da..f39546450 100644
  	case LDAP_OPT_X_TLS_CRLFILE:	/* GnuTLS only */
  		*(char **)arg = lo->ldo_tls_crlfile ?
  			LDAP_STRDUP( lo->ldo_tls_crlfile ) : NULL;
-@@ -796,6 +809,10 @@ ldap_pvt_tls_set_option( LDAP *ld, int option, void *arg )
+@@ -808,6 +821,10 @@ ldap_pvt_tls_set_option( LDAP *ld, int option, void *arg )
  		if ( lo->ldo_tls_dhfile ) LDAP_FREE( lo->ldo_tls_dhfile );
  		lo->ldo_tls_dhfile = (arg && *(char *)arg) ? LDAP_STRDUP( (char *) arg ) : NULL;
  		return 0;
@@ -129,10 +140,10 @@ index a616133da..f39546450 100644
  		if ( lo->ldo_tls_crlfile ) LDAP_FREE( lo->ldo_tls_crlfile );
  		lo->ldo_tls_crlfile = (arg && *(char *)arg) ? LDAP_STRDUP( (char *) arg ) : NULL;
 diff --git a/libraries/libldap/tls_o.c b/libraries/libldap/tls_o.c
-index a2d9cd31f..1a81bc625 100644
+index 92c708b..45afc11 100644
 --- a/libraries/libldap/tls_o.c
 +++ b/libraries/libldap/tls_o.c
-@@ -296,10 +296,9 @@ tlso_ctx_init( struct ldapoptions *lo, struct ldaptls *lt, int is_server )
+@@ -371,10 +371,9 @@ tlso_ctx_init( struct ldapoptions *lo, struct ldaptls *lt, int is_server )
  		return -1;
  	}
  
@@ -145,7 +156,7 @@ index a2d9cd31f..1a81bc625 100644
  
  		if (( bio=BIO_new_file( lt->lt_dhfile,"r" )) == NULL ) {
  			Debug( LDAP_DEBUG_ANY,
-@@ -318,7 +317,35 @@ tlso_ctx_init( struct ldapoptions *lo, struct ldaptls *lt, int is_server )
+@@ -393,7 +392,35 @@ tlso_ctx_init( struct ldapoptions *lo, struct ldaptls *lt, int is_server )
  		}
  		BIO_free( bio );
  		SSL_CTX_set_tmp_dh( ctx, dh );
@@ -182,7 +193,7 @@ index a2d9cd31f..1a81bc625 100644
  	if ( tlso_opt_trace ) {
  		SSL_CTX_set_info_callback( ctx, tlso_info_cb );
 diff --git a/servers/slapd/bconfig.c b/servers/slapd/bconfig.c
-index 8ade0c3f2..5a3c67a72 100644
+index 250f141..8b1e4e5 100644
 --- a/servers/slapd/bconfig.c
 +++ b/servers/slapd/bconfig.c
 @@ -194,6 +194,7 @@ enum {
@@ -225,3 +236,6 @@ index 8ade0c3f2..5a3c67a72 100644
  #ifdef HAVE_GNUTLS
  	case CFG_TLS_CRL_FILE:	flag = LDAP_OPT_X_TLS_CRLFILE;	break;
  #endif
+-- 
+2.17.1
+

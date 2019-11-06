@@ -1,7 +1,7 @@
 From 15b7c5ebcbb607cd2edc2119dfefd16b41cddc21 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:32:09 -0800
-Subject: [PATCH 03/19] Removes unnecessary linking of SQL Libs into slad.
+Subject: [PATCH 03/20] Removes unnecessary linking of SQL Libs into slad.
 
 This makes openldap-servers package independent of libodbc (SQL
 backend is packaged separately in openldap-servers-sql.)

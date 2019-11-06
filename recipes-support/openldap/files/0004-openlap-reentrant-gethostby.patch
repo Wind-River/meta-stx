@@ -1,7 +1,7 @@
 From df22708bcbe727570daada3fbf8065a447444716 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:34:19 -0800
-Subject: [PATCH 04/19] openlap reentrant gethostby
+Subject: [PATCH 04/20] openlap reentrant gethostby
 
 The non-reentrant gethostbyXXXX() functions deadlock if called recursively, for
 example if libldap needs to be initialized from within gethostbyXXXX() (which

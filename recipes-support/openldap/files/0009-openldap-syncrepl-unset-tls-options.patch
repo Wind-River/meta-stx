@@ -1,7 +1,7 @@
 From d87f33bf42e3ee1ce47ea61fde809fe693eede87 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:42:04 -0800
-Subject: [PATCH 09/19] openldap syncrepl unset tls options
+Subject: [PATCH 09/20] openldap syncrepl unset tls options
 
 From Stx 1901: openldap-syncrepl-unset-tls-options.patch
 

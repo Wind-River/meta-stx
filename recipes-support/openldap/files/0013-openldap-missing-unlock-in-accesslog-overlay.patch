@@ -1,7 +1,7 @@
 From 7cc8c2c22dc6a5999554e64b25f162b3673cd922 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:48:29 -0800
-Subject: [PATCH 13/19] openldap missing unlock in accesslog overlay
+Subject: [PATCH 13/20] openldap missing unlock in accesslog overlay
 
 From stx 1901: openldap-missing-unlock-in-accesslog-overlay.patch
 A mutex lock might not get unlocked when plausible

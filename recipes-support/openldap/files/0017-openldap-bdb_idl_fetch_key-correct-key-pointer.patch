@@ -1,7 +1,7 @@
 From 4e495a37939a605577c72ed43e1f5a3ab3780611 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 15:16:35 -0800
-Subject: [PATCH 17/19] openldap bdb_idl_fetch_key correct key pointer
+Subject: [PATCH 17/20] openldap bdb_idl_fetch_key correct key pointer
 
 From Stx 1901: openldap-bdb_idl_fetch_key-correct-key-pointer.patch
 

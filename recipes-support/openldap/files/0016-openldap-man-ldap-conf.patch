@@ -1,7 +1,7 @@
 From 8196f53139c4d7e6c1cb8508d1a421299f7eaa61 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 15:14:39 -0800
-Subject: [PATCH 16/19] openldap man ldap conf
+Subject: [PATCH 16/20] openldap man ldap conf
 
 From Stx 1901: openldap-man-ldap-conf.patch
 

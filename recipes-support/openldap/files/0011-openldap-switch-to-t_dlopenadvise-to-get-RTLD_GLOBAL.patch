@@ -1,7 +1,7 @@
 From b0b00385bf7564fa39f711f958b90512559f7f70 Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
 Date: Sun, 3 Nov 2019 14:45:27 -0800
-Subject: [PATCH 11/19] openldap switch to t_dlopenadvise to get RTLD_GLOBAL
+Subject: [PATCH 11/20] openldap switch to t_dlopenadvise to get RTLD_GLOBAL
  set
 
 From-stx-1901: openldap-switch-to-t_dlopenadvise-to-get-RTLD_GLOBAL-set.patch
