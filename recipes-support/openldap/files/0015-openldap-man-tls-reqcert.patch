@@ -1,0 +1,58 @@
+From 5b8f3344a00d1623d54d1e1de9e7207895067473 Mon Sep 17 00:00:00 2001
+From: babak sarashki <babak.sarashki@windriver.com>
+Date: Sun, 3 Nov 2019 15:13:00 -0800
+Subject: [PATCH 15/20] openldap man tls reqcert
+
+From Stx 1901: openldap-man-tls-reqcert.patch
+From f7027b3118ea90d616d0ddeeb348f15ba91cd08b Mon Sep 17 00:00:00 2001
+From: Jan Synacek <jsynacek@redhat.com>
+Date: Wed, 13 Nov 2013 13:34:06 +0100
+Subject: [PATCH] Fix client manpage
+---
+ doc/man/man5/ldap.conf.5 | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
+
+diff --git a/doc/man/man5/ldap.conf.5 b/doc/man/man5/ldap.conf.5
+index 49f1830..313b9c2 100644
+--- a/doc/man/man5/ldap.conf.5
++++ b/doc/man/man5/ldap.conf.5
+@@ -433,8 +433,8 @@ The environment variable RANDFILE can also be used to specify the filename.
+ This parameter is ignored with GnuTLS and Mozilla NSS.
+ .TP
+ .B TLS_REQCERT <level>
+-Specifies what checks to perform on server certificates in a TLS session,
+-if any. The
++Specifies what checks to perform on server certificates in a TLS session.
++The
+ .B <level>
+ can be specified as one of the following keywords:
+ .RS
+@@ -443,19 +443,17 @@ can be specified as one of the following keywords:
+ The client will not request or check any server certificate.
+ .TP
+ .B allow
+-The server certificate is requested. If no certificate is provided,
+-the session proceeds normally. If a bad certificate is provided, it will
++The server certificate is requested.  If a bad certificate is provided, it will
+ be ignored and the session proceeds normally.
+ .TP
+ .B try
+-The server certificate is requested. If no certificate is provided,
+-the session proceeds normally. If a bad certificate is provided,
+-the session is immediately terminated.
++The server certificate is requested. If a bad certificate is provided, the
++session is immediately terminated.
+ .TP
+ .B demand | hard
+-These keywords are equivalent. The server certificate is requested. If no
+-certificate is provided, or a bad certificate is provided, the session
+-is immediately terminated. This is the default setting.
++These keywords are equivalent and semantically same as
++.BR try .
++This is the default setting.
+ .RE
+ .TP
+ .B TLS_CRLCHECK <level>
+-- 
+2.17.1
+
