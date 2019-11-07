@@ -47,7 +47,7 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
 
 # TODO: Should be fixed in either boost package or CMake files. 
 do_configure_prepend() {
-	ln -s ${WORKDIR}/recipe-sysroot/usr/lib/libboost_python35.so \
+	ln -f -s ${WORKDIR}/recipe-sysroot/usr/lib/libboost_python35.so \
 		${WORKDIR}/recipe-sysroot/usr/lib/libboost_python.so
 }
 do_install_append () {
