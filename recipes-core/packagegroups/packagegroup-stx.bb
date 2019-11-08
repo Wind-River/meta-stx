@@ -30,6 +30,7 @@ PACKAGES = " \
 	packagegroup-stx-integ-tools \
 	packagegroup-stx-integ-filesystem \
 	packagegroup-stx-integ-logging \
+	packagegroup-stx-openldap \
 	packagegroup-stx \
 	"
 
@@ -52,7 +53,21 @@ RDEPENDS_packagegroup-stx = " \
         packagegroup-stx-integ-tools \
         packagegroup-stx-integ-filesystem \
         packagegroup-stx-integ-logging \
+	packagegroup-stx-openldap \
         "
+
+RDEPENDS_packagegroup-stx-openldap = " \
+	openldap \
+	openldap-backend-dnssrv \
+	openldap-backend-ldap \
+	openldap-backend-meta \
+	openldap-backend-monitor \
+	openldap-backend-null \
+	openldap-backend-passwd \
+	openldap-backend-shell \
+	openldap-bin \
+	openldap-slapd \
+	"
 
 RDEPENDS_packagegroup-stx-kube = "\
 	kubernetes \

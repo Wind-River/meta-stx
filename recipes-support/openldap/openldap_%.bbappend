@@ -133,12 +133,12 @@ do_install_append () {
 	install -m 0755 -d ${D}/${datadir}/openldap-servers
 	install -m 0644 slapd.ldif ${D}/${datadir}/openldap-servers/slapd.ldif
 	install -m 0750 -d ${D}/${sysconfdir}/openldap/slapd.d
+	rm -rf ${D}/var/run
 }
 
 FILES_${PN}_append = " \
 		${datadir}/openldap-servers/ \
 		${libexecdir}/openldap/ \
-		/run/openldap \
 		${sysconfdir}/sysconfig \
 		${sysconfdir}/tmpfiles.d \
 		${systemd_unitdir}/stx-slapd.service \
