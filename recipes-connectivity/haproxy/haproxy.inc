@@ -22,10 +22,7 @@ DEPENDS = "libpcre openssl zlib"
 
 MAJOR_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-SRC_URI = "https://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz \
-           file://haproxy.service \
-           file://haproxy.cfg \
-          "
+SRC_URI = "https://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz"
 
 inherit systemd useradd
 
@@ -77,9 +74,6 @@ do_install() {
 	           DESTDIR=${D} \
 	           INCLUDEDIR=${includedir}
 
-	install -D -m 0644 ${WORKDIR}/haproxy.service ${D}${systemd_system_unitdir}/haproxy.service
-	install -D -m 0644 ${WORKDIR}/haproxy.cfg ${D}${sysconfdir}/haproxy/haproxy.cfg
-
 	# install ssl folder for certificate
 	install -m 700 -d ${D}/${sysconfdir}/ssl/haproxy
 	chown haproxy:haproxy ${D}/${sysconfdir}/ssl/haproxy
@@ -93,7 +87,6 @@ FILES_${PN} = " \
 	${bindir} \
 	${sbindir} \
 	${sysconfdir} \
-	${systemd_system_unitdir} \
 	"
 RDEPENDS_${PN} = "openssl"
 
