@@ -50,6 +50,8 @@ EXTRA_OECONF += "--disable-fatal-warnings \
 do_install_append() {
     rm -rf "${D}${localstatedir}/run"
     rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+
+    mv ${D}/${datadir}/cluster/drbd.sh{,_resource-agents_renamed} # Conflicts with drbd.sh from drbd 8.4.3
 }
 
 # tickle_tcp is published under GPLv3, we just split it into ${PN}-extra,
