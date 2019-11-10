@@ -79,13 +79,13 @@ do_install() {
 	install -m 0755 ${S}/src/import/bin/etcdctl ${D}/${bindir}/etcdctl
 
 	install -d ${D}${systemd_system_unitdir}
-	install -m 0644 ${WORKDIR}/etcd.service ${D}${systemd_system_unitdir}
+	install -m 0644 ${S}/src/import/contrib/systemd/etcd.service ${D}${systemd_system_unitdir}
 
 	# etcd state is in /var/lib/etcd
 	install -d ${D}/${localstatedir}/lib/${BPN}
 
-	install -d ${D}${sysconfdir}
-	install -m 0644 ${WORKDIR}/etcd.conf ${D}${sysconfdir}
+	# we aren't creating a user, so we need to comment out this line
+	sed -i '/User/s/^/#/' ${D}${systemd_unitdir}/system/etcd.service
 }
 
 deltask compile_ptest_base
