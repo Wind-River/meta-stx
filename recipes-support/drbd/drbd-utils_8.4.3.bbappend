@@ -1,16 +1,8 @@
-SUMMARY = "Distributed block device driver for Linux"
 
-DESCRIPTION = " DRBD, developed by LINBIT, is a software that allows RAID 1 functionality over \
-	TCP/IP and RDMA for GNU/Linux. DRBD is a block device which is designed to build high \
-	availability clusters and software defined storage by providing a virtual shared device \
-	which keeps disks in nodes synchronised using TCP/IP or RDMA. This simulates RAID 1 but \
-	avoids the use of uncommon hardware (shared SCSI buses or Fibre Channel)."
-HOMEPAGE = "http://www.drbd.org/"
-SECTION = "admin"
-LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
+#FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI = "git://github.com/LINBIT/drbd-8.4.git;name=drbd-utils \
+
+SRC_URI = " \
 	file://0001-skip_wait_con_int_on_simplex.patch \
 	file://0002-drbd-conditional-crm-dependency.patch \
 	file://0003-drbd_report_condition.patch \
@@ -24,27 +16,8 @@ SRC_URI = "git://github.com/LINBIT/drbd-8.4.git;name=drbd-utils \
 	file://0011-Disable-documentation.patch \
 	"
 
-PV = "8.4.3"
-
-# https://www.linbit.com/downloads/drbd/8.4/archive/
-
-inherit autotools
-
-DEPENDS += " \
-	linux-libc-headers \
-	glibc \
-	"
-
-SRCREV_drbd-utils = "89a294209144b68adb3ee85a73221f964d3ee515"
-
-S = "${WORKDIR}/git"
-
-# UPSTREAM_CHECK_URI = "https://github.com/LINBIT/drbd-utils/releases"
-
-#SYSTEMD_SERVICE_${PN} = "drbd.service"
-#SYSTEMD_AUTO_ENABLE = "disable"
-
-inherit autotools-brokensep
+SYSTEMD_SERVICE_${PN} = "drbd.service"
+SYSTEMD_AUTO_ENABLE = "disable"
 
 EXTRA_OECONF = " \
 		--with-utils			\
@@ -57,12 +30,6 @@ EXTRA_OECONF = " \
 		--with-heartbeat		\
                 --with-distro debian		\
                "
-
-RDEPENDS_${PN} += "bash perl-module-getopt-long perl-module-exporter perl-module-constant perl-module-overloading perl-module-exporter-heavy"
-
-do_install_append() {
-	rm -rf ${D}/var/lock
-}
 
 FILES_${PN} = "\
 	/var/lib/drbd \
