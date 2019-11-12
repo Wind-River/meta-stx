@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/pynacl:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/python-pynacl:"
 DESCRIPTION = "Python binding to libsodiom"
 
 HOMEPAGE = "https://pypi.org/project/PyNaCl/"
@@ -13,7 +13,7 @@ S = "${WORKDIR}/git"
 
 SRC_URI = " \
 	git://github.com/pyca/pynacl.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
-	file://0001-Enable-cross-compile.patch \
+	file://${PN}/0001-Enable-cross-compile.patch \
 	"
 
 
