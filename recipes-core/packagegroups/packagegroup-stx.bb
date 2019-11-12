@@ -147,7 +147,7 @@ RDEPENDS_packagegroup-stx-integ-k8s = " \
 
 RDEPENDS_packagegroup-stx-integ-puppet-modules = " \
 	puppet \
-	puppet-create-resources \
+	puppetlabs-create-resources \
 	puppet-dnsmasq \
 	puppet-lvm \
 	puppet-boolean \
