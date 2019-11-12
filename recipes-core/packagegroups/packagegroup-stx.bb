@@ -54,8 +54,11 @@ RDEPENDS_packagegroup-stx = " \
         packagegroup-stx-integ-filesystem \
         packagegroup-stx-integ-logging \
 	packagegroup-stx-openldap \
+	packagegroup-stx-python \
         "
 
+RDEPENDS_packagegroup-stx-python = " \
+"
 RDEPENDS_packagegroup-stx-openldap = " \
 	openldap \
 	openldap-backend-dnssrv \
