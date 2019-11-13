@@ -14,10 +14,6 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd
 
 SRC_URI = " \
     git://github.com/coreos/etcd.git;branch=release-3.3 \
-    file://bz1350875-disaster-recovery-with-copies.patch \
-    file://expand-etcd-arch-validation.patch \
-    file://etcd.service \
-    file://etcd.conf \
     "
 
 SRCREV = "98d308426819d892e149fe45f6fd542464cb1f9d"
@@ -26,10 +22,6 @@ PV = "3.3.13+git${SRCPV}"
 S = "${WORKDIR}/git"
 
 inherit go goarch systemd useradd
-
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "etcd.service"
-SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = " \
