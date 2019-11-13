@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
 	file://${PN}/0001-puppet-lvm-kilo-quilt-changes.patch;striplevel=5 \
 	file://${PN}/0002-UEFI-pvcreate-fix.patch;striplevel=5 \

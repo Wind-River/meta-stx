@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
 	file://${PN}/0001-TIS-Patches.patch \
 	file://${PN}/0002-Disable-timeout-for-mkfs-command.patch \

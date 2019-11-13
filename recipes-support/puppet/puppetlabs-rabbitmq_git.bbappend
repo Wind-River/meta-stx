@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 SRC_URI += " \
 	file://puppetlabs-rabbitmq/0001-Roll-up-TIS-patches.patch \
 	file://puppetlabs-rabbitmq/0002-Changed-cipher-specification-to-openssl-format.patch \

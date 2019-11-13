@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
 	file://puppet-network/puppet-network-Kilo-quilt-changes.patch;striplevel=5 \
 	file://puppet-network/puppet-network-support-ipv6.patch;striplevel=5 \

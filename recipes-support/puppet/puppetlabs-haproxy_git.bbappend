@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
 	file://puppetlabs-haproxy/0001-Roll-up-TIS-patches.patch \
 	file://puppetlabs-haproxy/0002-disable-config-validation-prechecks.patch \
