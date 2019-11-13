@@ -29,7 +29,7 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-slip-dbus \
 	python-pymysql \
 	python-xstatic-magic-search \
-	python-perf \
+	python-pyperf \
 	python-urwid \
 	python-urlgrabber \
 	python-pyelftools \
