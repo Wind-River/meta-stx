@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:${THISDIR}haproxy-1.7.11:"
 SRC_URI += " \
 	file://haproxy.service \
 	file://haproxy.cfg \
