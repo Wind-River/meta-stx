@@ -13,6 +13,8 @@ PROVIDES = "${PACKAGES}"
 PACKAGES = " \ 
 	packagegroup-stx-python \
 	"
+
+#	python-cherrypy  # Conflicts with python3-cherrypy
 	
 RDEPENDS_packagegroup-stx-python = " \
 	python-pygpgme \
@@ -40,7 +42,6 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-ethtool \
 	python-jmespath \
 	python-beaker \
-	python-cherrypy \
 	python-d2to1 \
 	python-firewall \
 	python-ldap3 \
