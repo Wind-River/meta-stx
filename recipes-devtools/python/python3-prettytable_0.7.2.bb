@@ -13,6 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Update log with the message: adopted from upstream e1f2e1ae5f27d889e3d4bef1b23edcf8a6d804c0
 DESCRIPTION = " \
 	PrettyTable is a simple Python library designed to make it quick and easy to represent tabular data \
 	in visually appealing ASCII tables. It was inspired by the ASCII tables used in the PostgreSQL shell \
