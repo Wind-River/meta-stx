@@ -13,11 +13,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-DESCRIPTION = "Helper to test WSGI applications"
+DESCRIPTION = "This wraps any WSGI application and makes it easy to send test requests to that application, without starting up an HTTP server."
 HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
 SECTION = "devel/python"
-LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://README.rst;md5=e3e00192f000e33de99fd5a3cb32a8fc"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://license.rst;md5=64f013a9d7a2a8ffc8d016a2d4214bcd"
 
 PYPI_PACKAGE = "WebTest"
 
