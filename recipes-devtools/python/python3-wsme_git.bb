@@ -31,5 +31,5 @@ S = "${WORKDIR}/git/"
 SRC_URI = "git://opendev.org/x/wsme.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
 
-DEPENDS += " python3 python3-setuptools-scm-native"
-inherit setuptools3 distutils3 pkgconfig
+DEPENDS += " python3 python3-pbr-native"
+inherit distutils3 
