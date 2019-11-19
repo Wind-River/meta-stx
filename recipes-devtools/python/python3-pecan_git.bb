@@ -28,7 +28,7 @@ S = "${WORKDIR}/git"
 SRC_URI = "git://github.com/pecan/pecan.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
 
-inherit distutils3
+inherit setuptools3 distutils3
 
 RDEPENDS_${PN} = "python3-mako \
 		  python3-six \
