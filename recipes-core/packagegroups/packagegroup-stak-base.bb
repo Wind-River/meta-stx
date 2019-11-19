@@ -282,7 +282,7 @@ RDEPENDS_packagegroup-stak-python = " \
 	python-xstatic-jquery.tablesorter \
 	python-xstatic-jquery.quicksearch \
 	python-xstatic-magic-search \
-	python-perf \
+	python-pyperf \
 	python-urwid \
 	python-urlgrabber \
 	python-semantic-version \
