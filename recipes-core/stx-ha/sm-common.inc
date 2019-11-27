@@ -2,11 +2,6 @@ PACKAGES += " libsm-common"
 PACKAGES += " sm-common-libs"
 PACKAGES += " sm-eru"
 
-#DEPENDS += " \
-#	glib-2.0 \
-#	sqlite3 \
-#	"
-
 RDEPENDS_sm-eru += " bash"
 
 do_configure_prepend () {
@@ -38,7 +33,7 @@ do_install_prepend () {
 	install -m 640 -p -D scripts/sm-eru.conf ${D}/${sysconfdir}/pmon.d/sm-eru.conf
 	install -m 640 -p -D scripts/sm-watchdog.conf ${D}/${sysconfdir}/pmon.d/sm-watchdog.conf
 	install -m 750 -p -D scripts/sm-eru ${D}/${sysconfdir}/init.d/sm-eru
-	# install -m 750 -p -D scripts/sm-watchdog ${D}/${sysconfdir}/init.d/sm-watchdog
+	install -m 750 -p -D scripts/sm-watchdog ${D}/${sysconfdir}/init.d/sm-watchdog
 }
 
 FILES_libsm-common = " \
@@ -60,5 +55,12 @@ FILES_sm-eru = " \
 	${systemd_system_unitdir}/sm-watchdog.service \
 	${sysconfdir}/init.d/sm-eru \
 	${sysconfdir}/pmon.d/sm-eru.conf \
+	${sysconfdir}/init.d/sm-watchdog \
 	${sysconfdir}/pmon.d/sm-watchdog.conf \
 	"
+
+pkg_postinst_ontarget_sm-eru_append() {
+       /usr/bin/systemctl enable sm-eru.service
+       /usr/bin/systemctl enable sm-watchdog.service
+}
+

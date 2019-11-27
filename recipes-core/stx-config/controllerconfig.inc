@@ -53,3 +53,7 @@ FILES_controllerconfig = " \
 		${libdir}/python2.7/site-packages/controllerconfig*.egg-info/ \
 		${libdir}/python2.7/site-packages/controllerconfig/ \
 		"
+
+pkg_postinst_ontarget_controllerconfig() {
+	/usr/bin/systemctl enable controllerconfig.service 
+}

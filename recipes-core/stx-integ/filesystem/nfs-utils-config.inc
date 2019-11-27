@@ -36,11 +36,11 @@ do_install_append () {
 #	systemctl enable nfsserver.service  >/dev/null 2>&1 || :
 #}	
 
-FILES_nfs-utils-config_append += " \
+FILES_nfs-utils-config_append = " \
 	${sysconfdir}/init.d/stx-nfscommon \
 	${systemd_system_unitdir}/stx-nfscommon.service \
 	${sysconfdir}/init.d/stx-nfsserver \
 	${systemd_system_unitdir}/stx-nfsserver.service \
 	${datadir}/starlingx/stx-nfsmount.conf \
 	${sysconfdir}/stx-nfsmount.conf \
-		" 
+	" 

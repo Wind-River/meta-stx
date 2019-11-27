@@ -25,13 +25,13 @@ do_install_append () {
 	install -d -m 755 ${D}/${sysconfdir}/pmon.d/
 	install -p -D -m 644 scripts/pmon.d/logmgmt ${D}/${sysconfdir}/pmon.d/logmgmt
 
-	install -p -D -m 664 scripts/etc/systemd/system/logmgmt.service ${D}/${systemd_unitdir}/logmgmt.service
+	install -p -D -m 664 scripts/etc/systemd/system/logmgmt.service ${D}/${systemd_system_unitdir}/logmgmt.service
 }
 
 
-# pkg_postinst_ontarget_logmgmt () { 
-#	/usr/bin/systemctl enable logmgmt.service >/dev/null 2>&1
-#}
+pkg_postinst_ontarget_logmgmt () { 
+	/usr/bin/systemctl enable logmgmt.service >/dev/null 2>&1
+}
 
 FILES_logmgmt_append = " \
 	${bindir}/logmgmt \
@@ -39,7 +39,7 @@ FILES_logmgmt_append = " \
 	${bindir}/logmgmt_prerotate \
 	${sysconfdir}/init.d/logmgmt \
 	${sysconfdir}/pmon.d/logmgmt \
-	${systemd_unitdir}/logmgmt.service \
+	${systemd_system_unitdir}/logmgmt.service \
 	${libdir}/python2.7/site-packages/logmgmt-1.0.0-py2.7.egg-info \
 	${libdir}/python2.7/site-packages/logmgmt \
 	${libdir}/python2.7/site-packages/logmgmt-1.0.0-py2.7.egg-info/PKG-INFO \
