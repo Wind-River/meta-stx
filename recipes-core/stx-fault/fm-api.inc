@@ -19,7 +19,3 @@ FILES_fm-api_append = " \
 	${libdir}/python2.7/site-packages/fm_api-1.0.0-py2.7.egg-info/ \
 	${libdir}/python2.7/site-packages/fm_api \
 	"
-
-pkg_postinst_ontarget_fm-api() {
-	/usr/bin/systemctl enable fm-api.service
-}
