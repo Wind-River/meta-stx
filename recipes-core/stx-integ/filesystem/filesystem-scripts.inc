@@ -31,3 +31,7 @@ FILES_filesystem-scripts_append = " \
 	${bindir}/nfs-mount \
 	${systemd_system_unitdir}/uexportfs.service \
 	"
+
+pkg_postinst_ontarget_filesystem-scripts() {
+	/usr/bin/systemctl enable uexportfs.service
+}
