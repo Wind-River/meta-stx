@@ -8,7 +8,7 @@ PROTOCOL = "https"
 BRANCH = "master"
 SRCREV = "eeb2dee9023347f73d7153325190550a5dc87e7a"
 S = "${WORKDIR}/git"
-PV = "19.05"
+PV = "19.01"
 
 LICENSE = "Apache-2.0"
 
