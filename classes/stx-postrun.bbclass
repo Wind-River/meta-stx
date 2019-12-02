@@ -23,7 +23,7 @@ stx_postprocess_rootfs() {
 
 	for srv in $(echo apache2 kubelet cinder-init glance-api glance-init glance-registry keystone-init \
 			neutron-init nova-compute nova-consoleauth nova-console nova-init nova-network \
-			nova-xvpvncproxy nova-spicehtml5proxy openvswitch rabbitmq-server \
+			nova-xvpvncproxy nova-spicehtml5proxy openvswitch \
 			registry-token-server)
 	do
 		rm -f ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/$srv.service
