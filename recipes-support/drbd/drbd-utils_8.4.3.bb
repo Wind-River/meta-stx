@@ -25,9 +25,15 @@ SECTION = "admin"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
 
-SRC_URI = "git://github.com/LINBIT/drbd-8.4.git;name=drbd-utils "
+# SRCREV = "89a294209144b68adb3ee85a73221f964d3ee515"
+SRCREV = "136c0e42691aed4a4607c79969de87cb8410285c"
+PROTOCOL = "https"
+BRANCH = "master"
+S = "${WORKDIR}/git"
+PV = "8.4.3rc1"
 
-PV = "8.4.3"
+SRC_URI = "git://github.com/LINBIT/drbd-8.4.git;name="git";protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
+
 
 # https://www.linbit.com/downloads/drbd/8.4/archive/
 
@@ -37,11 +43,6 @@ DEPENDS += " \
 	linux-libc-headers \
 	glibc \
 	"
-
-SRCREV_drbd-utils = "89a294209144b68adb3ee85a73221f964d3ee515"
-
-S = "${WORKDIR}/git"
-
 # UPSTREAM_CHECK_URI = "https://github.com/LINBIT/drbd-utils/releases"
 
 inherit autotools-brokensep
