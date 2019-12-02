@@ -45,6 +45,16 @@ stx_postprocess_rootfs() {
 	done
 	cd $CPWD
 
+	# Issue 11  etcd:
+	# Once the ansible-playbook runs it resets ETCD_DATA_DIR to
+	# /opt/etcd/19.01/controller.etcd in /etc/etcd/etcd.conf
+	# This directory does not exist and consequently etcd fails to 
+	# start. This is a workaround. The actual fix is why does it fail
+	# to create the directory and fix it there.
+
+	mkdir -p ${IMAGE_ROOTFS}/opt/etcd
+	chown etcd:etcd ${IMAGE_ROOTFS}/opt/etcd
+
 	# Fake being redhat for dev purpose only. This must be removed 
 	cat > ${IMAGE_ROOTFS}/etc/redhat-release << \EOF
 CentOS Linux release 7.3.1611 (Core)
