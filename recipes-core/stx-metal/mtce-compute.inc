@@ -17,9 +17,8 @@ do_install_prepend () {
 		install
 }
 
-pkg_postinst_ontarget_mtce-compute_prepend () { 
-	/bin/systemctl enable goenabled-worker.service
-	/bin/systemctl enable qemu_clean.service
+pkg_postinst_ontarget_mtce-compute() { 
+	/usr/bin/systemctl enable goenabled-worker.service
 
 }
 

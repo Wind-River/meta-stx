@@ -42,7 +42,7 @@ do_install_prepend () {
 
 }
 
-#pkg_postinst_ontarget_inventory () {
+#pkg_postinst_ontarget-inventory () {
 # install default config files
 #cd ${_builddir}/${name}-${version} && oslo-config-generator --config-file inventory/config-generator.conf --output-file ${_builddir}/${name}-${version}/inventory.conf.sample
 #}

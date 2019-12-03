@@ -18,10 +18,10 @@ do_install_prepend () {
 
 }
 
-pkg_postinst_ontarget_mtce-control_prepend () {
-	/bin/systemctl enable lighttpd.service
-	/bin/systemctl enable qemu_clean.service
-	/bin/systemctl enable hbsAgent.service
+pkg_postinst_ontarget_mtce-control () {
+	# /usr/bin/systemctl enable lighttpd.service
+	# /usr/bin/systemctl enable qemu_clean.service
+	/usr/bin/systemctl enable hbsAgent.service
 }
 
 FILES_mtce-control = " \
