@@ -68,6 +68,7 @@ RDEPENDS_packagegroup-stx-openldap = " \
 	openldap-backend-shell \
 	openldap-bin \
 	openldap-slapd \
+	openldap-config \
 	"
 
 RDEPENDS_packagegroup-stx-kube = "\
