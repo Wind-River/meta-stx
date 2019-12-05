@@ -178,4 +178,6 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-murano-pkg-check \
 	python-oslo.upgradecheck \
 	python-configshell \
+	python2-os-service-types \
+	python-coverage \
 	"

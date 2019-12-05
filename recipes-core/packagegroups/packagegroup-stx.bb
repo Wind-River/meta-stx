@@ -115,6 +115,7 @@ RDEPENDS_packagegroup-stx-misc = "\
 	grub-efi \
 	hiera \
 	gssproxy \
+	polkit \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
