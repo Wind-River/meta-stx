@@ -35,8 +35,9 @@ stx_postprocess_rootfs() {
 
 	CPWD=$(pwd)
 	cd ${IMAGE_ROOTFS}/etc/rc.d/init.d
-	for srv in $(echo hbsAgent runservices mtclog mtcalarm mtcClient \
+	for srv in $(echo hbsAgent hbsClient runservices mtclog mtcalarm mtcClient \
 			pmon hwmon hostw lmon guestAgent guestServer fm-api \
+			drbd \
 			)
 	do
 		rm -f $srv
@@ -55,6 +56,8 @@ stx_postprocess_rootfs() {
 	mkdir -p ${IMAGE_ROOTFS}/opt/etcd
 	chown etcd:etcd ${IMAGE_ROOTFS}/opt/etcd
 
+	# Puppet hacks 
+	sed -i -e 's:puppet apply : puppet apply --hiera_config=/etc/puppet/hiera.yaml :g' ${IMAGE_ROOTFS}/usr/bin/puppet-manifest-apply.sh 
 	# Fake being redhat for dev purpose only. This must be removed 
 	cat > ${IMAGE_ROOTFS}/etc/redhat-release << \EOF
 CentOS Linux release 7.3.1611 (Core)
