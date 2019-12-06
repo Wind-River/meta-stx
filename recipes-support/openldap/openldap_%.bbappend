@@ -158,10 +158,10 @@ FILES_openldap-config = " \
 	${datadir}/starlingx/slapd.sysconfig \
 	"
 
-pkg_postinst_ontarget_openldap-config() {
+pkg_postinst_ontarget_libldap-${PN}_append () {
 	cp ${datadir}/starlingx/slapd.service ${systemd_system_unitdir}/slapd.service
 	chmod 644 ${systemd_system_unitdir}/slapd.service
-	cp {datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
+	cp ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
 }
 
 FILES_${PN}_append = " \
