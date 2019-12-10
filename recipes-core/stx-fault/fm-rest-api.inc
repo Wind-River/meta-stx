@@ -30,6 +30,6 @@ FILES_fm-rest-api = " \
 	${bindir}/fm-api \
 	"
 
-pkg_postinst_ontarget_fm-rest-api() {
-	/usr/bin/systemctl enable fm-api.service
-}
+#pkg_postinst_ontarget_fm-rest-api() {
+#	/usr/bin/systemctl enable fm-api.service
+#}

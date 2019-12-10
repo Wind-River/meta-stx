@@ -71,10 +71,10 @@ do_install_append () {
 
 }
 
-pkg_postinst_ontarget_cgcs-patch () { 
-	/usr/bin/systemctl enable sw-patch-controller.service
-	/usr/bin/systemctl enable sw-patch-controller-daemon.service
-}
+#pkg_postinst_ontarget_cgcs-patch () { 
+#	/usr/bin/systemctl enable sw-patch-controller.service
+#	/usr/bin/systemctl enable sw-patch-controller-daemon.service
+#}
 
 FILES_cgcs-patch = " \
 	${libdir}/python2.7/site-packages/cgcs_patch \

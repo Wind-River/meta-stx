@@ -96,7 +96,7 @@ FILES_sysinv = " \
 	${systemd_system_unitdir}/sysinv-conductor.service \
 	"
 
-pkg_postinst_ontarget_sysinv() {
-	/usr/bin/systemctl enable sysinv-agent.service sysinv-api.service
-	# sysinv-conductor.service
-}
+#pkg_postinst_ontarget_sysinv() {
+#	/usr/bin/systemctl enable sysinv-agent.service sysinv-api.service
+#	# sysinv-conductor.service
+#}

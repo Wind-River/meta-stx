@@ -56,6 +56,6 @@ FILES_controllerconfig = " \
 		${libdir}/python2.7/site-packages/controllerconfig/ \
 		"
 
-pkg_postinst_ontarget_controllerconfig() {
-	/usr/bin/systemctl enable controllerconfig.service 
-}
+#pkg_postinst_ontarget_controllerconfig() {
+#	/usr/bin/systemctl enable controllerconfig.service 
+#}

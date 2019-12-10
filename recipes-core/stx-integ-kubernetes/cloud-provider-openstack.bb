@@ -37,9 +37,9 @@ do_install () {
 
 }
 
-pkg_postinst_ontarget_${PN} () {
-	/usr/bin/systemctl enable cloud-provider-openstack.service> 
-}	
+#pkg_postinst_ontarget_${PN} () {
+#	/usr/bin/systemctl enable cloud-provider-openstack.service
+#}	
 
 FILES_${PN}_append += " \
 		${systemd_system_unitdir} \

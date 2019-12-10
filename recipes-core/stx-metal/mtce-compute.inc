@@ -17,10 +17,9 @@ do_install_prepend () {
 		install
 }
 
-pkg_postinst_ontarget_mtce-compute() { 
-	/usr/bin/systemctl enable goenabled-worker.service
-
-}
+#pkg_postinst_ontarget_mtce-compute() { 
+#	/usr/bin/systemctl enable goenabled-worker.service
+#}
 
 FILES_mtce-compute = " \
 	${datadir}/licenses/mtce-compute-1.0/LICENSE \

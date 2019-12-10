@@ -32,6 +32,6 @@ FILES_filesystem-scripts_append = " \
 	${systemd_system_unitdir}/uexportfs.service \
 	"
 
-pkg_postinst_ontarget_filesystem-scripts() {
-	/usr/bin/systemctl enable uexportfs.service
-}
+#pkg_postinst_ontarget_filesystem-scripts() {
+#	/usr/bin/systemctl enable uexportfs.service
+#}

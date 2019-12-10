@@ -163,19 +163,19 @@ do_install_prepend () {
 	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so
 }
 
-pkg_postinst_ontarget-mtce () {
-	/usr/bin/systemctl enable hbsClient.service
-	/usr/bin/systemctl enable mtcalarm.service 
-	/usr/bin/systemctl enable mtclog.service 
-	/usr/bin/systemctl enable mtcClient.service 
-	/usr/bin/systemctl enable goenabled.service 
-	/usr/bin/systemctl enable lmon.service 
-	/usr/bin/systemctl enable hostw.service 
-	/usr/bin/systemctl enable fsmon.service 
-	/usr/bin/systemctl enable pmon.service 
-	# /usr/bin/systemctl enable hwclock.service 
-	# /usr/bin/systemctl enable runservices.service 
-}
+#pkg_postinst_ontarget-mtce () {
+#	/usr/bin/systemctl enable hbsClient.service
+#	/usr/bin/systemctl enable mtcalarm.service 
+#	/usr/bin/systemctl enable mtclog.service 
+#	/usr/bin/systemctl enable mtcClient.service 
+#	/usr/bin/systemctl enable goenabled.service 
+#	/usr/bin/systemctl enable lmon.service 
+#	/usr/bin/systemctl enable hostw.service 
+#	/usr/bin/systemctl enable fsmon.service 
+#	/usr/bin/systemctl enable pmon.service 
+#	# /usr/bin/systemctl enable hwclock.service 
+#	# /usr/bin/systemctl enable runservices.service 
+#}
 
 FILES_mtce-pmon = " \
 	${sbindir}/pmon-restart \

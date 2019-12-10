@@ -29,9 +29,9 @@ do_install_append () {
 }
 
 
-pkg_postinst_ontarget_logmgmt () { 
-	/usr/bin/systemctl enable logmgmt.service >/dev/null 2>&1
-}
+#pkg_postinst_ontarget_logmgmt () { 
+#	/usr/bin/systemctl enable logmgmt.service >/dev/null 2>&1
+#}
 
 FILES_logmgmt_append = " \
 	${bindir}/logmgmt \
