@@ -1,0 +1,70 @@
+diff -up sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.json.ok.defaults-double-quote-fix sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.json.ok
+--- sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.json.ok.defaults-double-quote-fix	2018-09-24 18:10:37.235000000 +0200
++++ sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.json.ok	2018-09-24 18:11:40.153000000 +0200
+@@ -34,7 +34,7 @@
+         },
+         {
+             "Binding": [
+-                { "username": "%them" }
++                { "usergroup": "them" }
+             ],
+             "Options": [
+                 { "set_home": true }
+@@ -42,7 +42,7 @@
+         },
+         {
+             "Binding": [
+-                { "username": "%: non UNIX 0 c" }
++                { "nonunixgroup": " non UNIX 0 c" }
+             ],
+             "Options": [
+                 { "set_home": true }
+@@ -50,7 +50,7 @@
+         },
+         {
+             "Binding": [
+-                { "username": "+net" }
++                { "netgroup": "net" }
+             ],
+             "Options": [
+                 { "set_home": true }
+diff -up sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.toke.ok.defaults-double-quote-fix sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.toke.ok
+--- sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.toke.ok.defaults-double-quote-fix	2018-09-24 18:10:25.216000000 +0200
++++ sudo-1.8.23/plugins/sudoers/regress/sudoers/test2.toke.ok	2018-09-24 18:11:45.213000000 +0200
+@@ -29,9 +29,9 @@ DEFAULTS_HOST BEGINSTR STRBODY ENDSTR WO
+ #
+ DEFAULTS_USER BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
+ DEFAULTS_USER BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
+-DEFAULTS_USER BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
+-DEFAULTS_USER BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
+-DEFAULTS_USER BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
++DEFAULTS_USER BEGINSTR STRBODY ENDSTR USERGROUP DEFVAR 
++DEFAULTS_USER BEGINSTR STRBODY ENDSTR USERGROUP DEFVAR 
++DEFAULTS_USER BEGINSTR STRBODY ENDSTR NETGROUP DEFVAR 
+ 
+ #
+ DEFAULTS_RUNAS BEGINSTR STRBODY ENDSTR WORD(4) DEFVAR 
+diff -up sudo-1.8.23/plugins/sudoers/toke.c.defaults-double-quote-fix sudo-1.8.23/plugins/sudoers/toke.c
+--- sudo-1.8.23/plugins/sudoers/toke.c.defaults-double-quote-fix	2018-04-29 21:59:23.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/toke.c	2018-09-24 18:06:15.527000000 +0200
+@@ -2395,7 +2395,7 @@ YY_RULE_SETUP
+ 				LEXTRACE("ERROR "); /* empty string */
+ 				LEXRETURN(ERROR);
+ 			    }
+-			    if (prev_state == INITIAL) {
++			    if (prev_state == INITIAL || prev_state == GOTDEFS) {
+ 				switch (sudoerslval.string[0]) {
+ 				case '%':
+ 				    if (sudoerslval.string[1] == '\0' ||
+diff -up sudo-1.8.23/plugins/sudoers/toke.l.defaults-double-quote-fix sudo-1.8.23/plugins/sudoers/toke.l
+--- sudo-1.8.23/plugins/sudoers/toke.l.defaults-double-quote-fix	2018-04-29 21:59:23.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/toke.l	2018-09-24 18:06:15.528000000 +0200
+@@ -187,7 +187,7 @@ DEFVAR			[a-z_]+
+ 				LEXTRACE("ERROR "); /* empty string */
+ 				LEXRETURN(ERROR);
+ 			    }
+-			    if (prev_state == INITIAL) {
++			    if (prev_state == INITIAL || prev_state == GOTDEFS) {
+ 				switch (sudoerslval.string[0]) {
+ 				case '%':
+ 				    if (sudoerslval.string[1] == '\0' ||

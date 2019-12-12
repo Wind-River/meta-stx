@@ -1,0 +1,161 @@
+From 0f303a2de843c31afb03b558dfb7287be79e6e17 Mon Sep 17 00:00:00 2001
+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
+Date: Thu, 26 Jul 2018 12:31:29 -0600
+Subject: [PATCH] Ignore PAM_NEW_AUTHTOK_REQD and PAM_AUTHTOK_EXPIRED errors
+ from pam_acct_mgmt() if authentication is disabled for the user. Bug #843
+
+---
+ plugins/sudoers/auth/bsdauth.c   |  2 +-
+ plugins/sudoers/auth/pam.c       | 10 +++++++++-
+ plugins/sudoers/auth/sudo_auth.c |  4 ++--
+ plugins/sudoers/auth/sudo_auth.h |  6 +++---
+ plugins/sudoers/check.c          |  4 +++-
+ plugins/sudoers/sudoers.h        |  2 +-
+ 6 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/plugins/sudoers/auth/bsdauth.c b/plugins/sudoers/auth/bsdauth.c
+index 444cd337..390263d3 100644
+--- a/plugins/sudoers/auth/bsdauth.c
++++ b/plugins/sudoers/auth/bsdauth.c
+@@ -168,7 +168,7 @@ bsdauth_verify(struct passwd *pw, char *prompt, sudo_auth *auth, struct sudo_con
+ }
+ 
+ int
+-bsdauth_approval(struct passwd *pw, sudo_auth *auth)
++bsdauth_approval(struct passwd *pw, sudo_auth *auth, bool exempt)
+ {
+     struct bsdauth_state *state = auth->data;
+     debug_decl(bsdauth_approval, SUDOERS_DEBUG_AUTH)
+diff --git a/plugins/sudoers/auth/pam.c b/plugins/sudoers/auth/pam.c
+index 347289da..a4749448 100644
+--- a/plugins/sudoers/auth/pam.c
++++ b/plugins/sudoers/auth/pam.c
+@@ -202,7 +202,7 @@ sudo_pam_verify(struct passwd *pw, char *prompt, sudo_auth *auth, struct sudo_co
+ }
+ 
+ int
+-sudo_pam_approval(struct passwd *pw, sudo_auth *auth)
++sudo_pam_approval(struct passwd *pw, sudo_auth *auth, bool exempt)
+ {
+     const char *s;
+     int *pam_status = (int *) auth->data;
+@@ -217,6 +217,10 @@ sudo_pam_approval(struct passwd *pw, sudo_auth *auth)
+ 		"is your account locked?"));
+ 	    debug_return_int(AUTH_FATAL);
+ 	case PAM_NEW_AUTHTOK_REQD:
++	    /* Ignore if user is exempt from password restrictions. */
++	    if (exempt)
++		debug_return_int(AUTH_SUCCESS);
++	    /* New password required, try to change it. */
+ 	    log_warningx(0, N_("Account or password is "
+ 		"expired, reset your password and try again"));
+ 	    *pam_status = pam_chauthtok(pamh,
+@@ -229,6 +233,10 @@ sudo_pam_approval(struct passwd *pw, sudo_auth *auth)
+ 		N_("unable to change expired password: %s"), s);
+ 	    debug_return_int(AUTH_FAILURE);
+ 	case PAM_AUTHTOK_EXPIRED:
++	    /* Ignore if user is exempt from password restrictions. */
++	    if (exempt)
++		debug_return_int(AUTH_SUCCESS);
++	    /* Password expired, cannot be updated by user. */
+ 	    log_warningx(0,
+ 		N_("Password expired, contact your system administrator"));
+ 	    debug_return_int(AUTH_FATAL);
+diff --git a/plugins/sudoers/auth/sudo_auth.c b/plugins/sudoers/auth/sudo_auth.c
+index 6ef9bd72..5d9382dc 100644
+--- a/plugins/sudoers/auth/sudo_auth.c
++++ b/plugins/sudoers/auth/sudo_auth.c
+@@ -163,7 +163,7 @@ sudo_auth_init(struct passwd *pw)
+  * Returns true on success, false on failure and -1 on error.
+  */
+ int
+-sudo_auth_approval(struct passwd *pw, int validated)
++sudo_auth_approval(struct passwd *pw, int validated, bool exempt)
+ {
+     sudo_auth *auth;
+     debug_decl(sudo_auth_approval, SUDOERS_DEBUG_AUTH)
+@@ -171,7 +171,7 @@ sudo_auth_approval(struct passwd *pw, int validated)
+     /* Call approval routines. */
+     for (auth = auth_switch; auth->name; auth++) {
+ 	if (auth->approval && !IS_DISABLED(auth)) {
+-	    int status = (auth->approval)(pw, auth);
++	    int status = (auth->approval)(pw, auth, exempt);
+ 	    if (status != AUTH_SUCCESS) {
+ 		/* Assume error msg already printed. */
+ 		log_auth_failure(validated, 0);
+diff --git a/plugins/sudoers/auth/sudo_auth.h b/plugins/sudoers/auth/sudo_auth.h
+index ea5ed9cd..9ae69cd5 100644
+--- a/plugins/sudoers/auth/sudo_auth.h
++++ b/plugins/sudoers/auth/sudo_auth.h
+@@ -31,7 +31,7 @@ typedef struct sudo_auth {
+     int (*init)(struct passwd *pw, struct sudo_auth *auth);
+     int (*setup)(struct passwd *pw, char **prompt, struct sudo_auth *auth);
+     int (*verify)(struct passwd *pw, char *p, struct sudo_auth *auth, struct sudo_conv_callback *callback);
+-    int (*approval)(struct passwd *pw, struct sudo_auth *auth);
++    int (*approval)(struct passwd *pw, struct sudo_auth *auth, bool exempt);
+     int (*cleanup)(struct passwd *pw, struct sudo_auth *auth);
+     int (*begin_session)(struct passwd *pw, char **user_env[], struct sudo_auth *auth);
+     int (*end_session)(struct passwd *pw, struct sudo_auth *auth);
+@@ -56,7 +56,7 @@ extern sudo_conv_t sudo_conv;
+ /* Prototypes for standalone methods */
+ int bsdauth_init(struct passwd *pw, sudo_auth *auth);
+ int bsdauth_verify(struct passwd *pw, char *prompt, sudo_auth *auth, struct sudo_conv_callback *callback);
+-int bsdauth_approval(struct passwd *pw, sudo_auth *auth);
++int bsdauth_approval(struct passwd *pw, sudo_auth *auth, bool exempt);
+ int bsdauth_cleanup(struct passwd *pw, sudo_auth *auth);
+ int sudo_aix_init(struct passwd *pw, sudo_auth *auth);
+ int sudo_aix_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback);
+@@ -67,7 +67,7 @@ int sudo_fwtk_cleanup(struct passwd *pw, sudo_auth *auth);
+ int sudo_pam_init(struct passwd *pw, sudo_auth *auth);
+ int sudo_pam_init_quiet(struct passwd *pw, sudo_auth *auth);
+ int sudo_pam_verify(struct passwd *pw, char *prompt, sudo_auth *auth, struct sudo_conv_callback *callback);
+-int sudo_pam_approval(struct passwd *pw, sudo_auth *auth);
++int sudo_pam_approval(struct passwd *pw, sudo_auth *auth, bool exempt);
+ int sudo_pam_cleanup(struct passwd *pw, sudo_auth *auth);
+ int sudo_pam_begin_session(struct passwd *pw, char **user_env[], sudo_auth *auth);
+ int sudo_pam_end_session(struct passwd *pw, sudo_auth *auth);
+diff --git a/plugins/sudoers/check.c b/plugins/sudoers/check.c
+index ed49d63a..486a80d8 100644
+--- a/plugins/sudoers/check.c
++++ b/plugins/sudoers/check.c
+@@ -175,6 +175,7 @@ check_user(int validated, int mode)
+ {
+     struct passwd *auth_pw;
+     int ret = -1;
++    bool exempt = false;
+     debug_decl(check_user, SUDOERS_DEBUG_AUTH)
+ 
+     /*
+@@ -194,6 +195,7 @@ check_user(int validated, int mode)
+ 	sudo_debug_printf(SUDO_DEBUG_INFO, "%s: %s", __func__,
+ 	    !def_authenticate ? "authentication disabled" :
+ 	    "user exempt from authentication");
++	exempt = true;
+ 	ret = true;
+ 	goto done;
+     }
+@@ -218,7 +220,7 @@ check_user(int validated, int mode)
+ done:
+     if (ret == true) {
+ 	/* The approval function may disallow a user post-authentication. */
+-	ret = sudo_auth_approval(auth_pw, validated);
++	ret = sudo_auth_approval(auth_pw, validated, exempt);
+     }
+     sudo_auth_cleanup(auth_pw);
+     sudo_pw_delref(auth_pw);
+diff --git a/plugins/sudoers/sudoers.h b/plugins/sudoers/sudoers.h
+index 57db74c1..956cb084 100644
+--- a/plugins/sudoers/sudoers.h
++++ b/plugins/sudoers/sudoers.h
+@@ -265,7 +265,7 @@ int verify_user(struct passwd *pw, char *prompt, int validated, struct sudo_conv
+ int sudo_auth_begin_session(struct passwd *pw, char **user_env[]);
+ int sudo_auth_end_session(struct passwd *pw);
+ int sudo_auth_init(struct passwd *pw);
+-int sudo_auth_approval(struct passwd *pw, int validated);
++int sudo_auth_approval(struct passwd *pw, int validated, bool exempt);
+ int sudo_auth_cleanup(struct passwd *pw);
+ 
+ /* set_perms.c */
+-- 
+2.13.6
+

@@ -21,7 +21,7 @@ stx_postprocess_rootfs() {
 	sed -i -e '/^l .*resolv.conf$/d' ${IMAGE_ROOTFS}/etc/default/volatiles/00_core
 	sed -i -e '/^f .*resolv.conf none$/d' ${IMAGE_ROOTFS}/etc/default/volatiles/00_core
 
-	for srv in $(echo apache2 kubelet cinder-init glance-api glance-init glance-registry keystone-init \
+	for srv in $(echo lighttpd kubelet cinder-init glance-api glance-init glance-registry \
 			neutron-init nova-compute nova-consoleauth nova-console nova-init nova-network \
 			nova-xvpvncproxy nova-spicehtml5proxy openvswitch \
 			registry-token-server)
@@ -46,6 +46,24 @@ stx_postprocess_rootfs() {
 	done
 	cd $CPWD
 
+	# OpenLdap:
+	# To avoid install conflicts, we need to post run a number of 
+	# commands. But openldap packages are getting renamed to libldap-. 
+	# Consequently pkg_postinstall_ontarget_openldap-config fails. 
+	# So this here is really a hack to get the build moving forward. 
+	# Lastly, we need to take a look at the right user and group
+	# permission settings
+
+	cp ${IMAGE_ROOTFS}/usr/share/starlingx/slapd.service ${IMAGE_ROOTFS}/lib/systemd/system/slapd.service
+	cp ${IMAGE_ROOTFS}/usr/share/starlingx/slapd.sysconfig ${IMAGE_ROOTFS}/etc/sysconfig/slapd
+
+	chmod 644 ${IMAGE_ROOTFS}//lib/systemd/system/slapd.service
+	chmod 644 ${IMAGE_ROOTFS}/etc/openldap/*
+	chmod 755 ${IMAGE_ROOTFS}/etc/openldap
+	chmod 755 ${IMAGE_ROOTFS}/etc/openldap/slapd.d
+
+
+
 	# Issue 11  etcd:
 	# Once the ansible-playbook runs it resets ETCD_DATA_DIR to
 	# /opt/etcd/19.01/controller.etcd in /etc/etcd/etcd.conf
@@ -56,8 +74,14 @@ stx_postprocess_rootfs() {
 	mkdir -p ${IMAGE_ROOTFS}/opt/etcd
 	chown etcd:etcd ${IMAGE_ROOTFS}/opt/etcd
 
+	# keystone hacks
+	# Fix python packages' permissions
+	find ${IMAGE_ROOTFS}/${libdir}/python2.7/site-packages/ -name PKG-INFO -exec chmod 644 {} +
+	chmod 644 ${IMAGE_ROOTFS}/${libdir}/python2.7/site-packages/docker_registry_core-2.0.3-py2.7.egg-info/namespace_packages.txt
+
 	# Puppet hacks 
 	sed -i -e 's:puppet apply : puppet apply --hiera_config=/etc/puppet/hiera.yaml :g' ${IMAGE_ROOTFS}/usr/bin/puppet-manifest-apply.sh 
+
 	# Fake being redhat for dev purpose only. This must be removed 
 	cat > ${IMAGE_ROOTFS}/etc/redhat-release << \EOF
 CentOS Linux release 7.3.1611 (Core)

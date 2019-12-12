@@ -69,6 +69,7 @@ RDEPENDS_packagegroup-stx-openldap = " \
 	openldap-bin \
 	openldap-slapd \
 	openldap-config \
+	openldap-dev \
 	"
 
 RDEPENDS_packagegroup-stx-kube = "\
@@ -117,6 +118,9 @@ RDEPENDS_packagegroup-stx-misc = "\
 	hiera \
 	gssproxy \
 	polkit \
+	e2fsprogs-resize2fs \
+	libmysqld libmysqlclient libmysqlclient-r libmysqlclient-dev libmysqlclient-r-dev \
+	nss-pam-ldapd \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\

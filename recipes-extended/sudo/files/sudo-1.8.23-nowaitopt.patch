@@ -1,0 +1,61 @@
+diff -up sudo-1.8.23/plugins/sudoers/def_data.c.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.c
+--- sudo-1.8.23/plugins/sudoers/def_data.c.nowaitopt	2018-06-18 09:36:34.249307795 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.c	2018-06-18 09:43:12.122986032 +0200
+@@ -498,6 +498,10 @@ struct sudo_defs_types sudo_defs_table[]
+ 	N_("Don't pre-resolve all group names"),
+ 	NULL,
+     }, {
++	"cmnd_no_wait", T_FLAG,
++	N_("Don't fork and wait for the command to finish, just exec it"),
++	NULL,
++    }, {
+ 	NULL, 0, NULL
+     }
+ };
+diff -up sudo-1.8.23/plugins/sudoers/def_data.h.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.h
+--- sudo-1.8.23/plugins/sudoers/def_data.h.nowaitopt	2018-06-18 09:36:34.250307792 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.h	2018-06-18 09:43:44.541878327 +0200
+@@ -228,6 +228,8 @@
+ #define def_case_insensitive_group (sudo_defs_table[I_CASE_INSENSITIVE_GROUP].sd_un.flag)
+ #define I_LEGACY_GROUP_PROCESSING 114
+ #define def_legacy_group_processing (sudo_defs_table[I_LEGACY_GROUP_PROCESSING].sd_un.flag)
++#define I_CMND_NO_WAIT          115
++#define def_cmnd_no_wait        (sudo_defs_table[I_CMND_NO_WAIT].sd_un.flag)
+ 
+ enum def_tuple {
+ 	never,
+diff -up sudo-1.8.23/plugins/sudoers/def_data.in.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.in
+--- sudo-1.8.23/plugins/sudoers/def_data.in.nowaitopt	2018-06-18 09:36:34.250307792 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.in	2018-06-18 09:45:00.076627403 +0200
+@@ -360,3 +360,6 @@ case_insensitive_group
+ legacy_group_processing
+ 	T_FLAG
+ 	"Don't pre-resolve all group names"
++cmnd_no_wait
++	T_FLAG
++	"Don't fork and wait for the command to finish, just exec it"
+diff -up sudo-1.8.23/plugins/sudoers/policy.c.nowaitopt sudo-1.8.23/plugins/sudoers/policy.c
+diff -up sudo-1.8.23/plugins/sudoers/sudoers.c.nowaitopt sudo-1.8.23/plugins/sudoers/sudoers.c
+--- sudo-1.8.23/plugins/sudoers/sudoers.c.nowaitopt	2018-06-18 11:31:51.883751328 +0200
++++ sudo-1.8.23/plugins/sudoers/sudoers.c	2018-06-18 11:31:03.670899166 +0200
+@@ -213,6 +213,20 @@ sudoers_policy_init(void *info, char * c
+         def_match_group_by_gid = false;
+ 	def_legacy_group_processing = false;
+     }
++
++    /*
++     * Emulate cmnd_no_wait option by disabling PAM session, PTY allocation
++     * and I/O logging. This will cause sudo to execute the given command
++     * directly instead of forking a separate process for it.
++     */
++    if (def_cmnd_no_wait) {
++        def_pam_setcred = false;
++        def_pam_session = false;
++        def_use_pty = false;
++        def_log_input = false;
++        def_log_output = false;
++    }
++
+ cleanup:
+     if (!restore_perms())
+ 	ret = -1;

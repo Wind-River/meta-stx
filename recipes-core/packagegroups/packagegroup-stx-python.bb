@@ -180,4 +180,9 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-configshell \
 	python2-os-service-types \
 	python-coverage \
+	python-pexpect \
+	python-trove \
+	python-colorama \
+	python-debtcollector \
+	mysql-python \
 	"
