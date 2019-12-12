@@ -35,8 +35,8 @@ PV = "18.2.0"
 SRC_URI = "git://github.com/cherrypy/cherrypy.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
 
-DEPENDS += " python3"
-inherit distutils3 pkgconfig
+DEPENDS += " python3 python3-setuptools-scm-native"
+inherit setuptools3 distutils3 pkgconfig
 
 RDEPENDS_${PN} += " \
 	python3-compression \
