@@ -61,6 +61,7 @@ stx_postprocess_rootfs() {
 	chmod 644 ${IMAGE_ROOTFS}/etc/openldap/*
 	chmod 755 ${IMAGE_ROOTFS}/etc/openldap
 	chmod 755 ${IMAGE_ROOTFS}/etc/openldap/slapd.d
+	chmod 755 ${IMAGE_ROOTFS}/etc/openldap/schema
 
 
 
