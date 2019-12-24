@@ -200,6 +200,7 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python3-netaddr \
 	python3-keyring \
 	python3-rpm \
+	python2-rpm \
 	python-oslo.messaging \
 	python-keyring \
 	python-cephclient \
