@@ -78,11 +78,10 @@ RDEPENDS_packagegroup-stx-kube = "\
 	kubeadm \
 	kubelet \
 	kubectl \
-	docker \
 	util-linux-unshare \
 	containerd-opencontainers \
 	runc-docker \
-	docker \
+	docker-ce \
 	packagegroup-stx-misc \
 	"
 	
@@ -121,6 +120,11 @@ RDEPENDS_packagegroup-stx-misc = "\
 	e2fsprogs-resize2fs \
 	libmysqld libmysqlclient libmysqlclient-r libmysqlclient-dev libmysqlclient-r-dev \
 	nss-pam-ldapd \
+	xfsprogs \
+	xfsprogs-fsck \
+	xfsprogs-mkfs \
+	xfsprogs-repair \
+	libhandle \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
