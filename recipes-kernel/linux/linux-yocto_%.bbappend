@@ -11,3 +11,5 @@ FILESEXTRAPATHS_append:= ":${THISDIR}/linux:"
 # tpmdd
 
 SRC_URI += "file://stx-kconfig.cfg"
+
+KERNEL_EXTRA_FEATURES_append = " features/xfs/xfs.scc"
