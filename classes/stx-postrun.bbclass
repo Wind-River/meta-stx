@@ -83,6 +83,21 @@ stx_postprocess_rootfs() {
 	# Puppet hacks 
 	sed -i -e 's:puppet apply : puppet apply --hiera_config=/etc/puppet/hiera.yaml :g' ${IMAGE_ROOTFS}/usr/bin/puppet-manifest-apply.sh 
 
+	# We will remove this. Problem is that the puppet modules call service instead of systemctl
+	# This workaround is to be removed and the actual fix is in the puppet modules.
+
+	cat > ${IMAGE_ROOTFS}/usr/bin/service << \EOF
+#!/bin/bash
+
+service_name=$1
+command=$2
+
+if [ $command = "reload" ] ; then
+        command="restart"
+fi
+systemctl $command $service_name
+EOF
+	chmod 755 ${IMAGE_ROOTFS}/usr/bin/service
 	# Fake being redhat for dev purpose only. This must be removed 
 	cat > ${IMAGE_ROOTFS}/etc/redhat-release << \EOF
 CentOS Linux release 7.3.1611 (Core)
