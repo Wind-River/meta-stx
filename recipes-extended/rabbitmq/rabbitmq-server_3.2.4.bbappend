@@ -2,6 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
 	file://rabbitmq-server.service \
+	file://rabbitmq-server-fails-with-home-not-set.patch \
 	"
 
 

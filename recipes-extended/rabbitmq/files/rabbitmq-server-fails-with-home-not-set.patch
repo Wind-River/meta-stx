@@ -1,0 +1,11 @@
+diff -Nurpd a/scripts/rabbitmqctl b/scripts/rabbitmqctl
+--- a/scripts/rabbitmqctl	2019-12-28 21:19:52.234575926 -0800
++++ b/scripts/rabbitmqctl	2019-12-28 21:23:04.135027166 -0800
+@@ -26,6 +26,7 @@
+ 
+ ##--- End of overridden <var_name> variables
+ 
++export HOME
+ exec ${ERL_DIR}erl \
+     -pa "${RABBITMQ_HOME}/ebin" \
+     -noinput \
