@@ -79,9 +79,17 @@ stx_postprocess_rootfs() {
 	# Fix python packages' permissions
 	find ${IMAGE_ROOTFS}/${libdir}/python2.7/site-packages/ -name PKG-INFO -exec chmod 644 {} +
 	chmod 644 ${IMAGE_ROOTFS}/${libdir}/python2.7/site-packages/docker_registry_core-2.0.3-py2.7.egg-info/namespace_packages.txt
+	mv ${IMAGE_ROOTFS}/lib/systemd/system/apache2.service ${IMAGE_ROOTFS}/lib/systemd/system/openstack-keystone.service
+	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/apache2.service
 
-	# Puppet hacks 
+	# Puppet
 	sed -i -e 's:puppet apply : puppet apply --hiera_config=/etc/puppet/hiera.yaml :g' ${IMAGE_ROOTFS}/usr/bin/puppet-manifest-apply.sh 
+
+	# Puppet postgresql
+	mkdir ${IMAGE_ROOTFS}/usr/local/bin
+	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/postgresql-init.service
+	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/postgresql.service
+	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/keystone-init.service
 
 	# We will remove this. Problem is that the puppet modules call service instead of systemctl
 	# This workaround is to be removed and the actual fix is in the puppet modules.
