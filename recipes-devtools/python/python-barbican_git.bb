@@ -10,8 +10,7 @@ BARBICAN_MAX_PACKET_SIZE ?= "65535"
 
 SRC_URI = " \
 	git://github.com/openstack/barbican.git;branch=${BRANCH} \
-	file://barbican.init \
-	file://barbican-fix-path-to-find-configuration-files.patch \
+	file://${PN}/barbican-fix-path-to-find-configuration-files.patch \
 	"
 
 SRCREV = "4c0ddda941289fba8e5ec4341b5d02d155d46162"
@@ -48,17 +47,6 @@ do_install_append() {
     cp -r ${TEMPLATE_CONF_DIR}/* ${BARBICAN_CONF_DIR}
 
     install -d ${D}${localstatedir}/lib/barbican
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-        install -d ${D}${sysconfdir}/init.d
-
-	for binary in api; do
-	    sed "s:@suffix@:$binary:" < ${WORKDIR}/barbican.init >${WORKDIR}/barbican-$binary.init.sh
-	    sed -e "s:%BARBICAN_MAX_PACKET_SIZE%:${BARBICAN_MAX_PACKET_SIZE}:g" -i ${WORKDIR}/barbican-$binary.init.sh
-            install -m 0755 ${WORKDIR}/barbican-$binary.init.sh ${D}${sysconfdir}/init.d/barbican-$binary
-	done
-	rm -f ${D}/usr/bin/barbican.sh
-	rm -f ${D}/usr/bin/barbican-worker.py
-    fi
 
     sed -e "s:%BARBICAN_CONF_DIR%:${sysconfdir}/${SRCNAME}:g" \
         -i ${D}/${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/tests/api/test_resources_policy.py
