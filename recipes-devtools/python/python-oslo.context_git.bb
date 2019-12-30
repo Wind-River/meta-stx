@@ -4,12 +4,12 @@ SECTION = "devel/python"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
-SRCREV = "e75f4c5ad91962e272d65daa770e00f70f931ecb"
+SRCREV = "76a07f9022f0fa967707c9f6cb5a4a24aac6b3ef"
 SRCNAME = "oslo.context"
 PROTOCOL = "https"
-BRANCH = "stable/queens"
+BRANCH = "stable/stein"
 S = "${WORKDIR}/git"
-PV = "2.19.2+git${SRCPV}"
+PV = "2.22.1+git${SRCPV}"
 
 SRC_URI = "git://github.com/openstack/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
