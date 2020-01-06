@@ -1,0 +1,27 @@
+From 6165b6e8ec8e65655d1a6fcf7b7c27323bf62122 Mon Sep 17 00:00:00 2001
+From: Jackie Huang <jackie.huang@windriver.com>
+Date: Mon, 6 Jan 2020 10:23:58 +0800
+Subject: [PATCH] Treat the failure as expected result if resize using the same
+ volume size
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../bootstrap/roles/persist-config/tasks/one_time_config_tasks.yml      | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/playbookconfig/playbookconfig/playbooks/bootstrap/roles/persist-config/tasks/one_time_config_tasks.yml b/playbookconfig/playbookconfig/playbooks/bootstrap/roles/persist-config/tasks/one_time_config_tasks.yml
+index d2d8a8d..3349019 100644
+--- a/playbookconfig/playbookconfig/playbooks/bootstrap/roles/persist-config/tasks/one_time_config_tasks.yml
++++ b/playbookconfig/playbookconfig/playbooks/bootstrap/roles/persist-config/tasks/one_time_config_tasks.yml
+@@ -114,6 +114,8 @@
+     - resize2fs /dev/drbd0
+     - resize2fs /dev/drbd3
+     - resize2fs /dev/drbd8
++  register: item_cmd
++  failed_when: (item_cmd.rc != 0) and (item_cmd.rc != 5)
+ 
+ - name: Further resize if root disk size is larger than 240G
+   command: "{{ item }}"
+-- 
+2.7.4
+
