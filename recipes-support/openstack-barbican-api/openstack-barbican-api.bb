@@ -32,21 +32,15 @@ do_install() {
 	install -m 0644 ${WORKDIR}/openstack-barbican-api.service ${D}/${systemd_system_unitdir}/openstack-barbican-api.service
 }
 
-pkg_preinst_${PN}() {
-	tar -C / -czpf /tmp/barbican.default.tar.gz ./etc/barbican
-}
-
-pkg_postinst_${PN}() {
+pkg_postinst_ontarget_${PN}() {
 
 	tar -C / -czpf /usr/share/starlingx/barbican/backup/barbican.$(date +%s).tar.gz ./etc/barbican
-	rm -rf /etc/barbican/
 
 	if [ ! -f /usr/share/starlingx/barbican/backup/barbican.default.tar.gz ]; then 
-		if [ ! /tmp/barbican.default.tar.gz ]; then
-			exit -1;
-		fi;
-		mv /tmp/barbican.default.tar.gz /usr/share/starlingx/barbican/backup/barbican.default.tar.gz
+		tar -C / -czpf /usr/share/starlingx/barbican/backup/barbican.default.tar.gz ./etc/barbican
 	fi;
+
+	rm -rf /etc/barbican/
 
 	# Restore to default settings
 	tar -C / -xzpf /usr/share/starlingx/barbican/backup/barbican.default.tar.gz
@@ -57,7 +51,7 @@ pkg_postinst_${PN}() {
 	systemctl daemon-reload
 }
 
-pkg_prerm_${PN}() {
+pkg_prerm_ontarget_${PN}() {
 	tar -C / -czpf /usr/share/starlingx/barbican/backup/barbican.$(date +%s).tar.gz ./etc/barbican
 	rm -rf /etc/barbican/
 
