@@ -371,6 +371,7 @@ RDEPENDS_packagegroup-stx-update = " \
 #	python-horizon.bbappend
 
 RDEPENDS_packagegroup-stx-upstream = " \
+	openstack-barbican-api \
 	python-barbicanclient \
 	python-cinderclient \
 	python-glanceclient \
