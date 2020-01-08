@@ -15,6 +15,7 @@ SRC_URI = " \
 	git://opendev.org/starlingx/config.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://0001-puppet-manifests-integ-set-correct-ldap-module-path.patch \
 	file://0001-puppet-manifests-adjust-path-variable.patch \
+	file://0001-puppet-manifests-etcd-override-typo-and-journalctl.patch \
 	"
 
 DEPENDS = "\
