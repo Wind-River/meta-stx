@@ -185,4 +185,7 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-colorama \
 	python-debtcollector \
 	mysql-python \
+	python-msgpack \
+	python-defusedxml \
 	"
+#	python-pycryptodome 
