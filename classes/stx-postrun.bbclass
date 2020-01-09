@@ -127,7 +127,7 @@ EOF
 
 	mkdir -p ${IMAGE_ROOTFS}/etc/platform/
 	cat > ${IMAGE_ROOTFS}/etc/platform/platform.conf << \EOF
-nodetype=controllcentoser
+nodetype=controller
 subfunction=controller,worker,lowlatency
 system_type=All-in-one
 security_profile=standard
