@@ -198,7 +198,6 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python3-portend \
 	python3-zc-lockfile \
 	python3-netaddr \
-	python3-keyring \
 	python3-rpm \
 	python2-rpm \
 	python-oslo.messaging \
@@ -210,6 +209,7 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python-httpretty \
 	"
 #	ceph-manager \
+#	python3-keyring \
 #	sysinv \
 # 	controllerconfig \
 # 	worker-utils 

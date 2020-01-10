@@ -19,6 +19,7 @@ IMAGE_FEATURES += " \
 	package-management \
 	ssh-server-openssh \
 	"
+inherit stx-postrun
 
 inherit core-image
 inherit distro_features_check
