@@ -111,4 +111,6 @@ FILES_${PN} = " \
 	"
 RDEPENDS_${PN} = "openssl"
 
+SYSTEMD_SERVICE_${PN} = "haproxy.service"
+
 INSANE_SKIP_${PN} += "already-stripped"
