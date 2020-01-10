@@ -14,7 +14,6 @@ stx_postprocess_rootfs() {
 
 	sed -i -e 's/^\(ExecStartPre.*gencert.sh\)/#\1/g' ${IMAGE_ROOTFS}/lib/systemd/system/haproxy.service
 	mkdir -p ${IMAGE_ROOTFS}/usr/share/haproxy
-	rm -f ${IMAGE_ROOTFS}/etc/systemd/system/haproxy.service
 
 	sed -i -e 's/^physical_.*:eth0/physical_interface_mappings = provider:${ETHDEV}/g' \
 		${IMAGE_ROOTFS}/etc/neutron/plugins/ml2/linuxbridge_agent.ini
