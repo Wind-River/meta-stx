@@ -16,6 +16,7 @@ SRC_URI = " \
 	file://0001-puppet-manifests-integ-set-correct-ldap-module-path.patch \
 	file://0001-puppet-manifests-adjust-path-variable.patch \
 	file://0001-puppet-manifests-etcd-override-typo-and-journalctl.patch \
+	file://0001-stx-config-puppet-manifests-cast-to-Integer.patch \
 	"
 
 DEPENDS = "\
