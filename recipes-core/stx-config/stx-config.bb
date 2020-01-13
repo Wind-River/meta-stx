@@ -45,6 +45,7 @@ require sysinv.inc
 require cgts-client.inc
 require workerconfig.inc
 require worker-utils.inc
+require stx-platform-helm.inc
 
 do_configure() {
 	:

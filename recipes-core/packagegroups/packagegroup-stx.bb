@@ -253,6 +253,9 @@ RDEPENDS_packagegroup-stx-config = " \
         pm-qos-mgr \
         sysinv \
         cgts-client \
+	stx-platform-helm \
+	helm \
+	openstack-helm-infra \
         "
 
 RDEPENDS_packagegroup-stx-fault = " \
