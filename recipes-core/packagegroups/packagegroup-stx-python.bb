@@ -187,5 +187,7 @@ RDEPENDS_packagegroup-stx-python = " \
 	mysql-python \
 	python-msgpack \
 	python-defusedxml \
+	python-docker \
+	python-kubernetes \
 	"
 #	python-pycryptodome 
