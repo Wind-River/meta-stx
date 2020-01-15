@@ -345,6 +345,7 @@ RDEPENDS_packagegroup-stx-metal = " \
 	mtce-control \
 	mtce-storage \
 	python-inventoryclient \
+	pxe-network-installer \
 	"
 
 RDEPENDS_packagegroup-stx-nfv = " \

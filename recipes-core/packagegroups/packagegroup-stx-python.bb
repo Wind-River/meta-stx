@@ -189,5 +189,7 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-defusedxml \
 	python-docker \
 	python-kubernetes \
+	python-ruamel.ordereddict \
+	python-ruamel.yaml \
 	"
 #	python-pycryptodome 
