@@ -42,6 +42,7 @@ require mtce-compute.inc
 require mtce-control.inc
 require mtce-storage.inc
 require python-inventoryclient.inc
+require pxe-network-installer.inc
 
 do_configure () {
 	:
