@@ -22,3 +22,7 @@ FILES_pm-qos-mgr = " \
 	${libdir}/python2.7/site-packages/pm_qos_mgr*egg-info/ \
 	${libdir}/python2.7/site-packages/pm_qos_mgr/ \
 	"
+
+#pkg_postinst_ontarget_pm-qos-mgr() {
+#	/usr/bin/systemctl enable pm-qos-mgr.service
+#}

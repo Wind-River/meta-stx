@@ -19,6 +19,7 @@ IMAGE_FEATURES += " \
 	package-management \
 	ssh-server-openssh \
 	"
+inherit stx-postrun
 
 inherit core-image
 inherit distro_features_check
@@ -29,3 +30,5 @@ inherit monitor
 # check for 5G of free space, so we use 5G as a starting point.
 # IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 5000000"
 # POST_KEYSTONE_SETUP_COMMAND = "/etc/keystone/hybrid-backend-setup"
+
+PACKAGE_EXCLUDE += " docker"

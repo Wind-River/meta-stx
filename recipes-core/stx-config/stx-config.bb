@@ -11,7 +11,13 @@ LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-SRC_URI = "git://opendev.org/starlingx/config.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
+SRC_URI = " \
+	git://opendev.org/starlingx/config.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://0001-puppet-manifests-integ-set-correct-ldap-module-path.patch \
+	file://0001-puppet-manifests-adjust-path-variable.patch \
+	file://0001-puppet-manifests-etcd-override-typo-and-journalctl.patch \
+	file://0001-stx-config-puppet-manifests-cast-to-Integer.patch \
+	"
 
 DEPENDS = "\
 	puppet \
@@ -40,6 +46,7 @@ require sysinv.inc
 require cgts-client.inc
 require workerconfig.inc
 require worker-utils.inc
+require stx-platform-helm.inc
 
 do_configure() {
 	:

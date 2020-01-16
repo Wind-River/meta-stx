@@ -25,16 +25,18 @@ do_install_prepend () {
 
         ## Install Upgrade scripts
 	install -d -m 755 ${D}/${sysconfdir}/upgrade.d
-        install -p -m 755 upgrade-scripts/* ${D}/${sysconfdir}/upgrade.d
+        install -p -m 755 upgrade-scripts/16-neutron-move-bindings-off-controller-1.py ${D}/${sysconfdir}/upgrade.d
+        install -p -m 755 upgrade-scripts/20-sysinv-retire-ceph-cache-tier-sp.py ${D}/${sysconfdir}/upgrade.d
+	
 
         install -p -D -m 664 scripts/controllerconfig.service ${D}/${systemd_system_unitdir}/controllerconfig.service
 }
 
 
 FILES_controllerconfig = " \
-		${sysconfdir}/goenabled.d \
 		${sysconfdir}/goenabled.d/config_goenabled_check.sh  \
-		${sysconfdir}/upgrade.d/* \
+		${sysconfdir}/upgrade.d/20-sysinv-retire-ceph-cache-tier-sp.py \
+		${sysconfdir}/upgrade.d/16-neutron-move-bindings-off-controller-1.py \
 		${sysconfdir}/init.d/controller_config \
 		${bindir}/keysringstaging \
         	${bindir}/openstack_update_admin_password \
@@ -53,3 +55,7 @@ FILES_controllerconfig = " \
 		${libdir}/python2.7/site-packages/controllerconfig*.egg-info/ \
 		${libdir}/python2.7/site-packages/controllerconfig/ \
 		"
+
+#pkg_postinst_ontarget_controllerconfig() {
+#	/usr/bin/systemctl enable controllerconfig.service 
+#}

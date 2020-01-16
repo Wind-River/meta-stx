@@ -178,4 +178,18 @@ RDEPENDS_packagegroup-stx-python = " \
 	python-murano-pkg-check \
 	python-oslo.upgradecheck \
 	python-configshell \
+	python2-os-service-types \
+	python-coverage \
+	python-pexpect \
+	python-trove \
+	python-colorama \
+	python-debtcollector \
+	mysql-python \
+	python-msgpack \
+	python-defusedxml \
+	python-docker \
+	python-kubernetes \
+	python-ruamel.ordereddict \
+	python-ruamel.yaml \
 	"
+#	python-pycryptodome 

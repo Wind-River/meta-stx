@@ -1,0 +1,89 @@
+diff -up sudo-1.8.23/plugins/sudoers/cvtsudoers.c.legacy-group-processing sudo-1.8.23/plugins/sudoers/cvtsudoers.c
+--- sudo-1.8.23/plugins/sudoers/cvtsudoers.c.legacy-group-processing	2018-06-28 11:24:25.966475241 +0200
++++ sudo-1.8.23/plugins/sudoers/cvtsudoers.c	2018-06-28 11:26:40.215025493 +0200
+@@ -321,6 +321,15 @@ main(int argc, char *argv[])
+ 	sudo_fatalx("error: unhandled input %d", input_format);
+     }
+ 
++    /*
++     * cvtsudoers group filtering doesn't work if def_match_group_by_gid
++     * is set to true by default (at compile-time). It cannot be set to false
++     * because cvtsudoers doesn't apply the parsed Defaults.
++     *
++     * Related: sudo-1.8.23-legacy-group-processing.patch
++     */
++    def_match_group_by_gid = def_legacy_group_processing = false;
++
+     /* Apply filters. */
+     filter_userspecs(conf);
+     filter_defaults(conf);
+diff -up sudo-1.8.23/plugins/sudoers/defaults.c.legacy-group-processing sudo-1.8.23/plugins/sudoers/defaults.c
+--- sudo-1.8.23/plugins/sudoers/defaults.c.legacy-group-processing	2018-04-29 21:59:31.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/defaults.c	2018-06-28 11:24:25.966475241 +0200
+@@ -87,6 +87,7 @@ static struct early_default early_defaul
+     { I_FQDN },
+ #endif
+     { I_MATCH_GROUP_BY_GID },
++    { I_LEGACY_GROUP_PROCESSING },
+     { I_GROUP_PLUGIN },
+     { I_RUNAS_DEFAULT },
+     { I_SUDOERS_LOCALE },
+@@ -488,6 +489,8 @@ init_defaults(void)
+     }
+ 
+     /* First initialize the flags. */
++    def_legacy_group_processing = true;
++    def_match_group_by_gid = true;
+ #ifdef LONG_OTP_PROMPT
+     def_long_otp_prompt = true;
+ #endif
+diff -up sudo-1.8.23/plugins/sudoers/def_data.c.legacy-group-processing sudo-1.8.23/plugins/sudoers/def_data.c
+--- sudo-1.8.23/plugins/sudoers/def_data.c.legacy-group-processing	2018-04-29 21:59:31.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.c	2018-06-28 11:24:25.966475241 +0200
+@@ -494,6 +494,10 @@ struct sudo_defs_types sudo_defs_table[]
+ 	N_("Ignore case when matching group names"),
+ 	NULL,
+     }, {
++	"legacy_group_processing", T_FLAG,
++	N_("Don't pre-resolve all group names"),
++	NULL,
++    }, {
+ 	NULL, 0, NULL
+     }
+ };
+diff -up sudo-1.8.23/plugins/sudoers/def_data.h.legacy-group-processing sudo-1.8.23/plugins/sudoers/def_data.h
+--- sudo-1.8.23/plugins/sudoers/def_data.h.legacy-group-processing	2018-04-29 21:59:31.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.h	2018-06-28 11:24:25.967475238 +0200
+@@ -226,6 +226,8 @@
+ #define def_case_insensitive_user (sudo_defs_table[I_CASE_INSENSITIVE_USER].sd_un.flag)
+ #define I_CASE_INSENSITIVE_GROUP 113
+ #define def_case_insensitive_group (sudo_defs_table[I_CASE_INSENSITIVE_GROUP].sd_un.flag)
++#define I_LEGACY_GROUP_PROCESSING 114
++#define def_legacy_group_processing (sudo_defs_table[I_LEGACY_GROUP_PROCESSING].sd_un.flag)
+ 
+ enum def_tuple {
+ 	never,
+diff -up sudo-1.8.23/plugins/sudoers/def_data.in.legacy-group-processing sudo-1.8.23/plugins/sudoers/def_data.in
+--- sudo-1.8.23/plugins/sudoers/def_data.in.legacy-group-processing	2018-04-29 21:59:31.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/def_data.in	2018-06-28 11:24:25.967475238 +0200
+@@ -357,3 +357,6 @@ case_insensitive_user
+ case_insensitive_group
+ 	T_FLAG
+ 	"Ignore case when matching group names"
++legacy_group_processing
++	T_FLAG
++	"Don't pre-resolve all group names"
+diff -up sudo-1.8.23/plugins/sudoers/sudoers.c.legacy-group-processing sudo-1.8.23/plugins/sudoers/sudoers.c
+--- sudo-1.8.23/plugins/sudoers/sudoers.c.legacy-group-processing	2018-04-29 21:59:31.000000000 +0200
++++ sudo-1.8.23/plugins/sudoers/sudoers.c	2018-06-28 11:24:25.967475238 +0200
+@@ -209,6 +209,10 @@ sudoers_policy_init(void *info, char * c
+     if (set_loginclass(runas_pw ? runas_pw : sudo_user.pw))
+ 	ret = true;
+ 
++    if (!def_match_group_by_gid || !def_legacy_group_processing) {
++        def_match_group_by_gid = false;
++	def_legacy_group_processing = false;
++    }
+ cleanup:
+     if (!restore_perms())
+ 	ret = -1;

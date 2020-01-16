@@ -91,6 +91,12 @@ FILES_sysinv = " \
 	${sysconfdir}/sysinv/policy.json \
 	${sysconfdir}/sysinv/upgrades \
 	${sysconfdir}/sysinv/upgrades/delete_load.sh \
+	${sysconfdir}/goenabled.d/sysinv_goenabled_check.sh \
 	${systemd_system_unitdir}/sysinv-api.service \
 	${systemd_system_unitdir}/sysinv-conductor.service \
 	"
+
+#pkg_postinst_ontarget_sysinv() {
+#	/usr/bin/systemctl enable sysinv-agent.service sysinv-api.service
+#	# sysinv-conductor.service
+#}

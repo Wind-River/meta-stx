@@ -37,3 +37,7 @@ FILES_sm-api = " \
 	${sysconfdir}/sm-api/policy.json \
 	${bindir}/sm-api \
 	"
+
+#pkg_postinst_ontarget_sm-api() {
+#	/usr/bin/systemctl enable sm-api.service
+#}

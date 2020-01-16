@@ -22,8 +22,8 @@ do_install_append () {
 	install -m 0644 files/iscsid.conf ${D}/${datadir}/starlingx/stx.iscsid.conf
 }
 
-FILES_iscsi-initiator-utils-config_append += " \
+FILES_iscsi-initiator-utils-config_append = " \
 	${libdir}/tempfiles.d/iscsi-cache.volatiles \
 	${systemd_system_unitdir}/iscsi-shutdown.service \
 	${datadir}/starlingx/stx.iscsid.conf \
-		"
+	"

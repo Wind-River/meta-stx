@@ -8,7 +8,7 @@ PROTOCOL = "https"
 BRANCH = "master"
 SRCREV = "eeb2dee9023347f73d7153325190550a5dc87e7a"
 S = "${WORKDIR}/git"
-PV = "19.05"
+PV = "19.01"
 
 LICENSE = "Apache-2.0"
 
@@ -20,6 +20,7 @@ SRC_URI = "git://opendev.org/starlingx/fault.git;protocol=${PROTOCOL};rev=${SRCR
 	file://0001-snmp-ext-use-build-systems-LDFLAGS.patch \
 	"
 
+inherit setuptools
 DEPENDS = " \
 	util-linux \
 	postgresql \
@@ -35,7 +36,6 @@ DEPENDS = " \
 
 RDEPENDS_${PN} += " bash"
 
-inherit setuptools
 cgcs_doc_deploy = "/opt/deploy/cgcs_doc"
 
 require fm-common.inc

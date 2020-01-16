@@ -5,7 +5,7 @@ PROTOCOL = "https"
 BRANCH = "master"
 SRCREV = "d599a0f4cec538b60f7d953cd89e0603cc1bdb5a"
 S = "${WORKDIR}/git"
-PV = "19.05"
+PV = "19.01"
 
 LICENSE = "Apache-2.0"
 
@@ -42,6 +42,7 @@ require mtce-compute.inc
 require mtce-control.inc
 require mtce-storage.inc
 require python-inventoryclient.inc
+require pxe-network-installer.inc
 
 do_configure () {
 	:

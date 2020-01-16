@@ -68,6 +68,8 @@ RDEPENDS_packagegroup-stx-openldap = " \
 	openldap-backend-shell \
 	openldap-bin \
 	openldap-slapd \
+	openldap-config \
+	openldap-dev \
 	"
 
 RDEPENDS_packagegroup-stx-kube = "\
@@ -76,11 +78,10 @@ RDEPENDS_packagegroup-stx-kube = "\
 	kubeadm \
 	kubelet \
 	kubectl \
-	docker \
 	util-linux-unshare \
 	containerd-opencontainers \
 	runc-docker \
-	docker \
+	docker-ce \
 	packagegroup-stx-misc \
 	"
 	
@@ -114,6 +115,16 @@ RDEPENDS_packagegroup-stx-misc = "\
 	grub \
 	grub-efi \
 	hiera \
+	gssproxy \
+	polkit \
+	e2fsprogs-resize2fs \
+	libmysqld libmysqlclient libmysqlclient-r libmysqlclient-dev libmysqlclient-r-dev \
+	nss-pam-ldapd \
+	xfsprogs \
+	xfsprogs-fsck \
+	xfsprogs-mkfs \
+	xfsprogs-repair \
+	libhandle \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -187,8 +198,8 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python3-portend \
 	python3-zc-lockfile \
 	python3-netaddr \
-	python3-keyring \
 	python3-rpm \
+	python2-rpm \
 	python-oslo.messaging \
 	python-keyring \
 	python-cephclient \
@@ -198,6 +209,7 @@ RDEPENDS_packagegroup-stx-ceph = "\
 	python-httpretty \
 	"
 #	ceph-manager \
+#	python3-keyring \
 #	sysinv \
 # 	controllerconfig \
 # 	worker-utils 
@@ -241,6 +253,9 @@ RDEPENDS_packagegroup-stx-config = " \
         pm-qos-mgr \
         sysinv \
         cgts-client \
+	stx-platform-helm \
+	helm \
+	openstack-helm-infra \
         "
 
 RDEPENDS_packagegroup-stx-fault = " \
@@ -330,6 +345,7 @@ RDEPENDS_packagegroup-stx-metal = " \
 	mtce-control \
 	mtce-storage \
 	python-inventoryclient \
+	pxe-network-installer \
 	"
 
 RDEPENDS_packagegroup-stx-nfv = " \
@@ -360,6 +376,7 @@ RDEPENDS_packagegroup-stx-update = " \
 #	python-horizon.bbappend
 
 RDEPENDS_packagegroup-stx-upstream = " \
+	openstack-barbican-api \
 	python-barbicanclient \
 	python-cinderclient \
 	python-glanceclient \

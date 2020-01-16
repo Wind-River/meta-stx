@@ -70,9 +70,6 @@ do_install_prepend () {
 	install -m 644 -p -D secretUtil.h ${D}/${includedir}/
 }
 
-pkg_postinst_ontarget_mtce-common_prepend () { 
-}
-
 # Headers, and static devs go into stx-mtce-dev 
 # and stx-mtce-staticdev packages respecitively
 FILES_mtce-common = " "

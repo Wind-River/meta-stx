@@ -21,8 +21,6 @@ do_install_prepend () {
 
 }
 
-# pkg_postinst_ontarget_python-inventoryclient () { } 
-
 FILES_python-inventoryclient = " \
 	${bindir}/inventory \
 	${sysconfdir}/bash_completion.d/inventory.bash_completion \

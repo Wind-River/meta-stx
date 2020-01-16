@@ -1,8 +1,7 @@
+FILESEXTRAPATHS_append := ":${THISDIR}/${PN}:"
 
-#FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-
-SRC_URI = " \
+SRC_URI += " \
 	file://0001-skip_wait_con_int_on_simplex.patch \
 	file://0002-drbd-conditional-crm-dependency.patch \
 	file://0003-drbd_report_condition.patch \
@@ -14,10 +13,8 @@ SRC_URI = " \
 	file://0009-Check-for-mounted-device-before-demoting-Primary-DRB.patch \
 	file://0010-Include-sysmacros-for-major-minor-macros.patch \
 	file://0011-Disable-documentation.patch \
+	file://drbd.service \
 	"
-
-SYSTEMD_SERVICE_${PN} = "drbd.service"
-SYSTEMD_AUTO_ENABLE = "disable"
 
 EXTRA_OECONF = " \
 		--with-utils			\
@@ -62,9 +59,29 @@ FILES_${PN} = "\
 	${libdir}/drbd/crm-unfence-peer.sh \
 	${libdir}/drbd/stonith_admin-fence-peer.sh \
 	${libdir}/ocf/resource.d/linbit/drbd \
-	${datadir}/cluster/drbd.sh \
+	${datadir}/cluster/drbd.sh.drbd-utils \
 	${datadir}/cluster/drbd.metadata \
 	${sysconfdir}/ha.d/resource.d/drbddisk \
 	${sysconfdir}/ha.d/resource.d/drbdupper \
 	${sysconfdir}/bash_completion.d/drbdadm* \
+	${systemd_system_unitdir}/drbd.service \
 	"
+
+inherit update-alternatives
+ALTERNATIVE_PRIORITY = "80"
+ALTERNATIVE_${PN} = "drbd.sh"
+ALTERNATIVE_LINK_NAME[drbd.sh] = "${datadir}/cluster/drbd.sh"
+
+do_install_append() {
+	mv ${D}${datadir}/cluster/drbd.sh ${D}${datadir}/cluster/drbd.sh.drbd-utils
+	install -d -m 755 ${D}/${systemd_system_unitdir}
+	install -p -D -m 644 ${WORKDIR}/drbd.service ${D}/${systemd_system_unitdir}
+}
+
+#inherit systemd
+#SYSTEMD_PACKAGES += "${PN}"
+#SYSTEMD_SERVICE_${PN} = "drbd.service"
+
+pkg_postinst_ontarget_drbd-utils() {
+	/usr/bin/systemctl enable drbd.service
+}

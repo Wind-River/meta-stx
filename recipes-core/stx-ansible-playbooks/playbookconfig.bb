@@ -15,9 +15,12 @@ LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
+# The patch 0001-Treat-the-failure-as-expected-result-if-resize-using.patch
+# need to be removed if updating to stx 2.0.0 or above.
 SRC_URI = " \
 	git://opendev.org/starlingx/ansible-playbooks.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://0001-Adjust-absolute-path.patch \
+	file://0001-Treat-the-failure-as-expected-result-if-resize-using.patch \
 	"
 
 DEPENDS = " \

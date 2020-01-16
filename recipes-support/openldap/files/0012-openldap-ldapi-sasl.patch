@@ -1,28 +1,15 @@
-From 4533a8029bdb309eaa63ebb68d71243fa1f9835a Mon Sep 17 00:00:00 2001
+From b2623b57b79becf707ff1800bfb5153af3f0d1fc Mon Sep 17 00:00:00 2001
 From: babak sarashki <babak.sarashki@windriver.com>
-Date: Sun, 3 Nov 2019 14:47:27 -0800
-Subject: [PATCH 12/20] openldap ldapi sasl
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 4 Dec 2019 07:58:45 -0800
+Subject: [PATCH 12/12] openldap ldapi sasl
 
 From stx 1901: openldap-ldapi-sasl.patch
-
-From 69709289b083c53ba41d2cef7d65120220f8c59b Mon Sep 17 00:00:00 2001
-From: Sumit Bose <sbose@redhat.com>
-Date: Tue, 7 May 2013 17:02:57 +0200
-Subject: [PATCH] LDAPI SASL fix
-
-Resolves: #960222
----
- libraries/libldap/cyrus.c | 19 ++++++++++++++++---
-  1 Datei geändert, 16 Zeilen hinzugefügt(+), 3 Zeilen entfernt(-)
 ---
  libraries/libldap/cyrus.c | 19 ++++++++++++++++---
  1 file changed, 16 insertions(+), 3 deletions(-)
 
 diff --git a/libraries/libldap/cyrus.c b/libraries/libldap/cyrus.c
-index 8a496f9..06a9fdf 100644
+index 8a496f990..06a9fdf41 100644
 --- a/libraries/libldap/cyrus.c
 +++ b/libraries/libldap/cyrus.c
 @@ -385,6 +385,8 @@ ldap_int_sasl_bind(
