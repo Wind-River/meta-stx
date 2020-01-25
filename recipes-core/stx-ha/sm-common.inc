@@ -9,7 +9,7 @@ do_configure_prepend () {
 } 
 
 do_compile_prepend () {
-	cd ${S}/service-mgmt/sm-common-1.0.0/src
+	cd ${S}/service-mgmt/sm-common/src
 	oe_runmake -e VER=0 VER_MJR=1 \
 		INCLUDES="-I. $(pkg-config --cflags glib-2.0)" \
 		CCFLAGS="${CXXFLAGS} -fPIC" LDFLAGS="${LDFLAGS} -shared -rdynamic" \
@@ -18,11 +18,11 @@ do_compile_prepend () {
 }
 
 do_install_prepend () {
-	cd ${S}/service-mgmt/sm-common-1.0.0/src
+	cd ${S}/service-mgmt/sm-common/src
 	oe_runmake -e DEST_DIR=${D} BIN_DIR=${bindir} UNIT_DIR=${systemd_system_unitdir} \
 			LIB_DIR=${libdir} INC_DIR=${includedir} VER=0 VER_MJR=1 install
  
-	cd ${S}/service-mgmt/sm-common-1.0.0/
+	cd ${S}/service-mgmt/sm-common/
 	install -d -m 755 ${D}/${systemd_system_unitdir}
 	# install -m 755 -d ${D}/${sysconfdir}/pmon.d
 	# install -m 755 -d ${D}/${sysconfdir}/init.d

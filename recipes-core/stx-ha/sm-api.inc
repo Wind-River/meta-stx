@@ -2,17 +2,17 @@ PACKAGES += " sm-api"
 
 RDEPENDS_sm-api += " bash"
 
-do_configure_prepend () {
+do_configure_append () {
 	cd ${S}/service-mgmt-api/sm-api
 	distutils_do_configure
 } 
 
-do_compile_prepend () {
+do_compile_append () {
 	cd ${S}/service-mgmt-api/sm-api
 	distutils_do_compile
 }
 
-do_install_prepend () {
+do_install_append () {
 	cd ${S}/service-mgmt-api/sm-api
 	distutils_do_install
 	install -d -m 0755 ${D}/${sysconfdir}/sm
