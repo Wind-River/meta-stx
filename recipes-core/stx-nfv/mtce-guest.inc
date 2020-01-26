@@ -1,21 +1,14 @@
 PACKAGES += " mtce-guestagent"
 PACKAGES += " mtce-guestserver"
 
-# RDEPENDS_mtce-guestagent_append = " "
-# RDEPENDS_mtce-guestAgent_append = " "
-
-#RDEPENDS_mtce-guestServer_append = " \
-#	bash \
-#	libstdc++ \
-#	"
-
 do_configure_prepend () {
 	:
 } 
 
 do_compile_prepend () {
 	cd ${S}/mtce-guest/src/
-	oe_runmake -e VER=1 VER_MJR=1 INCLUDES=" -I. " \
+	oe_runmake -e MAJOR="1" MINONR="0" \
+		INCLUDES=" -I. -I${STAGING_INCDIR}/mtce-common/ -I${STAGING_INCDIR}/mtce-daemon/ " \
 		CPPFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" build
 }
 
@@ -25,7 +18,8 @@ do_install_prepend () {
 	oe_runmake -e install DESTDIR=${D} PREFIX=${D}/usr/ \
 		       SYSCONFDIR=${D}/${sysconfdir} \
 		            LOCALBINDIR=${D}/${bindir} \
-			         UNITDIR=${D}/${systemd_system_unitdir}
+			    UNITDIR=${D}/${systemd_system_unitdir} 
+
 	rm -rf ${D}/var
 	rm -rf ${D}/var/run
 }
