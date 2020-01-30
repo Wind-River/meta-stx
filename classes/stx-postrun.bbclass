@@ -1,7 +1,7 @@
 # This class is intended to include workarounds and finetuning of the rootfs
 # Most of the stuff in here needs to go else where.
 
-ROOTFS_POSTPROCESS_COMMAND_append = " stx_postprocess_rootfs;"
+#ROOTFS_POSTPROCESS_COMMAND_append = " stx_postprocess_rootfs;"
 ETHDEV = "enp0s4"
 
 stx_postprocess_rootfs() {
