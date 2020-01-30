@@ -19,6 +19,7 @@ RDEPENDS_mtce-pmon_append = " \
 
 RDEPENDS_mtce_append = " \
 	mtce-pmon \
+	python3-redfishtool \
 	"
 
 do_configure_prepend () {
