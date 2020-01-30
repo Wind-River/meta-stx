@@ -6,10 +6,9 @@ RDEPENDS_collectd-extensions += " \
 	fm-api \
 	python-influxdb \
 	python-oslo.concurrency \
+	python-httplib2 \
 	tsconfig \
 	"
-#	collectd-python \
-#	python-httlib2 
 
 do_configure_append () {
 	:

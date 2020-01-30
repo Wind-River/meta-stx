@@ -1,6 +1,10 @@
 PACKAGES += " vm-topology"
 
-# RDEPENDS_monitor-tools += " initscripts-config"
+RDEPENDS_vm-topology += " \
+	python \
+	libvirt \
+	python-keyring \
+	"
 
 DEPENDS += " \
 	python-keyring \
