@@ -1,5 +1,20 @@
 PACKAGES += " mtce-common"
 
+
+
+RDEPENDS_mtce-common = " \
+	util-linux \
+	bash \
+	systemd \
+	dpkg \
+	time \
+	libevent \
+	expect \
+	json-c \
+	python-rtslib-fb \
+	fm-common \
+	"
+
 do_configure_prepend () {
 	:
 } 

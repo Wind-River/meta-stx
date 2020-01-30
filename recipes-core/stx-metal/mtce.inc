@@ -4,13 +4,22 @@ PACKAGES += " mtce-hwmon"
 PACKAGES += " mtce-hostw"
 PACKAGES += " mtce-lmon"
 
-#DEPENDS = " \
-#	mtce-common \
-#	"
-#
-RDEPENDS_mtce-pmon_append = " bash"
-RDEPENDS_mtce_append = " bash"
-#
+RDEPENDS_mtce-pmon_append = " \
+	bash \
+	systemd \
+	dpkg \
+	fm-common \
+	libevent \
+	json-c \
+	python-rtslib-fb \
+	expect \
+	util-linux \
+	ipmitool \
+	"
+
+RDEPENDS_mtce_append = " \
+	mtce-pmon \
+	"
 
 do_configure_prepend () {
 	:

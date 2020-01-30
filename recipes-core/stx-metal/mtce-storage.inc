@@ -1,6 +1,9 @@
 PACKAGES += " mtce-storage"
 
-RDEPENDS_mtce-storage_append = " bash"
+RDEPENDS_mtce-storage_append = " \
+	bash \
+	systemd \
+	"
 
 do_configure_prepend () {
 	:

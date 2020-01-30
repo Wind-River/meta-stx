@@ -1,6 +1,11 @@
 PACKAGES += " mtce-control"
 
-RDEPENDS_mtce-control += " bash"
+RDEPENDS_mtce-control += " \
+	bash \
+	systemd \
+	lighttpd \
+	qemu \
+	"
 
 do_configure_prepend () {
 	:
