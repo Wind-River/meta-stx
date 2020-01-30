@@ -10,30 +10,103 @@ PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
 
-# TODO:
-#0e5ccf641e613489e66aa98271dbe798  ./modules/puppet-dcdbsync/src/LICENSE
-#0e5ccf641e613489e66aa98271dbe798  ./modules/puppet-dcmanager/src/LICENSE
-#0e5ccf641e613489e66aa98271dbe798  ./modules/puppet-dcorch/src/LICENSE
-#0e5ccf641e613489e66aa98271dbe798  ./modules/puppet-fm/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./modules/puppet-mtce/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./modules/puppet-nfv/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./modules/puppet-patching/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./modules/puppet-smapi/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./modules/puppet-sshd/src/LICENSE
-#0e5ccf641e613489e66aa98271dbe798  ./modules/puppet-sysinv/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./puppet-manifests/src/LICENSE
+
+
+
 
 LIC_FILES_CHKSUM = " \
+	file://modules/puppet-dcdbsync/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
+	file://modules/puppet-dcmanager/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
+	file://modules/puppet-dcorch/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
+	file://modules/puppet-fm/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
 	file://modules/puppet-mtce/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://modules/puppet-nfv/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://modules/puppet-patching/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://modules/puppet-smapi/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://modules/puppet-sshd/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://modules/puppet-sysinv/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
+	file://puppet-manifests/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	"
 
 SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
 
-RDEPENDS_${PN} += " puppet" 
-RDEPENDS_puppet-manifests += " bash"
-RDEPENDS_puppet-mtce += " puppet"
+RDEPENDS_${PN} += " \
+	bash puppet \
+        puppet-staging \
+        puppet-oslo \
+        puppetlabs-apache \
+        puppetlabs-mysql \
+"
 
+# WRS puppet modules
+RDEPENDS_puppet-manifests += " \
+	puppet-dcorch \
+	puppet-dcmanager \
+	puppet-mtce \
+	puppet-nfv \
+	puppet-patching \
+	puppet-sysinv \
+	puppet-sshd \
+	puppet-smapi \
+	puppet-fm \
+	puppet-dcdbsync \
+	"
+# Openstack puppet modules
+RDEPENDS_puppet-manifests += " \
+	puppet-barbican \
+	puppet-ceph \
+	puppet-horizon \
+	puppet-keystone \
+	puppet-openstacklib \
+	puppet-vswitch \
+	puppet-memcached \
+	"
+
+# Puppetlabs puppet modules 
+RDEPENDS_puppet-manifests += " \
+        puppetlabs-concat \
+        puppetlabs-create-resources \
+        puppet-drbd \
+        puppetlabs-firewall \
+        puppetlabs-haproxy \
+        puppetlabs-inifile \
+        puppetlabs-lvm \
+        puppetlabs-postgresql \
+        puppetlabs-rabbitmq \
+        puppetlabs-stdlib \
+        puppet-sysctl \
+        puppet-etcd \
+	"
+
+# 3rd party puppet modules
+RDEPENDS_puppet-manifests += " \
+        puppet-boolean \
+        puppet-certmonger \
+        puppet-dnsmasq \
+        puppet-filemapper \
+        puppet-kmod \
+        puppet-ldap \
+        puppet-network \
+        puppet-nslcd \
+        puppet-nssdb \
+        puppet-puppi \
+        puppet-vlan \
+        puppet-collectd \
+	"
+
+
+ 
+RDEPENDS_puppet-mtce += " puppet"
+RDEPENDS_puppet-dcdbsync += " puppet" 
+RDEPENDS_puppet-dcmanager += " puppet"
+RDEPENDS_puppet-dcorch += " puppet"
+RDEPENDS_puppet-fm += " puppet"
+RDEPENDS_puppet-nfv += " puppet"
+RDEPENDS_puppet-patching += " puppet"
+RDEPENDS_puppet-smapi += " puppet"
+RDEPENDS_puppet-sshd += " puppet"
+RDEPENDS_puppet-sysinv += " puppet"
 
 PACKAGES += " puppet-dcdbsync"
 PACKAGES += " puppet-dcmanager"
