@@ -1,11 +1,10 @@
 DESCRIPTION = "stx-update"
 
-STABLE = "starlingx/master"
 PROTOCOL = "https"
-BRANCH = "master"
-SRCREV = "25dee38f0ba4abb9a4c27330bfa4032cdc136965"
+BRANCH = "r/stx.3.0"
+SRCREV = "2542c5539bab060830009d02cbb257cc8bf4a376"
 S = "${WORKDIR}/git"
-PV = "19.05"
+PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
 
@@ -18,12 +17,11 @@ DEPENDS = " \
 	python-pbr-native \
 	"
 
-RDEPENDS_${PN} += " requests-toolbelt"
+RDEPENDS_${PN} += " python-requests-toolbelt"
 
 require cgcs-patch.inc
 require enable-dev-patch.inc
 require patch-alarm.inc
-require tsconfig.inc
 
 do_configure () {
 	:
