@@ -1,6 +1,11 @@
 PACKAGES += " sm-api"
 
-RDEPENDS_sm-api += " bash"
+RDEPENDS_sm-api += " \
+	bash \
+	python-six \
+	chkconfig \
+	mtce-pmon \
+	"
 
 do_configure_append () {
 	cd ${S}/service-mgmt-api/sm-api

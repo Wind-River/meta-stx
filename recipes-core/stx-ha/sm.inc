@@ -1,13 +1,19 @@
 PACKAGES += " sm"
 
-RDEPENDS_sm += " bash python"
+RDEPENDS_sm += " \
+	bash \
+	python \
+	logrotate \
+	time \
+	systemd \
+	chkconfig \
+	mtce-pmon \
+	"
+#	aaa_base
 
 do_configure_append () {
 	:
 }
-
-# TODO:
-# Fix the Makefiles. We should not have to do this stuff here.
 
 do_compile_append() {
 	cd ${S}/service-mgmt/sm/src

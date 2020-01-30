@@ -1,6 +1,9 @@
 PACKAGES += " sm-client"
 
-RDEPENDS_sm-client += " python"
+RDEPENDS_sm-client += " \
+	python \
+	python-six \
+	"
 
 do_configure_append () {
 	cd ${S}/service-mgmt-client/sm-client

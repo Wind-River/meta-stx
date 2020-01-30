@@ -2,7 +2,15 @@ PACKAGES += " libsm-common"
 PACKAGES += " sm-common-libs"
 PACKAGES += " sm-eru"
 
-RDEPENDS_sm-eru += " bash"
+RDEPENDS_sm-common-libs += " \
+	bash \
+	sqlite \
+	util-linux \
+	systemd \
+	"
+RDEPENDS_sm-eru = " sm-common-libs"
+RDEPENDS_libsm-common = " sm-common-libs"
+
 
 do_configure_prepend () {
 	:

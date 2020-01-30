@@ -1,5 +1,6 @@
 PACKAGES += " sm-tools"
 
+RDEPENDS_sm-tools += " python"
 
 do_configure_append () {
 	cd ${S}/service-mgmt-tools/sm-tools
