@@ -1,6 +1,9 @@
 PACKAGES += " stx-ocf-scripts"
 
-RDEPENDS_stx-ocf-scripts.inc += " bash openstack-ras"
+RDEPENDS_stx-ocf-scripts += " \
+	bash \
+	openstack-ras \
+	"
 
 do_configure_append () {
 	:
