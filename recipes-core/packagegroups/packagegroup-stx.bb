@@ -160,4 +160,5 @@ RDEPENDS_packagegroup-stx-upstream = " \
 	python-openstackclient \
 	python-openstacksdk \
 	python-pankoclient \
+	openstack-ras \
 	"
