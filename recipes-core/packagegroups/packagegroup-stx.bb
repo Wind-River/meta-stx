@@ -22,6 +22,7 @@ PACKAGES = " \
 	packagegroup-stx-config \
 	packagegroup-stx-config-files \
 	packagegroup-stx-distributedcloud \
+	packagegroup-stx-update \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -161,4 +162,12 @@ RDEPENDS_packagegroup-stx-upstream = " \
 	python-openstacksdk \
 	python-pankoclient \
 	openstack-ras \
+	"
+
+RDEPENDS_packagegroup-stx-update = " \
+	cgcs-patch \
+	cgcs-patch-agent \
+	cgcs-patch-controller \
+	enable-dev-patch \
+	patch-alarm \
 	"
