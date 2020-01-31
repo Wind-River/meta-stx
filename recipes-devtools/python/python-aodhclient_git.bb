@@ -4,7 +4,7 @@ SECTION = "devel/python"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
-SRCREV = "d60577d671ce8a9f571e0bf98d19dc774700cf7b"
+SRCREV = "6d03e61986418a3a95635405ae65ae9f28a5c61e"
 SRCNAME = "python-aodhclient"
 BRANCH = "stable/train"
 PROTOCOL = "https"
