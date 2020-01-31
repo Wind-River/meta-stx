@@ -19,4 +19,23 @@ DEPENDS += " \
 
 inherit setuptools
 
-RDEPENDS_${PN}_append = " bash"
+RDEPENDS_${PN}_append = " \
+	bash	\
+	python-pbr \
+	python-prettytable \
+	python-glanceclient \
+	python-keystoneclient \
+	python-iso8601 \
+	python-six \
+	python-babel \
+	python-pyopenssl \
+	python-requests \
+	python-pyyaml \
+	python-yaql \
+	python-osc-lib \
+	python-murano-pkg-check \
+	python-oslo.serialization \
+	python-oslo.utils \
+	python-oslo.log \
+	python-oslo.i18n \
+	"
