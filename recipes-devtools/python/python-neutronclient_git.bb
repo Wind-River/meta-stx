@@ -4,7 +4,7 @@ SECTION = "devel/python"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
-SRCREV = "4903c16c9acd30e5a9512bd2bfcedf1774b2a5a2"
+SRCREV = "680b417111dbbda9e318700286c4efd9055f1af3"
 SRCNAME = "python-neutronclient"
 BRANCH = "stable/train"
 PROTOCOL = "https"
