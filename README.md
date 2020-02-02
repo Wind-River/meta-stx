@@ -3,10 +3,11 @@ meta-stx
 
 Build
 ------------------------
-
+```
 git clone --branch r3_rebase git@github.com:zbsarashki/staging-stx.git
 cd staging-stx
 ./setup.sh
+```
 
 Introduction
 ------------------------
