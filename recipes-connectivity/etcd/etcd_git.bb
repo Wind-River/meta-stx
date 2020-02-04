@@ -31,8 +31,8 @@ SRC_URI = " \
     git://github.com/coreos/etcd.git;branch=release-3.3 \
     "
 
-SRCREV = "98d308426819d892e149fe45f6fd542464cb1f9d"
-PV = "3.3.13+git${SRCPV}"
+SRCREV = "94745a4eed0425653b3b4275a208d38babceeaec"
+PV = "3.3.15+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
@@ -58,10 +58,9 @@ do_compile() {
 	#
 	# We also need to link in the ipallocator directory as that is not under
 	# a src directory.
-	ln -sfn . "${S}/src/import/cmd/vendor/src"
-	mkdir -p "${S}/src/import/cmd/vendor/src/github.com/cockroachdb/cmux"
-	ln -sfn "${S}/cmux" "${S}/src/import/cmd/vendor/github.com/cockroachdb/cmux"
-	export GOPATH="${S}/src/import/cmd/vendor"
+	export GOPATH="${B}/src/import/"
+	mkdir -p ${B}/src/import/src/github.com/coreos/
+	ln -s ${S}/src/import ${B}/src/import/src/github.com/coreos/etcd
 
 	# Pass the needed cflags/ldflags so that cgo
 	# can find the needed headers files and libraries
@@ -82,8 +81,8 @@ do_compile() {
 
 do_install() {
 	install -d ${D}/${bindir}
-	install -m 0755 ${S}/src/import/bin/etcd ${D}/${bindir}/etcd
-	install -m 0755 ${S}/src/import/bin/etcdctl ${D}/${bindir}/etcdctl
+	install -m 0755 ${B}/bin/etcd ${D}/${bindir}/etcd
+	install -m 0755 ${B}/bin/etcdctl ${D}/${bindir}/etcdctl
 
 	install -d ${D}${systemd_system_unitdir}
 	install -m 0644 ${S}/src/import/contrib/systemd/etcd.service ${D}${systemd_system_unitdir}
