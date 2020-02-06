@@ -2,7 +2,7 @@ SUMMARY = " StarlingX Single Server"
 
 LICENSE = "MIT"
 
-CORE_IMAGE_EXTRA_INSTAL = " \
+CORE_IMAGE_EXTRA_INSTALL = " \
 	packagegroup-core-base-utils  \
 	"
 
@@ -17,11 +17,13 @@ IMAGE_INSTALL_append = " \
 	packagegroup-stx-nfv \
 	packagegroup-stx-monitoring \
 	packagegroup-stx-ha \
-	packagegroup-stx-config \
-	starlingx-dashboard \
 	packagegroup-stx-config-files \
-	playbookconfig \
+	packagegroup-stx-update \
+	packagegroup-stx-integ \
+	packagegroup-stx-config \
 	packagegroup-stx-distributedcloud \
+	starlingx-dashboard \
+	playbookconfig \
 	distributedcloud-client-dcmanager \
 	registry-token-server \
 	"
