@@ -8,7 +8,6 @@ PR = "r0"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
-VIRTUAL-RUNTIME_syslog = "syslog-ng"
 
 PROVIDES = "${PACKAGES}"
 PACKAGES = " \
@@ -23,6 +22,7 @@ PACKAGES = " \
 	packagegroup-stx-config-files \
 	packagegroup-stx-distributedcloud \
 	packagegroup-stx-update \
+	packagegroup-stx-integ \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -170,4 +170,27 @@ RDEPENDS_packagegroup-stx-update = " \
 	cgcs-patch-controller \
 	enable-dev-patch \
 	patch-alarm \
+	"
+
+RDEPENDS_packagegroup-stx-integ = " \
+	dpkg \
+	dtc \
+	ibsh \
+	python-redfishtool \
+	puppet-boolean \
+	puppetlabs-create-resources \
+	puppet-dnsmasq \
+	puppet-drbd \
+	puppet-filemapper \
+	puppet-ldap \
+	puppetlabs-lvm \
+	puppet-network \
+	puppet-nslcd \
+	puppetlabs-postgresql \
+	puppet-puppi \
+	mariadb \
+	drbd-utils \
+	docker-registry \
+	etcd \
+	kubernetes \
 	"
