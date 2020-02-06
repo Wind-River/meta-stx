@@ -12,11 +12,11 @@ S = "${WORKDIR}/linux-amd64"
 PV = "2.13.1"
 
 SRC_URI = " \
-	file://helm-v2.13.1-linux-amd64.tar.gz \
+	https://get.helm.sh/helm-v2.13.1-linux-amd64.tar.gz \
 	file://helm-upload \
 	file://helm.sudo \
 	"
-
+# Client: &version.Version{SemVer:"v2.13.1", GitCommit:"618447cbf203d147601b4b9bd7f8c37a5d39fbb4", GitTreeState:"clean"}
 SRC_URI[md5sum] = "ffbe37fe328d99156d14a950bbd8107c"
 SRC_URI[sha256sum] = "c1967c1dfcd6c921694b80ededdb9bd1beb27cb076864e58957b1568bc98925a"
 
