@@ -13,41 +13,38 @@ come with your OS (uuencode, getent/pw, date, grep, sed, cut...). \
 Latest version available on http://contribs.martymac.org \
 "
 
+SUMMARY = "Shell scripts to manage POSIX accounts in LDAP"
 
+SECTION = "base"
 LICENSE = "LGPL2"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 
-SRC_URI = "file://ldap/ldapscripts-2.0.8.tgz"
+SRC_URI = "https://downloads.sourceforge.net/project/ldapscripts/ldapscripts/ldapscripts-2.0.8/ldapscripts-2.0.8.tgz"
 SRC_URI[md5sum] = "99a7222215eaea2c8bc790d0437f22ea"
 SRC_URI[sha256sum] = "7db3848501f257a10417c9bcfc0b70b76d0a8093eb993f2354925e156c3419ff"
 
-SRC_URI += " file://ldap/sudo-support.patch \
-             file://ldap/sudo-delete-support.patch \
-             file://ldap/log_timestamp.patch \
-             file://ldap/ldap-user-setup-support.patch \
-             file://ldap/allow-anonymous-bind-for-ldap-search.patch \
-             file://ldap/ldapscripts.conf.cgcs \
-	file://ldap/ldapadduser.template.cgcs \
-	file://ldap/ldapaddgroup.template.cgcs \
-	file://ldap/ldapmoduser.template.cgcs \
-	file://ldap/ldapaddsudo.template.cgcs \
-	file://ldap/ldapmodsudo.template.cgcs \
-	file://ldap/ldapscripts.passwd \
+SRC_URI += " file://sudo-support.patch \
+             file://sudo-delete-support.patch \
+             file://log_timestamp.patch \
+             file://ldap-user-setup-support.patch \
+             file://allow-anonymous-bind-for-ldap-search.patch \
+             file://ldapscripts.conf.cgcs \
+	file://ldapadduser.template.cgcs \
+	file://ldapaddgroup.template.cgcs \
+	file://ldapmoduser.template.cgcs \
+	file://ldapaddsudo.template.cgcs \
+	file://ldapmodsudo.template.cgcs \
+	file://ldapscripts.passwd \
 "
 
-SOURCE1 = "${WORKDIR}/ldap/ldapscripts.conf.cgcs"
-SOURCE2 = "${WORKDIR}/ldap/ldapadduser.template.cgcs"
-SOURCE3 = "${WORKDIR}/ldap/ldapaddgroup.template.cgcs"
-SOURCE4 = "${WORKDIR}/ldap/ldapmoduser.template.cgcs"
-SOURCE5 = "${WORKDIR}/ldap/ldapaddsudo.template.cgcs"
-SOURCE6 = "${WORKDIR}/ldap/ldapmodsudo.template.cgcs"
-SOURCE7 = "${WORKDIR}/ldap/ldapscripts.passwd"
-
-sbindir = "/usr/local/sbin"
-mandir = "/usr/local/share/man"
-sysconfdir = "/usr/local/etc/ldapscripts"
-libdir = "/usr/local/lib/ldapscripts"
+SOURCE1 = "${WORKDIR}/ldapscripts.conf.cgcs"
+SOURCE2 = "${WORKDIR}/ldapadduser.template.cgcs"
+SOURCE3 = "${WORKDIR}/ldapaddgroup.template.cgcs"
+SOURCE4 = "${WORKDIR}/ldapmoduser.template.cgcs"
+SOURCE5 = "${WORKDIR}/ldapaddsudo.template.cgcs"
+SOURCE6 = "${WORKDIR}/ldapmodsudo.template.cgcs"
+SOURCE7 = "${WORKDIR}/ldapscripts.passwd"
 
 do_configure () {
 	cd ${S}
