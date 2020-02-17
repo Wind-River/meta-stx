@@ -15,6 +15,7 @@
 
 DESCRIPTION = "libcurl python bindings"
 LICENSE = "LGPLv2 | MIT"
+HOMEPAGE = "http://pycurl.io/"
 LIC_FILES_CHKSUM = " \
 	file://COPYING-LGPL;md5=4fbd65380cdd255951079008b364516c \
 	file://COPYING-MIT;md5=2df767ed35d8ea83de4a93feb55e7815 \
