@@ -197,11 +197,11 @@ RDEPENDS_packagegroup-stak-base = " \
 	deltarpm \
 	dtc \
 	dtc-dev \
-	libtpms \
 	nscd \
 	openscap \
 	polkit \
 	"
+#	libtpms 
 #	libibverbs Conflicts with rdma-core
 #	qat17 
 #	docker-distribution 
