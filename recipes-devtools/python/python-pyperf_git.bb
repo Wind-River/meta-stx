@@ -22,6 +22,7 @@ SRCREV = "7febee0242ce8fd01f56bce2ec72ec536a41caed"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "1.6.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/vstinner/pyperf.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

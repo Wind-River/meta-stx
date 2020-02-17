@@ -22,9 +22,8 @@ SRCREV = "437ea86caef224cf769e30cafe30f1c0b4e0f3e2"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.6.0+git${SRVPV}"
 
 SRC_URI = "git://github.com/latchset/jwcrypto.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
-
-
 
 inherit setuptools distutils

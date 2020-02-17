@@ -26,6 +26,8 @@ PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
+PV = "1.3.0+git${SRCPV}"
+
 SRC_URI = " \
 	git://github.com/pyca/pynacl.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://${PN}/0001-Enable-cross-compile.patch \

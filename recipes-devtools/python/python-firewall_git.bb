@@ -22,6 +22,7 @@ SRCREV = "59b63088b8b791cc495d809240f94fddaa87dc55"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.2.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/mattrobenolt/firewall;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

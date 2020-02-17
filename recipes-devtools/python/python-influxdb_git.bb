@@ -22,6 +22,7 @@ SRCREV = "dc83fc6576b6463dcc77a0c101475a2a71ed655a"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "5.2.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/influxdata/influxdb-python.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

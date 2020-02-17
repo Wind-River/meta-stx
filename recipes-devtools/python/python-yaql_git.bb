@@ -22,6 +22,7 @@ SRCREV = "7385a31b9dbfc777a514ba28fe507fbf904cc779"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "1.1.3+git${SRVPV}"
 
 SRC_URI = "git://github.com/openstack/yaql.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

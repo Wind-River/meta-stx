@@ -23,6 +23,7 @@ SRCREV = "f75c1a8a34d4fbe6df7889205b5c6a4db6886c33"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "2.4.1+git${SRCPV}"
 
 SRC_URI = "git://opendev.org/openstack/ldappool.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

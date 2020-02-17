@@ -22,6 +22,7 @@ SRCREV = "b8b09b69ef6d4f8a6f12a6c441305790060dd829"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.14+git${SRCPV}"
 
 SRC_URI = "git://github.com/fedora-python/python-ethtool.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

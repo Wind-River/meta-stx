@@ -22,6 +22,7 @@ SRCREV = "d16d8fdcec77a6d3fcbd10ce23aa8810d8dd3bf2"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.2.12.post1+git${SRCREV}"
 
 SRC_URI = "git://github.com/embray/d2to1;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

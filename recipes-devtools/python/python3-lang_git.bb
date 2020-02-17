@@ -28,6 +28,7 @@ SRCREV = "feb4c638ebc581d9913f440965e83558fd10018c"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git/src"
+PV = "1.0.4+git${SRCPV}"
 
 SRC_URI = "git://github.com/amitassaraf/lang.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

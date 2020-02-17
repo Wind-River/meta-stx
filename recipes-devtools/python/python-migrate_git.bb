@@ -22,6 +22,7 @@ SRCREV = "b53b7168f8ac27e4c557de6e62ad85fe00d99566"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.3.8+git${SRCPV}"
 
 SRC_URI = "git://github.com/kofrasa/migrate;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
