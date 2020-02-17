@@ -18,7 +18,7 @@ DESCRIPTION = "Makedeltarpm creates a deltarpm from two rpms. The deltarpm can \
 		or the old rpm. Use the -v option to make makedeltarpm more verbose \
 		about its work (use it twice to make it even more verbose).\
 		"
-LICENSE = "BSD"
+LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=574af071cf0d60a71cb781844bbe2d76"
 
 SRCREV = "c5e0ca7482e2cfea5e4d902ffe488e0a71ed3e67"
@@ -26,6 +26,7 @@ SRCREV = "c5e0ca7482e2cfea5e4d902ffe488e0a71ed3e67"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "3.6.2+git${SRCPV}"
 
 SRC_URI = "git://github.com/rpm-software-management/deltarpm.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 		file://0001-Makefile-patch-fix-build-errors.patch \
