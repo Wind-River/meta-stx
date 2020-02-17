@@ -22,6 +22,7 @@ SRCREV = "39f0ee6fd6d71ee335b1229b91ab0bb47bdd71f0"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
+PV = "0.6.1+git${SRCPV}"
 
 SRC_URI = "git://github.com/GehirnInc/python-jwt;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
