@@ -22,12 +22,12 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5e8f921d6b978d3605270db1f39e199f"
 
 PV = "1.1.1"
-SRC_REV = "1157a7e552d87696e80ed4ab54bf0608a1c5ffff"
+SRCREV = "1157a7e552d87696e80ed4ab54bf0608a1c5ffff"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/earsdown/puppet-certmonger.git;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
+SRC_URI = "git://github.com/earsdown/puppet-certmonger.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://puppet-certmonger/Add-gemspec.patch \
 	"
 

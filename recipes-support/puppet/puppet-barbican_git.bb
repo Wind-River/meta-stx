@@ -23,12 +23,12 @@ RDEPENDS_${PN} += " \
 	"
 
 PV = "11.3.0"
-SRC_REV = "8241a1d13be6c3ee6344fa46dcfc045439044e76"
+SRCREV = "8241a1d13be6c3ee6344fa46dcfc045439044e76"
 PROTOCOL = "https"
 BRANCH = "stable/pike"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/openstack/puppet-barbican.git;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
+SRC_URI = "git://github.com/openstack/puppet-barbican.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://puppet-barbican/Add-gemspec.patch \
 	"
 

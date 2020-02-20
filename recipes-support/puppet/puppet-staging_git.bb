@@ -19,13 +19,13 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=cdbf8d74b765504fbdf8e154bb4458a1"
 
 PV = "1.0.4"
-SRC_REV = "bc434a71e19aae54223d57c274e2e1a7f9546d5e"
+SRCREV = "bc434a71e19aae54223d57c274e2e1a7f9546d5e"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
 SRC_URI = " \
-	git://github.com/nanliu/puppet-staging;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
+	git://github.com/nanliu/puppet-staging;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://puppet-staging/Add-gemspec.patch \
 	"
 

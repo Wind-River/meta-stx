@@ -25,13 +25,13 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1322039bbc8e3ff4e74252ec65303861"
 
 PV = "3.0.2"
-SRC_REV = "c2a0b543dc28f34ab68e905ede3173b00246ddca"
+SRCREV = "c2a0b543dc28f34ab68e905ede3173b00246ddca"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
 SRC_URI = " \
-	git://github.com/saz/puppet-memcached.git;protocol=${PROTOCOL};rev=${SRC_REV};branch=${BRANCH} \
+	git://github.com/saz/puppet-memcached.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://puppet-memcached/Add-gemspec.patch \
 	"
 
