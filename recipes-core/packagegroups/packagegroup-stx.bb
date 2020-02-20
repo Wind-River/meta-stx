@@ -193,4 +193,5 @@ RDEPENDS_packagegroup-stx-integ = " \
 	docker-registry \
 	etcd \
 	kubernetes \
+	ldapscripts \
 	"

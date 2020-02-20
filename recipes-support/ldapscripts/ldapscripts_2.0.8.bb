@@ -58,19 +58,19 @@ do_compile () {
 do_install () {
 	cd ${S}
 	oe_runmake -e DESTDIR=${D} SBINDIR=${sbindir} \
-		MANDIR=${mandir} ETCDIR=${sysconfdir} \
+		MANDIR=${mandir} ETCDIR=${sysconfdir}/ldapscripts \
 		LIBDIR=${libdir} install
 
 	rm -Rf ${D}${mandir}/*
 	rm -f ${D}${sbindir}/*machine*
-	rm -f ${D}${sysconfdir}/ldapaddmachine.template.sample
-	install -m 644 ${SOURCE1} ${D}${sysconfdir}/ldapscripts.conf
-	install -m 644 ${SOURCE2} ${D}${sysconfdir}/ldapadduser.template.cgcs
-	install -m 644 ${SOURCE3} ${D}${sysconfdir}/ldapaddgroup.template.cgcs
-	install -m 644 ${SOURCE4} ${D}${sysconfdir}/ldapmoduser.template.cgcs
-	install -m 644 ${SOURCE5} ${D}${sysconfdir}/ldapaddsudo.template.cgcs
-	install -m 644 ${SOURCE6} ${D}${sysconfdir}/ldapmodsudo.template.cgcs
-	install -m 600 ${SOURCE7} ${D}${sysconfdir}/ldapscripts.passwd
+	rm -f ${D}${sysconfdir}//ldapscripts/ldapaddmachine.template.sample
+	install -m 644 ${SOURCE1} ${D}${sysconfdir}/ldapscripts/ldapscripts.conf
+	install -m 644 ${SOURCE2} ${D}${sysconfdir}/ldapscripts/ldapadduser.template.cgcs
+	install -m 644 ${SOURCE3} ${D}${sysconfdir}/ldapscripts/ldapaddgroup.template.cgcs
+	install -m 644 ${SOURCE4} ${D}${sysconfdir}/ldapscripts/ldapmoduser.template.cgcs
+	install -m 644 ${SOURCE5} ${D}${sysconfdir}/ldapscripts/ldapaddsudo.template.cgcs
+	install -m 644 ${SOURCE6} ${D}${sysconfdir}/ldapscripts/ldapmodsudo.template.cgcs
+	install -m 600 ${SOURCE7} ${D}${sysconfdir}/ldapscripts/ldapscripts.passwd
 }
 
 FILES_${PN}_append = " ${libdir}/runtime \
