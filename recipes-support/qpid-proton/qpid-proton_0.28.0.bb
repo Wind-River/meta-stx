@@ -17,7 +17,7 @@ DESCRIPTION = "Qpid Proton is a high-performance, lightweight messaging library.
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b26578452df1dcf3b9a63978282b72d0"
 
-SRC_URI = "https://apache.org/dist/qpid/proton/0.28.0/qpid-proton-0.28.0.tar.gz \
+SRC_URI = "http://archive.apache.org/dist/qpid/proton/0.28.0/qpid-proton-0.28.0.tar.gz \
            file://fix-missing-libary-for-cpp-binding.patch \
           "
 
