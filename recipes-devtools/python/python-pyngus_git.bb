@@ -23,7 +23,7 @@ PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
 
-PV = "2.3.0+git${SRVPV}"
+PV = "2.3.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/kgiusti/pyngus;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

@@ -22,7 +22,7 @@ SRCREV = "08810e435392a1f1a96d5e65bb444b9cb9e96ae3"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
-PV = "2.6+git${SRVPV}"
+PV = "2.6+git${SRCPV}"
 
 SRC_URI = "git://github.com/cannatag/ldap3;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 

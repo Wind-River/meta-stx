@@ -24,7 +24,7 @@ SRCREV = "020d540850ca36f31af68e9b545a520f1122ea69"
 PROTOCOL = "https"
 BRANCH = "master"
 S = "${WORKDIR}/git"
-PV = "1.6+git${SRVPV}"
+PV = "1.6+git${SRCPV}"
 
 SRC_URI = "git://github.com/Datera/configshell.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
