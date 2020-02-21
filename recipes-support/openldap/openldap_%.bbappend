@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PACKAGES += " openldap-config"
+#PACKAGES += " openldap-config"
 
 #####################################################################################
 # Port is NOT complete yet:
@@ -11,31 +11,34 @@ PACKAGES += " openldap-config"
 
 SRC_URI += " \
 	file://rootdn-should-not-bypass-ppolicy.patch \
-	file://0001-Various-manual-pages-changes.patch \
-	file://0002-Correct-log-levels-in-ppolicy-overlay.patch \
-	file://0003-Removes-unnecessary-linking-of-SQL-Libs-into-slad.patch \
-	file://0004-openlap-reentrant-gethostby.patch \
-	file://0005-openldap-smbk5pwd-overlay.patch \
-	file://0006-openldap-ldaprc-currentdir.patch \
-	file://0007-openldap-userconfig-setgid.patch \
-	file://0008-openldap-allop-overlay.patch \
-	file://0009-openldap-syncrepl-unset-tls-options.patch \
-	file://0010-openldap-ai-addrconfig.patch \
-	file://0011-openldap-switch-to-t_dlopenadvise-to-get-RTLD_GLOBAL.patch \
-	file://0012-openldap-ldapi-sasl.patch \
-	file://0013-openldap-missing-unlock-in-accesslog-overlay.patch \
-	file://0014-openldap-module-passwd-sha2.patch \
-	file://0015-openldap-man-tls-reqcert.patch \
-	file://0016-openldap-man-ldap-conf.patch \
-	file://0017-openldap-bdb_idl_fetch_key-correct-key-pointer.patch \
-	file://0018-openldap-tlsmc.patch \
-	file://0019-openldap-openssl-ITS7596-Add-EC-support.patch \
-	file://0020-openldap-openssl-ITS7596-Add-EC-support-patch-2.patch \
 	file://0021-openldap-and-stx-source-and-config-files.patch \
-	file://0022-ltb-project-openldap-ppolicy-check-password-1.1.patch \
-	file://0001-stx-openldap-config-files.patch \
 	file://stx-slapd.service \
 	"
+#	file://0001-Various-manual-pages-changes.patch \
+#	file://0002-Correct-log-levels-in-ppolicy-overlay.patch \
+#	file://0003-Removes-unnecessary-linking-of-SQL-Libs-into-slad.patch \
+#	file://0004-openlap-reentrant-gethostby.patch \
+#	file://0005-openldap-smbk5pwd-overlay.patch \
+#	file://0006-openldap-ldaprc-currentdir.patch \
+#	file://0007-openldap-userconfig-setgid.patch \
+#	file://0008-openldap-allop-overlay.patch \
+#	file://0009-openldap-syncrepl-unset-tls-options.patch \
+#	file://0010-openldap-ai-addrconfig.patch \
+##	file://0011-openldap-switch-to-t_dlopenadvise-to-get-RTLD_GLOBAL.patch \
+#	file://0012-openldap-ldapi-sasl.patch \
+#	file://0013-openldap-missing-unlock-in-accesslog-overlay.patch \
+#	"
+#	file://0014-openldap-module-passwd-sha2.patch 
+#	file://0015-openldap-man-tls-reqcert.patch \
+#	file://0016-openldap-man-ldap-conf.patch \
+#	file://0017-openldap-bdb_idl_fetch_key-correct-key-pointer.patch \
+#	file://0018-openldap-tlsmc.patch \
+#	file://0019-openldap-openssl-ITS7596-Add-EC-support.patch \
+#	file://0020-openldap-openssl-ITS7596-Add-EC-support-patch-2.patch \
+#	file://0021-openldap-and-stx-source-and-config-files.patch \
+#	file://0022-ltb-project-openldap-ppolicy-check-password-1.1.patch \
+#	file://0001-stx-openldap-config-files.patch \
+#	"
 
 inherit pkgconfig
 
@@ -70,7 +73,6 @@ REMOVE_LIBTOOL_LA = "0"
 
 EXTRA_OECONF += " \
 		--enable-syslog \
-		--enable-crypt \
 		--enable-proctitle \
 		--enable-ipv6 \
 		--enable-local \
@@ -78,8 +80,9 @@ EXTRA_OECONF += " \
 		--enable-dynacl \
 		--enable-aci \
 		--enable-cleartext \
-		--enable-modules \
+		--enable-crypt \
 		--enable-lmpasswd \
+		--enable-modules \
 		--enable-rewrite \
 		--enable-rlookups \
 		--disable-slp \
@@ -93,11 +96,16 @@ EXTRA_OECONF += " \
 		--enable-overlays=mod \
 		--disable-static \
 		--enable-shared \
-		--enable-moznss-compatibility=no \
 		--with-cyrus-sasl \
 		--without-fetch \
 		--with-tls=openssl \
 		"
+#	--enable-moznss-compatibility=no 
+# NEW:
+# --enable-lmpasswd 
+# --enable-slapi
+# --enable-wrappers
+# --enable-moznss-compatibility=yes
 
 do_configure_append () {
    cd ${S}
@@ -143,16 +151,16 @@ do_install_append () {
 	rm -rf ${D}/var/run
 
 	# openldap-config
-	cd ${S}/stx-openldap-config
-	mkdir -p ${D}/${sysconfdir}/rc.d/init.d
-	install -m 755 initscript ${D}/${sysconfdir}/rc.d/init.d/openldap
-	install -d -m 740 ${D}/${sysconfdir}/openldap
-	install -m 644 slapd.conf ${D}/${sysconfdir}/openldap/slapd.conf
-	install -m 644 initial_config.ldif ${D}/${sysconfdir}/openldap/initial_config.ldif
+#	cd ${S}/stx-openldap-config
+#	mkdir -p ${D}/${sysconfdir}/rc.d/init.d
+#	install -m 755 initscript ${D}/${sysconfdir}/rc.d/init.d/openldap
+#	install -d -m 740 ${D}/${sysconfdir}/openldap
+#	install -m 644 slapd.conf ${D}/${sysconfdir}/openldap/slapd.conf
+#	install -m 644 initial_config.ldif ${D}/${sysconfdir}/openldap/initial_config.ldif
 
-	install -d ${D}/${datadir}/starlingx
-	install -m 644 ${S}/../stx-slapd.service ${D}/${datadir}/starlingx/slapd.service
-	install -m 644 slapd.sysconfig ${D}/${datadir}/starlingx/slapd.sysconfig
+#	install -d ${D}/${datadir}/starlingx
+#	install -m 644 ${S}/../stx-slapd.service ${D}/${datadir}/starlingx/slapd.service
+#	install -m 644 slapd.sysconfig ${D}/${datadir}/starlingx/slapd.sysconfig
 
 	#cd ${S}/
 	#oe_runmake -e -C servers/slapd/overlays  DESTDIR=${D} install
@@ -160,12 +168,12 @@ do_install_append () {
 
 }
 
-FILES_openldap-config = " \
-	${sysconfdir}/rc.d/init.d/openldap \
-	${sysconfdir}/openldap/initial_config.ldif \
-	${datadir}/starlingx/slapd.service \
-	${datadir}/starlingx/slapd.sysconfig \
-	"
+#FILES_openldap-config = " \
+#	${sysconfdir}/rc.d/init.d/openldap \
+#	${sysconfdir}/openldap/initial_config.ldif \
+##	${datadir}/starlingx/slapd.service \
+#	${datadir}/starlingx/slapd.sysconfig \
+#	"
 
 #pkg_postinst_ontarget_libldap-2.4_append () {
 #	cp /usr/share/starlingx/slapd.service ${systemd_system_unitdir}/slapd.service
