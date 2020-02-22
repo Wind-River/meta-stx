@@ -3,7 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/patches:${THISDIR}/files:"
 inherit python3native python3-dir
 
 SRC_URI += "\
-	file://ceph/0001-Add-hooks-for-orderly-shutdown-on-controller.patch \
+	file://ceph/0001-ceph-rebase-on-stx.3.0-and-warrior.patch \
 	file://ceph/ceph.conf \
 	file://ceph/ceph-init-wrapper.sh \
         file://ceph/ceph-preshutdown.sh \
@@ -15,16 +15,13 @@ SRC_URI += "\
         file://ceph/ceph-radosgw.service \
         file://ceph/ceph.sh \
         file://ceph/mgr-restful-plugin.service \
-	file://ceph/ceph-mon_config.sh \
-	file://ceph/ceph-mgr_manual.sh \
-	file://ceph/ceph-volume_manual.sh \
 	"
-
 DEPENDS = "boost rdma-core bzip2 curl expat gperf-native \
 		keyutils libaio lz4 \
 		nspr nss oath openldap openssl \
-		python python3 python3-cython-native rocksdb snappy udev \
+		python3 python3-cython-native rocksdb snappy udev \
 		python-cython-native valgrind xfsprogs zlib \
+		rabbitmq-c \
 		"
 RDEPENDS_${PN} += " rdma-core python3-core python3"
 
@@ -37,19 +34,22 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
 		 -DWITH_BABELTRACE=OFF \
 		 -DWITH_TESTS=OFF \
 		 -DWITH_MGR=ON \
-		 -DWITH_MGR_DASHBOARD_FRONTEND=OFF \
 		 -DWITH_PYTHON2=OFF \
 		 -DWITH_PYTHON3=ON \
 		 -DMGR_PYTHON_VERSION=3 \
+		 -DWITH_MGR_DASHBOARD_FRONTEND=OFF \
 		 -DWITH_SYSTEM_BOOST=ON \
 		 -DWITH_SYSTEM_ROCKSDB=ON \
+		 -DWITH_RDMA=OFF \
+		 -DWITH_RADOSGW_AMQP_ENDPOINT=OFF \
 		 "
 
 # TODO: Should be fixed in either boost package or CMake files. 
-do_configure_prepend() {
-	ln -f -s ${WORKDIR}/recipe-sysroot/usr/lib/libboost_python35.so \
-		${WORKDIR}/recipe-sysroot/usr/lib/libboost_python.so
-}
+#do_configure_prepend() {
+#	ln -f -s ${WORKDIR}/recipe-sysroot/usr/lib/libboost_python35.so \
+#		${WORKDIR}/recipe-sysroot/usr/lib/libboost_python.so
+#}
+
 do_install_append () {
     install -d ${D}${sysconfdir}/ceph
     install -m 0644 ${WORKDIR}/ceph/ceph.conf ${D}${sysconfdir}/ceph/
@@ -81,7 +81,7 @@ do_install_append () {
     install -m 0644 -D ${S}/COPYING ${D}${docdir}/ceph/COPYING    
     install -m 0644 -D ${S}/etc/sysctl/90-ceph-osd.conf ${D}${libdir}/sysctl.d/90-ceph-osd.conf
     install -m 0644 -D ${S}/udev/50-rbd.rules ${D}${libdir}/udev/rules.d/50-rbd.rules
-    install -m 0644 -D ${S}/udev/60-ceph-by-parttypeuuid.rules ${D}${libdir}/udev/rules.d/60-ceph-by-parttypeuuid.rules
+    # install -m 0644 -D ${S}/udev/60-ceph-by-parttypeuuid.rules ${D}${libdir}/udev/rules.d/60-ceph-by-parttypeuuid.rules
 
     mkdir -p ${D}${localstatedir}/ceph
     #TODO:
@@ -106,16 +106,16 @@ do_install_append () {
     install -m 0750 -D ${B}/bin/init-ceph ${D}${sysconfdir}/rc.d/init.d/ceph
     install -m 0750 -D ${B}/bin/init-ceph ${D}${sysconfdir}/init.d/ceph
     install -d -m 0750 ${D}${localstatedir}/log/radosgw 
-    install -d -m 0750 ${D}/home/root/cluster 
-    cp ${WORKDIR}/ceph/ceph-mon_config.sh ${D}/home/root/cluster
-    cp ${WORKDIR}/ceph/ceph-mgr_manual.sh ${D}/home/root/cluster
-    cp ${WORKDIR}/ceph/ceph-volume_manual.sh ${D}/home/root/cluster
-    chmod 755 ${D}/home/root/cluster/*
+
     sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph
-    sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-disk
-    sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-detect-init
-    sed -i -e '1s:python$:python3:' ${D}${bindir}/ceph-volume
-    sed -i -e '1s:python$:python3:' ${D}${bindir}/ceph-volume-systemd
+    # sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-disk
+    # sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-detect-init
+
+    sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-crash
+    sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-volume
+    sed -i -e 's:${WORKDIR}.*python3:${bindir}/python3:' ${D}${bindir}/ceph-volume-systemd
+    #sed -i -e '1s:python$:python3:' ${D}${bindir}/ceph-volume
+    #sed -i -e '1s:python$:python3:' ${D}${bindir}/ceph-volume-systemd
     sed -i -e 's:/sbin/:/bin/:' ${D}${systemd_system_unitdir}/ceph-volume@.service
 }
 
