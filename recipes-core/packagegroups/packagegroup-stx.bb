@@ -194,4 +194,12 @@ RDEPENDS_packagegroup-stx-integ = " \
 	etcd \
 	kubernetes \
 	ldapscripts \
+	python-3parclient \
+	python-lefthandclient \
+	python-setuptools \
+	python-ryu \
+	spectre-meltdown-checker \
+	kvm-timer-advance \
+	ceph \
+	lldpd \
 	"
