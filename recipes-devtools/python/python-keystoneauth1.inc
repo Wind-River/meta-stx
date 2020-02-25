@@ -24,4 +24,5 @@ RDEPENDS_${PN} += " \
         ${PYTHON_PN}-requests \
         ${PYTHON_PN}-six \
         ${PYTHON_PN}-stevedore \
+	python2-os-service-types \
         "
