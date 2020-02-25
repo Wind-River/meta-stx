@@ -29,6 +29,8 @@ PACKAGES += " inventory"
 
 RDEPENDS_inventory += " \
 		bash \
+		python-anyjson \
+		python-amqplib \
 		python-pyudev \
 		python-pyparted \
 		python-ipaddr \
