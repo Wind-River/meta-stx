@@ -9,6 +9,11 @@ DEPENDS += " \
 	python-pbr-native \
 	"
 RDEPENDS_sysinv += " \
+	python-anyjson \
+	python-amqp \
+	python-amqplib \
+	python-passlib \
+	python-websockify \
 	python-pyparted \
 	python-boto3 \
 	python-botocore \
@@ -32,6 +37,8 @@ RDEPENDS_sysinv += " \
 	python-oslo.log \
 	python-oslo.utils \
 	python-pecan \
+	python2-rpm \
+	python-pyghmi \
 	tsconfig \
 	"
 
