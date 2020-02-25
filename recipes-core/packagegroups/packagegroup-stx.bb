@@ -23,6 +23,7 @@ PACKAGES = " \
 	packagegroup-stx-distributedcloud \
 	packagegroup-stx-update \
 	packagegroup-stx-integ \
+	packagegroup-stx-utilities \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -202,4 +203,20 @@ RDEPENDS_packagegroup-stx-integ = " \
 	kvm-timer-advance \
 	ceph \
 	lldpd \
+	"
+
+RDEPENDS_packagegroup-stx-utilities = " \
+	python-cephclient \
+	ceph-manager \
+	stx-ssl \
+	collector \
+	collect-engtools \
+	logmgmt \
+	namespace-utils \
+	nfscheck \
+	stx-extensions \
+	worker-utils \
+	update-motd \
+	platform-util \
+	pci-irq-affinity \
 	"
