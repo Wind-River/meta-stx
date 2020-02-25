@@ -18,4 +18,7 @@ DEPENDS += " \
 
 inherit setuptools
 
-RDEPENDS_${PN}_append = " bash"
+RDEPENDS_${PN}_append = " \
+	bash \
+	python-dogpile.cache \
+	"
