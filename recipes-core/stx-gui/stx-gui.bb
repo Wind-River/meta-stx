@@ -27,6 +27,10 @@ DEPENDS = "\
 #	openstack-dashboard \
 #	"
 
+RDEPENDS_starlingx-dashboard_append = " \
+	${PYTHON_PN}-cephclient \
+	"
+
 do_configure () {
 	cd ${S}/starlingx-dashboard/starlingx-dashboard
 	distutils_do_configure
