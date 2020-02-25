@@ -13,6 +13,9 @@ DEPENDS += " \
 	${PYTHON_PN}-native \
 	${PYTHON_PN}-cryptography-native \
 	"
+RDEPENDS_${PN}_append  = " \
+	${PYTHON_PN}-ruamel.ordereddict \
+	"
 
 do_install_prepend() {
 	export RUAMEL_NO_PIP_INSTALL_CHECK=1
