@@ -1,6 +1,6 @@
 PACKAGES += " worker-utils"
 
-RDEPENDS_worker-utils  += " perl systemd python"
+RDEPENDS_worker-utils  += " perl systemd python bash"
 DESCRIPTION_worker-utils  = "Initial worker node resource reservation and misc. utilities"
 SUMMARY_worker-utils  = "dynamic MOTD generation"
 
