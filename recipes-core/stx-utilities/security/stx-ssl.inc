@@ -10,7 +10,7 @@ do_install_append() {
 		-days 365 -nodes \
 		-config ${S}/security/stx-ssl/server-csr.conf
 
-	install -p -d -m0700 ${D}/${sysconfdir}/ssl/private/
+	install -p -d -m0755 ${D}/${sysconfdir}/ssl/private/
 	install -m0400 ${S}/security/stx-ssl/self-signed-server-cert.pem \
 		${D}/${sysconfdir}/ssl/private/self-signed-server-cert.pem 
 
