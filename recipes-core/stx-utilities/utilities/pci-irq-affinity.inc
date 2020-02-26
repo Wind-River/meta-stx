@@ -36,8 +36,10 @@ do_install_append() {
 
 FILES_pci-irq-affinity = "  \
 	${bindir}/pci-irq-affinity-agent \
-	${sysconfdir}/pci_irq_affinity/config.init \
+	${sysconfdir}/pci_irq_affinity/config.ini \
 	${bindir}/nova-sriov \
 	${sysconfdir}/init.d/pci-irq-affinity-agent \
 	${systemd_system_unitdir}/pci-irq-affinity-agent.service \
+	${PYTHON_SITEPACKAGES_DIR}/pci_irq_affinity/ \
+	${PYTHON_SITEPACKAGES_DIR}/pci_irq_affinity_agent-${PV}-py${PYTHON_BASEVERSION}.egg-info/ \
 	"
