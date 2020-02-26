@@ -42,4 +42,6 @@ FILES_logmgmt = "  \
 	${sysconfdir}/init.d/logmgmt \
 	${sysconfdir}/pmon.d/logmgmt \
 	${systemd_system_unitdir}/logmgmt.service \
+	${PYTHON_SITEPACKAGES_DIR}/logmgmt/ \
+	${PYTHON_SITEPACKAGES_DIR}/logmgmt-${PV}-py${PYTHON_BASEVERSION}.egg-info/ \
 	"
