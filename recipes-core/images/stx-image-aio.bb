@@ -22,6 +22,7 @@ IMAGE_INSTALL_append = " \
 	packagegroup-stx-integ \
 	packagegroup-stx-config \
 	packagegroup-stx-distributedcloud \
+	packagegroup-stx-utilities \
 	starlingx-dashboard \
 	playbookconfig \
 	distributedcloud-client-dcmanager \
