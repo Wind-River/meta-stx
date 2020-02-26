@@ -1,6 +1,6 @@
 PACKAGES += " platform-util"
 
-RDEPENDS_platform-util  += " "
+RDEPENDS_platform-util  += " bash"
 DESCRIPTION_platform-util  = "platform-util"
 SUMMARY_platform-util  = "StarlingX Platform utilities installed only on controllers"
 
@@ -46,6 +46,7 @@ do_install_append() {
 
 FILES_platform-util = "  \
 	${bindir}/tc_setup.sh \
+	${bindir}/verify-license \
 	${bindir}/remotelogging_tc_setup.sh \
 	${bindir}/connectivity_test \
 	${bindir}/update-iso.sh \
@@ -55,4 +56,6 @@ FILES_platform-util = "  \
 	${sbindir}/patch-restart-haproxy \
 	${systemd_system_unitdir}/opt-platform.mount \
 	${systemd_system_unitdir}/opt-platform.service \
+	${PYTHON_SITEPACKAGES_DIR}/platform_util/ \
+	${PYTHON_SITEPACKAGES_DIR}/platform_util-${PV}-py${PYTHON_BASEVERSION}.egg-info/ \
 	"
