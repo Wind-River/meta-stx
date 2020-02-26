@@ -1,6 +1,6 @@
 PACKAGES += " update-motd"
 
-RDEPENDS_update-motd  += " cronie"
+RDEPENDS_update-motd  += " cronie bash"
 DESCRIPTION_update-motd  = "dynamic MOTD generation"
 SUMMARY_update-motd  = "dynamic MOTD generation"
 
