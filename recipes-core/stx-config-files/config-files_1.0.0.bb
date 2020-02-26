@@ -199,13 +199,13 @@ pkg_postinst_ontarget_haproxy-config() {
 }
 
 pkg_postinst_ontarget_initscripts-config() {
-	install -d  644 ${sysconfdir}/sysconfig
-	install -d  755 {initddir}
-	install -d  644 {unitdir}
+	install -l  -m 755 ${sysconfdir}/sysconfig
+	install -d  -m 755 ${sysconfdir}/initd.d
+	install -d  -m 755 ${systemd_system_unitdir}
 
 	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/sysctl.conf ${datadir}/starlingx/stx.sysctl.conf
 	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/sysconfig-network.conf ${sysconfdir}/sysconfig/network
-	install -m  755 ${datadir}/starlingx/config-files/initscripts-config/mountnfs.sh ${initddir}/mountnfs
+	install -m  755 ${datadir}/starlingx/config-files/initscripts-config/mountnfs.sh ${sysconfdir}/initd.d/mountnfs
 	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/mountnfs.service ${systemd_system_unitdir}/mountnfs.service
 
 
@@ -414,15 +414,11 @@ pkg_postinst_ontarget_openldap-config() {
 
 	SRCPATH=${datadir}/starlingx/config-files/openldap-config/
 
-	install -d %{buildroot}%{local_systemd_system}
-	install -d %{buildroot}%{_sysconfdir}/rc.d/init.d
-
 	install -m 755 ${SRCPATH}/initscript ${sysconfdir}/rc.d/init.d/openldap
 	install -m 600 ${SRCPATH}/slapd.conf ${sysconfdir}/openldap/slapd.conf
 
 	install -m 600 ${SRCPATH}/initial_config.ldif ${sysconfdir}/openldap/initial_config.ldif
 
-	install -d %{buildroot}%{_datadir}/starlingx
 	install -m 644 ${SRCPATH}/slapd.service ${sysconfdir}/systemd/system/slapd.service
 	install -m 644 ${SRCPATH}/slapd.sysconfig ${datadir}/starlingx/slapd.sysconfig 
 	

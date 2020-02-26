@@ -36,11 +36,11 @@ do_install_append () {
 	install -d ${D}/${sysconfdir}/init.d
 	install sm ${D}/${sysconfdir}/init.d/sm
 	install sm.shutdown ${D}/${sysconfdir}/init.d/sm-shutdown
-	install -d ${D}/${sysconfdir}/pmon.d
+	install -d -m0755 ${D}/${sysconfdir}/pmon.d
 	install -m 644 sm.conf ${D}/${sysconfdir}/pmon.d/sm.conf
 	install -d ${D}/${sysconfdir}/logrotate.d
 	install -m 644 sm.logrotate ${D}/${sysconfdir}/logrotate.d/sm.logrotate
-	install -d 755 ${D}/usr/sbin
+	install -d -m 755 ${D}/${sbindir}
 	install sm.notify ${D}/${sbindir}/stx-ha-sm-notify
 	install sm.troubleshoot ${D}/${sbindir}/sm-troubleshoot
 	install sm.notification ${D}/${sbindir}/sm-notification
