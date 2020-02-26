@@ -13,3 +13,7 @@ inherit setuptools pypi
 DEPENDS += " \
 	python-pbr-native \
 	"
+
+RDEPENDS_${PN}_append = " \
+	python-dateutil \
+	"
