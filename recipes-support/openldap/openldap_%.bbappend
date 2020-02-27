@@ -111,7 +111,9 @@ do_configure_append () {
    cd ${S}
    ln -f -s ${S}/contrib/slapd-modules/smbk5pwd/smbk5pwd.c servers/slapd/overlays
    ln -f -s ${S}/contrib/slapd-modules/allop/allop.c servers/slapd/overlays
-   ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/{sha2.{c,h},slapd-sha2.c} servers/slapd/overlays
+   ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/sha2.c servers/slapd/overlays
+   ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/sha2.h servers/slapd/overlays
+   ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/slapd-sha2.c servers/slapd/overlays
 }
 
 
