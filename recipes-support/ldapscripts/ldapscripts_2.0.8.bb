@@ -16,7 +16,7 @@ Latest version available on http://contribs.martymac.org \
 SUMMARY = "Shell scripts to manage POSIX accounts in LDAP"
 
 SECTION = "base"
-LICENSE = "LGPL2"
+LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 
