@@ -564,7 +564,7 @@ pkg_postinst_ontarget_sudo-config() {
 	SYSADMIN_P="4SuW8cnXFyxsk"
 	SRCPATH=${datadir}/starlingx/config-files/sudo-config/
 
-	install -m 440 ${SRCPATH}/sysadmin.sudo  ${sysconfdir}/sudoers.d/sysadmin
+	install -m 440 ${SRCPATH}/files/sysadmin.sudo  ${sysconfdir}/sudoers.d/sysadmin
 
 	getent group sys_protected >/dev/null || groupadd -f -g 345 sys_protected
 	getent passwd sysadmin > /dev/null || \
