@@ -1,14 +1,15 @@
-From c37949dcc81037d94f5826c3bdc943e6cd7d42fe Mon Sep 17 00:00:00 2001
-From: babak sarashki <babak.sarashki@windriver.com>
-Date: Tue, 29 Oct 2019 11:33:26 -0700
+From 5ef6dbb951246912ba021f9e2edacd0f9e7619e6 Mon Sep 17 00:00:00 2001
+From: "Sar Ashki, Babak" <Babak.SarAshki@windriver.com>
+Date: Sat, 29 Feb 2020 12:48:57 -0800
 Subject: [PATCH] inject milisec in syslog date
 
+From stx.3.0: 0231aba5cdcb96b15106591acfff280159050366
 ---
- src/journal/journald-syslog.c | 46 ++++++++++++++++++++++++++++++-----
- 1 file changed, 40 insertions(+), 6 deletions(-)
+ src/journal/journald-syslog.c | 45 +++++++++++++++++++++++++++++++----
+ 1 file changed, 40 insertions(+), 5 deletions(-)
 
 diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
-index 809b318c0..32f269e54 100644
+index a60a259bc4..0036750353 100644
 --- a/src/journal/journald-syslog.c
 +++ b/src/journal/journald-syslog.c
 @@ -25,6 +25,44 @@
@@ -56,21 +57,20 @@ index 809b318c0..32f269e54 100644
  static void forward_syslog_iovec(Server *s, const struct iovec *iovec, unsigned n_iovec, const struct ucred *ucred, const struct timeval *tv) {
  
          static const union sockaddr_union sa = {
-@@ -133,12 +171,8 @@ void server_forward_syslog(Server *s, int priority, const char *identifier, cons
+@@ -133,11 +171,8 @@ void server_forward_syslog(Server *s, int priority, const char *identifier, cons
          iovec[n++] = IOVEC_MAKE_STRING(header_priority);
  
          /* Second: timestamp */
 -        t = tv ? tv->tv_sec : ((time_t) (now(CLOCK_REALTIME) / USEC_PER_SEC));
--        tm = localtime(&t);
--        if (!tm)
+-        if (!localtime_r(&t, &tm))
 -                return;
--        if (strftime(header_time, sizeof(header_time), "%h %e %T ", tm) <= 0)
+-        if (strftime(header_time, sizeof(header_time), "%h %e %T ", &tm) <= 0)
 -                return;
-+        if (formatSyslogDate(header_time, sizeof(header_time), tv) <=0 )
-+           return;
++	if (formatSyslogDate(header_time, sizeof(header_time), tv) <=0 )
++		return;
          iovec[n++] = IOVEC_MAKE_STRING(header_time);
  
          /* Third: identifier and PID */
 -- 
-2.17.1
+2.23.0
 
