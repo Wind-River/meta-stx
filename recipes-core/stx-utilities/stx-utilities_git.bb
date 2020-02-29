@@ -46,6 +46,7 @@ DEPENDS = " \
 	systemd \
 "
 
+require utilities/build-info.inc
 require utilities/logmgmt.inc
 require utilities/namespace-utils.inc
 require utilities/nfscheck.inc
