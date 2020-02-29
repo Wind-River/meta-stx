@@ -1,8 +1,13 @@
 PACKAGES += " patch-alarm"
+DESCRIPTION_patch-alarm = "TIS Platform Patching"
+SUMMARY_patch-alarm = "Patch alarm management"
 
 inherit setuptools
 
-RDEPENDS_patch-alarm_append = " bash"
+RDEPENDS_patch-alarm_append = " \
+	bash \
+	python \
+	"
 
 do_configure_append () {
 	cd ${S}/patch-alarm/patch-alarm

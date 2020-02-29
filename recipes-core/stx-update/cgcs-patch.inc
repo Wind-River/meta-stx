@@ -4,9 +4,19 @@ PACKAGES += " cgcs-patch-controller"
 
 inherit setuptools
 
-RDEPENDS_cgcs-patch_append = " bash"
-RDEPENDS_cgcs-patch-agent_append = " bash"
-RDEPENDS_cgcs-patch-controller_append = " bash"
+RDEPENDS_cgcs-patch_append = " \
+	bash \
+	"
+RDEPENDS_cgcs-patch-agent_append = " \
+	bash \
+	python \
+	"
+
+RDEPENDS_cgcs-patch-controller_append = " \
+	bash \
+	python-requests-toolbelt \
+	createrepo-c \
+	"
 
 do_configure_append () {
 	cd ${S}/cgcs-patch/cgcs-patch
@@ -71,11 +81,6 @@ do_install_append () {
 
 }
 
-#pkg_postinst_ontarget_cgcs-patch () { 
-#	/usr/bin/systemctl enable sw-patch-controller.service
-#	/usr/bin/systemctl enable sw-patch-controller-daemon.service
-#}
-
 FILES_cgcs-patch = " \
 	${libdir}/python2.7/site-packages/cgcs_patch \
 	${libdir}/python2.7/site-packages/cgcs_patch-1.0-py2.7.egg-info \
@@ -92,6 +97,7 @@ FILES_cgcs-patch = " \
 	${sysconfdir}/tempfiles.d/patch-tmpdirs.conf \
 	${sysconfdir}/patching/patch-functions \
 "
+
 FILES_cgcs-patch-agent = " \
 	${sbindir}/sw-patch-agent \
 	${sbindir}/sw-patch-agent-restart \

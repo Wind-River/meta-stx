@@ -1,6 +1,10 @@
 PACKAGES += " mtce-compute"
 
-RDEPENDS_mtce-compute += " bash"
+RDEPENDS_mtce-compute += " \
+	bash \
+	systemd \
+	qemu \
+	"
 
 do_configure_prepend () {
 	:

@@ -28,6 +28,7 @@ DEPENDS += " \
 
 RDEPENDS_${PN} += " \
         python-keystoneauth1 \
+        python-oslo.cache \
         python-oslo.config \
         python-oslo.context \
         python-oslo.i18n \

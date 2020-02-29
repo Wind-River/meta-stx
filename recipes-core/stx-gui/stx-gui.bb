@@ -2,12 +2,11 @@ DESCRIPTION = "stx-gui"
 
 PACKAGES = "starlingx-dashboard"
 
-STABLE = "starlingx/master"
 PROTOCOL = "https"
-BRANCH = "master"
-SRCREV = "596136ecb8d0f07cf9124ed82db66e4031116344"
+BRANCH = "r/stx.3.0"
+SRCREV = "d1c22e49a95f92e91049b96f44e685f46785977c"
 S = "${WORKDIR}/git"
-PV = "19.05"
+PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
 
@@ -17,13 +16,20 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 SRC_URI = "git://opendev.org/starlingx/gui.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
-inherit setuptools
+inherit distutils python-dir
 
 DEPENDS = "\
 	python \
 	python-pbr-native \
 	"
-# TODO: do we need openstack-dashboard here
+
+#RDEPENDS_starlingx-dashboard += " \
+#	openstack-dashboard \
+#	"
+
+RDEPENDS_starlingx-dashboard_append = " \
+	${PYTHON_PN}-cephclient \
+	"
 
 do_configure () {
 	cd ${S}/starlingx-dashboard/starlingx-dashboard
@@ -40,7 +46,6 @@ do_compile () {
 do_install () {
 	cd ${S}/starlingx-dashboard/starlingx-dashboard
 	distutils_do_install
-	# Do we need this?
 	#install -d -m 0755 ${D}/${datadir}/openstack-dashboard/openstack_dashboard/enabled/
 	#install -d -m 0755 ${D}/${datadir}/openstack-dashboard/openstack_dashboard/themes/starlingx/
 	#install -d -m 0755 ${D}/${datadir}/openstack-dashboard/openstack_dashboard/local/local_settings.d
@@ -53,5 +58,5 @@ do_install () {
 }
 
 FILES_starlingx-dashboard = " \
-	${libdir}/python2.7/site-packages/ \
+	${PYTHON_SITEPACKAGES_DIR} \
 	"

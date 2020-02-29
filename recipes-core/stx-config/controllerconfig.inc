@@ -1,5 +1,21 @@
 PACKAGES += " controllerconfig"
-RDEPENDS_controllerconfig += " bash"
+
+RDEPENDS_controllerconfig += " \
+	bash \
+	fm-api \
+	systemd \
+	tsconfig \
+	python-iso8601 \
+	python-keyring \
+	python-netaddr \
+	python-netifaces \
+	python-pyudev \
+	python-six \
+	python-cryptography \
+	python-oslo.utils \
+	python-pysnmp \
+	python-ruamel.yaml \
+	"
 
 do_configure_prepend() {
 	cd ${S}/controllerconfig/controllerconfig
@@ -20,6 +36,8 @@ do_install_prepend () {
         install -p -D -m 700 scripts/install_clone.py ${D}/${bindir}
         install -p -D -m 700 scripts/finish_install_clone.sh ${D}/${bindir}
 
+	install -d -m 700 ${D}/${sysconfdir}/goenabled.d
+	install -d -m 700 ${D}/${sysconfdir}/init.d
         install -p -D -m 700 scripts/config_goenabled_check.sh ${D}/${sysconfdir}/goenabled.d
         install -p -D -m 755 scripts/controller_config ${D}/${sysconfdir}/init.d/controller_config
 
@@ -29,7 +47,7 @@ do_install_prepend () {
         install -p -m 755 upgrade-scripts/20-sysinv-retire-ceph-cache-tier-sp.py ${D}/${sysconfdir}/upgrade.d
 	
 
-        install -p -D -m 664 scripts/controllerconfig.service ${D}/${systemd_system_unitdir}/controllerconfig.service
+        install -p -D -m 664 scripts/controllerconfig.service ${D}/${sysconfdir}/systemd/system/controllerconfig.service
 }
 
 
@@ -51,7 +69,7 @@ FILES_controllerconfig = " \
 		${bindir}/tidy_storage_post_restore \
 		${bindir}/config_controller \
 		${bindir}/upgrade_controller_simplex \
-		${systemd_system_unitdir}/controllerconfig.service \
+		${sysconfdir}/systemd/system/controllerconfig.service \
 		${libdir}/python2.7/site-packages/controllerconfig*.egg-info/ \
 		${libdir}/python2.7/site-packages/controllerconfig/ \
 		"

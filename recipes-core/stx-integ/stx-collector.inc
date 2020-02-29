@@ -14,11 +14,11 @@ do_compile_prepend () {
 do_install_prepend () {
 
 	cd ${S}/tools/collector/scripts
-	install -d 755 -d ${D}/${sysconfdir}/collect.d
-	install -d 755 -d ${D}/${sysconfdir}/collect
-	install -d 755 -d ${D}/${sbindir}
-	install -d 755 -d ${D}/${bindir}
-	install -d 755 -d ${D}/${sbindir}
+	install -m 755 -d ${D}/${sysconfdir}/collect.d
+	install -m 755 -d ${D}/${sysconfdir}/collect
+	install -m 755 -d ${D}/${sbindir}
+	install -m 755 -d ${D}/${bindir}
+	install -m 755 -d ${D}/${sbindir}
 	
 	install -m 755 collect ${D}/${sbindir}/collect
 	install -m 755 collect_host ${D}/${sbindir}/collect_host

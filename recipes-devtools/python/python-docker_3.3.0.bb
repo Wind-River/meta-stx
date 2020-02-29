@@ -9,3 +9,7 @@ SRC_URI[sha256sum] = "dc5cc0971a0d36fe94c5ce89bd4adb6c892713500af7b0818708229c31
 
 inherit setuptools pypi
 
+RDEPENDS_${PN}_append = " \
+	python-docker-pycreds \
+	python-backports-ssl \
+	"

@@ -2,33 +2,44 @@ SUMMARY = " StarlingX Single Server"
 
 LICENSE = "MIT"
 
+CORE_IMAGE_EXTRA_INSTALL = " \
+	packagegroup-core-base-utils  \
+	"
+
 IMAGE_INSTALL_append = " \
 	${CORE_IMAGE_BASE_INSTALL} \
 	packagegroup-core-full-cmdline \
-	packagegroup-core-security \
-	packagegroup-core-selinux \
 	packagegroup-core-lsb \
-	packagegroup-cloud-compute \
-	packagegroup-cloud-controller \
-	packagegroup-cloud-network \
-	packagegroup-cloud-debug \
-	packagegroup-cloud-extras \
-	packagegroup-stx \
+	packagegroup-stx-upstream \
+	packagegroup-stx-puppet \
+	packagegroup-stx-fault \
+	packagegroup-stx-metal \
+	packagegroup-stx-nfv \
+	packagegroup-stx-monitoring \
+	packagegroup-stx-ha \
+	packagegroup-stx-config-files \
+	packagegroup-stx-update \
+	packagegroup-stx-integ \
+	packagegroup-stx-config \
+	packagegroup-stx-distributedcloud \
+	packagegroup-stx-utilities \
+	starlingx-dashboard \
+	playbookconfig \
+	distributedcloud-client-dcmanager \
+	registry-token-server \
 	"
+
 IMAGE_FEATURES += " \
 	package-management \
 	ssh-server-openssh \
 	"
-inherit stx-postrun
 
+# inherit stx-postrun
 inherit core-image
 inherit distro_features_check
 inherit openstack-base
 inherit identity
 inherit monitor
 
-# check for 5G of free space, so we use 5G as a starting point.
-# IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 5000000"
-# POST_KEYSTONE_SETUP_COMMAND = "/etc/keystone/hybrid-backend-setup"
-
+# We need docker-ce
 PACKAGE_EXCLUDE += " docker"

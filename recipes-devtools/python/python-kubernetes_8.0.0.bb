@@ -9,3 +9,8 @@ SRC_URI[sha256sum] = "54f8e7bb1dd9a55cf416dff76a63c4ae441764280942d9913f2243676f
 
 inherit setuptools pypi
 
+RDEPENDS_${PN}_append = " \
+	${PYTHON_PN}-adal \
+	${PYTHON_PN}-google-auth \
+	${PYTHON_PN}-requests-oauthlib \
+	"

@@ -1,11 +1,10 @@
 DESCRIPTION = "stx-nfv"
 
-STABLE = "starlingx/master"
 PROTOCOL = "https"
-BRANCH = "master"
-SRCREV = "cdd6c334d9d1d6c0f4de344fff8ef2af28c76e56"
+BRANCH = "r/stx.3.0"
+SRCREV = "aaa932c00e028dcbaf0eed6843c4d3e51f09b2c1"
 S = "${WORKDIR}/git"
-PV = "19.01"
+PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
 

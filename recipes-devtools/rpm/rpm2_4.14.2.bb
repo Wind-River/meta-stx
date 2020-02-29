@@ -118,6 +118,12 @@ ASNEEDED = ""
 #    rm -rf ${D}/var
 #}
 
+do_compile_append () {
+	cd python
+	cp -r ../../git/python/* ./
+	python setup.py build
+}
+
 do_install_append () {
 	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
 	    ${D}/${libdir}/rpm/macros
@@ -137,6 +143,11 @@ do_install_append () {
 	rm -r ${D}/usr/lib/rpm-plugins
 	# rm -r ${D}/usr/lib/.debug
 	rm -r ${D}/usr/bin
+
+	cd python
+	python setup.py install \
+		--root=${D} --prefix=/usr \
+		--install-lib=${PYTHON_SITEPACKAGES_DIR}/ --install-data=${datadir}
 }
 
 #FILES_${PN} += "${libdir}/rpm-plugins/*.so \
@@ -148,7 +159,10 @@ do_install_append () {
 
 PACKAGES = "python2-rpm rpm2-dbg"
 PROVIDES = "python2-rpm rpm2-dbg"
-FILES_python2-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
+FILES_python2-rpm = " \
+	${PYTHON_SITEPACKAGES_DIR}/rpm/ \
+	${PYTHON_SITEPACKAGES_DIR}/rpm-${PV}-py${PYTHON_BASEVERSION}.egg-info \
+	"
 
 # rpm 5.x was packaging the rpm build tools separately
 #RPROVIDES_${PN} += "rpm-build"

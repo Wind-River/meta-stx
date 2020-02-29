@@ -1,6 +1,24 @@
 PACKAGES += " python-inventoryclient"
 
-RDEPENDS_python-inventoryclient_append = " bash"
+
+# python-keystoneauth1 >= 3.1.0
+# python-pbr >= 2.0.0
+# python-six >= 1.9.0
+# python-oslo-i18n >= 2.1.0
+# python-oslo-utils >= 3.20.0
+# python-requests
+# bash-completion
+#
+RDEPENDS_python-inventoryclient_append = " \
+	python \
+	python-pbr \
+	python-six \
+	python-oslo.i18n \
+	python-oslo.utils \
+	python-requests \
+	bash \
+	bash-completion \
+	"
 
 do_configure_prepend () {
 	cd ${S}/python-inventoryclient/inventoryclient

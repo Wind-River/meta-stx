@@ -3,27 +3,63 @@ PACKAGES += " sysinv"
 RDEPENDS_sysinv += " python"
 RDEPENDS_sysinv += " bash"
 
-do_configure_prepend() {
+inherit setuptools distutils python-dir systemd
+
+DEPENDS += " \
+	python-pbr-native \
+	"
+RDEPENDS_sysinv += " \
+	python-anyjson \
+	python-amqp \
+	python-amqplib \
+	python-passlib \
+	python-websockify \
+	python-pyparted \
+	python-boto3 \
+	python-botocore \
+	python-docker \
+	python-eventlet \
+	python-ipaddr \
+	python-keyring \
+	python-kubernetes \
+	python-netaddr \
+	python-pyudev \
+	python-pbr \
+	python-webtest \
+	python-wsme \
+	python-six \
+	python-django \
+	python-mox3 \
+	python-oslo.i18n \
+	python-oslo.config \
+	python-oslo.concurrency \
+	python-oslo.db \
+	python-oslo.log \
+	python-oslo.utils \
+	python-pecan \
+	python2-rpm \
+	python-pyghmi \
+	tsconfig \
+	"
+
+do_configure_append() {
 	echo "Configure sysinv..."
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_configure
 } 
 
-do_compile_prepend() {
+do_compile_append() {
+	
 	echo "Building sysinv..."
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_compile
 }
 
-do_install_prepend() {
+do_install_append() {
 
 	echo "Installing sysinv..."
 	cd ${S}/sysinv/sysinv/sysinv
 	distutils_do_install
-
-	install -p -D -m 755 ${S}/sysinv/sysinv-agent/sysinv-agent ${D}/${sysconfdir}/init.d/sysinv-agent
-	install -p -D -m 644 ${S}/sysinv/sysinv-agent/sysinv-agent.conf ${D}/${sysconfdir}/pmon.d/sysinv-agent.conf
-	install -p -D -m 644 ${S}/sysinv/sysinv-agent/sysinv-agent.service ${D}/${systemd_system_unitdir}/sysinv-agent.service
 
 	install -d -m 755 ${D}${sysconfdir}/goenabled.d
 	install -p -D -m 755 etc/sysinv/sysinv_goenabled_check.sh ${D}${sysconfdir}/goenabled.d/sysinv_goenabled_check.sh
@@ -60,7 +96,7 @@ do_install_prepend() {
 
 FILES_sysinv = " \
 	${bindir}/sysinv-agent \
-	${bindir}/system \
+	${bindir}/sysinv-utils \
 	${bindir}/sysinv-conductor \
 	${bindir}/sysinv-api \
 	${bindir}/sysinv-helm \
@@ -69,10 +105,7 @@ FILES_sysinv = " \
 	${bindir}/sysinv-puppet \
 	${bindir}/sysinv-rootwrap \
 	${bindir}/sysinv-upgrade \
-	${systemd_system_unitdir}/sysinv-agent.service  \
-	${sysconfdir}/pmon.d/sysinv-agent.conf \
-	${sysconfdir}/init.d/sysinv-agent \
-	${libdir}/python2.7/site-packages/sysinv/ \
+	${PYTHON_SITEPACKAGES_DIR}/sysinv/ \
 	${bindir}/manage-partitions \
 	${bindir}/query_pci_id \
 	${bindir}/partition_info.sh \
@@ -97,6 +130,4 @@ FILES_sysinv = " \
 	"
 
 #pkg_postinst_ontarget_sysinv() {
-#	/usr/bin/systemctl enable sysinv-agent.service sysinv-api.service
-#	# sysinv-conductor.service
 #}
