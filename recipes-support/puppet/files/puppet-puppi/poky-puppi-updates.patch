@@ -1,0 +1,32 @@
+diff --git a/packstack/puppet/modules/puppi/manifests/extras.pp b/packstack/puppet/modules/puppi/manifests/extras.pp
+index 14f88a7..7a2ca2d 100644
+--- a/packstack/puppet/modules/puppi/manifests/extras.pp
++++ b/packstack/puppet/modules/puppi/manifests/extras.pp
+@@ -106,7 +106,7 @@ class puppi::extras {
+ 
+   $packages_run = $::operatingsystem ? {
+     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => [ 'yum repolist' , 'rpm -qa' ] ,
+-    /(?i:Debian|Ubuntu|Mint)/                    => [ 'apt-config dump' , 'apt-cache stats' , 'apt-key list' , 'dpkg -l' ],
++    /(?i:Debian|Ubuntu|Mint|poky)/               => [ 'apt-config dump' , 'apt-cache stats' , 'apt-key list' , 'dpkg -l' ],
+     /(Solaris)/                                  => [ 'pkginfo' ],
+     /(Archlinux)/                                => [ 'pacman -Qet' ],
+     default                                      => [ 'echo' ],
+diff --git a/packstack/puppet/modules/puppi/manifests/params.pp b/packstack/puppet/modules/puppi/manifests/params.pp
+index e236fb4..236c36b 100644
+--- a/packstack/puppet/modules/puppi/manifests/params.pp
++++ b/packstack/puppet/modules/puppi/manifests/params.pp
+@@ -73,12 +73,12 @@ class puppi::params  {
+ # Commands used in puppi info templates
+   $info_package_query = $::operatingsystem ? {
+     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => 'rpm -qi',
+-    /(?i:Ubuntu|Debian|Mint)/          => 'dpkg -s',
++    /(?i:Ubuntu|Debian|Mint|poky)/               => 'dpkg -s',
+     default                    => 'echo',
+   }
+   $info_package_list = $::operatingsystem ? {
+     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => 'rpm -ql',
+-    /(?i:Ubuntu|Debian|Mint)/                    => 'dpkg -L',
++    /(?i:Ubuntu|Debian|Mint|poky)/               => 'dpkg -L',
+     default                                      => 'echo',
+   }
+   $info_service_check = $::operatingsystem ? {

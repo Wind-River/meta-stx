@@ -8,4 +8,5 @@ SRC_URI += " \
 	file://puppet-network/ipv6-static-route-support.patch;striplevel=5 \
 	file://puppet-network/route-options-support.patch;striplevel=5 \
 	file://puppet-network/0001-Stx-uses-puppet-boolean-instead-of-adrien-boolean.patch \
+	file://puppet-network/poky-network-updates.patch;striplevel=5 \
 	" 

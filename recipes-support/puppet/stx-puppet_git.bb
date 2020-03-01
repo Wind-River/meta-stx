@@ -10,10 +10,6 @@ PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
 
-
-
-
-
 LIC_FILES_CHKSUM = " \
 	file://modules/puppet-dcdbsync/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
 	file://modules/puppet-dcmanager/src/LICENSE;md5=0e5ccf641e613489e66aa98271dbe798 \
@@ -28,7 +24,12 @@ LIC_FILES_CHKSUM = " \
 	file://puppet-manifests/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	"
 
-SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
+SRC_URI = " \
+	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://${PN}/poky-dcmanager-updates.patch \
+	file://${PN}/poky-dcorch-updates.patch \
+	file://${PN}/poky-sysinv-updates.patch \
+	"
 
 
 RDEPENDS_${PN} += " \
