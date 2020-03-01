@@ -130,8 +130,19 @@ do_install() {
 	install -p -D -m0644 centos/files/dcorch.conf ${D}/${sysconfdir}/tempfiles.d
 
 	# Install ocf scripts
-	install -d -m 0755 ${D}/${libdir}/ocf/resource.d/openstack/
-	tar -C ocf -c . -f - | tar -C ${D}/${libdir}/ocf/resource.d/openstack/ -xf -
+	install -d -m 0755 ${D}/${libdir}/ocf/resource.d/openstack/ocf
+	install -m 0644 \
+		ocf/dcdbsync-api \
+		ocf/dcmanager-api \
+		ocf/dcmanager-manager \
+		ocf/dcorch-cinder-api-proxy \
+		ocf/dcorch-engine \
+		ocf/dcorch-identity-api-proxy \
+		ocf/dcorch-neutron-api-proxy \
+		ocf/dcorch-nova-api-proxy \
+		ocf/dcorch-patch-api-proxy \
+		ocf/dcorch-snmp \
+		ocf/dcorch-sysinv-api-proxy ${D}/${libdir}/ocf/resource.d/openstack/
 
 	# Install default config files
 	# defer postinst_ontarget
