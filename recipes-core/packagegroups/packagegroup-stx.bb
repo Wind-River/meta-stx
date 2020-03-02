@@ -206,6 +206,7 @@ RDEPENDS_packagegroup-stx-integ = " \
 	"
 
 RDEPENDS_packagegroup-stx-utilities = " \
+	build-info \
 	python-cephclient \
 	ceph-manager \
 	stx-ssl \
