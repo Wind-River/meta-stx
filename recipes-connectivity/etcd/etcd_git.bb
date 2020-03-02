@@ -88,7 +88,9 @@ do_install() {
 	install -m 0644 ${S}/src/import/contrib/systemd/etcd.service ${D}${systemd_system_unitdir}
 
 	# etcd state is in /var/lib/etcd
-	install -d ${D}/${localstatedir}/lib/${BPN}
+	install -d ${D}${sysconfdir}/tmpfiles.d
+	echo "d ${localstatedir}/lib/${BPN} 0755 etcd etcd -" \
+		> ${D}${sysconfdir}/tmpfiles.d/${BPN}.conf
 
 	# we aren't creating a user, so we need to comment out this line
 	sed -i '/User/s/^/#/' ${D}${systemd_unitdir}/system/etcd.service
