@@ -228,4 +228,5 @@ RDEPENDS_packagegroup-stx-armada-app = "\
 	openstack-helm \
 	openstack-helm-infra \
 	stx-openstack-helm \
+	stx-platform-helm \
 	"

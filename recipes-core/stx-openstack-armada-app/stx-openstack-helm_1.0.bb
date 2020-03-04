@@ -8,6 +8,7 @@ DEPENDS += " \
     helm-native \
     openstack-helm \
     openstack-helm-infra \
+    stx-platform-helm \
 "
 
 PROTOCOL = "https"
