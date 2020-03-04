@@ -24,6 +24,7 @@ PACKAGES = " \
 	packagegroup-stx-update \
 	packagegroup-stx-integ \
 	packagegroup-stx-utilities \
+	packagegroup-stx-armada-app \
 	"
 
 RDEPENDS_packagegroup-stx-puppet = "\
@@ -221,4 +222,10 @@ RDEPENDS_packagegroup-stx-utilities = " \
 	update-motd \
 	platform-util \
 	pci-irq-affinity \
+	"
+
+RDEPENDS_packagegroup-stx-armada-app = "\
+	openstack-helm \
+	openstack-helm-infra \
+	stx-openstack-helm \
 	"
