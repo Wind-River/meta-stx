@@ -225,8 +225,11 @@ RDEPENDS_packagegroup-stx-utilities = " \
 	"
 
 RDEPENDS_packagegroup-stx-armada-app = "\
+	monitor-helm \
+	monitor-helm-elastic \
 	openstack-helm \
 	openstack-helm-infra \
+	stx-monitor-helm \
 	stx-openstack-helm \
 	stx-platform-helm \
 	"
