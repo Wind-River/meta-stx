@@ -36,7 +36,7 @@ IMAGE_FEATURES += " \
 	ssh-server-openssh \
 	"
 
-# inherit stx-postrun
+inherit stx-postrun
 inherit core-image
 inherit distro_features_check
 inherit openstack-base
