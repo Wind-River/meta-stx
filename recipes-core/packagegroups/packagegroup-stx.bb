@@ -196,6 +196,7 @@ RDEPENDS_packagegroup-stx-integ = " \
 	mariadb \
 	drbd-utils \
 	docker-registry \
+        docker-forward-journald \
 	etcd \
 	kubernetes \
 	ldapscripts \
@@ -207,6 +208,8 @@ RDEPENDS_packagegroup-stx-integ = " \
 	kvm-timer-advance \
 	ceph \
 	lldpd \
+        lvm2 \
+        tzdata \
 	"
 
 RDEPENDS_packagegroup-stx-utilities = " \
