@@ -3,6 +3,7 @@ SUMMARY = " StarlingX Single Server"
 LICENSE = "MIT"
 
 CORE_IMAGE_EXTRA_INSTALL = " \
+	packagegroup-basic \
 	packagegroup-core-base-utils  \
 	"
 
