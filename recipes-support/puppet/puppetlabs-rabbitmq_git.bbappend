@@ -7,4 +7,5 @@ SRC_URI += " \
 	file://puppetlabs-rabbitmq/0004-Partially-revert-upstream-commit-f7c3a4a637d59f3065d.patch \
 	file://puppetlabs-rabbitmq/0005-Remove-the-rabbitmq_nodename-fact.patch \
 	file://puppetlabs-rabbitmq/0006-Set-rabbitmq-dependency-to-nanliu-staging.patch \
+	file://puppetlabs-rabbitmq/puppet-rabbitmq-poky.patch \
 	"

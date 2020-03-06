@@ -1,0 +1,32 @@
+diff -ru a/modules/puppet-dcmanager/src/dcmanager/manifests/params.pp b/modules/puppet-dcmanager/src/dcmanager/manifests/params.pp
+--- a/modules/puppet-dcmanager/src/dcmanager/manifests/params.pp	2020-03-04 11:03:15.143341760 +0800
++++ b/modules/puppet-dcmanager/src/dcmanager/manifests/params.pp	2020-03-04 17:43:50.607996779 +0800
+@@ -16,8 +16,8 @@
+ 
+     if $::operatingsystem == 'poky' {
+ 
+-      $package_name       = 'dcmanager'
+-      $client_package     = 'distributedcloud-client-dcmanagerclient'
++      $package_name       = 'distributedcloud-dcmanager'
++      $client_package     = 'distributedcloud-client-dcmanager'
+       $api_package        = false
+       $api_service        = 'dcmanager-api'
+       $manager_package     = false
+diff -ru a/modules/puppet-sysinv/src/sysinv/manifests/params.pp b/modules/puppet-sysinv/src/sysinv/manifests/params.pp
+--- a/modules/puppet-sysinv/src/sysinv/manifests/params.pp	2020-03-04 11:03:15.207341761 +0800
++++ b/modules/puppet-sysinv/src/sysinv/manifests/params.pp	2020-03-04 17:23:04.559962821 +0800
+@@ -24,12 +24,12 @@
+     if $::operatingsystem == 'poky' {
+ 
+       $package_name       = 'sysinv'
+-      $client_package     = 'cgtscli'
++      $client_package     = 'cgts-client'
+       $api_package        = false
+       $api_service        = 'sysinv-api'
+       $conductor_package  = false
+       $conductor_service  = 'sysinv-conductor'
+-      $agent_package      = false
++      $agent_package      = 'sysinv-agent'
+       $agent_service      = 'sysinv-agent'
+       $db_sync_command    = 'sysinv-dbsync'
+ 

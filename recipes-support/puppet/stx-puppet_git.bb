@@ -29,6 +29,7 @@ SRC_URI = " \
 	file://${PN}/poky-dcmanager-updates.patch \
 	file://${PN}/poky-dcorch-updates.patch \
 	file://${PN}/poky-sysinv-updates.patch \
+	file://${PN}/stx-puppet-poky.patch \
 	"
 
 

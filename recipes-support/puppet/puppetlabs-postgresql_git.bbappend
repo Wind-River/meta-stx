@@ -5,6 +5,7 @@ SRC_URI += " \
 	file://${PN}/0001-puppetlabs-postgresql-account-for-naming-diffs.patch \
 	file://${PN}/postgresql.service \
 	file://${PN}/poky-postgresql-updates.patch \
+	file://${PN}/puppetlabs-postgresql-poky.patch \
 	"
 
 #	file://${PN}/0004-postgresql-service-restart-with-systemctl.patch 
