@@ -10,6 +10,19 @@ SRC_URI += " \
 
 #	file://${PN}/0004-postgresql-service-restart-with-systemctl.patch 
 
+RDEPENDS_${PN}_append = " \
+	postgresql \
+	postgresql-contrib \
+	postgresql-client \
+	postgresql-timezone \
+	postgresql-plperl \
+	postgresql-plpython \
+	"
+#postgresql-dev
+#postgresql-pltcl
+#postgresql-setup
+
+
 do_install_append() {
 	install -d -m0755 ${D}/usr/lib/systemd/system
 	install -m0644 ${WORKDIR}/${PN}/postgresql.service ${D}/usr/lib/systemd/system
