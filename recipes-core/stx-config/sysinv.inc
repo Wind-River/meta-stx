@@ -17,6 +17,7 @@ RDEPENDS_sysinv += " \
 	python-pyparted \
 	python-boto3 \
 	python-botocore \
+	python-coverage \
 	python-docker \
 	python-eventlet \
 	python-ipaddr \
