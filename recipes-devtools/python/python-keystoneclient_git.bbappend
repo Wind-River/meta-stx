@@ -9,3 +9,10 @@ DEPENDS += " \
         python-pip \
         python-pbr \
         "
+
+RDEPENDS_${PN}_append = " \
+	python-keystone \
+	keystone-setup \
+	keystone-cronjobs \
+	keystone \
+	"
