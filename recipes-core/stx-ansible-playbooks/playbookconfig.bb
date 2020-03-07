@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 # need to be removed if updating to stx 2.0.0 or above.
 SRC_URI = " \
 	git://opendev.org/starlingx/ansible-playbooks.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://0001-stx.3.0-rebase-adjust-path.patch \
         "
 
 RDEPENDS_playbookconfig = " \
