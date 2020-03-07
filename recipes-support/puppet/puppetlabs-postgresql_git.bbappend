@@ -6,6 +6,7 @@ SRC_URI += " \
 	file://${PN}/postgresql.service \
 	file://${PN}/poky-postgresql-updates.patch \
 	file://${PN}/puppetlabs-postgresql-poky.patch \
+	file://${PN}/adjust_path-remove-refs-to-local-bin.patch \
 	"
 
 #	file://${PN}/0004-postgresql-service-restart-with-systemctl.patch 

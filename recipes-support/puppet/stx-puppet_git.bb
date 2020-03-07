@@ -30,6 +30,8 @@ SRC_URI = " \
 	file://${PN}/poky-dcorch-updates.patch \
 	file://${PN}/poky-sysinv-updates.patch \
 	file://${PN}/stx-puppet-poky.patch \
+	file://${PN}/0001-puppet-manifest-apply-rebase-adjust-path.patch \
+	file://${PN}/0001-puppet-manifests-port-Adjust-path-default-bindir.patch \
 	"
 
 
@@ -40,7 +42,7 @@ RDEPENDS_${PN} += " \
         puppet-oslo \
         puppetlabs-apache \
         puppetlabs-mysql \
-"
+	"
 
 # WRS puppet modules
 RDEPENDS_puppet-manifests += " \
