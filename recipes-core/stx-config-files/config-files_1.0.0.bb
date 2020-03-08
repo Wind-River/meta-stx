@@ -135,7 +135,26 @@ RDEPENDS_mlx4-config += ""
 RDEPENDS_net-snmp-config += " net-snmp"
 RDEPENDS_nfs-utils-config += " nfs-utils"
 RDEPENDS_ntp-config += " ntp"
-RDEPENDS_openldap-config += " openldap"
+RDEPENDS_openldap-config += " \
+	openldap \
+	"
+RRECOMMENDS_openldap-config += " \
+	openldap-slapd \
+	openldap-backend-shell \
+	openldap-backend-passwd \
+	openldap-backend-null \
+	openldap-backend-monitor \
+	openldap-backend-meta \
+	openldap-backend-ldap \
+	openldap-backend-dnssrv \
+	openldap-staticdev \
+	openldap-locale \
+	openldap-overlay-proxycache \
+	openldap-slapd \
+	openldap-slurpd \
+	openldap-bin \
+	"
+
 RDEPENDS_openssh-config += " openssh"
 RDEPENDS_openvswitch-config += " openvswitch"
 RDEPENDS_pam-config += " libpam-runtime"
