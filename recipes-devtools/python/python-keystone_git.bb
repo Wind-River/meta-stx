@@ -13,12 +13,17 @@ PV = "15.0.0+git${SRCPV}"
 
 
 SRC_URI = " \
-	git://github.com/openstack/${SRCNAME}.git;protocol=${PROTOCOL};branch=${BRANCH} \
+	git://opendev.org/openstack/${SRCNAME}.git;protocol=${PROTOCOL};branch=${BRANCH} \
 	file://${PN}/keystone.conf \
 	file://${PN}/identity.sh \
 	file://${PN}/convert_keystone_backend.py \
 	file://${PN}/wsgi-keystone.conf \
 	file://${PN}/admin-openrc \
+	file://${PN}/stx-files/openstack-keystone.service \
+	file://${PN}/stx-files/keystone-all \
+	file://${PN}/stx-files/keystone-fernet-keys-rotate-active \
+	file://${PN}/stx-files/public.py \
+	file://${PN}/stx-files/password-rules.conf \
 	"
 
 
@@ -64,12 +69,14 @@ python () {
 do_install_append() {
 
     KEYSTONE_CONF_DIR=${D}${sysconfdir}/keystone
+    KEYSTONE_DATA_DIR=${D}${localstatedir}/lib/keystone
     KEYSTONE_PACKAGE_DIR=${D}${PYTHON_SITEPACKAGES_DIR}/keystone
     APACHE_CONF_DIR=${D}${sysconfdir}/apache2/conf.d/
 
 
     # Create directories
     install -m 755 -d ${KEYSTONE_CONF_DIR}
+    install -m 755 -d ${KEYSTONE_DATA_DIR}
     install -m 755 -d ${APACHE_CONF_DIR}
     install -d ${D}${localstatedir}/log/${SRCNAME}
 
@@ -164,6 +171,14 @@ role_tree_dn = ou=Roles,${LDAP_DN} \
         install -m 0755 ${WORKDIR}/${PN}/convert_keystone_backend.py \
             ${D}${sysconfdir}/keystone/convert_keystone_backend.py
     fi
+
+    
+    install -m 755 ${WORKDIR}/${PN}/stx-files/keystone-fernet-keys-rotate-active ${D}/${bindir}/keystone-fernet-keys-rotate-active
+    install -m 440 ${WORKDIR}/${PN}/stx-files/password-rules.conf ${KEYSTONE_CONF_DIR}/password-rules.conf
+    install -m 755 ${WORKDIR}/${PN}/stx-files/public.py ${KEYSTONE_DATA_DIR}/public.py
+    install -m 644 ${WORKDIR}/${PN}/stx-files/openstack-keystone.service ${D}${systemd_unitdir}/openstack-keystone.service
+    install -m 755 ${WORKDIR}/${PN}/stx-files/keystone-all ${D}${bindir}/keystone-all
+    
 }
 
 # By default tokens are expired after 1 day so by default we can set
@@ -199,6 +214,7 @@ FILES_${SRCNAME} = "${bindir}/* \
     ${localstatedir}/* \
     ${datadir}/openstack-dashboard/openstack_dashboard/api/keystone-httpd.py \
     ${sysconfdir}/apache2/conf.d/keystone.conf \
+    ${systemd_unitdir}/openstack-keystone.service \
     "
 
 DEPENDS += " \
