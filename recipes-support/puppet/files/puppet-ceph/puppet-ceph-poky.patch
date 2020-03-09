@@ -1,0 +1,16 @@
+diff -ru a/manifests/params.pp b/manifests/params.pp
+--- a/manifests/params.pp	2020-03-05 15:12:41.314104210 +0800
++++ b/manifests/params.pp	2020-03-05 15:22:16.302119880 +0800
+@@ -51,7 +51,11 @@
+ 
+   case $::osfamily {
+     'Debian': {
+-      $pkg_radosgw         = 'radosgw'
++      if ($::operatingsystem == 'poky') {
++        $pkg_radosgw         = 'ceph'
++      } else {
++        $pkg_radosgw         = 'radosgw'
++      }
+       $user_radosgw        = 'www-data'
+       $pkg_fastcgi         = 'libapache2-mod-fastcgi'
+       $pkg_nsstools        = ['libnss3-tools', 'wget']

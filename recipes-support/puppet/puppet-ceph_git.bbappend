@@ -10,4 +10,5 @@ SRC_URI += " \
 	file://puppet-ceph/0008-ceph-mimic-prepare-activate-osd.patch \
 	file://puppet-ceph/0009-fix-ceph-osd-disk-partition-for-nvme-disks.patch \
 	file://puppet-ceph/0010-wipe-unprepared-disks.patch \
+	file://puppet-ceph/puppet-ceph-poky.patch \
 	"
