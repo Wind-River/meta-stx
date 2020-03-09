@@ -14,6 +14,8 @@ INSANE_SKIP_${PN} += "textrel"
 INSANE_SKIP_${PN}-misc += "textrel"
 INSANE_SKIP_kubelet += "textrel"
 
+SYSTEMD_AUTO_ENABLE_kubelet = "disable"
+
 do_install_append() {
 	# kubeadm:
 	install -d -m 0755 ${D}/${sysconfdir}/systemd/system/kubelete.service.d
