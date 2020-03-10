@@ -160,6 +160,8 @@ do_install() {
 		CONFIGDIR=${D}/${sysconfdir}/puppet/ \
 		MODULEDIR=${D}/${datadir}/puppet/modules -f Makefile install
 
+	# fix the path for systemctl
+	sed -i -e 's|${bindir}/systemctl|${base_bindir}/systemctl|' ${D}/${datadir}/puppet/modules/platform/manifests/*.pp
 }
 
 FILES_puppet-sysinv += " \
