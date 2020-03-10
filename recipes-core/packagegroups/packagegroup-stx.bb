@@ -147,8 +147,10 @@ RDEPENDS_packagegroup-stx-nfv = " \
 	"
 
 RDEPENDS_packagegroup-stx-upstream = " \
+	barbican \
 	python-neutronclient \
 	python-aodhclient \
+	python-barbican \
 	python-barbicanclient \
 	python-cinderclient \
 	python-glanceclient \

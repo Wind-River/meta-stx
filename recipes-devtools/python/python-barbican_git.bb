@@ -10,7 +10,11 @@ BARBICAN_MAX_PACKET_SIZE ?= "65535"
 
 SRC_URI = " \
 	git://github.com/openstack/barbican.git;branch=${BRANCH} \
-	file://${PN}/barbican-fix-path-to-find-configuration-files.patch \
+	file://${BPN}/barbican-fix-path-to-find-configuration-files.patch \
+	file://${BPN}/openstack-barbican-api.service \
+	file://${BPN}/openstack-barbican-worker.service \
+	file://${BPN}/openstack-barbican-keystone-listener.service \
+	file://${BPN}/gunicorn-config.py \
 	"
 
 SRCREV = "4c0ddda941289fba8e5ec4341b5d02d155d46162"
@@ -18,7 +22,15 @@ BRANCH = "stable/stein"
 PV = "8.0.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
-inherit update-rc.d setuptools identity hosts useradd default_configs monitor
+inherit update-rc.d setuptools identity hosts useradd default_configs monitor systemd
+
+SYSTEMD_SERVICE_${SRCNAME} = " \
+	openstack-barbican-api.service \
+	openstack-barbican-worker.service \
+	openstack-barbican-keystone-listener.service \
+	"
+
+SYSTEMD_AUTO_ENABLE_${SRCNAME} = "disable"
 
 SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
 KEYSTONE_HOST="${CONTROLLER_IP}"
@@ -48,6 +60,17 @@ do_install_append() {
 
     install -d ${D}${localstatedir}/lib/barbican
 
+    # Install the systemd service files
+    install -d ${D}${systemd_system_unitdir}/
+    install -m 644 ${WORKDIR}/${BPN}/*.service ${D}${systemd_system_unitdir}
+
+    # python-gunicorn and gunicorn-config.py are required by openstack-barbican-api.service
+    install -m 644 ${WORKDIR}/${PN}/gunicorn-config.py ${BARBICAN_CONF_DIR}
+
+    # Modify barbican-api-paste.ini for gunicorn
+    echo '[server:main]' >> ${BARBICAN_CONF_DIR}/barbican-api-paste.ini
+    echo 'use = egg:gunicorn#main' >> ${BARBICAN_CONF_DIR}/barbican-api-paste.ini
+
     sed -e "s:%BARBICAN_CONF_DIR%:${sysconfdir}/${SRCNAME}:g" \
         -i ${D}/${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/tests/api/test_resources_policy.py
 }
@@ -67,6 +90,7 @@ FILES_${SRCNAME} = "${sysconfdir}/${SRCNAME}/* \
 	            ${bindir} \
 	            ${bindir}/* \
                     ${localstatedir}/* \
+                    ${systemd_system_unitdir} \
 "
 
 ALLOW_EMPTY_${SRCNAME}-setup = "1"
@@ -114,6 +138,7 @@ RDEPENDS_${PN} += " \
         python-webob \
         python-wsgiref \
         python-barbicanclient \
+        python-gunicorn \
         "
 
 INITSCRIPT_PACKAGES = "${SRCNAME}"
