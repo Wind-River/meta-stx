@@ -35,6 +35,7 @@ SRC_URI = " \
 
 RDEPENDS_${PN} += " \
 	bash puppet \
+	hiera \
         puppet-staging \
         puppet-oslo \
         puppetlabs-apache \
