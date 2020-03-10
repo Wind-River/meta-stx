@@ -19,6 +19,7 @@ SRC_URI = " \
 	file://${PN}/convert_keystone_backend.py \
 	file://${PN}/wsgi-keystone.conf \
 	file://${PN}/admin-openrc \
+	file://${PN}/keystone-init.service \
 	file://${PN}/stx-files/openstack-keystone.service \
 	file://${PN}/stx-files/keystone-all \
 	file://${PN}/stx-files/keystone-fernet-keys-rotate-active \
@@ -81,7 +82,8 @@ do_install_append() {
     install -d ${D}${localstatedir}/log/${SRCNAME}
 
     # Setup the systemd service file
-    install -d ${D}${systemd_unitdir}/system/
+    install -d ${D}${systemd_system_unitdir}/
+    install -m 644 ${WORKDIR}/${PN}/keystone-init.service ${D}${systemd_system_unitdir}/keystone-init.service
 
     mv  ${D}/${datadir}/etc/keystone/sso_callback_template.html ${KEYSTONE_CONF_DIR}/
     rm -rf ${D}/${datadir}
@@ -176,7 +178,7 @@ role_tree_dn = ou=Roles,${LDAP_DN} \
     install -m 755 ${WORKDIR}/${PN}/stx-files/keystone-fernet-keys-rotate-active ${D}/${bindir}/keystone-fernet-keys-rotate-active
     install -m 440 ${WORKDIR}/${PN}/stx-files/password-rules.conf ${KEYSTONE_CONF_DIR}/password-rules.conf
     install -m 755 ${WORKDIR}/${PN}/stx-files/public.py ${KEYSTONE_DATA_DIR}/public.py
-    install -m 644 ${WORKDIR}/${PN}/stx-files/openstack-keystone.service ${D}${systemd_unitdir}/openstack-keystone.service
+    install -m 644 ${WORKDIR}/${PN}/stx-files/openstack-keystone.service ${D}${systemd_system_unitdir}/openstack-keystone.service
     install -m 755 ${WORKDIR}/${PN}/stx-files/keystone-all ${D}${bindir}/keystone-all
     
 }
@@ -195,11 +197,15 @@ pkg_postinst_${SRCNAME}-cronjobs () {
 
 PACKAGES += " ${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-cronjobs"
 
-# SYSTEMD_PACKAGES += "${SRCNAME}-setup"
-# SYSTEMD_SERVICE_${SRCNAME}-setup = "keystone-init.service"
+SYSTEMD_PACKAGES += "${SRCNAME}-setup"
+SYSTEMD_SERVICE_${SRCNAME}-setup = "keystone-init.service"
+SYSTEMD_SERVICE_${SRCNAME} = "openstack-keystone.service"
+
+SYSTEMD_AUTO_ENABLE_${SRCNAME}-setup = "disable"
+SYSTEMD_AUTO_ENABLE_${SRCNAME} = "disable"
 
 FILES_${SRCNAME}-setup = " \
-    ${systemd_unitdir}/system \
+    ${systemd_system_unitdir}/keystone-init.service \
     "
 
 ALLOW_EMPTY_${SRCNAME}-cronjobs = "1"
@@ -214,7 +220,7 @@ FILES_${SRCNAME} = "${bindir}/* \
     ${localstatedir}/* \
     ${datadir}/openstack-dashboard/openstack_dashboard/api/keystone-httpd.py \
     ${sysconfdir}/apache2/conf.d/keystone.conf \
-    ${systemd_unitdir}/openstack-keystone.service \
+    ${systemd_system_unitdir}/openstack-keystone.service \
     "
 
 DEPENDS += " \
