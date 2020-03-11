@@ -269,6 +269,8 @@ RDEPENDS_${PN} += " \
         python-pycadf \
         python-msgpack \
         python-osprofiler \
+	python-flask \
+	python-flask-restful \
         python-pytz \
         "
 

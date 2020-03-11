@@ -139,6 +139,8 @@ RDEPENDS_${PN} += " \
         python-wsgiref \
         python-barbicanclient \
         python-gunicorn \
+	python-castellan \
+	python-ldap3 \
         "
 
 INITSCRIPT_PACKAGES = "${SRCNAME}"

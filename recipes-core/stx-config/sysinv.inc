@@ -40,6 +40,7 @@ RDEPENDS_sysinv += " \
 	python-pecan \
 	python2-rpm \
 	python-pyghmi \
+	python-paramiko \
 	tsconfig \
 	"
 
