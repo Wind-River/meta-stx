@@ -19,6 +19,7 @@ SRC_URI = " \
         "
 
 RDEPENDS_playbookconfig = " \
+	nscd \
 	python \
 	python-netaddr \
 	python-ptyprocess \
