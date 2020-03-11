@@ -34,5 +34,6 @@ RDEPENDS_${PN} += " \
     python-oslo.i18n \
     python-rfc3986 \
     python-pyyaml \
+    python-importlib-metadata \
     "
 	
