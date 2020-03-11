@@ -1,7 +1,7 @@
 SUMMARY = "Forward stdin to journald"
 HOMEPAGE = "https://github.com/docker/docker"
 SECTION = "devel"
-LICENSE = "ASL-2.0"
+LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://src/forward-journald/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 
 PROTOCOL = "https"
