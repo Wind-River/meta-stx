@@ -6,4 +6,5 @@ SRC_URI += " \
 	file://${PN}/0004-escape-special-characters-in-bootstrap.patch \
 	file://${PN}/0005-Add-support-for-fernet-receipts.patch \
 	file://${PN}/0007-puppet-keystone-specify-full-path-to-openrc.patch \
+	file://${PN}/0008-params.pp-fix-the-service-name-of-openstack-keystone.patch \
 	"
