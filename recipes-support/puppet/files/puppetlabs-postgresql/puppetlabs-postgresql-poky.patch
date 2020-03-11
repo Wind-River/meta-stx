@@ -6,7 +6,7 @@ diff -ru a/manifests/globals.pp b/manifests/globals.pp
          default => undef,
        },
 +      'poky' => $::operatingsystemrelease ? {
-+        /^2\./ => '11.5,
++        /^2\./ => '11.5',
 +        default => undef,
 +      },
        default => undef,
