@@ -83,5 +83,5 @@ do_install_append() {
 #SYSTEMD_SERVICE_${PN} = "drbd.service"
 
 pkg_postinst_ontarget_drbd-utils() {
-	/usr/bin/systemctl enable drbd.service
+	${base_bindir}/systemctl enable drbd.service
 }

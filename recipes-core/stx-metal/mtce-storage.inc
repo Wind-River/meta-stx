@@ -22,7 +22,7 @@ do_install_prepend () {
 }
 
 pkg_postinst_ontarget_mtce-storage() { 
-	/usr/bin/systemctl enable goenabled-storage.service
+	${base_bindir}/systemctl enable goenabled-storage.service
 }
 
 FILES_mtce-storage = " \

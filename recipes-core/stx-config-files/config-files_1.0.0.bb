@@ -168,36 +168,40 @@ RDEPENDS_systemd-config += " systemd"
 RDEPENDS_util-linux-config += " util-linux"
 
 pkg_postinst_ontarget_audit-config() {
-	cp -f ${datadir}/starlingx/config-files/audit-config/syslog.conf ${sysconfdir}/audisp/plugins.d/syslog.conf
+	cp -f ${datadir}/starlingx/config-files/audit-config/files/syslog.conf ${sysconfdir}/audisp/plugins.d/syslog.conf
 	chmod 640 ${sysconfdir}/audisp/plugins.d/syslog.conf
 }
 
 pkg_postinst_ontarget_dhclient-config() {
-	install -m 0755 -p ${datadir}/starlingx/config-files/dhclient-config/dhclient-enter-hooks ${sysconfdir}/dhcp/dhclient-enter-hooks
-	install -m 0755 -p ${datadir}/starlingx/config-files/dhclient-config/dhclient.conf ${sysconfdir}/dhcp/dhclient/dhclient.conf
+	SRCPATH=${datadir}/starlingx/config-files/dhclient-config/files
+	install -m 0755 -p ${SRCPATH}/dhclient-enter-hooks ${sysconfdir}/dhcp/dhclient-enter-hooks
+	install -m 0755 -p ${SRCPATH}/dhclient.conf ${sysconfdir}/dhcp/dhclient/dhclient.conf
 	ln -fs ${sysconfdir}/dhcp/dhclient-enter-hooks ${sysconfdir}/dhclient-enter-hooks
 }
 	
 pkg_postinst_ontarget_dnsmasq-config() {
-	install -m 755 ${datadir}/starlingx/config-files/dnsmasq-config/init ${sysconfdir}/init.d/dnsmasq
+	install -m 755 ${datadir}/starlingx/config-files/dnsmasq-config/files/init ${sysconfdir}/init.d/dnsmasq
 }
 
 pkg_postinst_ontarget_docker-config() {
-	install -D -m 644 ${datadir}/starlingx/config-files/docker-config/docker-pmond.conf ${sysconfdir}/pmon.d/docker.conf
+	SRCPATH=${datadir}/starlingx/config-files/docker-config/files
 	install -d -m 0755 ${sysconfdir}/systemd/system/docker.service.d
-	install -D -m 644 ${datadir}/starlingx/config-files/docker-config/docker-stx-override.conf \
+
+	install -D -m 644 ${SRCPATH}/docker-pmond.conf ${sysconfdir}/pmon.d/docker.conf
+	install -D -m 644 ${SRCPATH}/docker-stx-override.conf \
 			${sysconfdir}/systemd/system/docker.service.d/docker-stx-override.conf 
-	install -D -m 644 ${datadir}/starlingx/config-files/docker-config/docker.logrotate ${sysconfdir}/logrotate.d/docker.logrotate
+	install -D -m 644 ${SRCPATH}/docker.logrotate ${sysconfdir}/logrotate.d/docker.logrotate
 }
 
 pkg_postinst_ontarget_filesystem-scripts() {
-	install -D -m 755 ${datadir}/starlingx/config-files/filesystem-scripts/uexportfs ${sysconfdir}/init.d/uexportfs
+	SRCPATH=${datadir}/starlingx/config-files/filesystem-scripts/filesystem-scripts-1.0
+	install -D -m 755 ${SRCPATH}/uexportfs ${sysconfdir}/init.d/uexportfs
 
 	install -d -m 0755 /usr/lib/ocf/resource.d/platform/
-	install -D -m 755 ${datadir}/starlingx/config-files/filesystem-scripts/nfsserver-mgmt /usr/lib/ocf/resource.d/platform/nfsserver-mgmt
+	install -D -m 755 ${SRCPATH}/nfsserver-mgmt /usr/lib/ocf/resource.d/platform/nfsserver-mgmt
 
-	install -p -D -m 755 ${datadir}/starlingx/config-files/filesystem-scripts/nfsmount ${bindir}/nfs-mount
-	install -D -m 755 ${datadir}/starlingx/config-files/filesystem-scripts/uexportfs.service ${systemd_system_unitdir}/uexportfs
+	install -p -D -m 755 ${SRCPATH}/nfsmount ${bindir}/nfs-mount
+	install -D -m 755 ${SRCPATH}/uexportfs.service ${systemd_system_unitdir}/uexportfs
 
 	systemctl enable uexportfs.service
 }
@@ -206,10 +210,10 @@ pkg_postinst_ontarget_filesystem-scripts() {
 pkg_postinst_ontarget_haproxy-config() {
 
 	install -d -m 755 ${sysconfdir}/haproxy/errors/
-	install -m 755 ${datadir}/starlingx/config-files/haproxy-config/503.http ${sysconfdir}/haproxy/errors/503.http
+	install -m 755 ${datadir}/starlingx/config-files/haproxy-config/files/503.http ${sysconfdir}/haproxy/errors/503.http
 
-	install -m 644 ${datadir}/starlingx/config-files/haproxy-config/haproxy.service ${sysconfdir}/systemd/system/
-	install -p -D -m 0755 ${datadir}/starlingx/config-files/haproxy-config/haproxy.sh ${sysconfdir}/init.d/haproxy
+	install -m 644 ${datadir}/starlingx/config-files/haproxy-config/files/haproxy.service ${sysconfdir}/systemd/system/
+	install -p -D -m 0755 ${datadir}/starlingx/config-files/haproxy-config/files/haproxy.sh ${sysconfdir}/init.d/haproxy
 
 	/bin/systemctl disable haproxy.service
 	if test -s ${sysconfdir}/logrotate.d/haproxy ; then
@@ -218,20 +222,21 @@ pkg_postinst_ontarget_haproxy-config() {
 }
 
 pkg_postinst_ontarget_initscripts-config() {
-	install -l  -m 755 ${sysconfdir}/sysconfig
+	install -d  -m 755 ${sysconfdir}/sysconfig
 	install -d  -m 755 ${sysconfdir}/initd.d
 	install -d  -m 755 ${systemd_system_unitdir}
 
-	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/sysctl.conf ${datadir}/starlingx/stx.sysctl.conf
-	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/sysconfig-network.conf ${sysconfdir}/sysconfig/network
-	install -m  755 ${datadir}/starlingx/config-files/initscripts-config/mountnfs.sh ${sysconfdir}/initd.d/mountnfs
-	install -m  644 ${datadir}/starlingx/config-files/initscripts-config/mountnfs.service ${systemd_system_unitdir}/mountnfs.service
+	SRCPATH=${datadir}/starlingx/config-files/initscripts-config/files
+	install -m  644 ${SRCPATH}/sysctl.conf ${datadir}/starlingx/stx.sysctl.conf
+	install -m  644 ${SRCPATH}/sysconfig-network.conf ${sysconfdir}/sysconfig/network
+	install -m  755 ${SRCPATH}/mountnfs.sh ${sysconfdir}/initd.d/mountnfs
+	install -m  644 ${SRCPATH}/mountnfs.service ${systemd_system_unitdir}/mountnfs.service
 
 
 	cmp -s ${datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
 	if [ $? -ne 0 ] ; then
 	        # Initial installation
-		cp -f ${_datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
+		cp -f ${datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
 		chmod 644 ${sysconfdir}/sysctl.conf
 	fi
 }
@@ -244,7 +249,7 @@ pkg_postinst_ontarget_iscsi-initiator-utils-config() {
 #	install -d  ${sysconfdir}/systemd/system
 #	install -d  ${datadir}/starlingx
 
-	SRCPATH=${datadir}/starlingx/config-files/iscsi-initiator-utils-config
+	SRCPATH=${datadir}/starlingx/config-files/iscsi-initiator-utils-config/files
 	tmpfilesdir=${libdir}/tmpfiles.d
 
 	install -m 0644 ${SRCPATH}/iscsi-cache.volatiles   ${tmpfilesdir}/iscsi-cache.conf
@@ -268,7 +273,7 @@ pkg_postinst_ontarget_lighttpd-config() {
 
 	CONFDIR=${sysconfdir}/lighttpd
 	ROOTDIR=/www
-	SRCPATH=${datadir}/starlingx/config-files/lighttpd-config
+	SRCPATH=${datadir}/starlingx/config-files/lighttpd-config/files
 
 	install -d -m 1777 ${ROOTDIR}/tmp
 	install -d ${CONFDIR}/ssl
@@ -302,7 +307,7 @@ pkg_postinst_ontarget_logrotate-config() {
 #	%description
 #	StarlingX logrotate configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/logrotate-config
+	SRCPATH=${datadir}/starlingx/config-files/logrotate-config/files
 
 	install -m 644 ${SRCPATH}/logrotate-cron.d ${sysconfdir}/cron.d/logrotate
 	install -m 644 ${SRCPATH}/logrotate.conf ${datadir}/starlingx/logrotate.conf
@@ -320,21 +325,15 @@ pkg_postinst_ontarget_logrotate-config() {
 pkg_postinst_ontarget_memcached-custom() {
 #	Summary: package memcached service files to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/memcached-custom/
+	SRCPATH=${datadir}/starlingx/config-files/memcached-custom/files
 	install -m 644 -p ${SRCPATH}/memcached.service ${sysconfdir}/systemd/system/memcached.service
 }
 
 
 pkg_postinst_ontarget_mlx4-config() {
-	Source1: mlx4-configure.sh
-	Source2: mlx4-config.service
-	Source3: LICENSE
-	Source4: mlx4_core_goenabled.sh
-	Source5: mlx4_core_config.sh
-
 #	%description
 #	Wind River Mellanox port-type configuration scripts
-	SRCPATH=${datadir}/starlingx/config-files/mlx4-config/
+	SRCPATH=${datadir}/starlingx/config-files/mlx4-config/files
 
 #	/bin/systemctl disable mlx4-config.service >/dev/null 2>&1
 
@@ -351,7 +350,7 @@ pkg_postinst_ontarget_net-snmp-config() {
 #	%description
 #	package StarlingX configuration files of net-snmp to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/net-snmp-config/
+	SRCPATH=${datadir}/starlingx/config-files/net-snmp-config/files
 
 	install -d ${datadir}/snmp
 
@@ -378,7 +377,7 @@ pkg_postinst_ontarget_nfs-utils-config() {
 #	package customized configuration and service files of nfs-utils to system folder.
 
 
-	SRCPATH=${datadir}/starlingx/config-files/nfs-utils-config/
+	SRCPATH=${datadir}/starlingx/config-files/nfs-utils-config/files
 	
 
 	install -m 755 -p -D ${SRCPATH}/nfscommon		${sysconfdir}/init.d
@@ -413,7 +412,7 @@ pkg_postinst_ontarget_ntp-config() {
 #	%description
 #	StarlingX ntp configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/nfs-utils-config/
+	SRCPATH=${datadir}/starlingx/config-files/ntp-config/files
 	install -D -m644 ${SRCPATH}/ntpd.sysconfig ${datadir}/starlingx/ntpd.sysconfig
 	install -D -m644 ${SRCPATH}/ntp.conf ${datadir}/starlingx/ntp.conf
 
@@ -431,7 +430,7 @@ pkg_postinst_ontarget_openldap-config() {
 #	%description
 #	StarlingX openldap configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/openldap-config/
+	SRCPATH=${datadir}/starlingx/config-files/openldap-config/files
 
 	install -m 755 ${SRCPATH}/initscript ${sysconfdir}/rc.d/init.d/openldap
 	install -m 600 ${SRCPATH}/slapd.conf ${sysconfdir}/openldap/slapd.conf
@@ -453,7 +452,7 @@ pkg_postinst_ontarget_openssh-config() {
 #	package StarlingX configuration files of openssh to system folder.
 
 
-	SRCPATH=${datadir}/starlingx/config-files/openssh-config/
+	SRCPATH=${datadir}/starlingx/config-files/openssh-config/files
 
 	install -m 644 ${SRCPATH}/sshd.service  ${sysconfdir}/systemd/system/sshd.service
 	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
@@ -471,11 +470,11 @@ pkg_postinst_ontarget_openvswitch-config() {
 #	%description
 #	StarlingX openvswitch configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/openvswitch-config/
+	SRCPATH=${datadir}/starlingx/config-files/openvswitch-config/files
 
 	install -m 0644 ${SRCPATH}/ovsdb-server.pmon.conf ${sysconfdir}/openvswitch/ovsdb-server.pmon.conf
 	install -m 0644 ${SRCPATH}/ovs-vswitchd.pmon.conf ${sysconfdir}/openvswitch/ovs-vswitchd.pmon.conf
-	install -m 0640 etc_logrotate.d_openvswitch ${datadir}/starlingx/etc_logrotate.d_openvswitch 
+	install -m 0640 ${SRCPATH}/etc_logrotate.d_openvswitch ${datadir}/starlingx/etc_logrotate.d_openvswitch
 	
 	cmp -s ${datadir}/starlingx/etc_logrotate.d_openvswitch ${sysconfdir}/logrotate.d/openvswitch
 	if [ $? -ne 0 ] ; then
@@ -488,9 +487,9 @@ pkg_postinst_ontarget_pam-config() {
 #	%description
 #	package StarlingX configuration files of pam to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/pam-config/
+	SRCPATH=${datadir}/starlingx/config-files/pam-config/files
 
-	install  -m 644 ${SRCPATH}/sshd.pam        ${_datadir}/starlingx/sshd.pam
+	install  -m 644 ${SRCPATH}/sshd.pam        ${datadir}/starlingx/sshd.pam
 	install  -m 644 ${SRCPATH}/common-account  ${sysconfdir}/pam.d/common-account
 	install  -m 644 ${SRCPATH}/common-auth     ${sysconfdir}/pam.d/common-auth
 	install  -m 644 ${SRCPATH}/common-password ${sysconfdir}/pam.d/common-password
@@ -502,7 +501,7 @@ pkg_postinst_ontarget_pam-config() {
 
 	if [ $1 -eq 1 ] ; then
 		# Initial installation
-		cp -f  ${datadir}/starlingx/stx.system-auth ${sysconfdir}/pam.d/system-auth
+		cp -f ${datadir}/starlingx/stx.system-auth ${sysconfdir}/pam.d/system-auth
 		cp -f ${datadir}/starlingx/sshd.pam    ${sysconfdir}/pam.d/sshd
 	fi
 }
@@ -511,7 +510,7 @@ pkg_postinst_ontarget_rabbitmq-server-config() {
 #	%description
 #	package StarlingX configuration files of rabbitmq-server to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/rabbitmq-server-config/
+	SRCPATH=${datadir}/starlingx/config-files/rabbitmq-server-config/files
 
 	install -d ${libdir}/ocf/resource.d/rabbitmq
 	install -m 0755 ${SRCPATH}/rabbitmq-server.ocf              ${libdir}/ocf/resource.d/rabbitmq/stx.rabbitmq-server
@@ -530,7 +529,7 @@ pkg_postinst_ontarget_rsync-config() {
 #	%description
 #	package StarlingX configuration files of rsync to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/rsync-config/
+	SRCPATH=${datadir}/starlingx/config-files/rsync-config/files
 
 	install -m 644 ${SRCPATH}/rsyncd.conf  ${datadir}/starlingx/stx.rsyncd.conf
 	
@@ -545,7 +544,7 @@ pkg_postinst_ontarget_setup-config() {
 #	%description
 #	package StarlingX configuration files of setup to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/setup-config/
+	SRCPATH=${datadir}/starlingx/config-files/setup-config/files
 
 	install -m 644 ${SRCPATH}/motd          ${datadir}/starlingx/stx.motd
 	install -m 644 ${SRCPATH}/prompt.sh     ${sysconfdir}/profile.d/prompt.sh
@@ -563,7 +562,7 @@ pkg_postinst_ontarget_shadow-utils-config() {
 #	%description
 #	StarlingX shadow-utils configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/shadow-utils-config/
+	SRCPATH=${datadir}/starlingx/config-files/shadow-utils-config/files
 
 	install -D -m644 ${SRCPATH}/login.defs ${datadir}/starlingx/login.defs
 	install -D -m644 ${SRCPATH}/clear_shadow_locks.service  ${systemd_system_unitdir}/clear_shadow_locks.service
@@ -581,9 +580,9 @@ pkg_postinst_ontarget_sudo-config() {
 #	StarlingX sudo configuration file
 
 	SYSADMIN_P="4SuW8cnXFyxsk"
-	SRCPATH=${datadir}/starlingx/config-files/sudo-config/
+	SRCPATH=${datadir}/starlingx/config-files/sudo-config/files
 
-	install -m 440 ${SRCPATH}/files/sysadmin.sudo  ${sysconfdir}/sudoers.d/sysadmin
+	install -m 440 ${SRCPATH}/sysadmin.sudo  ${sysconfdir}/sudoers.d/sysadmin
 
 	getent group sys_protected >/dev/null || groupadd -f -g 345 sys_protected
 	getent passwd sysadmin > /dev/null || \
@@ -594,7 +593,7 @@ pkg_postinst_ontarget_syslog-ng-config() {
 #	%description
 #	StarlingX syslog-ng configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/syslog-ng-config/
+	SRCPATH=${datadir}/starlingx/config-files/syslog-ng-config/files
 
 	install -D -m644 ${SRCPATH}/syslog-ng.conf ${datadir}/starlingx/syslog-ng.conf
 	install -D -m644 ${SRCPATH}/syslog-ng.logrotate ${datadir}/starlingx/syslog-ng.logrotate
@@ -627,7 +626,7 @@ pkg_postinst_ontarget_systemd-config() {
 #	%description
 #	StarlingX systemd configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/systemd-config/
+	SRCPATH=${datadir}/starlingx/config-files/systemd-config/files
 
 	install -m644 ${SRCPATH}/60-persistent-storage.rules ${sysconfdir}/udev/rules.d/60-persistent-storage.rules
 	install -m644 ${SRCPATH}/journald.conf ${datadir}/starlingx/journald.conf
@@ -646,7 +645,7 @@ pkg_postinst_ontarget_util-linux-config() {
 #	%description
 #	package StarlingX configuration files of util-linux to system folder.
 
-	SRCPATH=${datadir}/starlingx/config-files/util-linux-config/
+	SRCPATH=${datadir}/starlingx/config-files/util-linux-config/files
 
 	install -m 644 ${SRCPATH}/stx.su     ${datadir}/starlingx/stx.su
 	install -m 644 ${SRCPATH}/stx.login  ${datadir}/starlingx/stx.login
@@ -675,7 +674,7 @@ pkg_postinst_ontarget_iptables-config() {
 #	%description
 #	StarlingX iptables configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/iptables-config/
+	SRCPATH=${datadir}/starlingx/config-files/iptables-config/files
 	
 	install -m 600 ${SRCPATH}/iptables.rules ${datadir}/starlingx/iptables.rules
 	install -m 600 ${SRCPATH}/ip6tables.rules ${datadir}/starlingx/ip6tables.rules 
