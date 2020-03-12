@@ -187,9 +187,18 @@ do_install_append () {
 #}
 
 FILES_${PN}_append = " \
-		${datadir}/openldap-servers/ \
-		${libexecdir}/openldap/ \
-		${sysconfdir}/sysconfig \
-		${sysconfdir}/tmpfiles.d \
-		${systemd_system_unitdir}/stx-slapd.service \
-		"
+	${datadir}/openldap-servers/ \
+	${libexecdir}/openldap/ \
+	${sysconfdir}/sysconfig \
+	${sysconfdir}/tmpfiles.d \
+	${systemd_system_unitdir}/stx-slapd.service \
+	"
+
+# *.la are openldap modules, so re-define
+# to remove the *.la from -dev package
+FILES_${PN}-dev = " \
+	${includedir} \
+	${FILES_SOLIBSDEV} \
+	${libdir}/*.la \
+	${libexecdir}/openldap/*${SOLIBSDEV} \
+	"
