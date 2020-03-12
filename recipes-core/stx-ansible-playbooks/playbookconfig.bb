@@ -27,6 +27,9 @@ RDEPENDS_playbookconfig = " \
 	python-pexpect \
 	python-ansible \
 	sysinv \
+	grub \
+	grubby \
+	dracut \
 	"
 
 do_configure () {
@@ -46,7 +49,8 @@ do_install () {
 pkg_postinst_ontarget_${PN}() { 
 	cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig
 	cp /etc/ansible/hosts /etc/ansible/hosts.orig
-	cp /usr/share/ansible/stx-ansible/playbooks/{ansible.cfg,hosts} /etc/ansible
+	cp /usr/share/ansible/stx-ansible/playbooks/ansible.cfg /etc/ansible
+	cp /usr/share/ansible/stx-ansible/playbooks/hosts /etc/ansible
 
 }
 
