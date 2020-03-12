@@ -22,4 +22,5 @@ DEPENDS += " \
 RDEPENDS_${PN} += " \
 	python-zopeinterface \
 	python-repoze.who \
+	python-defusedxml \
 	"
