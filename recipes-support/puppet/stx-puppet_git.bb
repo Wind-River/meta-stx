@@ -37,6 +37,7 @@ SRC_URI = " \
 
 RDEPENDS_${PN} += " \
 	bash puppet \
+	e2fsprogs-resize2fs \
 	hiera \
         puppet-staging \
         puppet-oslo \
