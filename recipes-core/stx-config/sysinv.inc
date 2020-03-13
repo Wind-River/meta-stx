@@ -42,6 +42,7 @@ RDEPENDS_sysinv += " \
 	python-pyghmi \
 	python-paramiko \
 	tsconfig \
+	resource-agents \
 	"
 
 do_configure_append() {
