@@ -118,7 +118,11 @@ FILES_syslog-ng-config= "${datadir}/starlingx/config-files/syslog-ng-config/"
 FILES_systemd-config= "${datadir}/starlingx/config-files/systemd-config/"
 FILES_util-linux-config= "${datadir}/starlingx/config-files/util-linux-config/"
 
-RDEPENDS_audit-config += " audit"
+RDEPENDS_audit-config += " \
+	audit \
+	auditd \
+	audit-python \
+	"
 RDEPENDS_dhclient-config += "dhcp-client"
 RDEPENDS_dnsmasq-config += ""
 RDEPENDS_docker-config += "docker-ce logrotate "
