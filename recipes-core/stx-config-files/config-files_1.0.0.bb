@@ -220,7 +220,7 @@ pkg_postinst_ontarget_audit-config() {
 }
 
 pkg_postinst_ontarget_dhclient-config() {
-	SRCPATH=${datadir}/starlingx/config-files/dhclient-config/files
+	SRCPATH=${datadir}/starlingx/config-files/dhcp-config/files
 	install -m 0755 -p ${SRCPATH}/dhclient-enter-hooks ${sysconfdir}/dhcp/dhclient-enter-hooks
 	install -m 0755 -p ${SRCPATH}/dhclient.conf ${sysconfdir}/dhcp/dhclient/dhclient.conf
 	ln -fs ${sysconfdir}/dhcp/dhclient-enter-hooks ${sysconfdir}/dhclient-enter-hooks
@@ -247,8 +247,8 @@ pkg_postinst_ontarget_filesystem-scripts() {
 	install -d -m 0755 /usr/lib/ocf/resource.d/platform/
 	install -D -m 755 ${SRCPATH}/nfsserver-mgmt /usr/lib/ocf/resource.d/platform/nfsserver-mgmt
 
-	install -p -D -m 755 ${SRCPATH}/nfsmount ${bindir}/nfs-mount
-	install -D -m 755 ${SRCPATH}/uexportfs.service ${systemd_system_unitdir}/uexportfs
+	install -p -D -m 755 ${SRCPATH}/nfs-mount ${bindir}/nfs-mount
+	install -D -m 755 ${SRCPATH}/uexportfs.service ${systemd_system_unitdir}/uexportfs.service
 
 	systemctl enable uexportfs.service
 }
@@ -307,8 +307,8 @@ pkg_postinst_ontarget_iscsi-initiator-utils-config() {
 	if [ $? -ne 0 ] ; then
 		# Initial installation
 		cp -f ${datadir}/starlingx/stx.iscsid.conf ${sysconfdir}/iscsi/iscsid.conf
-		chmod 0750 %{_sysconfdir}/iscsi
-		chmod 0640 %{_sysconfdir}/iscsi/iscsid.conf
+		chmod 0750 ${sysconfdir}/iscsi
+		chmod 0640 ${sysconfdir}/iscsi/iscsid.conf
 	fi
 	
 	/bin/systemctl disable iscsi-shutdown.service
@@ -331,7 +331,7 @@ pkg_postinst_ontarget_lighttpd-config() {
 	install -m644 ${SRCPATH}/index.html.lighttpd	${ROOTDIR}/pages/index.html
 
 	install -d ${sysconfdir}/logrotate.d
-	install -m644 ${SRCPATH}lighttpd.logrotate	${datadir}/starlingx/lighttpd.logrotate
+	install -m644 ${SRCPATH}/lighttpd.logrotate	${datadir}/starlingx/lighttpd.logrotate
 	chmod 02770 ${sysconfdir}/lighttpd
 
 	cmp -s ${datadir}/starlingx/lighttpd.conf  ${sysconfdir}/lighttpd/lighttpd.conf
@@ -364,7 +364,7 @@ pkg_postinst_ontarget_logrotate-config() {
 	    cp -f ${datadir}/starlingx/logrotate.conf ${sysconfdir}/logrotate.conf 
 	    chmod 644 ${sysconfdir}/logrotate.conf
 	    mv ${sysconfdir}/cron.daily/logrotate ${sysconfdir}/logrotate.cron
-	    chmod 700 %{_sysconfdir}/logrotate.cron
+	    chmod 700 ${sysconfdir}/logrotate.cron
 	 fi
 }
 
@@ -384,7 +384,7 @@ pkg_postinst_ontarget_mlx4-config() {
 
 #	/bin/systemctl disable mlx4-config.service >/dev/null 2>&1
 
-	install -m 755 ${SRCPATH}/mlx4-configure.sh	${_sysconfdir}/init.d/
+	install -m 755 ${SRCPATH}/mlx4-configure.sh	${sysconfdir}/init.d/
 	install -m 644 ${SRCPATH}/mlx4-config.service	${systemd_system_unitdir}/
 	install -m 555 ${SRCPATH}/mlx4_core_goenabled.sh ${sysconfdir}/goenabled.d/
 	install -m 755 ${SRCPATH}/mlx4_core_config.sh	${bindir}/
@@ -468,13 +468,13 @@ pkg_postinst_ontarget_ntp-config() {
 		cp -f ${datadir}/starlingx/ntpd.sysconfig ${sysconfdir}/sysconfig/ntpd
 		cp -f ${datadir}/starlingx/ntp.conf ${sysconfdir}/ntp.conf
 		chmod 644 ${sysconfdir}/sysconfig/ntpd
-		chmod 644 %{_sysconfdir}/ntp.conf
+		chmod 644 ${sysconfdir}/ntp.conf
 	fi
 }
 
 
 pkg_postinst_ontarget_openldap-config() {
-#	%description
+#	$description
 #	StarlingX openldap configuration file
 
 	SRCPATH=${datadir}/starlingx/config-files/openldap-config/files
@@ -651,7 +651,7 @@ pkg_postinst_ontarget_syslog-ng-config() {
 	cmp -s ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
 	if [ $? -ne 0 ] ; then
 		cp -f ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
-		chmod 644 %{_sysconfdir}/syslog-ng/syslog-ng.conf
+		chmod 644 ${sysconfdir}/syslog-ng/syslog-ng.conf
 		cp -f ${datadir}/starlingx/syslog-ng.logrotate ${sysconfdir}/logrotate.d/syslog
 		chmod 644 ${sysconfdir}/logrotate.d/syslog
 		cp -f ${datadir}/starlingx/syslog-ng.service ${systemd_system_unitdir}/syslog-ng.service
@@ -697,7 +697,6 @@ pkg_postinst_ontarget_util-linux-config() {
 	install -m 644 ${SRCPATH}/stx.su     ${datadir}/starlingx/stx.su
 	install -m 644 ${SRCPATH}/stx.login  ${datadir}/starlingx/stx.login
 
-	%define _pamconfdir %{_sysconfdir}/pam.d
 	cmp -s ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
 	if [ $? -ne 0 ] ; then
 		cp -f ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
