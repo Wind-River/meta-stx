@@ -7,4 +7,7 @@ SRC_URI += " \
 #	file://${PN}/0002-maint-Fix-the-vhost-ssl-template-correctly-this-time.patch \
 #	"
 
-RDEPENDS_${PN} += "apache2"
+RDEPENDS_${PN} += " \
+	apache2 \
+	mod-wsgi \
+	"
