@@ -195,6 +195,11 @@ pkg_postinst_${SRCNAME}-cronjobs () {
     fi
 }
 
+pkg_postinst_${SRCNAME} () {
+    # openstak-keystone will be run in httpd/apache2 instead of standalone
+    ln -sf ${systemd_system_unitdir}/apache2.service $D${sysconfdir}/systemd/system/openstack-keystone.service
+}
+
 PACKAGES += " ${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-cronjobs"
 
 SYSTEMD_PACKAGES += "${SRCNAME}-setup"
