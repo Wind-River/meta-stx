@@ -5,7 +5,7 @@ diff -ru a/lib/puppet/provider/package/yum.rb b/lib/puppet/provider/package/yum.
    end
  
    defaultfor :osfamily => :redhat
-+  defaultfor :operatingsystem => :poky
++  defaultfor :operatingsystem => :"poky-stx"
  
    def self.prefetch(packages)
      raise Puppet::Error, _("The yum provider can only be used as root") if Process.euid != 0

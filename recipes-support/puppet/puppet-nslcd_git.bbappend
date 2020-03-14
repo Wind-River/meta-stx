@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
-	file://${PN}/poky-nslcd-updates.patch;striplevel=5 \
+	file://${BPN}/puppet-nslcd-updates-for-poky-stx.patch \
 	"
 
 RDEPENDS_${PN} = "nss-pam-ldapd"

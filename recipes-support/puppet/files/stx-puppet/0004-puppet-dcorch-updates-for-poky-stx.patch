@@ -18,7 +18,7 @@ index 76d5fa1..334cfeb 100644
 -    $api_proxy_service      = 'dcorch-api-proxy'
  
 -    $db_sync_command       = 'dcorch-manage db_sync'
-+    if $::operatingsystem == 'poky' {
++    if $::operatingsystem == 'poky-stx' {
 +
 +      $package_name          = 'dcorch'
 +      $client_package        = 'distributedcloud-client-dcorchclient'

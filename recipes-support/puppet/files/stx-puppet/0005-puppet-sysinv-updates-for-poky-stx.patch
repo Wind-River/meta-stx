@@ -15,15 +15,15 @@ index 438aa37..9fc72e9 100644
 -    $agent_package      = 'sysinv'
 -    $agent_service      = 'sysinv-agent'
 -    $db_sync_command    = 'sysinv-dbsync'
-+    if $::operatingsystem == 'poky' {
++    if $::operatingsystem == 'poky-stx' {
 +
 +      $package_name       = 'sysinv'
-+      $client_package     = 'cgtscli'
++      $client_package     = 'cgts-client'
 +      $api_package        = false
 +      $api_service        = 'sysinv-api'
 +      $conductor_package  = false
 +      $conductor_service  = 'sysinv-conductor'
-+      $agent_package      = false
++      $agent_package      = 'sysinv-agent'
 +      $agent_service      = 'sysinv-agent'
 +      $db_sync_command    = 'sysinv-dbsync'
 +

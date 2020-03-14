@@ -14,10 +14,10 @@ index 5cbfb50..0a4d91b 100644
 -    $manager_service     = 'dcmanager-manager'
 -    $db_sync_command    = 'dcmanager-manage db_sync'
 +
-+    if $::operatingsystem == 'poky' {
++    if $::operatingsystem == 'poky-stx' {
 +
-+      $package_name       = 'dcmanager'
-+      $client_package     = 'distributedcloud-client-dcmanagerclient'
++      $package_name       = 'distributedcloud-dcmanager'
++      $client_package     = 'distributedcloud-client-dcmanager'
 +      $api_package        = false
 +      $api_service        = 'dcmanager-api'
 +      $manager_package     = false

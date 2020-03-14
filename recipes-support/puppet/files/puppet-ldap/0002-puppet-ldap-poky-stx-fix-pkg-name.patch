@@ -6,7 +6,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
    case $::osfamily {
      'Debian' : {
 -      $package = ['ldap-utils']
-+      if $::operatingsystem == 'poky' {
++      if $::operatingsystem == 'poky-stx' {
 +          $package = ['libldap-2.4-slapd', 'libldap-2.4-bin']
 +      } else {
 +          $package = ['ldap-utils']

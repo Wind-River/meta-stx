@@ -1,17 +1,17 @@
-diff --git a/packstack/puppet/modules/network/manifests/bond/poky.pp b/packstack/puppet/modules/network/manifests/bond/poky.pp
+diff --git a/manifests/bond/poky-stx.pp b/manifests/bond/poky-stx.pp
 new file mode 100644
 index 0000000..c6af9c9
 --- /dev/null
-+++ b/packstack/puppet/modules/network/manifests/bond/poky.pp
++++ b/manifests/bond/poky-stx.pp
 @@ -0,0 +1,56 @@
-+# = Define: network::bond::poky
++# = Define: network::bond::poky-stx
 +#
 +# Instantiate bonded interfaces on Debian based systems.
 +#
 +# == See also
 +#
 +# * Debian Network Bonding http://wiki.wrlinux.org/Bonding
-+define network::bond::poky(
++define network::bond::poky-stx(
 +  $slaves,
 +  $ensure    = present,
 +  $ipaddress = undef,
@@ -60,27 +60,27 @@ index 0000000..c6af9c9
 +    before      => Network_config[$name],
 +  }
 +}
-diff --git a/packstack/puppet/modules/network/manifests/bond/setup.pp b/packstack/puppet/modules/network/manifests/bond/setup.pp
+diff --git a/manifests/bond/setup.pp b/manifests/bond/setup.pp
 index 0a30767..780722c 100644
---- a/packstack/puppet/modules/network/manifests/bond/setup.pp
-+++ b/packstack/puppet/modules/network/manifests/bond/setup.pp
+--- a/manifests/bond/setup.pp
++++ b/manifests/bond/setup.pp
 @@ -6,8 +6,10 @@ class network::bond::setup {
        # is available by default
      }
      Debian: {
 -      package { 'ifenslave-2.6':
 -        ensure => present,
-+      if $::operatingsystem != 'poky' {
++      if $::operatingsystem != 'poky-stx' {
 +        package { 'ifenslave-2.6':
 +          ensure => present,
 +        }
        }
      }
      WRLinux: {
-diff --git a/packstack/puppet/modules/network/manifests/bond.pp b/packstack/puppet/modules/network/manifests/bond.pp
+diff --git a/manifests/bond.pp b/manifests/bond.pp
 index 26ca104..5f8e254 100644
---- a/packstack/puppet/modules/network/manifests/bond.pp
-+++ b/packstack/puppet/modules/network/manifests/bond.pp
+--- a/manifests/bond.pp
++++ b/manifests/bond.pp
 @@ -164,28 +164,51 @@ define network::bond(
  
    case $::osfamily {
@@ -96,8 +96,8 @@ index 26ca104..5f8e254 100644
 -        hotplug          => $hotplug,
 -        options          => $options,
 -        slave_options    => $slave_options,
-+      if $::operatingsystem == 'poky' {
-+        network::bond::poky { $name:
++      if $::operatingsystem == 'poky-stx' {
++        network::bond::poky-stx { $name:
 +          slaves    => $slaves,
 +          ensure    => $ensure,
 +          ipaddress => $ipaddress,

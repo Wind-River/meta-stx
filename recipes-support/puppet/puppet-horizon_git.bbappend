@@ -1,5 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
-	file://puppet-horizon/0001-Update-memcached-dependency.patch \
-	file://puppet-horizon/puppet-horizon-poky.patch \
+	file://${BPN}/0001-Update-memcached-dependency.patch \
+	file://${BPN}/0002-puppet-horizon-changes-for-poky-stx.patch \
 	"

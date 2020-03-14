@@ -17,7 +17,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
      }
      'Debian' : {
 -      $config_file_path = '/etc/default/etcd.conf'
-+      if ($::operatingsystem == 'poky') {
++      if ($::operatingsystem == 'poky-stx') {
 +        $config_file_path = '/etc/etcd/etcd.conf'
 +      } else {
 +        $config_file_path = '/etc/default/etcd.conf'

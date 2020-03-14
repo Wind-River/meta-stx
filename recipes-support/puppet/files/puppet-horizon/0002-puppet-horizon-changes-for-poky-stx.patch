@@ -6,7 +6,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
        $wsgi_user                   = 'horizon'
        $wsgi_group                  = 'horizon'
 -      $memcache_package            = 'python-memcache'
-+      if $::operatingsystem == 'poky' {
++      if $::operatingsystem == 'poky-stx' {
 +          $memcache_package            = 'python-memcached'
 +      } else {
 +          $memcache_package            = 'python-memcache'

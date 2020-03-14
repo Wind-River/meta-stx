@@ -7,7 +7,7 @@ index 4d8e70a..b978224 100644
    $process_user = $::operatingsystem ? {
      /(?i:Debian|Ubuntu|Mint)/ => 'dnsmasq',
 -    /(?i:wrlinux)/            => 'root',
-+    /(?i:wrlinux|poky)/       => 'root',
++    /(?i:wrlinux|poky-stx)/       => 'root',
      default                   => 'nobody',
    }
  
@@ -16,7 +16,7 @@ index 4d8e70a..b978224 100644
  
    $config_file_init = $::operatingsystem ? {
 -    /(?i:Debian|Ubuntu|Mint|wrlinux)/ => '/etc/default/dnsmasq',
-+    /(?i:Debian|Ubuntu|Mint|wrlinux|poky)/ => '/etc/default/dnsmasq',
++    /(?i:Debian|Ubuntu|Mint|wrlinux|poky-stx)/ => '/etc/default/dnsmasq',
      default                   => '/etc/sysconfig/dnsmasq',
    }
  

@@ -1,5 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
-	file://${PN}/poky-puppet-updates.patch \
-	file://${PN}/puppet-poky-yum.patch \
+	file://${BPN}/puppet-updates-for-poky-stx.patch \
+	file://${BPN}/puppet-poky-yum.patch \
 	"

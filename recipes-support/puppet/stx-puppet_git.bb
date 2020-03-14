@@ -26,14 +26,12 @@ LIC_FILES_CHKSUM = " \
 
 SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
-	file://${PN}/poky-dcmanager-updates.patch \
-	file://${PN}/poky-dcorch-updates.patch \
-	file://${PN}/poky-sysinv-updates.patch \
-	file://${PN}/stx-puppet-poky.patch \
-	file://${PN}/0001-puppet-manifest-apply-rebase-adjust-path.patch \
-	file://${PN}/0001-puppet-manifests-port-Adjust-path-default-bindir.patch \
+	file://${BPN}/0001-puppet-manifest-apply-rebase-adjust-path.patch \
+	file://${BPN}/0002-puppet-manifests-port-Adjust-path-default-bindir.patch \
+	file://${BPN}/0003-puppet-dcmanager-updates-for-poky-stx.patch \
+	file://${BPN}/0004-puppet-dcorch-updates-for-poky-stx.patch \
+	file://${BPN}/0005-puppet-sysinv-updates-for-poky-stx.patch \
 	"
-
 
 RDEPENDS_${PN} += " \
 	bash puppet \

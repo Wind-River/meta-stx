@@ -1,4 +1,4 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
-	file://${PN}/puppet-etcd-poky.patch \
+	file://${BPN}/puppet-etcd-changes-for-poky-stx.patch \
 	"

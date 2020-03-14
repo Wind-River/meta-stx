@@ -7,7 +7,7 @@ index 72c5755..14ec620 100644
      when "x86_64"
        case Facter.value(:operatingsystem)
 -      when "Debian", "Gentoo", "GNU/kFreeBSD", "Ubuntu"
-+      when "Debian", "Gentoo", "GNU/kFreeBSD", "Ubuntu", "poky"
++      when "Debian", "Gentoo", "GNU/kFreeBSD", "Ubuntu", "poky-stx"
          "amd64"
        else
          model
@@ -19,8 +19,8 @@ index de7913d..797698a 100644
              @operatingsystem ||= "Ubuntu"
            elsif lsbdistid == "LinuxMint"
              @operatingsystem ||= "LinuxMint"
-+          elsif lsbdistid == "poky"
-+            @operatingsystem ||= "poky"
++          elsif lsbdistid == "poky-stx"
++            @operatingsystem ||= "poky-stx"
            else
              @operatingsystem ||= get_operatingsystem_with_release_files
            end
@@ -29,7 +29,7 @@ index de7913d..797698a 100644
               "XenServer", "VirtuozzoLinux"
            "RedHat"
 -        when "LinuxMint", "Ubuntu", "Debian"
-+        when "LinuxMint", "Ubuntu", "Debian", "poky"
++        when "LinuxMint", "Ubuntu", "Debian", "poky-stx"
            "Debian"
          when "SLES", "SLED", "OpenSuSE", "SuSE"
            "Suse"
@@ -37,7 +37,7 @@ index de7913d..797698a 100644
            get_ubuntu_release_with_release_file
          when "VMwareESX"
            get_vmwareESX_release_with_release_file
-+        when "poky"
++        when "poky-stx"
 +          get_lsbdistrelease
          else
            Facter.value(:kernelrelease)

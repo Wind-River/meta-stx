@@ -1,12 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += " \
-	file://${PN}/0001-Roll-up-TIS-patches.patch \
-	file://${PN}/0002-remove-puppetlabs-apt-as-a-requirement.patch \
-	file://${PN}/0001-puppetlabs-postgresql-account-for-naming-diffs.patch \
-	file://${PN}/postgresql.service \
-	file://${PN}/poky-postgresql-updates.patch \
-	file://${PN}/puppetlabs-postgresql-poky.patch \
-	file://${PN}/adjust_path-remove-refs-to-local-bin.patch \
+	file://${BPN}/0001-Roll-up-TIS-patches.patch \
+	file://${BPN}/0002-remove-puppetlabs-apt-as-a-requirement.patch \
+	file://${BPN}/0003-puppetlabs-postgresql-account-for-naming-diffs.patch \
+	file://${BPN}/0004-poky-postgresql-updates.patch \
+	file://${BPN}/0005-puppetlabs-postgresql-poky.patch \
+	file://${BPN}/0006-adjust_path-remove-refs-to-local-bin.patch \
+	file://${BPN}/postgresql.service \
 	"
 
 #	file://${PN}/0004-postgresql-service-restart-with-systemctl.patch 

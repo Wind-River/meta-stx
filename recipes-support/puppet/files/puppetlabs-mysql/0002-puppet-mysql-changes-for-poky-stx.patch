@@ -6,7 +6,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
  
      'Debian': {
 -      if $::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') >= 0 {
-+      if ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') >= 0 or $::operatingsystem == 'poky' {
++      if ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') >= 0 or $::operatingsystem == 'poky-stx' {
          $provider = 'mariadb'
        } else {
          $provider = 'mysql'
@@ -16,7 +16,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
        $basedir                 = '/usr'
 -      $config_file             = '/etc/mysql/my.cnf'
 -      $includedir              = '/etc/mysql/conf.d'
-+      if $::operatingsystem == 'poky' {
++      if $::operatingsystem == 'poky-stx' {
 +        $config_file             = '/etc/my.cnf.d/server.cnf'
 +        $includedir              = '/etc/my.cnf.d'
 +      } else {

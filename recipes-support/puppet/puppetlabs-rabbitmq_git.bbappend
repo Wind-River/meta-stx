@@ -8,5 +8,5 @@ SRC_URI += " \
 	file://${BPN}/0005-Remove-the-rabbitmq_nodename-fact.patch \
 	file://${BPN}/0006-Set-rabbitmq-dependency-to-nanliu-staging.patch \
 	file://${BPN}/0007-init.pp-do-not-check-the-apt-resource.patch \
-	file://${BPN}/puppet-rabbitmq-poky.patch \
+	file://${BPN}/0008-puppet-rabbitmq-poky.patch \
 	"

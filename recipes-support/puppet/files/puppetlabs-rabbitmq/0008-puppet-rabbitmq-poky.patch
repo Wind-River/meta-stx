@@ -6,7 +6,7 @@ diff -ru a/manifests/config.pp b/manifests/config.pp
    case $::osfamily {
      'Debian': {
 -      if versioncmp($::operatingsystemmajrelease, '16.04') >= 0 {
-+      if versioncmp($::operatingsystemmajrelease, '16.04') >= 0 or $::operatingsystem == 'poky' {
++      if versioncmp($::operatingsystemmajrelease, '16.04') >= 0 or $::operatingsystem == 'poky-stx' {
          file { '/etc/systemd/system/rabbitmq-server.service.d':
            ensure                  => directory,
            owner                   => '0',

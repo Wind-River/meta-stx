@@ -5,7 +5,7 @@ diff -ru a/manifests/globals.pp b/manifests/globals.pp
          /^(16.04)$/ => '9.5',
          default => undef,
        },
-+      'poky' => $::operatingsystemrelease ? {
++      'poky-stx' => $::operatingsystemrelease ? {
 +        /^2\./ => '11.5',
 +        default => undef,
 +      },
@@ -27,7 +27,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
        } elsif $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '15.04') >= 0 {
          # Ubuntu releases since vivid use systemd
          $service_status = pick($service_status, "/usr/sbin/service ${service_name} status")
-+      } elsif $::operatingsystem == 'poky' {
++      } elsif $::operatingsystem == 'poky-stx' {
 +        $service_status = "systemctl is-active ${service_name}"
        } else {
          $service_status = pick($service_status, "/etc/init.d/${service_name} status | /bin/egrep -q 'Running clusters: .+|online'")
@@ -39,7 +39,7 @@ diff -ru a/templates/systemd-override.erb b/templates/systemd-override.erb
  .include /usr/lib64/systemd/system/<%= @service_name %>.service
  <%- elsif scope.lookupvar('::operatingsystem') == 'Fedora' -%>
  .include /lib/systemd/system/<%= @service_name %>.service
-+<%- elsif scope.lookupvar('::operatingsystem') == 'poky' -%>
++<%- elsif scope.lookupvar('::operatingsystem') == 'poky-stx' -%>
 +.include /lib/systemd/system/<%= @service_name %>.service
  <% else -%>
  .include /usr/lib/systemd/system/<%= @service_name %>.service

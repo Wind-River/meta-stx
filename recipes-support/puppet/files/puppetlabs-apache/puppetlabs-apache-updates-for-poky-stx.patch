@@ -7,7 +7,7 @@ index e257a579..96d6151d 100644
  
      confine :osfamily => :debian
 -    defaultfor :operatingsystem => [:debian, :ubuntu]
-+    defaultfor :operatingsystem => [:debian, :ubuntu, :poky]
++    defaultfor :operatingsystem => [:debian, :ubuntu, :poky-stx]
  
      def self.instances
        modules = apache2ctl("-M").lines.collect { |line|
@@ -20,7 +20,7 @@ index 55682f3b..2f849752 100644
      $suphp_engine        = 'off'
      $suphp_configpath    = '/etc/php5/apache2'
 -    if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '16.04') < 0) or ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') < 0) {
-+    if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '16.04') < 0) or ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') < 0) or ($::operatingsystem == 'poky') {
++    if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '16.04') < 0) or ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '9') < 0) or ($::operatingsystem == 'poky-stx') {
        # Only the major version is used here
        $php_version = '5'
      } else {

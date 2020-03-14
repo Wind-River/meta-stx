@@ -6,7 +6,7 @@ diff -ru a/manifests/params.pp b/manifests/params.pp
    case $::osfamily {
      'Debian': {
 -      $pkg_radosgw         = 'radosgw'
-+      if ($::operatingsystem == 'poky') {
++      if ($::operatingsystem == 'poky-stx') {
 +        $pkg_radosgw         = 'ceph'
 +      } else {
 +        $pkg_radosgw         = 'radosgw'
