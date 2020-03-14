@@ -164,6 +164,7 @@ RDEPENDS_openvswitch-config += " openvswitch"
 RDEPENDS_pam-config += " \
 	libpam-runtime \
 	nss-pam-ldapd \
+	libpwquality \
 	pam-plugin-access \
 	pam-plugin-cracklib \
 	pam-plugin-debug \
