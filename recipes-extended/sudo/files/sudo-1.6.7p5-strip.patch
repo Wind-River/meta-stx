@@ -1,10 +1,11 @@
-From 8a045c3880e06f5fcf69a73c4029d6725e17f7bc Mon Sep 17 00:00:00 2001
+From e8e74bddb6fb4030b574a76e43e7d0618c0432c9 Mon Sep 17 00:00:00 2001
 From: Tomas Sykora <tosykora@redhat.com>
 Date: Fri, 19 Aug 2016 13:49:25 +0200
-Subject: [PATCH 01/10] We do not strip
+Subject: [PATCH] We do not strip
 
 rebased from:
 Patch1: sudo-1.6.7p5-strip.patch
+
 ---
  install-sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -22,6 +23,3 @@ index 6944fba..49d383a 100755
  	;;
      X--)
  	shift
--- 
-2.7.4
-

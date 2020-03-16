@@ -1,7 +1,16 @@
-diff -up sudo-1.8.23/doc/Makefile.in.sudoldapconfman sudo-1.8.23/doc/Makefile.in
---- sudo-1.8.23/doc/Makefile.in.sudoldapconfman	2018-05-23 13:38:08.347538854 +0200
-+++ sudo-1.8.23/doc/Makefile.in	2018-05-23 13:38:12.806523146 +0200
-@@ -345,10 +345,16 @@ install-doc: install-dirs
+From fcd6c299111dd5dee6e387047c8f60dfef24e32a Mon Sep 17 00:00:00 2001
+From: "Sar Ashki, Babak" <Babak.SarAshki@windriver.com>
+Date: Wed, 11 Dec 2019 19:43:19 -0800
+
+---
+ doc/Makefile.in | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index e8d2605..b2e16f4 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -349,10 +349,16 @@ install-doc: install-dirs
  	    rm -f $(DESTDIR)$(mandirsu)/sudoedit.$(mansectsu)$(MANCOMPRESSEXT); \
  	    echo ln -s sudo.$(mansectsu)$(MANCOMPRESSEXT) $(DESTDIR)$(mandirsu)/sudoedit.$(mansectsu)$(MANCOMPRESSEXT); \
  	    ln -s sudo.$(mansectsu)$(MANCOMPRESSEXT) $(DESTDIR)$(mandirsu)/sudoedit.$(mansectsu)$(MANCOMPRESSEXT); \
@@ -18,7 +27,7 @@ diff -up sudo-1.8.23/doc/Makefile.in.sudoldapconfman sudo-1.8.23/doc/Makefile.in
  	fi
  
  install-plugin:
-@@ -363,8 +369,9 @@ uninstall:
+@@ -367,8 +373,9 @@ uninstall:
  		$(DESTDIR)$(mandirsu)/visudo.$(mansectsu) \
  		$(DESTDIR)$(mandirform)/sudo.conf.$(mansectform) \
  		$(DESTDIR)$(mandirform)/sudoers.$(mansectform) \

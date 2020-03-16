@@ -1,7 +1,16 @@
-diff -up sudo-1.8.23/plugins/sudoers/ldap.c.ldapsearchuidfix sudo-1.8.23/plugins/sudoers/ldap.c
---- sudo-1.8.23/plugins/sudoers/ldap.c.ldapsearchuidfix	2018-04-29 21:59:31.000000000 +0200
-+++ sudo-1.8.23/plugins/sudoers/ldap.c	2018-06-18 08:34:01.202686941 +0200
-@@ -1189,8 +1189,8 @@ sudo_ldap_build_pass1(LDAP *ld, struct p
+From bff4cd71cc41bf3104b35da24e73742571845ebd Mon Sep 17 00:00:00 2001
+From: "Sar Ashki, Babak" <Babak.SarAshki@windriver.com>
+Date: Wed, 11 Dec 2019 19:43:19 -0800
+
+---
+ plugins/sudoers/ldap.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/plugins/sudoers/ldap.c b/plugins/sudoers/ldap.c
+index bc2baec..ad8a890 100644
+--- a/plugins/sudoers/ldap.c
++++ b/plugins/sudoers/ldap.c
+@@ -920,8 +920,8 @@ sudo_ldap_build_pass1(LDAP *ld, struct passwd *pw)
      if (ldap_conf.search_filter)
  	sz += strlen(ldap_conf.search_filter);
  
@@ -12,7 +21,7 @@ diff -up sudo-1.8.23/plugins/sudoers/ldap.c.ldapsearchuidfix sudo-1.8.23/plugins
  
      /* Add space for primary and supplementary groups and gids */
      if ((grp = sudo_getgrgid(pw->pw_gid)) != NULL) {
-@@ -1253,6 +1253,12 @@ sudo_ldap_build_pass1(LDAP *ld, struct p
+@@ -982,6 +982,12 @@ sudo_ldap_build_pass1(LDAP *ld, struct passwd *pw)
      CHECK_LDAP_VCAT(buf, pw->pw_name, sz);
      CHECK_STRLCAT(buf, ")", sz);
  

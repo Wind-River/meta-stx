@@ -1,7 +1,19 @@
-diff -up sudo-1.8.23/plugins/sudoers/def_data.c.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.c
---- sudo-1.8.23/plugins/sudoers/def_data.c.nowaitopt	2018-06-18 09:36:34.249307795 +0200
-+++ sudo-1.8.23/plugins/sudoers/def_data.c	2018-06-18 09:43:12.122986032 +0200
-@@ -498,6 +498,10 @@ struct sudo_defs_types sudo_defs_table[]
+From acbbefdbcf2951a2ce31fe4fc789cf8397a406cc Mon Sep 17 00:00:00 2001
+From: "Sar Ashki, Babak" <Babak.SarAshki@windriver.com>
+Date: Wed, 11 Dec 2019 19:43:19 -0800
+
+---
+ plugins/sudoers/def_data.c  |  4 ++++
+ plugins/sudoers/def_data.h  |  2 ++
+ plugins/sudoers/def_data.in |  3 +++
+ plugins/sudoers/sudoers.c   | 14 ++++++++++++++
+ 4 files changed, 23 insertions(+)
+
+diff --git a/plugins/sudoers/def_data.c b/plugins/sudoers/def_data.c
+index 5fa45bb..9d7a842 100644
+--- a/plugins/sudoers/def_data.c
++++ b/plugins/sudoers/def_data.c
+@@ -498,6 +498,10 @@ struct sudo_defs_types sudo_defs_table[] = {
  	N_("Don't pre-resolve all group names"),
  	NULL,
      }, {
@@ -12,9 +24,10 @@ diff -up sudo-1.8.23/plugins/sudoers/def_data.c.nowaitopt sudo-1.8.23/plugins/su
  	NULL, 0, NULL
      }
  };
-diff -up sudo-1.8.23/plugins/sudoers/def_data.h.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.h
---- sudo-1.8.23/plugins/sudoers/def_data.h.nowaitopt	2018-06-18 09:36:34.250307792 +0200
-+++ sudo-1.8.23/plugins/sudoers/def_data.h	2018-06-18 09:43:44.541878327 +0200
+diff --git a/plugins/sudoers/def_data.h b/plugins/sudoers/def_data.h
+index 940fa8f..68ceed0 100644
+--- a/plugins/sudoers/def_data.h
++++ b/plugins/sudoers/def_data.h
 @@ -228,6 +228,8 @@
  #define def_case_insensitive_group (sudo_defs_table[I_CASE_INSENSITIVE_GROUP].sd_un.flag)
  #define I_LEGACY_GROUP_PROCESSING 114
@@ -24,9 +37,10 @@ diff -up sudo-1.8.23/plugins/sudoers/def_data.h.nowaitopt sudo-1.8.23/plugins/su
  
  enum def_tuple {
  	never,
-diff -up sudo-1.8.23/plugins/sudoers/def_data.in.nowaitopt sudo-1.8.23/plugins/sudoers/def_data.in
---- sudo-1.8.23/plugins/sudoers/def_data.in.nowaitopt	2018-06-18 09:36:34.250307792 +0200
-+++ sudo-1.8.23/plugins/sudoers/def_data.in	2018-06-18 09:45:00.076627403 +0200
+diff --git a/plugins/sudoers/def_data.in b/plugins/sudoers/def_data.in
+index 571bc96..4250917 100644
+--- a/plugins/sudoers/def_data.in
++++ b/plugins/sudoers/def_data.in
 @@ -360,3 +360,6 @@ case_insensitive_group
  legacy_group_processing
  	T_FLAG
@@ -34,11 +48,11 @@ diff -up sudo-1.8.23/plugins/sudoers/def_data.in.nowaitopt sudo-1.8.23/plugins/s
 +cmnd_no_wait
 +	T_FLAG
 +	"Don't fork and wait for the command to finish, just exec it"
-diff -up sudo-1.8.23/plugins/sudoers/policy.c.nowaitopt sudo-1.8.23/plugins/sudoers/policy.c
-diff -up sudo-1.8.23/plugins/sudoers/sudoers.c.nowaitopt sudo-1.8.23/plugins/sudoers/sudoers.c
---- sudo-1.8.23/plugins/sudoers/sudoers.c.nowaitopt	2018-06-18 11:31:51.883751328 +0200
-+++ sudo-1.8.23/plugins/sudoers/sudoers.c	2018-06-18 11:31:03.670899166 +0200
-@@ -213,6 +213,20 @@ sudoers_policy_init(void *info, char * c
+diff --git a/plugins/sudoers/sudoers.c b/plugins/sudoers/sudoers.c
+index d8f4dd0..00669b4 100644
+--- a/plugins/sudoers/sudoers.c
++++ b/plugins/sudoers/sudoers.c
+@@ -221,6 +221,20 @@ sudoers_policy_init(void *info, char * const envp[])
          def_match_group_by_gid = false;
  	def_legacy_group_processing = false;
      }
