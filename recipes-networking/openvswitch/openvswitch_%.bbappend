@@ -5,7 +5,11 @@ RDEPENDS_${PN} += " \
 		firewalld \
 		logrotate \
 		"
-PACKAGECONFIG[ssl] = ",--enable-ssl,openssl,"
+
+PACKAGECONFIG = "libcap-ng ssl dpdk"
+PACKAGECONFIG[ssl] = "--enable-ssl,--disable-ssl,openssl,"
+PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
+
 
 SRC_URI += " \
 	"
@@ -75,8 +79,13 @@ do_install_append () {
 	install -p -m 0644 rhel/usr_lib_firewalld_services_ovn-central-firewall-service.xml \
 		${D}/${libdir}/firewalld/services/ovn-central-firewall-service.xml
 
-	install -d -p -m 0755 ${D}/${libdir}/lib/ocf/resource.d/ovn
-	ln -s $${datadir}/openvswitch/scripts/ovndb-servers.ocf  ${D}/${libdir}/lib/ocf/resource.d/ovn/ovndb-servers
+	install -d -p -m 0755 ${D}/${libdir}/ocf/resource.d/ovn
+	ln -s ${datadir}/openvswitch/scripts/ovndb-servers.ocf  ${D}/${libdir}/ocf/resource.d/ovn/ovndb-servers
+
+	if ${@bb.utils.contains('PACKAGECONFIG', 'dpdk', 'true', 'false', d)}; then
+		install -m 0755 ${STAGING_DATADIR}/dpdk/usertools/dpdk-pmdinfo.py ${D}${datadir}/openvswitch/scripts/dpdk-pmdinfo.py
+		install -m 0755 ${STAGING_DATADIR}/dpdk/usertools/dpdk-devbind.py ${D}${datadir}/openvswitch/scripts/dpdk-devbind.py
+	fi
       
 }
 
