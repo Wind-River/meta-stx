@@ -46,3 +46,5 @@ do_install() {
 }
 
 FILES_${PN} = " "
+
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
