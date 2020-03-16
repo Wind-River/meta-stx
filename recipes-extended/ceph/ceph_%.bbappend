@@ -23,7 +23,7 @@ DEPENDS = "boost rdma-core bzip2 curl expat gperf-native \
 		python-cython-native valgrind xfsprogs zlib \
 		rabbitmq-c \
 		"
-RDEPENDS_${PN} += " rdma-core python3-core python3"
+RDEPENDS_${PN} += " rdma-core python3-core python3 xfsprogs-mkfs"
 
 
 EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
