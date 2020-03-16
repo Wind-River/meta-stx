@@ -480,13 +480,15 @@ pkg_postinst_ontarget_openldap-config() {
 
 	SRCPATH=${datadir}/starlingx/config-files/openldap-config/files
 
-	install -m 755 ${SRCPATH}/initscript ${sysconfdir}/rc.d/init.d/openldap
+	install -m 755 ${SRCPATH}/initscript ${sysconfdir}/init.d/openldap
 	install -m 600 ${SRCPATH}/slapd.conf ${sysconfdir}/openldap/slapd.conf
 
 	install -m 600 ${SRCPATH}/initial_config.ldif ${sysconfdir}/openldap/initial_config.ldif
 
 	install -m 644 ${SRCPATH}/slapd.service ${sysconfdir}/systemd/system/slapd.service
 	install -m 644 ${SRCPATH}/slapd.sysconfig ${datadir}/starlingx/slapd.sysconfig 
+
+	sed -i -e 's|/var/run|/run|' ${sysconfdir}/systemd/system/slapd.service
 	
 	cmp -s ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
 	if [ $? -ne 0] ; then

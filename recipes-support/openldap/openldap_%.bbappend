@@ -135,6 +135,11 @@ do_install_append () {
 	install -m 0755 ${S}/stx-sources/openldap.tmpfiles ${D}/${sysconfdir}/tmpfiles.d/openldap.conf 
 	install -m 0755 ${S}/stx-sources/ldap.conf ${D}/${sysconfdir}/tmpfiles.d/ldap.conf 
 
+	# The database directory MUST exist prior to running slapd AND
+	# should only be accessible by the slapd and slap tools.
+	# Mode 700 recommended.
+	echo "d /var/lib/openldap-data 0700 ldap ldap -" >> ${D}/${sysconfdir}/tmpfiles.d/slapd.conf
+
 	install -m 0644 libexec-functions ${D}/${libexecdir}/openldap/functions
 	install -m 0755 libexec-convert-config.sh ${D}/${libexecdir}/openldap/convert-config.sh
 	install -m 0755 libexec-check-config.sh ${D}/${libexecdir}/openldap/check-config.sh
