@@ -9,40 +9,37 @@ PV = "1.0.0"
 
 
 # TODO:
-#3b83ef96387f14655fc854ddc3c6bd57  ./audit-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./docker-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./filesystem-scripts/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./filesystem-scripts/filesystem-scripts-1.0/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./io-scheduler/centos/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./iptables-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./lighttpd-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./logrotate-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mlx4-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./ntp-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./openldap-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./openvswitch-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./shadow-utils-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./sudo-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./syslog-ng-config/files/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./systemd-config/files/LICENSE
 
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-
+LIC_FILES_CHKSUM = "\
+	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://audit-config/files/LICENS \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://docker-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://filesystem-scripts/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://filesystem-scripts/filesystem-scripts-1.0/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://io-scheduler/centos/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://iptables-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://lighttpd-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://logrotate-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mlx4-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://ntp-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://openldap-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://openvswitch-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://shadow-utils-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://sudo-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://syslog-ng-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://systemd-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	"
 
 SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
-
-
 
 do_configure () {
 	:
 }
 
-
 do_compile () {
 	:
 }
-
 
 do_install () {
 	install -m 0755 -d ${D}/${datadir}/starlingx/config-files
@@ -281,12 +278,8 @@ pkg_postinst_ontarget_initscripts-config() {
 	install -m  644 ${SRCPATH}/mountnfs.service ${systemd_system_unitdir}/mountnfs.service
 
 
-	cmp -s ${datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
-	if [ $? -ne 0 ] ; then
-	        # Initial installation
-		cp -f ${datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
-		chmod 644 ${sysconfdir}/sysctl.conf
-	fi
+	cp -f ${datadir}/starlingx/stx.sysctl.conf ${sysconfdir}/sysctl.conf
+	chmod 644 ${sysconfdir}/sysctl.conf
 }
 
 pkg_postinst_ontarget_iscsi-initiator-utils-config() {
@@ -304,13 +297,9 @@ pkg_postinst_ontarget_iscsi-initiator-utils-config() {
 	install -m 0644 ${SRCPATH}/iscsi-shutdown.service  ${sysconfdir}/systemd/system
 	install -m 0644 ${SRCPATH}/iscsid.conf             ${datadir}/starlingx/stx.iscsid.conf
 
-	cmp -s ${datadir}/starlingx/stx.iscsid.conf ${sysconfdir}/iscsi/iscsid.conf
-	if [ $? -ne 0 ] ; then
-		# Initial installation
-		cp -f ${datadir}/starlingx/stx.iscsid.conf ${sysconfdir}/iscsi/iscsid.conf
-		chmod 0750 ${sysconfdir}/iscsi
-		chmod 0640 ${sysconfdir}/iscsi/iscsid.conf
-	fi
+	cp -f ${datadir}/starlingx/stx.iscsid.conf ${sysconfdir}/iscsi/iscsid.conf
+	chmod 0750 ${sysconfdir}/iscsi
+	chmod 0640 ${sysconfdir}/iscsi/iscsid.conf
 	
 	/bin/systemctl disable iscsi-shutdown.service
 }
@@ -335,20 +324,14 @@ pkg_postinst_ontarget_lighttpd-config() {
 	install -m644 ${SRCPATH}/lighttpd.logrotate	${datadir}/starlingx/lighttpd.logrotate
 	chmod 02770 ${sysconfdir}/lighttpd
 
-	cmp -s ${datadir}/starlingx/lighttpd.conf  ${sysconfdir}/lighttpd/lighttpd.conf
-	if [ $? -ne 0 ] ; then
-	    cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.conf  ${sysconfdir}/lighttpd/lighttpd.conf
-	    chmod 640 ${sysconfdir}/lighttpd/lighttpd.conf
-	    cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.logrotate ${sysconfdir}/logrotate.d/lighttpd
-	    chmod 644 ${sysconfdir}/logrotate.d/lighttpd
-	fi
+	cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.conf  ${sysconfdir}/lighttpd/lighttpd.conf
+	chmod 640 ${sysconfdir}/lighttpd/lighttpd.conf
+	cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.logrotate ${sysconfdir}/logrotate.d/lighttpd
+	chmod 644 ${sysconfdir}/logrotate.d/lighttpd
 
 	# /etc/rc.d/init.d/lighttpd is not a config file, so replace it here if it doesn't match
-	cmp --quiet ${datadir}/starlingx/lighttpd.init ${sysconfdir}/rc.d/init.d/lighttpd
-	if [ $? -ne 0 ]; then
-		cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.init ${sysconfdir}/rc.d/init.d/lighttpd
-		chmod 755 ${sysconfdir}/rc.d/init.d/lighttpd
-	fi
+	cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.init ${sysconfdir}/rc.d/init.d/lighttpd
+	chmod 755 ${sysconfdir}/rc.d/init.d/lighttpd
 }
 
 pkg_postinst_ontarget_logrotate-config() {
@@ -360,13 +343,10 @@ pkg_postinst_ontarget_logrotate-config() {
 	install -m 644 ${SRCPATH}/logrotate-cron.d ${sysconfdir}/cron.d/logrotate
 	install -m 644 ${SRCPATH}/logrotate.conf ${datadir}/starlingx/logrotate.conf
 
-	cmp -s ${datadir}/starlingx/logrotate.conf ${sysconfdir}/logrotate.conf 
-	if [ $? -ne 0 ] ; then
-	    cp -f ${datadir}/starlingx/logrotate.conf ${sysconfdir}/logrotate.conf 
-	    chmod 644 ${sysconfdir}/logrotate.conf
-	    mv ${sysconfdir}/cron.daily/logrotate ${sysconfdir}/logrotate.cron
-	    chmod 700 ${sysconfdir}/logrotate.cron
-	 fi
+	cp -f ${datadir}/starlingx/logrotate.conf ${sysconfdir}/logrotate.conf 
+	chmod 644 ${sysconfdir}/logrotate.conf
+	mv ${sysconfdir}/cron.daily/logrotate ${sysconfdir}/logrotate.cron
+	chmod 700 ${sysconfdir}/logrotate.cron
 }
 
 
@@ -408,13 +388,9 @@ pkg_postinst_ontarget_net-snmp-config() {
 	install -m 644 ${SRCPATH}/snmpd.service     ${sysconfdir}/systemd/system/snmpd.service
 	
 	
-	cmp -s ${datadir}/starlingx/stx.snmpd.conf   ${sysconfdir}/snmp/snmpd.conf
-	if [ $? -ne 0 ] ; then
-	# Initial installation
-		cp -f ${datadir}/starlingx/stx.snmpd.conf   ${sysconfdir}/snmp/snmpd.conf
-		chmod 640 ${sysconfdir}/snmp/snmpd.conf
-		chmod 640 ${sysconfdir}/snmp/snmptrapd.conf
-	fi
+	cp -f ${datadir}/starlingx/stx.snmpd.conf   ${sysconfdir}/snmp/snmpd.conf
+	chmod 640 ${sysconfdir}/snmp/snmpd.conf
+	chmod 640 ${sysconfdir}/snmp/snmptrapd.conf
 	
 	/bin/systemctl disable snmpd.service
 }
@@ -434,12 +410,8 @@ pkg_postinst_ontarget_nfs-utils-config() {
 	install -m 644 -p -D ${SRCPATH}/nfsserver.service	${systemd_system_unitdir}
 	install -m 644 -p -D ${SRCPATH}/nfsmount.conf		${datadir}/starlingx/stx.nfsmount.conf
 	
-	cmp -s ${datadir}/starlingx/stx.nfsmount.conf ${sysconfdir}/nfsmount.conf
-	if [ $? -ne 0 ] ; then
-		# Initial installation
-		        cp -f ${datadir}/starlingx/stx.nfsmount.conf ${sysconfdir}/nfsmount.conf
-			chmod 644 ${sysconfdir}/nfsmount.conf
-	fi
+	cp -f ${datadir}/starlingx/stx.nfsmount.conf ${sysconfdir}/nfsmount.conf
+	chmod 644 ${sysconfdir}/nfsmount.conf
 
 	# STX - disable these service files as rpc-statd is started by nfscommon
 	/bin/systemctl disable rpc-statd.service
@@ -464,13 +436,10 @@ pkg_postinst_ontarget_ntp-config() {
 	install -D -m644 ${SRCPATH}/ntpd.sysconfig ${datadir}/starlingx/ntpd.sysconfig
 	install -D -m644 ${SRCPATH}/ntp.conf ${datadir}/starlingx/ntp.conf
 
-	cmp -s ${datadir}/starlingx/ntpd.sysconfig ${sysconfdir}/sysconfig/ntpd
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/ntpd.sysconfig ${sysconfdir}/sysconfig/ntpd
-		cp -f ${datadir}/starlingx/ntp.conf ${sysconfdir}/ntp.conf
-		chmod 644 ${sysconfdir}/sysconfig/ntpd
-		chmod 644 ${sysconfdir}/ntp.conf
-	fi
+	cp -f ${datadir}/starlingx/ntpd.sysconfig ${sysconfdir}/sysconfig/ntpd
+	cp -f ${datadir}/starlingx/ntp.conf ${sysconfdir}/ntp.conf
+	chmod 644 ${sysconfdir}/sysconfig/ntpd
+	chmod 644 ${sysconfdir}/ntp.conf
 }
 
 
@@ -490,11 +459,8 @@ pkg_postinst_ontarget_openldap-config() {
 
 	sed -i -e 's|/var/run|/run|' ${sysconfdir}/systemd/system/slapd.service
 	
-	cmp -s ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
-	if [ $? -ne 0] ; then
-		cp -f ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
-		chmod 644 ${systemd_system_unitdir}/slapd
-	fi
+	cp -f ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
+	chmod 644 ${systemd_system_unitdir}/slapd
 }
 
 pkg_postinst_ontarget_openssh-config() {
@@ -508,12 +474,8 @@ pkg_postinst_ontarget_openssh-config() {
 	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
 	install -m 600 ${SRCPATH}/sshd_config   ${datadir}/starlingx/sshd_config
 	
-	cmp -s ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
-	if [ $? -ne 0 ] ; then
-		# Initial installation
-		cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
-		cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
-	fi
+	cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
+	cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
 }
 
 pkg_postinst_ontarget_openvswitch-config() {
@@ -526,11 +488,8 @@ pkg_postinst_ontarget_openvswitch-config() {
 	install -m 0644 ${SRCPATH}/ovs-vswitchd.pmon.conf ${sysconfdir}/openvswitch/ovs-vswitchd.pmon.conf
 	install -m 0640 ${SRCPATH}/etc_logrotate.d_openvswitch ${datadir}/starlingx/etc_logrotate.d_openvswitch
 	
-	cmp -s ${datadir}/starlingx/etc_logrotate.d_openvswitch ${sysconfdir}/logrotate.d/openvswitch
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/etc_logrotate.d_openvswitch ${sysconfdir}/logrotate.d/openvswitch
-	        chmod 644 ${sysconfdir}/logrotate.d/openvswitch
-	fi
+	cp -f ${datadir}/starlingx/etc_logrotate.d_openvswitch ${sysconfdir}/logrotate.d/openvswitch
+	chmod 644 ${sysconfdir}/logrotate.d/openvswitch
 }
 
 pkg_postinst_ontarget_pam-config() {
@@ -547,13 +506,8 @@ pkg_postinst_ontarget_pam-config() {
 	install  -m 644 ${SRCPATH}/common-session-noninteractive ${sysconfdir}/pam.d/common-session-noninteractive
 	install  -m 644 ${SRCPATH}/system-auth.pamd ${datadir}/starlingx/stx.system-auth
 	
-	cmp -s ${datadir}/starlingx/stx.system-auth ${sysconfdir}/pam.d/system-auth
-
-	if [ $1 -eq 1 ] ; then
-		# Initial installation
-		cp -f ${datadir}/starlingx/stx.system-auth ${sysconfdir}/pam.d/system-auth
-		cp -f ${datadir}/starlingx/sshd.pam    ${sysconfdir}/pam.d/sshd
-	fi
+	cp -f ${datadir}/starlingx/stx.system-auth ${sysconfdir}/pam.d/system-auth
+	cp -f ${datadir}/starlingx/sshd.pam    ${sysconfdir}/pam.d/sshd
 }
 
 pkg_postinst_ontarget_rabbitmq-server-config() {
@@ -568,11 +522,7 @@ pkg_postinst_ontarget_rabbitmq-server-config() {
 	install -m 0644 ${SRCPATH}/rabbitmq-server.logrotate        ${datadir}/starlingx/stx.rabbitmq-server.logrotate
 	
 	
-	cmp -s ${datadir}/starlingx/stx.rabbitmq-server.logrotate ${sysconfdir}/logrotate.d/rabbitmq-server
-	if [ $? -ne 0 ] ; then
-		# Initial installation 
-		cp ${datadir}/starlingx/stx.rabbitmq-server.logrotate ${sysconfdir}/logrotate.d/rabbitmq-server
-	fi
+	cp ${datadir}/starlingx/stx.rabbitmq-server.logrotate ${sysconfdir}/logrotate.d/rabbitmq-server
 }
 
 pkg_postinst_ontarget_rsync-config() {
@@ -583,11 +533,7 @@ pkg_postinst_ontarget_rsync-config() {
 
 	install -m 644 ${SRCPATH}/rsyncd.conf  ${datadir}/starlingx/stx.rsyncd.conf
 	
-	cmp -s ${datadir}/starlingx/stx.rsyncd.conf  ${sysconfdir}/rsyncd.conf
-	if [ $? -ne 0 ] ; then
-		# Initial installation
-		cp -f ${datadir}/starlingx/stx.rsyncd.conf  ${sysconfdir}/rsyncd.conf
-	fi 
+	cp -f ${datadir}/starlingx/stx.rsyncd.conf  ${sysconfdir}/rsyncd.conf
 }
 
 pkg_postinst_ontarget_setup-config() {
@@ -600,12 +546,8 @@ pkg_postinst_ontarget_setup-config() {
 	install -m 644 ${SRCPATH}/prompt.sh     ${sysconfdir}/profile.d/prompt.sh
 	install -m 644 ${SRCPATH}/custom.sh     ${sysconfdir}/profile.d/custom.sh
 
-	cmp -s ${datadir}/starlingx/stx.motd    ${sysconfdir}/motd
-	if [ $? -ne 0 ] ; then
-		# Initial installation
-		cp -f ${datadir}/starlingx/stx.motd    ${sysconfdir}/motd
-		chmod 600   ${sysconfdir}/{exports,fstab}
-	fi 
+	cp -f ${datadir}/starlingx/stx.motd    ${sysconfdir}/motd
+	chmod 600   ${sysconfdir}/{exports,fstab}
 }
 
 pkg_postinst_ontarget_shadow-utils-config() {
@@ -617,12 +559,9 @@ pkg_postinst_ontarget_shadow-utils-config() {
 	install -D -m644 ${SRCPATH}/login.defs ${datadir}/starlingx/login.defs
 	install -D -m644 ${SRCPATH}/clear_shadow_locks.service  ${systemd_system_unitdir}/clear_shadow_locks.service
 
-	cmp -s ${datadir}/starlingx/login.defs ${sysconfdir}/login.defs
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/login.defs ${sysconfdir}/login.defs
-		chmod 644 ${sysconfdir}/login.defs
-		/bin/systemctl preset clear_shadow_locks.service
-	fi
+	cp -f ${datadir}/starlingx/login.defs ${sysconfdir}/login.defs
+	chmod 644 ${sysconfdir}/login.defs
+	/bin/systemctl preset clear_shadow_locks.service
 }
 
 pkg_postinst_ontarget_sudo-config() {
@@ -651,16 +590,13 @@ pkg_postinst_ontarget_syslog-ng-config() {
 	install -D -m700 ${SRCPATH}/fm_event_syslogger ${sbindir}/fm_event_syslogger
 	install -D -m644 ${SRCPATH}/syslog-ng.service ${datadir}/starlingx/syslog-ng.service
 
-	cmp -s ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
-		chmod 644 ${sysconfdir}/syslog-ng/syslog-ng.conf
-		cp -f ${datadir}/starlingx/syslog-ng.logrotate ${sysconfdir}/logrotate.d/syslog
-		chmod 644 ${sysconfdir}/logrotate.d/syslog
-		cp -f ${datadir}/starlingx/syslog-ng.service ${systemd_system_unitdir}/syslog-ng.service
-		chmod 644 ${systemd_system_unitdir}/syslog-ng.service
-		/bin/systemctl preset syslog-ng.service
-	fi
+	cp -f ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
+	chmod 644 ${sysconfdir}/syslog-ng/syslog-ng.conf
+	cp -f ${datadir}/starlingx/syslog-ng.logrotate ${sysconfdir}/logrotate.d/syslog
+	chmod 644 ${sysconfdir}/logrotate.d/syslog
+	cp -f ${datadir}/starlingx/syslog-ng.service ${systemd_system_unitdir}/syslog-ng.service
+	chmod 644 ${systemd_system_unitdir}/syslog-ng.service
+	/bin/systemctl preset syslog-ng.service
 	/sbin/ldconfig 
 # TODO
 #preun:
@@ -684,11 +620,8 @@ pkg_postinst_ontarget_systemd-config() {
 	install -m644 ${SRCPATH}/tmp.conf.tmpfiles.d ${sysconfdir}/tmpfiles.d/tmp.conf
 	install -m644 ${SRCPATH}/tmp.mount ${sysconfdir}/systemd/system/tmp.mount
 
-	cmp -s ${datadir}/starlingx/journald.conf ${sysconfdir}/systemd/journald.conf
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/journald.conf ${sysconfdir}/systemd/journald.conf
-	        chmod 644 ${sysconfdir}/systemd/journald.conf
-	fi
+	cp -f ${datadir}/starlingx/journald.conf ${sysconfdir}/systemd/journald.conf
+	chmod 644 ${sysconfdir}/systemd/journald.conf
 }
 
 pkg_postinst_ontarget_util-linux-config() {
@@ -700,11 +633,8 @@ pkg_postinst_ontarget_util-linux-config() {
 	install -m 644 ${SRCPATH}/stx.su     ${datadir}/starlingx/stx.su
 	install -m 644 ${SRCPATH}/stx.login  ${datadir}/starlingx/stx.login
 
-	cmp -s ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
-	if [ $? -ne 0 ] ; then
-		cp -f ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
-		cp -f ${datadir}/starlingx/stx.login  ${sysconfdir}/pam.d/login
-	fi
+	cp -f ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
+	cp -f ${datadir}/starlingx/stx.login  ${sysconfdir}/pam.d/login
 }
 
 pkg_postinst_ontarget_ioscheduler-config() {
@@ -728,12 +658,9 @@ pkg_postinst_ontarget_iptables-config() {
 	install -m 600 ${SRCPATH}/iptables.rules ${datadir}/starlingx/iptables.rules
 	install -m 600 ${SRCPATH}/ip6tables.rules ${datadir}/starlingx/ip6tables.rules 
 	
-	cmp -s S{datadir}/starlingx/iptables.rules ${sysconfdir}/sysconfig/iptables
-	if [ $? -ne 0 ] ; then
-		cp -f S{datadir}/starlingx/iptables.rules ${sysconfdir}/sysconfig/iptables
-		chmod 600 ${sysconfdir}/sysconfig/iptables
-		cp -f ${datadir}/starlingx/ip6tables.rules ${sysconfdir}/sysconfig/ip6tables
-		chmod 600 ${sysconfdir}/sysconfig/ip6tables
-	fi
+	cp -f S{datadir}/starlingx/iptables.rules ${sysconfdir}/sysconfig/iptables
+	chmod 600 ${sysconfdir}/sysconfig/iptables
+	cp -f ${datadir}/starlingx/ip6tables.rules ${sysconfdir}/sysconfig/ip6tables
+	chmod 600 ${sysconfdir}/sysconfig/ip6tables
 	/bin/systemctl enable iptables.service ip6tables.service >/dev/null 2>&1
 }
