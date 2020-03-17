@@ -164,8 +164,8 @@ do_install() {
 	# fix the path for systemctl
 	sed -i -e 's|${bindir}/systemctl|${base_bindir}/systemctl|' ${D}/${datadir}/puppet/modules/platform/manifests/*.pp
 
-	# fix the path for mount
-	sed -i -e 's|${bindir}|${base_bindir}|' ${D}/${datadir}/puppet/modules/platform/manifests/filesystem.pp
+	# fix the path for mount and awk
+	sed -i -e 's|${bindir}|${bindir}:${base_bindir}|' ${D}/${datadir}/puppet/modules/platform/manifests/filesystem.pp
 
 	# fix the path for slapd.conf
 	sed -i -e '/\/usr\/lib64\/openldap/d' ${D}/${datadir}/puppet/modules/platform/manifests/ldap.pp
