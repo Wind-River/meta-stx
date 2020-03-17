@@ -13,22 +13,22 @@ PV = "1.0.0"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "\
 	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
-	file://audit-config/files/LICENS \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://docker-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://filesystem-scripts/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://filesystem-scripts/filesystem-scripts-1.0/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://io-scheduler/centos/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://iptables-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://lighttpd-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://logrotate-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://mlx4-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://ntp-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://openldap-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://openvswitch-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://shadow-utils-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://sudo-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://syslog-ng-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
-	file://systemd-config/files/LICENSE \3b83ef96387f14655fc854ddc3c6bd57 \
+	file://audit-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://docker-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://filesystem-scripts/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://filesystem-scripts/filesystem-scripts-1.0/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://io-scheduler/centos/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://iptables-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://lighttpd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://logrotate-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mlx4-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://ntp-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://openldap-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://openvswitch-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://shadow-utils-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://sudo-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://syslog-ng-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	"
 
 SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
