@@ -8,19 +8,18 @@ S = "${WORKDIR}/git"
 PV = "1.0.0"
 
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-
-#TODO:
-#3b83ef96387f14655fc854ddc3c6bd57  ./LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./installer/pxe-network-installer/pxe-network-installer/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./kickstart/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mtce-common/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mtce-compute/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mtce-control/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mtce-storage/src/LICENSE
-#3b83ef96387f14655fc854ddc3c6bd57  ./mtce/src/LICENSE
-#1dece7821bf3fd70fe1309eaa37d52a2  ./inventory/inventory/LICENSE
-#1dece7821bf3fd70fe1309eaa37d52a2  ./python-inventoryclient/inventoryclient/LICENSE
+LIC_FILES_CHKSUM = " \
+	file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://installer/pxe-network-installer/pxe-network-installer/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://kickstart/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mtce-common/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mtce-compute/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mtce-control/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mtce-storage/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://mtce/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	file://inventory/inventory/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2 \
+	file://python-inventoryclient/inventoryclient/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2 \
+	"
 
 
 SRC_URI = "git://opendev.org/starlingx/metal.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
@@ -30,6 +29,7 @@ SRC_URI = "git://opendev.org/starlingx/metal.git;protocol=${PROTOCOL};rev=${SRCR
 		file://0001-Use-snprintf-to-avoid-overflowing-amon.tx_buf.patch \
 		file://0001-Use-LDFLAGS-when-linking-and-pass-flags-down-to-subm.patch \
 		file://0001-stx-metal-remove-argparse-requirement-from-inventory.patch \
+		file://stx-warrior-adjust-paths.patch \
 		"
 
 inherit setuptools
