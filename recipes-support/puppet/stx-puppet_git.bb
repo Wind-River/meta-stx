@@ -164,6 +164,7 @@ do_install() {
 
 	# fix the path for systemctl
 	sed -i -e 's|${bindir}/systemctl|${base_bindir}/systemctl|' ${D}/${datadir}/puppet/modules/platform/manifests/*.pp
+	sed -i -e 's|${bindir}|${bindir}:${base_bindir}|' ${D}/${datadir}/puppet/modules/sysinv/manifests/api.pp
 
 	# fix the path for mount and awk
 	sed -i -e 's|${bindir}|${bindir}:${base_bindir}|' ${D}/${datadir}/puppet/modules/platform/manifests/filesystem.pp
