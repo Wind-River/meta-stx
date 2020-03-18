@@ -70,7 +70,7 @@ do_compile () {
 	helm repo add local http://localhost:8879/charts
 
 	# Create the tgz files
-	rm elasticsearch/Makefile
+	rm -rf elasticsearch/Makefile
 	make elasticsearch
 
 	# terminate helm server
