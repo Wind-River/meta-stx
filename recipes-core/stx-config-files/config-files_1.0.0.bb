@@ -34,6 +34,7 @@ LIC_FILES_CHKSUM = "\
 SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://openssh-config-rm-hmac-ripemd160.patch \
+	file://util-linux-pam-postlogin.patch \
 	"
 
 do_configure () {
@@ -636,9 +637,12 @@ pkg_postinst_ontarget_util-linux-config() {
 
 	install -m 644 ${SRCPATH}/stx.su     ${datadir}/starlingx/stx.su
 	install -m 644 ${SRCPATH}/stx.login  ${datadir}/starlingx/stx.login
+	install -m 644 ${SRCPATH}/stx.postlogin ${datadir}/starlingx/stx.postlogin
 
 	cp -f ${datadir}/starlingx/stx.su ${sysconfdir}/pam.d/su
 	cp -f ${datadir}/starlingx/stx.login  ${sysconfdir}/pam.d/login
+	cp -f ${datadir}/starlingx/stx.postlogin  ${sysconfdir}/pam.d/postlogin
+
 }
 
 pkg_postinst_ontarget_ioscheduler-config() {
