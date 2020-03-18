@@ -31,7 +31,10 @@ LIC_FILES_CHKSUM = "\
 	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	"
 
-SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
+SRC_URI = " \
+	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
+	file://openssh-config-rm-hmac-ripemd160.patch \
+	"
 
 do_configure () {
 	:
