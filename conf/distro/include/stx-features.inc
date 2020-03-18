@@ -49,3 +49,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
 VIRTUAL-RUNTIME_syslog = "syslog-ng"
 VIRTUAL-RUNTIME_vim = "vim"
+
+DISTRO_FEATURES_append = " selinux"
+PREFERRED_PROVIDER_virtual/refpolicy ?= "refpolicy-mls"
