@@ -526,6 +526,7 @@ pkg_postinst_ontarget_rabbitmq-server-config() {
 	install -m 0644 ${SRCPATH}/rabbitmq-server.logrotate        ${datadir}/starlingx/stx.rabbitmq-server.logrotate
 	
 	sed -i -e 's|${libdir}/rabbitmq/bin|${bindir}|' ${sysconfdir}/systemd/system/rabbitmq-server.service
+	sed -i -e 's/notify/simple/' ${sysconfdir}/systemd/system/rabbitmq-server.service
 	
 	cp ${datadir}/starlingx/stx.rabbitmq-server.logrotate ${sysconfdir}/logrotate.d/rabbitmq-server
 }
