@@ -7,7 +7,7 @@ index e257a579..96d6151d 100644
  
      confine :osfamily => :debian
 -    defaultfor :operatingsystem => [:debian, :ubuntu]
-+    defaultfor :operatingsystem => [:debian, :ubuntu, :poky-stx]
++    defaultfor :operatingsystem => [:debian, :ubuntu, :'poky-stx']
  
      def self.instances
        modules = apache2ctl("-M").lines.collect { |line|
