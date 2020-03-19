@@ -7,6 +7,7 @@ SRC_URI += " \
 	file://${BPN}/0005-puppetlabs-postgresql-poky.patch \
 	file://${BPN}/0006-adjust_path-remove-refs-to-local-bin.patch \
 	file://${BPN}/postgresql.service \
+	file://${BPN}/use-integer-fixum-deprecd.patch \
 	"
 
 #	file://${PN}/0004-postgresql-service-restart-with-systemctl.patch 

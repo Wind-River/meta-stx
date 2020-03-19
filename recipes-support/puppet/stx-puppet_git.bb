@@ -32,6 +32,8 @@ SRC_URI = " \
 	file://${BPN}/0004-puppet-dcorch-updates-for-poky-stx.patch \
 	file://${BPN}/0005-puppet-sysinv-updates-for-poky-stx.patch \
 	file://${BPN}/0006-puppet-hiera-updates-to-version5.patch \
+	file://${BPN}/use-cast-operator.patch \
+	file://${BPN}/get-boot-device-from-cmdline.patch \
 	"
 
 RDEPENDS_${PN} += " \
