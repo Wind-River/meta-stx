@@ -4,6 +4,7 @@ RDEPENDS_${PN} += " \
 		python-pyelftools \
 		firewalld \
 		logrotate \
+		hwdata \
 		"
 
 PACKAGECONFIG = "libcap-ng ssl dpdk"
