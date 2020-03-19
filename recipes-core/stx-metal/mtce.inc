@@ -60,7 +60,7 @@ do_install_prepend () {
 	install -m 755 -d ${D}/${sysconfdir}/serverices.d/storage
 	
 	cd ${S}/mtce/src/
-	install -m 644 -p -D scripts/mtcAgent ${D}/${libdir}/ocf/resource.d/platform
+	install -m 755 -p -D scripts/mtcAgent ${D}/${libdir}/ocf/resource.d/platform
 	install -m 755 -p -D hwmon/scripts/ocf/hwmon ${D}/${libdir}/ocf/resource.d/platform
 	
 	# Config files
