@@ -35,6 +35,8 @@ SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://openssh-config-rm-hmac-ripemd160.patch \
 	file://util-linux-pam-postlogin.patch \
+	file://syslog-ng-config-parse-err.patch \
+	file://syslog-ng-config-systemd-service.patch \
 	"
 
 do_configure () {
