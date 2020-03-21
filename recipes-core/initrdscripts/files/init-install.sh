@@ -196,14 +196,14 @@ while [ $C -ne 3 ] && [ ! -e $bootfs  -o ! -e $rootfs -o ! -e $data ]; do
 done
 
 echo "Formatting $bootfs to ext3..."
-mkfs.ext3 $bootfs
+mkfs.ext3 -F $bootfs
 
 echo "Formatting $rootfs to ext4..."
-mkfs.ext4 $rootfs
+mkfs.ext4 -F $rootfs
 
 echo "Create LVM for $data..."
-pvcreate $data
-vgcreate cgts-vg $data
+pvcreate -y -ff $data
+vgcreate -y -ff cgts-vg $data
 
 mkdir /tgt_root
 mkdir /src_root
