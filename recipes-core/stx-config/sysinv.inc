@@ -43,6 +43,7 @@ RDEPENDS_sysinv += " \
 	python-paramiko \
 	tsconfig \
 	resource-agents \
+	gptfdisk \
 	"
 
 do_configure_append() {
