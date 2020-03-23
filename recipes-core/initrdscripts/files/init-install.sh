@@ -119,7 +119,10 @@ else
 fi
 
 boot_size=512
-rootfs_size="20480"
+rootfs_size=20000
+log_vol_size=8000
+scratch_vol_size=8000
+
 data_size=$((disk_size-bios_boot_size-boot_size-rootfs_size))
 boot_start=$((bios_boot_size))
 rootfs_start=$((bios_boot_size+boot_size))
@@ -202,8 +205,21 @@ echo "Formatting $rootfs to ext4..."
 mkfs.ext4 -F $rootfs
 
 echo "Create LVM for $data..."
+vg_name="cgts-vg"
+
+# Disable udev scan in lvm.conf
+sed -i 's/\(md_component_detection =\).*/\1 0/' /etc/lvm/lvm.conf
+
 pvcreate -y -ff $data
-vgcreate -y -ff cgts-vg $data
+vgcreate -y -ff $vg_name $data
+
+udevd -d
+
+lvcreate -y -n log-lv --size $log_vol_size $vg_name
+lvcreate -y -n scratch-lv --size  $scratch_vol_size $vg_name
+
+mkfs.ext4 -F /dev/$vg_name/log-lv
+mkfs.ext4 -F /dev/$vg_name/scratch-lv
 
 mkdir /tgt_root
 mkdir /src_root
@@ -227,7 +243,10 @@ if [ -d /tgt_root/etc/ ] ; then
         bootdev=${bootfs}
     fi
     sed -i '/vfat/d' /tgt_root/etc/fstab
-    echo "$bootdev              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
+    echo "$bootdev  /boot  ext3  defaults  1  2" >> /tgt_root/etc/fstab
+    echo "/dev/$vg_name/log-lv  /var/log  ext4  defaults  1  2" >> /tgt_root/etc/fstab
+    echo "/dev/$vg_name/scratch-lv  /scratch  ext4  defaults  1  2" >> /tgt_root/etc/fstab
+
     # We dont want udev to mount our root device while we're booting...
     if [ -d /tgt_root/etc/udev/ ] ; then
         echo "${device}" >> /tgt_root/etc/udev/mount.blacklist
@@ -247,6 +266,10 @@ _EOF
 
 # The grub.cfg is created by installer, so the postinsts script is not needed.
 rm -f /tgt_root/etc/rpm-postinsts/*-grub
+
+# remove the symlink to volatile and /var/log
+# will mount to the log-lv
+rm -f /tgt_root/var/log
 
 umount /tgt_root
 umount /src_root
