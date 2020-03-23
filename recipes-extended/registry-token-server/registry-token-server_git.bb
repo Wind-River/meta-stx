@@ -56,7 +56,7 @@ do_compile() {
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "registry-token-server.service"
-SYSTEMD_AUTO_ENABLE = "enable"
+SYSTEMD_AUTO_ENABLE = "disable"
 
 do_install() {
 	SRCPATH="${S}/src/registry-token-server/registry-token-server/centos/files"
