@@ -37,6 +37,8 @@ SRC_URI = " \
 	file://util-linux-pam-postlogin.patch \
 	file://syslog-ng-config-parse-err.patch \
 	file://syslog-ng-config-systemd-service.patch \
+	file://syslog-ng-conf-fix-the-source.patch \
+	file://syslog-ng-conf-replace-match-with-message.patch \
 	"
 
 do_configure () {
@@ -589,26 +591,47 @@ pkg_postinst_ontarget_sudo-config() {
 		useradd -m -g sys_protected -G root  -d /home/sysadmin -p ${SYSADMIN_P} -s /bin/sh sysadmin 2> /dev/null || :
 }
 
-pkg_postinst_ontarget_syslog-ng-config() {
+pkg_postinst_syslog-ng-config() {
 #	%description
 #	StarlingX syslog-ng configuration file
 
-	SRCPATH=${datadir}/starlingx/config-files/syslog-ng-config/files
+	SRCPATH=$D${datadir}/starlingx/config-files/syslog-ng-config/files
 
-	install -D -m644 ${SRCPATH}/syslog-ng.conf ${datadir}/starlingx/syslog-ng.conf
-	install -D -m644 ${SRCPATH}/syslog-ng.logrotate ${datadir}/starlingx/syslog-ng.logrotate
-	install -D -m644 ${SRCPATH}/remotelogging.conf ${sysconfdir}/syslog-ng/remotelogging.conf
-	install -D -m700 ${SRCPATH}/fm_event_syslogger ${sbindir}/fm_event_syslogger
-	install -D -m644 ${SRCPATH}/syslog-ng.service ${datadir}/starlingx/syslog-ng.service
+	install -D -m644 ${SRCPATH}/syslog-ng.conf $D${datadir}/starlingx/syslog-ng.conf
 
-	cp -f ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
-	chmod 644 ${sysconfdir}/syslog-ng/syslog-ng.conf
-	cp -f ${datadir}/starlingx/syslog-ng.logrotate ${sysconfdir}/logrotate.d/syslog
-	chmod 644 ${sysconfdir}/logrotate.d/syslog
-	cp -f ${datadir}/starlingx/syslog-ng.service ${systemd_system_unitdir}/syslog-ng.service
-	chmod 644 ${systemd_system_unitdir}/syslog-ng.service
-	/bin/systemctl preset syslog-ng.service
-	/sbin/ldconfig 
+	# Fix the config version to avoid warning
+	sed -i -e 's/\(@version: \).*/\1 3.19/' $D${datadir}/starlingx/syslog-ng.conf
+
+	# Workaround: comment out the udp source to aviod the service fail to start at boot time
+	sed -i -e 's/\(.*s_udp.*\)/#\1/' $D${datadir}/starlingx/syslog-ng.conf
+
+	install -D -m644 ${SRCPATH}/syslog-ng.logrotate $D${datadir}/starlingx/syslog-ng.logrotate
+	install -D -m644 ${SRCPATH}/remotelogging.conf $D${sysconfdir}/syslog-ng/remotelogging.conf
+	install -D -m700 ${SRCPATH}/fm_event_syslogger $D${sbindir}/fm_event_syslogger
+	install -D -m644 ${SRCPATH}/syslog-ng.service $D${datadir}/starlingx/syslog-ng.service
+
+	cp -f $D${datadir}/starlingx/syslog-ng.conf $D${sysconfdir}/syslog-ng/syslog-ng.conf
+	chmod 644 $D${sysconfdir}/syslog-ng/syslog-ng.conf
+	cp -f $D${datadir}/starlingx/syslog-ng.logrotate $D${sysconfdir}/logrotate.d/syslog
+	chmod 644 $D${sysconfdir}/logrotate.d/syslog
+	cp -f $D${datadir}/starlingx/syslog-ng.service $D${systemd_system_unitdir}/syslog-ng.service
+	chmod 644 $D${systemd_system_unitdir}/syslog-ng.service
+
+	# enable syslog-ng service by default
+	OPTS=""
+	if [ -n "$D" ]; then
+		OPTS="--root=$D"
+	fi
+	if [ -z "$D" ]; then
+		systemctl daemon-reload
+	fi
+
+	systemctl $OPTS enable syslog-ng.service
+
+	if [ -z "$D" ]; then
+		systemctl --no-block restart syslog-ng.service
+	fi
+
 # TODO
 #preun:
 #	%systemd_preun syslog-ng.service 
