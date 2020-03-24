@@ -245,6 +245,9 @@ http_port=8080
 INSTALL_UUID=${INSTALL_UUID}
 _EOF
 
+# The grub.cfg is created by installer, so the postinsts script is not needed.
+rm -f /tgt_root/etc/rpm-postinsts/*-grub
+
 umount /tgt_root
 umount /src_root
 
