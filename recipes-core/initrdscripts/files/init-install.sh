@@ -271,6 +271,16 @@ rm -f /tgt_root/etc/rpm-postinsts/*-grub
 # will mount to the log-lv
 rm -f /tgt_root/var/log
 
+# Fake as anaconda to add info needed by stx 3.0
+cat << _EOF > /tgt_root/etc/rpm-postinsts/999-anaconda
+# anaconda - postinst
+#!/bin/sh
+set -e
+mkdir -p /var/log/anaconda/
+echo "Display mode = t" > /var/log/anaconda/anaconda.log
+_EOF
+chmod 0755 /tgt_root/etc/rpm-postinsts/999-anaconda
+
 umount /tgt_root
 umount /src_root
 
