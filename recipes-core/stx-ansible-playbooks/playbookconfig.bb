@@ -30,6 +30,7 @@ RDEPENDS_playbookconfig = " \
 	grub \
 	grubby \
 	dracut \
+	openssl-bin \
 	"
 
 do_configure () {
