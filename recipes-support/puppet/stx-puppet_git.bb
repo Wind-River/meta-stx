@@ -32,6 +32,7 @@ SRC_URI = " \
 	file://${BPN}/0004-puppet-dcorch-updates-for-poky-stx.patch \
 	file://${BPN}/0005-puppet-sysinv-updates-for-poky-stx.patch \
 	file://${BPN}/0006-puppet-manifest-apply-do-not-treat-warnings-as-block.patch \
+	file://${BPN}/0007-puppet-manifests-etcd-override-typo-and-journalctl.patch \
 	file://${BPN}/use-cast-operator.patch \
 	file://${BPN}/get-boot-device-from-cmdline.patch \
 	"
