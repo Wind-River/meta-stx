@@ -8,25 +8,85 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.16;name=k
 	file://kubernetes-accounting.conf \
 	file://kubeadm.conf \
 	file://kubelet-cgroup-setup.sh \
+	file://contrib/* \
 	"
 
 INSANE_SKIP_${PN} += "textrel"
 INSANE_SKIP_${PN}-misc += "textrel"
 INSANE_SKIP_kubelet += "textrel"
 
-SYSTEMD_AUTO_ENABLE_kubelet = "disable"
 
-do_install_append() {
+do_install () {
+	install -d ${D}${bindir}
+	install -d ${D}${systemd_system_unitdir}/
+
+	# Install binaries
+	install -m 755 -D ${S}/src/import/_output/local/bin/${TARGET_GOOS}/${TARGET_GOARCH}/* ${D}/${bindir}
+
 	# kubeadm:
-	install -d -m 0755 ${D}/${sysconfdir}/systemd/system/kubelete.service.d
-	install -m 0644 ${WORKDIR}/kubeadm.conf ${D}/${sysconfdir}/systemd/system/kubelete.service.d
+	install -d -m 0755 ${D}/${sysconfdir}/systemd/system/kubelet.service.d
+	install -m 0644 ${WORKDIR}/kubeadm.conf ${D}/${sysconfdir}/systemd/system/kubelet.service.d
 
 	# kubelete-cgroup-setup.sh
-	install -d -m 0755 ${D}/${bindir}
-	install -m 0644 ${WORKDIR}/kubelet-cgroup-setup.sh ${D}/${bindir}
+	install -m 0700 ${WORKDIR}/kubelet-cgroup-setup.sh ${D}/${bindir}
+
+	# install the bash completion
+	install -d -m 0755 ${D}${datadir}/bash-completion/completions/
+	${D}${bindir}/kubectl completion bash > ${D}${datadir}/bash-completion/completions/kubectl
+
+	# install config files
+	install -d -m 0755 ${D}${sysconfdir}/${BPN}
+	install -m 644 -t ${D}${sysconfdir}/${BPN} ${WORKDIR}/contrib/init/systemd/environ/*
+
+	# install service files
+	install -d -m 0755 ${D}${systemd_system_unitdir}
+	install -m 0644 -t ${D}${systemd_system_unitdir} ${WORKDIR}/contrib/init/systemd/*.service
+
+	# install the place the kubelet defaults to put volumes
+	install -d ${D}${localstatedir}/lib/kubelet
+
+	# install systemd tmpfiles
+	install -d -m 0755 ${D}${sysconfdir}/tmpfiles.d
+	install -p -m 0644 -t ${D}${sysconfdir}/tmpfiles.d ${WORKDIR}/contrib/init/systemd/tmpfiles.d/kubernetes.conf
 
 	# enable CPU and Memory accounting
 	install -d -m 0755 ${D}/${sysconfdir}/systemd/system.conf.d
 	install -m 0644 ${WORKDIR}/kubernetes-accounting.conf ${D}/${sysconfdir}//systemd/system.conf.d/
 }
 
+SYSTEMD_PACKAGES += "${PN} kube-proxy"
+SYSTEMD_SERVICE_kube-proxy = "kube-proxy.service"
+SYSTEMD_SERVICE_${PN} = "\
+	kube-scheduler.service \
+	kube-apiserver.service \
+	kube-controller-manager.service \
+	"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+SYSTEMD_AUTO_ENABLE_kubelet = "disable"
+SYSTEMD_AUTO_ENABLE_kube-proxy = "disable"
+
+FILES_${PN} += "\
+	${bindir}/kube-scheduler \
+	${bindir}/kube-apiserver \
+	${bindir}/kube-controller-manager \
+	${bindir}/hyperkube \
+	"
+
+FILES_kubectl += "\
+	${datadir}/bash-completion/completions/kubectl \
+	"
+
+FILES_${PN}-misc = "\
+	${bindir}/conversion-gen \
+	${bindir}/openapi-gen \
+	${bindir}/apiextensions-apiserver \
+	${bindir}/defaulter-gen \
+	${bindir}/mounter \
+	${bindir}/deepcopy-gen \
+	${bindir}/go-bindata \
+	${bindir}/go2make \
+	${bindir}/kubelet-cgroup-setup.sh \
+	"
+
+RDEPENDS_${PN} += "kube-proxy"
+RDEPENDS_${PN}-misc += "bash"
