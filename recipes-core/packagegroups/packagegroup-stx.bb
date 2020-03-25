@@ -195,7 +195,7 @@ RDEPENDS_packagegroup-stx-integ = " \
 	puppet-puppi \
 	mariadb \
 	drbd-utils \
-	docker-registry \
+	docker-distribution \
         docker-forward-journald \
 	etcd \
 	kubernetes \

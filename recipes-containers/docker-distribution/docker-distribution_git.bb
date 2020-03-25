@@ -3,19 +3,18 @@ SUMMARY = "The Docker toolset to pack, ship, store, and deliver content"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 
+GO_PKG_PATH = "github.com/docker/distribution"
+GO_IMPORT = "import"
+
 SRCREV_distribution="48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89"
 SRC_URI = " \
-git://github.com/docker/distribution.git;branch=release/2.6;name=distribution;destsuffix=git/src/github.com/docker/distribution \
-	file://docker-registry.service \
+	git://github.com/docker/distribution.git;branch=release/2.6;name=distribution;destsuffix=git/src/${GO_PKG_PATH} \
+	file://${BPN}.service \
 	file://config.yml \
-          "
-
-PACKAGES =+ "docker-registry"
+	"
 
 PV = "v2.6.2"
-S = "${WORKDIR}/git/src/github.com/docker/distribution"
-
-GO_IMPORT = "import"
+S = "${WORKDIR}/git/src/${GO_PKG_PATH}"
 
 inherit goarch
 inherit go
@@ -43,28 +42,37 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/${sbindir}
-	install ${S}/bin/registry ${D}/${sbindir}
+	install -d ${D}/${bindir}
+	install ${S}/bin/registry ${D}/${bindir}
 
 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-	    install -d ${D}${systemd_unitdir}/system
-	    install -m 644 ${WORKDIR}/docker-registry.service ${D}/${systemd_unitdir}/system
+	    install -d ${D}${systemd_system_unitdir}
+	    install -m 644 ${WORKDIR}/${BPN}.service ${D}/${systemd_system_unitdir}
 	fi
 
-	install -d ${D}/${sysconfdir}/docker-distribution/registry/
-	install ${WORKDIR}/config.yml ${D}/${sysconfdir}/docker-distribution/registry/config.yml
+	install -d ${D}/${sysconfdir}/${BPN}/registry/
+	install ${WORKDIR}/config.yml ${D}/${sysconfdir}/${BPN}/registry/config.yml
 
 	# storage for the registry containers
 	install -d ${D}/${localstatedir}/lib/registry/
 }
 
 INSANE_SKIP_${PN} += "ldflags already-stripped"
-INSANE_SKIP_${MLPREFIX}docker-registry += "ldflags already-stripped textrel"
 
-FILES_docker-registry = "${sbindir}/*"
-FILES_docker-registry += "${systemd_unitdir}/system/docker-registry.service"
-FILES_docker-registry += "${sysconfdir}/docker-distribution/*"
-FILES_docker-registry += "${localstatedir}/lib/registry/"
+FILES_${PN} = "\
+	${bindir}/* \
+	${systemd_system_unitdir}/${BPN}.service \
+	${sysconfdir}/${BPN}/* \
+	${localstatedir}/lib/registry/ \
+	"
 
-SYSTEMD_SERVICE_docker-registry = "${@bb.utils.contains('DISTRO_FEATURES','systemd','docker-registry.service','',d)}"
-SYSTEMD_AUTO_ENABLE_docker-registry = "enable"
+SYSTEMD_SERVICE_${BPN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${BPN}.service','',d)}"
+SYSTEMD_AUTO_ENABLE_${BPN} = "disable"
+
+
+SYSROOT_PREPROCESS_FUNCS += "docker_distribution_sysroot_preprocess"
+
+docker_distribution_sysroot_preprocess () {
+    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${GO_PKG_PATH}
+    cp -r ${S} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${GO_PKG_PATH})
+}

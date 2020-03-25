@@ -30,7 +30,7 @@ DEPENDS += "\
         "
 
 RDEPENDS_${PN} = " \
-	docker-registry \
+	docker-distribution \
 	docker-ce \
 	"
 
