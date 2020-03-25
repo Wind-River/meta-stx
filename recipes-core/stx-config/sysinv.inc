@@ -96,6 +96,10 @@ do_install_append() {
 	install -p -D -m 755 sysinv/cmd/partition_info.sh ${D}${bindir}/partition_info.sh
 	install -p -D -m 755 sysinv/cmd/manage-partitions ${D}${bindir}/manage-partitions
 	install -p -D -m 755 sysinv/cmd/query_pci_id ${D}${bindir}/query_pci_id
+
+	sed -i -e 's|/usr/local/bin|${bindir}|' \
+		${D}${libdir}/python2.7/site-packages/sysinv/common/constants.py \
+		${D}${libdir}/python2.7/site-packages/sysinv/puppet/common.py
 }
 
 FILES_sysinv = " \

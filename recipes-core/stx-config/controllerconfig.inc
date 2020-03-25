@@ -48,6 +48,11 @@ do_install_prepend () {
 	
 
         install -p -D -m 664 scripts/controllerconfig.service ${D}/${sysconfdir}/systemd/system/controllerconfig.service
+
+	sed -i -e 's|/usr/local/bin|${bindir}|' \
+		${D}${libdir}/python2.7/site-packages/controllerconfig/utils.py \
+		${D}${libdir}/python2.7/site-packages/controllerconfig/upgrades/utils.py \
+		${D}${sysconfdir}/init.d/controller_config
 }
 
 

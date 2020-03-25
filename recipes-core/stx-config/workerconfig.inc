@@ -7,6 +7,9 @@ do_install_append () {
 	cd ${S}/workerconfig/workerconfig/
 	oe_runmake GOENABLEDDIR=${D}/${sysconfdir}/goenabled.d  INITDDIR=${D}/${sysconfdir}/init.d \
 		SYSTEMDDIR=${D}/${sysconfdir}/systemd/system install
+
+	sed -i -e 's|/usr/local/bin|${bindir}|' \
+		${D}${sysconfdir}/init.d/worker_config
 }
 
 FILES_workerconfig-standalone += "  \
