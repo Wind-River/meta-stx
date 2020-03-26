@@ -135,7 +135,11 @@ RDEPENDS_haproxy-config += "haproxy"
 RDEPENDS_ioscheduler-config += ""
 RDEPENDS_iptables-config += "iptables"
 RDEPENDS_iscsi-initiator-utils-config += " iscsi-initiator-utils"
-RDEPENDS_lighttpd-config += " lighttpd"
+RDEPENDS_lighttpd-config += " \
+	lighttpd \
+	lighttpd-module-proxy \
+	lighttpd-module-setenv \
+	"
 RDEPENDS_logrotate-config += " logrotate cronie"
 RDEPENDS_memcached-custom += "memcached"
 RDEPENDS_mlx4-config += ""
