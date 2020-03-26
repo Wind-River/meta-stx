@@ -70,6 +70,7 @@ FILES_${PN} += "\
 	${bindir}/kube-apiserver \
 	${bindir}/kube-controller-manager \
 	${bindir}/hyperkube \
+	${bindir}/kubelet-cgroup-setup.sh \
 	"
 
 FILES_kubectl += "\
@@ -85,8 +86,9 @@ FILES_${PN}-misc = "\
 	${bindir}/deepcopy-gen \
 	${bindir}/go-bindata \
 	${bindir}/go2make \
-	${bindir}/kubelet-cgroup-setup.sh \
 	"
 
-RDEPENDS_${PN} += "kube-proxy"
-RDEPENDS_${PN}-misc += "bash"
+RDEPENDS_${PN} += "\
+	bash \
+	kube-proxy \
+	"
