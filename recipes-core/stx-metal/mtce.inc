@@ -129,6 +129,8 @@ do_install_prepend () {
 	install -m 644 -p -D alarm/scripts/mtcalarm.service ${D}/${systemd_system_unitdir}/mtcalarm.service
 	install -m 644 -p -D lmon/scripts/lmon.service ${D}/${systemd_system_unitdir}/lmon.service
 	
+	# fix the path for init scripts
+	sed -i -e 's|rc.d/||' ${D}/${systemd_system_unitdir}/*.service
 	
 	# go enabled stuff
 	install -m 755 -p -D scripts/goenabled ${D}/${sysconfdir}/init.d/goenabled
