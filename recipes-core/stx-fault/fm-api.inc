@@ -13,6 +13,9 @@ do_compile_append() {
 do_install_append() {
 	cd ${S}/fm-api
 	distutils_do_install
+
+	# fix the path for binaries
+	sed -i -e 's|/usr/local/bin|${bindir}|' ${D}${libdir}/python2.7/site-packages/fm_api/constants.py
 }
 
 FILES_fm-api_append = " \

@@ -21,6 +21,12 @@ do_install_append () {
 			SYSCONFDIR=${sysconfdir} \
 			install
 	rm -rf ${D}/usr/lib/systemd
+
+	# fix the path for init scripts
+	sed -i -e 's|rc.d/||' ${D}/${systemd_system_unitdir}/*.service
+
+	# fix the path for binaries
+	sed -i -e 's|/usr/local/bin/|${bindir}/|' ${D}${sysconfdir}/init.d/fminit
 }
 
 FILES_fm-mgr = "  \

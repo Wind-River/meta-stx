@@ -18,6 +18,8 @@ do_install_append() {
 	install -p -D -m 755 scripts/fm-api ${D}/${sysconfdir}/init.d/fm-api
 	install -p -D -m 644 fm-api-pmond.conf ${D}/${sysconfdir}/pmon.d/fm-api.conf
 
+	# fix the path for init scripts
+	sed -i -e 's|rc.d/||' ${D}/${systemd_system_unitdir}/*.service
 }
 
 FILES_fm-rest-api = " \
