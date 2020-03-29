@@ -99,6 +99,7 @@ do_install_append () {
     mkdir -p ${D}${localstatedir}/lib/ceph/bootstrap-rgw
     mkdir -p ${D}${localstatedir}/lib/ceph/bootstrap-mgr
     mkdir -p ${D}${localstatedir}/lib/ceph/bootstrap-rbd
+    mkdir -p ${D}${localstatedir}/lib/ceph/crash/posted
 
     install -m 0750 -D ${S}/src/init-radosgw ${D}${sysconfdir}/rc.d/init.d/ceph-radosgw
     sed -i '/### END INIT INFO/a SYSTEMCTL_SKIP_REDIRECT=1' ${D}${sysconfdir}/rc.d/init.d/ceph-radosgw
