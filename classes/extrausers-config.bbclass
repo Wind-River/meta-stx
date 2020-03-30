@@ -18,5 +18,5 @@ set_user_group_config () {
 
 	#Extend path variable for sysadmin
 	echo 'PATH=/sbin:/usr/sbin:$PATH' >> ${IMAGE_ROOTFS}/home/sysadmin/.bashrc
-	chown sysadmin:sysadmin ${IMAGE_ROOTFS}/home/sysadmin/.bashrc
+	chown sysadmin:sys_protected ${IMAGE_ROOTFS}/home/sysadmin/.bashrc
 }
