@@ -26,6 +26,8 @@ SRC_URI[sha256sum] = "9550433ca8aaf5130bf5235bb978c44d3c4694cbd09d97114b3859f489
 
 DEPENDS = " \
     coreutils-native\
+    erlang-ssl \
+    erlang-ssl-dev \
     erlang-native \
     libxslt \
     libxslt-native \
@@ -36,9 +38,12 @@ DEPENDS = " \
     zip-native \
 "
 
-
+# ../../../../../recipe-sysroot/usr/lib/erlang/lib/ssl-5.3.3/src/
 do_compile() {
     export SOCKJS_ERLC_OPTS="-Dpre17_type_specs"
+    rm -rf deps/rabbit_common/include/ssl
+    mkdir ${S}/deps/rabbit_common/include/ssl
+    cp -r ${RECIPE_SYSROOT}/${libdir}/erlang/lib/ssl-5.3.3/src ${S}/deps/rabbit_common/include/ssl
     oe_runmake
 }
 
@@ -82,7 +87,7 @@ do_install() {
     install -p -D -m 0644 ${WORKDIR}/rabbitmq-server.tmpfiles ${D}${prefix}/lib/tmpfiles.d/${BPN}.conf
 }
 
-inherit useradd systemd
+inherit useradd systemd openssl10
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "--system rabbitmq"
