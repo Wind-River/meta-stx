@@ -1,8 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 # erlang < 20.0 is not compatibel with OpenSSL 1.1.x
-DEPENDS += "openssl10"
-DEPENDS_remove += "openssl"
+inherit openssl10
 
 SRC_URI += " \
 	file://fix-install-ownership.patch \

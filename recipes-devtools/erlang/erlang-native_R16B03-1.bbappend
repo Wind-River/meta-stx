@@ -1,19 +1,19 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 # erlang < 20.0 is not compatibel with OpenSSL 1.1.x
-DEPENDS += "openssl10-native"
-DEPENDS_remove += "openssl-native"
+#DEPENDS += "openssl10-native"
+#DEPENDS_remove += "openssl-native"
+
+inherit openssl10
+DEPENDS_append = " openssl-native"
 
 SRC_URI += "file://erts-configure.in-avoid-RPATH-warning.patch"
 
-EXTRA_OECONF = '--with-ssl'
+EXTRA_OECONF = '--with-ssl --without-krb5 --without-zlib'
 
-do_configure_prepend () {
-    if [ -d ${STAGING_INCDIR}/openssl10 ]; then
-        rm -rf ${STAGING_INCDIR}/openssl
-        ln -sf ${STAGING_INCDIR}/openssl10 ${STAGING_INCDIR}/openssl
-    fi
-    if [ -d ${STAGING_LIBDIR}/openssl10 ]; then
-        cp -rf ${STAGING_LIBDIR}/openssl10/* ${STAGING_LIBDIR}
-    fi
+inherit autotools gettext
+do_configure_prepend() {
+	cd erts; autoreconf; cd -
+	export erl_xcomp_sysroot=${STAGING_DIR_HOST}/usr
+	export erl_xcomp_isysroot=${STAGING_DIR_HOST}
 }
