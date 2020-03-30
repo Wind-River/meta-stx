@@ -1,4 +1,6 @@
 
+SYSROOT_NATIVE_DIRS = " "
+
 SYSROOT_PREPROCESS_FUNCS += "openssl10_avoid_conflict"
 
 openssl10_avoid_conflict () {
