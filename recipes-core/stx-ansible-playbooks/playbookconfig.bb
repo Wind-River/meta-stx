@@ -32,6 +32,7 @@ RDEPENDS_playbookconfig = " \
 	grubby \
 	dracut \
 	openssl-bin \
+	ipset \
 	"
 
 do_configure () {
