@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 SRC_URI = " \
 	git://opendev.org/starlingx/ansible-playbooks.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://0001-stx.3.0-rebase-adjust-path.patch \
+	file://0001-update_sysinv_database-do-not-fail-if-ceph-monitor-a.patch \
         "
 
 RDEPENDS_playbookconfig = " \
