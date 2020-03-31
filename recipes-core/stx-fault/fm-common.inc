@@ -3,6 +3,10 @@ RDEPENDS_fm-common = " python"
 
 do_configure_append () {
 	cd ${S}/fm-common/sources
+
+	# fix the hardcoded path
+	sed -i -e 's|/usr/local/bin|${bindir}|' fmConstants.h
+
 	distutils_do_configure
 } 
 
