@@ -18,6 +18,7 @@ SRC_URI = " \
 	git://opendev.org/starlingx/ansible-playbooks.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://0001-stx.3.0-rebase-adjust-path.patch \
 	file://0001-update_sysinv_database-do-not-fail-if-ceph-monitor-a.patch \
+	file://0001-update_sysinv_database-wait-after-provision.patch \
         "
 
 RDEPENDS_playbookconfig = " \
