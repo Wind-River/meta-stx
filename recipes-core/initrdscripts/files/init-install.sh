@@ -264,6 +264,9 @@ http_port=8080
 INSTALL_UUID=${INSTALL_UUID}
 _EOF
 
+# Create first_boot flag
+touch /tgt_root/etc/platform/.first_boot
+
 # The grub.cfg is created by installer, so the postinsts script is not needed.
 rm -f /tgt_root/etc/rpm-postinsts/*-grub
 
