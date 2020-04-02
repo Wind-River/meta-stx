@@ -50,7 +50,6 @@ RDEPENDS_packagegroup-stx-config = " \
 	cgts-client \
 	sysinv-agent \
 	sysinv \
-	workerconfig-standalone \
 	workerconfig-subfunction \
 	tsconfig \
 	"
