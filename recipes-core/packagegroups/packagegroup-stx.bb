@@ -46,7 +46,6 @@ RDEPENDS_packagegroup-stx-config = " \
 	config-gate-worker \
 	config-gate \
 	controllerconfig \
-	storageconfig \
 	cgts-client \
 	sysinv-agent \
 	sysinv \

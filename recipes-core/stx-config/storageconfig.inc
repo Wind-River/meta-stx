@@ -15,5 +15,5 @@ FILES_storageconfig = " \
 		"
 
 SYSTEMD_PACKAGES += "storageconfig"
-SYSETMD_SERVICE_storageconfig = "storageconfig.service"
+SYSTEMD_SERVICE_storageconfig = "storageconfig.service"
 SYSTEMD_AUTO_ENABLE_storageconfig = "enable"
