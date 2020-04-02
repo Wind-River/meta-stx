@@ -79,6 +79,6 @@ FILES_controllerconfig = " \
 		${libdir}/python2.7/site-packages/controllerconfig/ \
 		"
 
-#pkg_postinst_ontarget_controllerconfig() {
-#	/usr/bin/systemctl enable controllerconfig.service 
-#}
+SYSTEMD_PACKAGES += "controllerconfig"
+SYSTEMD_SERVICE_controllerconfig = "controllerconfig.service"
+SYSTEMD_AUTO_ENABLE_controllerconfig = "enable"
