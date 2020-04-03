@@ -43,10 +43,11 @@ RDEPENDS_${PN} += " \
 	bash puppet \
 	e2fsprogs-resize2fs \
 	hiera \
-        puppet-staging \
-        puppet-oslo \
-        puppetlabs-apache \
-        puppetlabs-mysql \
+	ntpdate \
+	puppet-staging \
+	puppet-oslo \
+	puppetlabs-apache \
+	puppetlabs-mysql \
 	"
 
 # WRS puppet modules
