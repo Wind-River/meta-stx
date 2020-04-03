@@ -24,6 +24,7 @@ LIC_FILES_CHKSUM = " \
 	file://puppet-manifests/src/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	"
 
+#	file://${BPN}/use-cast-operator.patch 
 SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	file://${BPN}/0001-puppet-manifest-apply-rebase-adjust-path.patch \
@@ -35,7 +36,6 @@ SRC_URI = " \
 	file://${BPN}/0007-puppet-manifests-etcd-override-typo-and-journalctl.patch \
 	file://${BPN}/0008-puppet-manifests-keystone-include-platform-client.patch \
 	file://${BPN}/0009-puppet-manifests-lvm-remove-lvmetad.patch \
-	file://${BPN}/use-cast-operator.patch \
 	file://${BPN}/get-boot-device-from-cmdline.patch \
 	"
 
@@ -241,3 +241,5 @@ FILES_puppet-dcmanager += " \
 FILES_puppet-dcdbsync += " \
 	${datadir}/puppet/modules/dcdbsync \
 	"
+
+inherit openssl10
