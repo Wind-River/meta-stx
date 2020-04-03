@@ -7,19 +7,15 @@ SRC_URI += " \
 	file://fix-install-ownership.patch \
 	"
 
-do_configure_prepend () {
-    export erl_xcomp_sysroot=${STAGING_DIR_HOST}
+EXTRA_OECONF = '--with-ssl=${STAGING_DIR_TARGET}/usr --without-krb5 --without-zlib'
 
-    if [ -d ${STAGING_INCDIR}/openssl10 ]; then
-        rm -rf ${STAGING_INCDIR}/openssl
-        ln -sf ${STAGING_INCDIR}/openssl10 ${STAGING_INCDIR}/openssl
-    fi
-    if [ -d ${STAGING_LIBDIR}/openssl10 ]; then
-        cp -rf ${STAGING_LIBDIR}/openssl10/* ${STAGING_LIBDIR}
-    fi
+do_configure_prepend () {
+    export erl_xcomp_sysroot="${STAGING_DIR_HOST}/usr"
+    export erl_xcomp_isysroot="${STAGING_DIR_NATIVE}"
+
     sed -i -e 's/opensslconf.h/opensslconf-64.h/' \
-        ${STAGING_INCDIR}/openssl/rc4.h \
-        ${STAGING_INCDIR}/openssl/rc2.h
+        ${STAGING_INCDIR}/openssl10/openssl/rc4.h \
+        ${STAGING_INCDIR}/openssl10/openssl/rc2.h
 }
 
 do_install_append () {
