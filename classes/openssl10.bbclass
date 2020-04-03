@@ -5,12 +5,26 @@ python __anonymous() {
           d.setVar('DEPENDS', d.getVar('DEPENDS').replace('openssl-native', 'openssl10-native'))
 }
 
-do_configure_prepend () {
-    if [ -d ${STAGING_INCDIR}/openssl10 ]; then
-        rm -rf ${STAGING_INCDIR}/openssl
-        ln -sf ${STAGING_INCDIR}/openssl10 ${STAGING_INCDIR}/openssl
-    fi
-    if [ -d ${STAGING_LIBDIR}/openssl10 ]; then
-        cp -rf ${STAGING_LIBDIR}/openssl10/* ${STAGING_LIBDIR}
-    fi
+
+python do_ssl10_mk_symlink() {
+
+    import shutil
+    l = d.getVar("STAGING_INCDIR") + "/openssl"
+
+    if os.path.islink(l):
+        os.unlink(l)
+    elif os.path.isdir(l):
+        shutil.rmtree(l)
+
+    os.symlink("openssl10/openssl",l)
+
+    l = d.getVar("STAGING_LIBDIR")
+    if os.path.islink(l + "/libssl.so"):
+        os.unlink(l + "/libssl.so")
+        os.unlink(l + "/libcrypto.so")
+
+    os.symlink("libssl.so.1.0.2", l + "/libssl.so")
+    os.symlink("libcrypto.so.1.0.2", l + "/libcrypto.so")
 }
+
+addtask ssl10_mk_symlink before do_configure after do_prepare_recipe_sysroot
