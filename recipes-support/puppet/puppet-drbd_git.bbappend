@@ -10,3 +10,5 @@ SRC_URI += " \
 	file://${PN}/0008-CGTS-7953-support-for-new-drbd-resources.patch \
 	file://${PN}/0009-drbd-slow-before-swact.patch \
 	"
+
+inherit openssl10

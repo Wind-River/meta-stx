@@ -4,3 +4,5 @@ SRC_URI += " \
 	"
 
 RDEPENDS_${PN} = "nss-pam-ldapd"
+
+inherit openssl10

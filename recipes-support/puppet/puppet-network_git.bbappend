@@ -10,3 +10,9 @@ SRC_URI += " \
 	file://${BPN}/0001-Stx-uses-puppet-boolean-instead-of-adrien-boolean.patch \
 	file://${BPN}/puppet-network-updates-for-poky-stx.patch \
 	" 
+
+inherit openssl10
+
+do_configure_append() {
+       rm -f spec/fixtures/modules/network/files
+}

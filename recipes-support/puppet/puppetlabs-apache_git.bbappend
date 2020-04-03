@@ -11,3 +11,5 @@ RDEPENDS_${PN} += " \
 	apache2 \
 	mod-wsgi \
 	"
+
+inherit openssl10

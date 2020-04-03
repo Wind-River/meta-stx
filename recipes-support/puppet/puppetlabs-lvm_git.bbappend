@@ -11,3 +11,5 @@ RDEPENDS_${PN} += " \
 	lvm2-scripts \
 	lvm2-udevrules \
 	"
+
+inherit openssl10

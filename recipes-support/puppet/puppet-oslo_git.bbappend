@@ -10,3 +10,5 @@ do_install_append () {
 }
 
 RDEPENDS_${PN} += "python-memcached"
+
+inherit openssl10

@@ -5,3 +5,5 @@ do_install_append() {
 }
 
 FILES_${PN} += " ${datadir}"
+
+inherit openssl10

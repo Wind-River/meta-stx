@@ -18,3 +18,5 @@ RDEPENDS_${PN} += " \
 	python-memcached \
 	python-ldappool \
 	"
+
+inherit openssl10

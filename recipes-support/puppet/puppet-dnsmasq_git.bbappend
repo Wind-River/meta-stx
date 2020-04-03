@@ -6,3 +6,5 @@ SRC_URI += " \
 	file://${BPN}/0004-Enable-clear-DNS-cache-on-reload.patch;striplevel=5 \
 	file://${BPN}/0005-puppet-dnsmasq-updates-for-poky-stx.patch;striplevel=5 \
 	"
+
+inherit openssl10

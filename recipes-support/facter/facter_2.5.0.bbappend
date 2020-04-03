@@ -1,5 +1,8 @@
 FILESEXTRAPATHS_append := ":${THISDIR}/files:"
 
+inherit openssl10
+DEPENDS_append = " openssl"
+
 SRC_URI += " \
 	file://0001-ps.patch \
 	file://0002-personality.patch \
@@ -8,4 +11,3 @@ SRC_URI += " \
 	file://0005-Hardcode-ipaddress-fact-to-localhost.patch \
 	file://0006-facter-updates-for-poky-stx.patch \
 	"
-

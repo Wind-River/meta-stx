@@ -12,3 +12,4 @@ SRC_URI += " \
 	file://${BPN}/0010-wipe-unprepared-disks.patch \
 	file://${BPN}/0011-puppet-ceph-changes-for-poky-stx.patch \
 	"
+inherit openssl10
