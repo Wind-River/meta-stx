@@ -55,4 +55,10 @@ do_install_append() {
 
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/${BPN}/${PV}/puppet.init ${D}${sysconfdir}/init.d/puppet
+
+    # Install puppet environment and moudlepath
+
+    install -m 0755 -d ${D}/${sysconfdir}/puppetlabs/code/environments/production
+    echo "modulepath = /usr/share/puppet/modules:/usr/share/openstack-puppet/modules" >  \
+    	${D}/${sysconfdir}/puppetlabs/code/environments/production/environment.conf
 }
