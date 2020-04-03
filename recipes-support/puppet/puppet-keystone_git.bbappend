@@ -14,4 +14,7 @@ do_install_append () {
 	sed -i -e 's/python-memcache\b/python-memcached/' ${D}/${datadir}/puppet/modules/keystone/manifests/params.pp
 }
 
-RDEPENDS_${PN} += "python-memcached"
+RDEPENDS_${PN} += " \
+	python-memcached \
+	python-ldappool \
+	"
