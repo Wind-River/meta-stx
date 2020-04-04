@@ -6,7 +6,6 @@ DEPENDS += " libnsl2"
 # file://ruby-CVE-2017-9226.patch # Not applicable
 SRC_URI += " \
            file://ruby-CVE-2017-9228.patch \
-	   file://ssl.patch \
 	   file://ext.socket.extmk.patch \
            "
 #  file://run-ptest 
