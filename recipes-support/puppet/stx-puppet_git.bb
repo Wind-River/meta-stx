@@ -43,6 +43,9 @@ RDEPENDS_${PN} += " \
 	bash puppet \
 	e2fsprogs-resize2fs \
 	hiera \
+	kpartx \
+	multipath-tools \
+	multipath-tools-libs \
 	ntpdate \
 	puppet-staging \
 	puppet-oslo \
