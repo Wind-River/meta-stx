@@ -45,7 +45,7 @@ DISTRO_FEATURES_append = " bluez pam largefile opengl"
 
 #misc
 PREFERRED_PROVIDER_virtual/containerd = "containerd-opencontainers"
-PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
 
 VIRTUAL-RUNTIME_syslog = "syslog-ng"
 VIRTUAL-RUNTIME_vim = "vim"
