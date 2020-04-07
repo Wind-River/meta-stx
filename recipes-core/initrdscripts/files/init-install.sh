@@ -222,6 +222,7 @@ mkfs.ext4 -F /dev/$vg_name/log-lv
 mkfs.ext4 -F /dev/$vg_name/scratch-lv
 
 mkdir /tgt_root
+mkdir /tgt_log
 mkdir /src_root
 mkdir -p /boot
 
@@ -232,6 +233,7 @@ fi
 
 # Handling of the target root partition
 mount $rootfs /tgt_root
+mount /dev/$vg_name/log-lv /tgt_log
 mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
 echo "Copying rootfs files..."
 cp -a /src_root/* /tgt_root
@@ -270,9 +272,10 @@ touch /tgt_root/etc/platform/.first_boot
 # The grub.cfg is created by installer, so the postinsts script is not needed.
 rm -f /tgt_root/etc/rpm-postinsts/*-grub
 
-# remove the symlink to volatile and /var/log
-# will mount to the log-lv
-rm -f /tgt_root/var/log
+# /var/log will be mounted to the log-lv
+# so move the all files to log-lv
+cp -rf /tgt_root/var/log/* /tgt_log
+rm -rf /tgt_root/var/log
 
 # Fake as anaconda to add info needed by stx 3.0
 cat << _EOF > /tgt_root/etc/rpm-postinsts/999-anaconda
