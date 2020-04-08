@@ -9,6 +9,7 @@ SRC_URI += " \
 	file://${BPN}/route-options-support.patch;striplevel=5 \
 	file://${BPN}/0001-Stx-uses-puppet-boolean-instead-of-adrien-boolean.patch \
 	file://${BPN}/puppet-network-updates-for-poky-stx.patch \
+	file://${BPN}/puppet-network-config-poky-provider.patch \
 	" 
 
 inherit openssl10

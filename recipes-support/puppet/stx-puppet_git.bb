@@ -37,6 +37,8 @@ SRC_URI = " \
 	file://${BPN}/0008-puppet-manifests-keystone-include-platform-client.patch \
 	file://${BPN}/0009-puppet-manifests-lvm-remove-lvmetad.patch \
 	file://${BPN}/get-boot-device-from-cmdline.patch \
+	file://${BPN}/poky-specific-apply-network-config-script.patch \
+	file://${BPN}/apply_network_config_poky.sh \
 	"
 
 RDEPENDS_${PN} += " \
@@ -180,6 +182,8 @@ do_install() {
 
 	# fix the path for slapd.conf
 	sed -i -e '/\/usr\/lib64\/openldap/d' ${D}/${datadir}/puppet/modules/platform/manifests/ldap.pp
+
+	install -m 0755 ${WORKDIR}/${PN}/apply_network_config_poky.sh  ${D}/${bindir}/apply_network_config_poky.sh
 }
 
 FILES_puppet-sysinv += " \
@@ -228,6 +232,7 @@ FILES_puppet-manifests = "\
 	${datadir}/puppet/modules/platform/lib/puppet \
 	${bindir}/puppet-manifest-apply.sh \
 	${bindir}/apply_network_config.sh \
+	${bindir}/apply_network_config_poky.sh \
 	"
 FILES_puppet-fm += " \
 	${datadir}/puppet/modules/fm \
