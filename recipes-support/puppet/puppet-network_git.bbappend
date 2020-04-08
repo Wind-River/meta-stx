@@ -15,5 +15,9 @@ SRC_URI += " \
 inherit openssl10
 
 do_configure_append() {
-       rm -f spec/fixtures/modules/network/files
+	rm -f spec/fixtures/modules/network/files
 }
+
+RDEPENDS_${PN} += "\
+	vlan \
+"
