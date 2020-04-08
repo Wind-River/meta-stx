@@ -183,6 +183,9 @@ do_install() {
 	# fix the path for slapd.conf
 	sed -i -e '/\/usr\/lib64\/openldap/d' ${D}/${datadir}/puppet/modules/platform/manifests/ldap.pp
 
+	# fix the libdir for collectd
+	sed -i -e 's|/usr/lib64|${libdir}|' ${D}/${datadir}/puppet/modules/platform/templates/collectd.conf.erb
+
 	install -m 0755 ${WORKDIR}/${PN}/apply_network_config_poky.sh  ${D}/${bindir}/apply_network_config_poky.sh
 }
 
