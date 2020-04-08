@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_append:= ":${THISDIR}/linux:"
+
 # Enable:
 # drbd
 # IMA
@@ -9,3 +11,7 @@
 # qat17
 # tpmdd
 # Preempt_rt
+
+SRC_URI += "file://stx-kconfig.cfg"
+
+KERNEL_EXTRA_FEATURES_append = " features/xfs/xfs.scc"
