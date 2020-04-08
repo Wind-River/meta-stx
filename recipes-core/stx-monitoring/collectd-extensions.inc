@@ -19,7 +19,7 @@ do_compile_append() {
 }
 
 local_unit_dir = "${sysconfdir}/systemd/system"
-local_plugin_dir = "${sysconfdir}/collectd"
+local_plugin_dir = "${sysconfdir}/collectd.d"
 local_python_extensions_dir = "/opt/collectd/extensions/python"
 local_config_extensions_dir = "/opt/collectd/extensions/config"
 
