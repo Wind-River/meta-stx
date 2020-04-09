@@ -6,4 +6,5 @@ KERNEL_EXTRA_FEATURES_append = " \
     features/xfs/xfs.scc \
     features/iommu/iommu.scc \
     features/vfio/vfio.scc \
+    cfg/debug/sched/debug-sched.scc \
     "
