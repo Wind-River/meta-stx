@@ -47,7 +47,7 @@ RUBY_INSTALL_GEMS = "nanliu-staging-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/staging
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/staging
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/staging
 }
 
 FILES_${PN} += " ${datadir}"

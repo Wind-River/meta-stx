@@ -50,7 +50,7 @@ RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/puppi
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/puppi
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/puppi
 }
 
 FILES_${PN} += " ${datadir}"

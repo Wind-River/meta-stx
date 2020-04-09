@@ -46,7 +46,7 @@ RUBY_INSTALL_GEMS = "puppet-nssdb-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/nssdb
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/nssdb
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/nssdb
 }
 
 FILES_${PN} += " ${datadir}"

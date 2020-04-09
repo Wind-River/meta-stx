@@ -51,7 +51,7 @@ RUBY_INSTALL_GEMS = "puppet-horizon-${PV}.gem"
 
 do_install_append() { 
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/horizon
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/horizon
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/horizon
 }
 
 FILES_${PN} += " ${datadir}"

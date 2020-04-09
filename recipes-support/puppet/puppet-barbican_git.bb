@@ -49,7 +49,7 @@ RUBY_INSTALL_GEMS = "puppet-barbican-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/barbican
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/barbican
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/barbican
 }
 
 FILES_${PN} += " ${datadir}"

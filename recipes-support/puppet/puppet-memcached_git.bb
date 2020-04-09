@@ -52,7 +52,7 @@ RUBY_INSTALL_GEMS = "puppet-memcached-${PV}.gem"
 
 do_install_append() { 
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/memcached
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/memcached
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/memcached
 }
 
 FILES_${PN} += " ${datadir}"

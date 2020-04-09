@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppet-ceph-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/ceph
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/ceph
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/ceph
 }
 
 FILES_${PN} += " ${datadir}"

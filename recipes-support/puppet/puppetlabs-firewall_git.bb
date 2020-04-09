@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-firewall-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/firewall
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/firewall
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/firewall
 }
 
 FILES_${PN} += " ${datadir}"

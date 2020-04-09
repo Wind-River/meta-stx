@@ -46,7 +46,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-mysql-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/mysql
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/mysql
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/mysql
 }
 
 FILES_${PN} += " ${datadir}"

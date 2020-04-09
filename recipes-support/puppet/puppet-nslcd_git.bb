@@ -47,7 +47,7 @@ RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/nslcd
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/nslcd
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/nslcd
 }
 
 FILES_${PN} += " ${datadir}"

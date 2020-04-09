@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-rabbitmq-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/rabbitmq
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/rabbitmq
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/rabbitmq
 }
 
 FILES_${PN} += " ${datadir}"

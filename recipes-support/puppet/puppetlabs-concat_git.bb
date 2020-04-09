@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-concat-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/concat
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/concat
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/concat
 }
 
 FILES_${PN} += " ${datadir}"

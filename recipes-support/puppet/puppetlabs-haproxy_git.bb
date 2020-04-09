@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-haproxy-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/haproxy
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/haproxy
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/haproxy
 }
 
 FILES_${PN} += " ${datadir}"

@@ -49,7 +49,7 @@ RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/network
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/network
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/network
 	# Remove broken symlinks for now
 	rm -f ${D}/${libdir}/ruby/gems/2.5.0/gems/puppet-network-0.5.0/spec/fixtures/modules/network/manifests
 	rm -f ${D}/${libdir}/ruby/gems/2.5.0/gems/puppet-network-0.5.0/spec/fixtures/modules/network/templates

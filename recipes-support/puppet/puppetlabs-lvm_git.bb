@@ -46,7 +46,7 @@ RUBY_INSTALL_GEMS = "${PN}-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/lvm
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/lvm/
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/lvm/
 }
 
 FILES_${PN} += " ${datadir}"

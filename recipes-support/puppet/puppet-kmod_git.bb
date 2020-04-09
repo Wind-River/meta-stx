@@ -46,7 +46,7 @@ RUBY_INSTALL_GEMS = "camptocamp-kmod-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/kmod
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/kmod
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/kmod
 }
 
 FILES_${PN} += " ${datadir}"

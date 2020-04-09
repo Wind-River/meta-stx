@@ -45,7 +45,7 @@ RUBY_INSTALL_GEMS = "puppetlabs-inifile-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/inifile
-	cp -r ${S}/* ${D}/${datadir}/puppet/modules/inifile
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/inifile
 }
 
 FILES_${PN} += " ${datadir}"

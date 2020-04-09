@@ -48,7 +48,7 @@ RUBY_INSTALL_GEMS = "adrien-filemapper-${PV}.gem"
 
 do_install_append() {
 	install -d -m 0755 ${D}/${datadir}/puppet/modules/filemapper
-	cp -R ${S}/* ${D}/${datadir}/puppet/modules/filemapper
+	tar -C ${S} -cf - --exclude "patches" --exclude "*.gem*" . | tar --no-same-owner -xf - -C ${D}/${datadir}/puppet/modules/filemapper
 }
 
 FILES_${PN} += " ${datadir}"
