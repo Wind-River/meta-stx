@@ -40,7 +40,11 @@ SRC_URI += " \
 #	file://0001-stx-openldap-config-files.patch \
 #	"
 
-inherit pkgconfig
+inherit pkgconfig useradd
+
+USERADD_PACKAGES = "${PN}"
+USERADD_PARAM_${PN} = "-r -g ldap -u 55 -d / -s /sbin/nologin -c 'OpenLDAP server' ldap"
+GROUPADD_PARAM_${PN} = "-r -g 55 ldap"
 
 PACKAGECONFIG_CONFARGS_remove = "--with-tls=gnutls "
 DEPENDS += " \
