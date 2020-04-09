@@ -19,17 +19,17 @@ do_install_append() {
 
 	oe_runmake install \
 		BINDIR=${D}/${bindir} \
-		INITDDIR=${D}/${sysconfdir}/initd.d \
+		INITDDIR=${D}/${sysconfdir}/init.d \
 		GOENABLEDDIR=${D}/${sysconfdir}/goenabled.d \
 		PLATFORMCONFDIR=${D}/${sysconfdir}/platform \
 		SYSTEMDDIR=${D}/${systemd_system_unitdir}
 }
 
 FILES_worker-utils = "  \
-	${sysconfdir}/initd.d/affine-platform.sh \
-	${sysconfdir}/initd.d/affine-tasks.sh \
-	${sysconfdir}/initd.d/cpumap_functions.sh \
-	${sysconfdir}/initd.d/task_affinity_functions.sh \
+	${sysconfdir}/init.d/affine-platform.sh \
+	${sysconfdir}/init.d/affine-tasks.sh \
+	${sysconfdir}/init.d/cpumap_functions.sh \
+	${sysconfdir}/init.d/task_affinity_functions.sh \
 	${bindir}/ps-sched.sh \
 	${bindir}/topology.py \
 	${bindir}/topology.pyc \

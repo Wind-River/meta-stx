@@ -280,13 +280,13 @@ pkg_postinst_ontarget_haproxy-config() {
 
 pkg_postinst_ontarget_initscripts-config() {
 	install -d  -m 755 ${sysconfdir}/sysconfig
-	install -d  -m 755 ${sysconfdir}/initd.d
+	install -d  -m 755 ${sysconfdir}/init.d
 	install -d  -m 755 ${systemd_system_unitdir}
 
 	SRCPATH=${datadir}/starlingx/config-files/initscripts-config/files
 	install -m  644 ${SRCPATH}/sysctl.conf ${datadir}/starlingx/stx.sysctl.conf
 	install -m  644 ${SRCPATH}/sysconfig-network.conf ${sysconfdir}/sysconfig/network
-	install -m  755 ${SRCPATH}/mountnfs.sh ${sysconfdir}/initd.d/mountnfs
+	install -m  755 ${SRCPATH}/mountnfs.sh ${sysconfdir}/init.d/mountnfs
 	install -m  644 ${SRCPATH}/mountnfs.service ${systemd_system_unitdir}/mountnfs.service
 
 
