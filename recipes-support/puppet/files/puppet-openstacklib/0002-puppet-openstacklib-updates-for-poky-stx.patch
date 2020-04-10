@@ -7,7 +7,7 @@ index 134509e..adc39d9 100644
        if Facter.value(:operatingsystem) == 'Debian' then
          'debian'
 +      elsif Facter.value(:operatingsystem) == 'poky-stx' then
-+        'debian'
++        'poky'
        else
          'ubuntu'
        end
