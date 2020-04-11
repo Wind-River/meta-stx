@@ -67,7 +67,6 @@ FILES_sm-eru = " \
 	${sysconfdir}/pmon.d/sm-watchdog.conf \
 	"
 
-#pkg_postinst_ontarget_sm-eru_append() {
-#       /usr/bin/systemctl enable sm-eru.service
-#       /usr/bin/systemctl enable sm-watchdog.service
-#}
+SYSTEMD_PACKAGES += "sm-eru"
+SYSTEMD_SERVICE_sm-eru = "sm-eru.service sm-watchdog.service"
+SYSTEMD_AUTO_ENABLE_sm-eru = "enable"

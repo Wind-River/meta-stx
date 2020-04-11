@@ -62,7 +62,9 @@ FILES_sm = " \
 	"
 
 pkg_postinst_ontarget_sm_append () {
-        /usr/bin/systemctl enable sm.service >/dev/null 2>&1
-        /usr/bin/systemctl enable sm-shutdown.service >/dev/null 2>&1
 	/usr/bin/update-alternatives --install /usr/sbin/sm-notify sm-notify /usr/sbin/stx-ha-sm-notify 5
 }
+
+SYSTEMD_PACKAGES += "sm"
+SYSTEMD_SERVICE_sm = "sm.service sm-shutdown.service"
+SYSTEMD_AUTO_ENABLE_sm = "enable"

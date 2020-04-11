@@ -31,6 +31,7 @@ SRC_URI = "git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=$
 
 inherit setuptools
 inherit pkgconfig
+inherit systemd
 
 DEPENDS += " \
 	stx-fault \
