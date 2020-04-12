@@ -22,3 +22,5 @@ do_install_append() {
 FILES_${PN}_append = " \
 	${sysconfdir}/init.d/i40e-lldp-configure.sh \
 	"
+
+RDEPENDS_${PN} += "bash"
