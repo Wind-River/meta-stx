@@ -33,6 +33,8 @@ inherit setuptools
 inherit pkgconfig
 inherit systemd
 
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+
 DEPENDS += " \
 	stx-fault \
 	stx-metal \

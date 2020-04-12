@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/patches:${THISDIR}/files:"
 
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+
 SRC_URI += " \
 	file://0001-lldpd-client-add-show-interfaces-cmd-from-upstream.patch \
 	file://0002-Clear-station-bit-if-any-other-capability-is-enabled.patch \
