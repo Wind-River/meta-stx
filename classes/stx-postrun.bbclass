@@ -6,22 +6,6 @@ ROOTFS_POSTPROCESS_COMMAND_append = " stx_postprocess_rootfs;"
 
 stx_postprocess_rootfs() {
 
-#	# We will remove this. Problem is that the puppet modules call service instead of systemctl
-#	# This workaround is to be removed and the actual fix is in the puppet modules.
-#
-	cat > ${IMAGE_ROOTFS}/usr/bin/service << \EOF
-#!/bin/bash
-
-service_name=$1
-command=$2
-
-if [ $command = "reload" ] ; then
-        command="restart"
-fi
-systemctl $command $service_name
-EOF
-	chmod 755 ${IMAGE_ROOTFS}/usr/bin/service
-
 	# Issue: #83 /dev/root does not exist
 	# This workaround is to be removed once initramfs is added
 
