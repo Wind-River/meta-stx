@@ -49,3 +49,5 @@ KICKSTART_FILE_EXTRA ?= " \
     ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_worker_ks.cfg \
     ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_worker_lowlatency_ks.cfg \
 "
+
+SYSLINUX_CFG_LIVE = "${LAYER_PATH_meta-stx}/conf/distro/files/syslinux.cfg"

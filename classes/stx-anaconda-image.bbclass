@@ -339,3 +339,16 @@ python __anonymous() {
 
 }
 
+python build_syslinux_cfg () {
+    import copy
+    import sys
+
+    workdir = d.getVar('WORKDIR')
+    if not workdir:
+        bb.error("WORKDIR not defined, unable to package")
+        return
+
+    cfile = d.getVar('SYSLINUX_CFG')
+    if not cfile:
+        bb.fatal('Unable to read SYSLINUX_CFG')
+}
