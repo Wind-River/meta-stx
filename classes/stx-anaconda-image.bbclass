@@ -12,6 +12,7 @@ INSTBUGURL  ?= "http://www.windriver.com/"
 #       but not "?=" since this is not configurable.
 INSTALLER_CONFDIR = "${IMAGE_ROOTFS}/installer-config"
 KICKSTART_FILE ??= ""
+KICKSTART_FILE_EXTRA ??= ""
 WRL_INSTALLER_CONF ?= ""
 REPO_EXCLUDE_PKG ?= ""
 
@@ -255,6 +256,15 @@ _EOF
 	        bbnote "Copying kickstart file $ks_file to $ks_cfg ..."
 	        mkdir -p ${INSTALLER_CONFDIR}
 	        cp $ks_file $ks_cfg
+	    fi
+	    if [ -n "${KICKSTART_FILE_EXTRA}" ]; then
+	        for ks_file in ${KICKSTART_FILE_EXTRA}; do
+	            if [ -f $ks_file ]; then
+	                cp $ks_file ${INSTALLER_CONFDIR}
+	            else
+	                bbwarn "The kickstart file $ks_file in KICKSTART_FILE_EXTRA doesn't exist!"
+	            fi
+	        done
 	    fi
     done
 

@@ -36,7 +36,9 @@ inherit core-image stx-anaconda-image
 
 KICKSTART_FILE ?= "${LAYER_PATH_meta-stx}/conf/distro/files/ks/poky_stx_aio_ks.cfg"
 
+# Only the ones prefix with poky_stx_ are tested and working
 KICKSTART_FILE_EXTRA ?= " \
+    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/poky_stx_aio_ks.cfg \
     ${LAYER_PATH_meta-stx}/conf/distro/files/ks/aio_ks.cfg \
     ${LAYER_PATH_meta-stx}/conf/distro/files/ks/aio_lowlatency_ks.cfg \
     ${LAYER_PATH_meta-stx}/conf/distro/files/ks/controller_ks.cfg \
