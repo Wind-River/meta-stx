@@ -20,6 +20,7 @@ SRC_URI = " \
 	file://0002-update_sysinv_database-do-not-fail-if-ceph-monitor-a.patch \
 	file://0003-update_sysinv_database-wait-after-provision.patch \
 	file://0004-bringup_flock_services-use-systmd-for-fminit-and-add.patch \
+	file://0005-persist-config-add-retry-for-etcd.patch \
         "
 
 RDEPENDS_playbookconfig = " \
