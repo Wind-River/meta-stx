@@ -1,6 +1,6 @@
-diff -urN a/lib/puppet/provider/network_config/interfaces.rb b/lib/puppet/provider/network_config/interfaces.rb
---- a/lib/puppet/provider/network_config/interfaces.rb	2020-04-06 15:07:36.050719269 +0000
-+++ b/lib/puppet/provider/network_config/interfaces.rb	2020-04-07 15:19:08.020474420 +0000
+diff -ruN a/lib/puppet/provider/network_config/interfaces.rb b/lib/puppet/provider/network_config/interfaces.rb
+--- a/lib/puppet/provider/network_config/interfaces.rb	2020-04-14 15:30:26.488316830 +0800
++++ b/lib/puppet/provider/network_config/interfaces.rb	2020-04-14 15:30:11.388316418 +0800
 @@ -14,7 +14,7 @@
    desc "Debian interfaces style provider"
  
@@ -10,10 +10,10 @@ diff -urN a/lib/puppet/provider/network_config/interfaces.rb b/lib/puppet/provid
  
    has_feature :provider_options
    has_feature :hotpluggable
-diff -urN a/lib/puppet/provider/network_config/poky-stx.rb b/lib/puppet/provider/network_config/poky-stx.rb
---- a/lib/puppet/provider/network_config/poky-stx.rb	1970-01-01 00:00:00.000000000 +0000
-+++ b/lib/puppet/provider/network_config/poky-stx.rb	2020-04-07 15:19:08.020474420 +0000
-@@ -0,0 +1,303 @@
+diff -ruN a/lib/puppet/provider/network_config/poky-stx.rb b/lib/puppet/provider/network_config/poky-stx.rb
+--- a/lib/puppet/provider/network_config/poky-stx.rb	1970-01-01 08:00:00.000000000 +0800
++++ b/lib/puppet/provider/network_config/poky-stx.rb	2020-04-15 15:40:31.266687901 +0800
+@@ -0,0 +1,310 @@
 +require 'puppetx/filemapper'
 +
 +Puppet::Type.type(:network_config).provide(:pokystx) do
@@ -260,7 +260,7 @@ diff -urN a/lib/puppet/provider/network_config/poky-stx.rb b/lib/puppet/provider
 +    if (auto_interfaces = providers.select {|provider| provider.onboot == true })
 +      stanza = []
 +      stanza << "auto " + auto_interfaces.map(&:name).sort.join(" ")
-+      contents << stanza.join("\n").gsub(":", ".")
++      contents << stanza.join("\n")
 +    end
 +
 +    # Build iface stanzas
@@ -271,16 +271,16 @@ diff -urN a/lib/puppet/provider/network_config/poky-stx.rb b/lib/puppet/provider
 +
 +      stanza = []
 +      if provider.method == :static and (not provider.ipaddress or provider.ipaddress == :absent)
-+        stanza << %{iface #{provider.name.gsub(":", ".")} #{provider.family} manual}
++        stanza << %{iface #{provider.name} #{provider.family} manual}
 +      else
-+        stanza << %{iface #{provider.name.gsub(":", ".")} #{provider.family} #{provider.method}}
++        stanza << %{iface #{provider.name} #{provider.family} #{provider.method}}
 +      end
 +
 +      [
 +        [:ipaddress, 'address'],
 +        [:netmask,   'netmask'],
-+        [:mtu,       'mtu'],
 +        [:gateway,   'gateway'],
++        [:mtu,       'mtu'],
 +      ].each do |(property, section)|
 +        stanza << "    #{section} #{provider.send property}" if provider.send(property) and provider.send(property) != :absent
 +      end
@@ -295,6 +295,13 @@ diff -urN a/lib/puppet/provider/network_config/poky-stx.rb b/lib/puppet/provider
 +              val.each { |entry| stanza << "    #{key} #{entry}" }
 +            else
 +              raise Puppet::Error, "#{self} options key #{key} expects a String or Array, got #{val.class}"
++            end
++          end
++          if key == 'SCOPE'
++            if val.is_a? String
++              stanza << "    #{val}"
++            else
++              raise Puppet::Error, "#{self} options key #{key} expects a String, got #{val.class}"
 +            end
 +          end
 +        end

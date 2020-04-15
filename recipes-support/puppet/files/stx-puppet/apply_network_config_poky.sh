@@ -286,5 +286,20 @@ do_mv /var/run/interfaces.puppet /etc/network/interfaces
 # now restart networking service 
 /etc/init.d/networking restart
 
+sleep 5
+
+# workaround the loopback label addresses cannot be configured as scope of host
+ip addr show lo | egrep "inet.*lo:" > /tmp/loop$$
+
+while read addr_info; do 
+	echo $addr_info
+	log_it "replace $addr_info with scope host"
+	addr=`echo $addr_info | cut -d' ' -f 2`
+	ifname=`echo $addr_info | cut -d' ' -f 5`
+	ip addr del $addr dev lo label $ifname
+	ip addr add $addr dev lo scope host label $ifname
+done < /tmp/loop$$
+
+
 # unlock: synchronize with sysinv-agent audit
 sysinv_agent_lock $RELEASE_LOCK
