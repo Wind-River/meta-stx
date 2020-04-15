@@ -39,3 +39,5 @@ do_install_append () {
 }
 
 FILES_${PN} += " ${datadir}"
+
+RDEPENDS_${PN}_append = " perl"
