@@ -15,6 +15,7 @@ SRC_URI += "\
         file://ceph/ceph-radosgw.service \
         file://ceph/ceph.sh \
         file://ceph/mgr-restful-plugin.service \
+	file://ceph/rados.runtime.decode.error.patch \
 	"
 DEPENDS = "boost rdma-core bzip2 curl expat gperf-native \
 		keyutils libaio lz4 \
@@ -23,7 +24,7 @@ DEPENDS = "boost rdma-core bzip2 curl expat gperf-native \
 		python-cython-native valgrind xfsprogs zlib \
 		rabbitmq-c \
 		"
-RDEPENDS_${PN} += " rdma-core python3-core python3 xfsprogs-mkfs"
+RDEPENDS_${PN} += " rdma-core python3-core python3 xfsprogs-mkfs python3-prettytable"
 
 
 EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
