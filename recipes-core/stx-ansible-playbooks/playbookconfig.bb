@@ -21,6 +21,7 @@ SRC_URI = " \
 	file://0003-update_sysinv_database-wait-after-provision.patch \
 	file://0004-bringup_flock_services-use-systmd-for-fminit-and-add.patch \
 	file://0005-persist-config-add-retry-for-etcd.patch \
+	file://0006-bringup_helm-wait-after-initialize-helm-to-avoid-tim.patch \
         "
 
 RDEPENDS_playbookconfig = " \
