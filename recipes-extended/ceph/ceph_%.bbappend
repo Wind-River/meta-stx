@@ -2,6 +2,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/patches:${THISDIR}/files:"
 
 inherit python3native python3-dir
 
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+
 SRC_URI += "\
 	file://ceph/0001-ceph-rebase-on-stx.3.0-and-warrior.patch \
 	file://ceph/ceph.conf \
@@ -60,6 +62,7 @@ do_install_append () {
 
     install -m 0700 ${WORKDIR}/ceph/ceph-manage-journal.py ${D}${sbindir}/ceph-manage-journal
     install -Dm 0750 ${WORKDIR}/ceph/mgr-restful-plugin.py  ${D}${sysconfdir}/rc.d/init.d/mgr-restful-plugin
+    install -Dm 0750 ${WORKDIR}/ceph/mgr-restful-plugin.py  ${D}${sysconfdir}/init.d/mgr-restful-plugin
     install -m 0750 ${WORKDIR}/ceph/ceph.conf.pmon ${D}${sysconfdir}/ceph/
 
     install -d -m 0750 ${D}${sysconfdir}/services.d/controller
@@ -71,6 +74,9 @@ do_install_append () {
     install -m 0750 ${WORKDIR}/ceph/ceph.sh ${D}${sysconfdir}/services.d/worker
 
     install -Dm 0750 ${WORKDIR}/ceph/ceph-init-wrapper.sh ${D}${sysconfdir}/rc.d/init.d/ceph-init-wrapper
+    install -Dm 0750 ${WORKDIR}/ceph/ceph-init-wrapper.sh ${D}${sysconfdir}/init.d/ceph-init-wrapper
+    sed -i -e 's|/usr/lib64|${libdir}|' ${D}${sysconfdir}/rc.d/init.d/ceph-init-wrapper ${D}${sysconfdir}/init.d/ceph-init-wrapper
+
     install -m 0700 ${WORKDIR}/ceph/ceph-preshutdown.sh ${D}${sbindir}/ceph-preshutdown.sh
     
     install -Dm 0644 ${WORKDIR}/ceph/starlingx-docker-override.conf ${D}${systemd_system_unitdir}/docker.service.d/starlingx-docker-override.conf
@@ -85,9 +91,6 @@ do_install_append () {
     # install -m 0644 -D ${S}/udev/60-ceph-by-parttypeuuid.rules ${D}${libdir}/udev/rules.d/60-ceph-by-parttypeuuid.rules
 
     mkdir -p ${D}${localstatedir}/ceph
-    #TODO:
-    #mkdir -p /run/ceph must be done at init time.
-    #mkdir -p ${D}${localstatedir}/run/ceph
     mkdir -p ${D}${localstatedir}/log/ceph
     mkdir -p ${D}${localstatedir}/lib/ceph/tmp
     mkdir -p ${D}${localstatedir}/lib/ceph/mon
@@ -102,9 +105,17 @@ do_install_append () {
     mkdir -p ${D}${localstatedir}/lib/ceph/bootstrap-rbd
     mkdir -p ${D}${localstatedir}/lib/ceph/crash/posted
 
+    install -m 0755 -d ${D}/${sysconfdir}/tmpfiles.d
+    echo "d ${localstatedir}/run/ceph 0755 ceph ceph -" >> ${D}/${sysconfdir}/tmpfiles.d/ceph.conf
+
+    install -m 0755 ${D}${libdir}/ceph/ceph_common.sh ${D}${libexecdir}/ceph
+
     install -m 0750 -D ${S}/src/init-radosgw ${D}${sysconfdir}/rc.d/init.d/ceph-radosgw
+    install -m 0750 -D ${S}/src/init-radosgw ${D}${sysconfdir}/init.d/ceph-radosgw
     sed -i '/### END INIT INFO/a SYSTEMCTL_SKIP_REDIRECT=1' ${D}${sysconfdir}/rc.d/init.d/ceph-radosgw
+    sed -i '/### END INIT INFO/a SYSTEMCTL_SKIP_REDIRECT=1' ${D}${sysconfdir}/init.d/ceph-radosgw
     install -m 0750 -D ${S}/src/init-rbdmap ${D}${sysconfdir}/rc.d/init.d/rbdmap
+    install -m 0750 -D ${S}/src/init-rbdmap ${D}${sysconfdir}/init.d/rbdmap
     install -m 0750 -D ${B}/bin/init-ceph ${D}${sysconfdir}/rc.d/init.d/ceph
     install -m 0750 -D ${B}/bin/init-ceph ${D}${sysconfdir}/init.d/ceph
     install -d -m 0750 ${D}${localstatedir}/log/radosgw 
