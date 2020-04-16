@@ -13,3 +13,15 @@ diff -Nurpd a/src/pybind/rados/rados.pyx b/src/pybind/rados/rados.pyx
  
  LIBRADOS_CREATE_EXCLUSIVE = _LIBRADOS_CREATE_EXCLUSIVE
  LIBRADOS_CREATE_IDEMPOTENT = _LIBRADOS_CREATE_IDEMPOTENT
+diff --git a/src/pybind/rados/rados.pyx b/src/pybind/rados/rados.pyx
+index fe17620..beca5ae 100644
+--- a/src/pybind/rados/rados.pyx
++++ b/src/pybind/rados/rados.pyx
+@@ -555,6 +555,8 @@ def decode_cstr(val, encoding="utf-8"):
+     """
+     if val is None:
+         return None
++    if isinstance(val, str):
++        return val
+
+     return val.decode(encoding)
