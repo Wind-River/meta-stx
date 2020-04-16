@@ -15,6 +15,11 @@ INSANE_SKIP_${PN} += "textrel"
 INSANE_SKIP_${PN}-misc += "textrel"
 INSANE_SKIP_kubelet += "textrel"
 
+inherit useradd
+
+USERADD_PACKAGES = "${PN}"
+USERADD_PARAM_${PN} = "-r -g kube -d / -s /sbin/nologin -c 'Kubernetes user' kube"
+GROUPADD_PARAM_${PN} = "-r kube"
 
 do_install () {
 	install -d ${D}${bindir}
