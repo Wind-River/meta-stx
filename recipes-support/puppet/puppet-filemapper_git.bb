@@ -41,6 +41,7 @@ RDEPENDS_${PN} += " \
 	ruby \
 	facter \
 	puppet \
+	perl \
 	"
 
 RUBY_BUILD_GEMS = "adrien-filemapper.gemspec"

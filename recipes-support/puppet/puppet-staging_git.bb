@@ -40,6 +40,7 @@ RDEPENDS_${PN} += " \
 	ruby \
 	facter \
 	puppet \
+	perl \
 	"
 
 RUBY_BUILD_GEMS = "nanliu-staging.gemspec"

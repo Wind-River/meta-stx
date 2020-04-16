@@ -43,6 +43,7 @@ RDEPENDS_${PN} += " \
 	ruby \
 	facter \
 	puppet \
+	perl \
 	"
 
 RUBY_INSTALL_GEMS = "puppet-barbican-${PV}.gem"
