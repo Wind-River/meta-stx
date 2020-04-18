@@ -486,11 +486,13 @@ pkg_postinst_ontarget_openssh-config() {
 	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
 	install -m 600 ${SRCPATH}/sshd_config   ${datadir}/starlingx/sshd_config
 
-	# remove the unsopported and deprecated options
+	# remove the unsupported and deprecated options
 	sed -i -e 's/^\(GSSAPIAuthentication.*\)/#\1/' \
 	       -e 's/^\(GSSAPICleanupCredentials.*\)/#\1/' \
 	       -e 's/^\(UsePrivilegeSeparation.*\)/#\1/' \
 	       ${datadir}/starlingx/sshd_config
+
+	sed -i -e 's/\(GSSAPIAuthentication yes\)/#\1/' ${datadir}/starlingx/ssh_config
 	
 	cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
 	cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
