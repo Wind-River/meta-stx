@@ -15,7 +15,6 @@
 
 SRC_URI = "\
 	git://github.com/openstack/python-keystoneclient.git;branch=stable/rocky \
-	file://keystone-api-check.sh \
 	"
 
 PV = "3.17.0+git${SRCPV}"
