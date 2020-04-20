@@ -49,5 +49,3 @@ do_install() {
 
 	install -m 0755 bin/forward-journald ${D}/${bindir}/
 }
-
-INSANE_SKIP_${PN} = "ldflags"

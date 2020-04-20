@@ -72,8 +72,6 @@ do_install() {
 	install -d ${D}/${localstatedir}/lib/registry/
 }
 
-INSANE_SKIP_${PN} += "ldflags already-stripped"
-
 FILES_${PN} = "\
 	${bindir}/* \
 	${systemd_system_unitdir}/${BPN}.service \

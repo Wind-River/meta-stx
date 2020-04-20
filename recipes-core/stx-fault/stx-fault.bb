@@ -15,9 +15,6 @@
 
 DESCRIPTION = "stx-fault"
 
-INSANE_SKIP_${PN} = "ldflags"
-
-
 PROTOCOL = "https"
 BRANCH = "r/stx.3.0"
 SRCREV = "2025f585c5b92890c8cb32c480b0151c7c1cb545"
