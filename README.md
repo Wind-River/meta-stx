@@ -1,26 +1,10 @@
-#
-# Copyright (C) 2019 Wind River Systems, Inc.
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
-#
 meta-stx
 =========
 
 Build
 ------------------------
 ```
-git clone --branch r3_rebase git@github.com:zbsarashki/staging-stx.git
+git clone --branch warrior git@github.com:zbsarashki/staging-stx.git
 cd staging-stx
 ./setup.sh
 ```
@@ -51,7 +35,7 @@ Maintenance
 
 Maintainer:
 
-
+Babak A. Sarashki
 
 Building the meta-stx layer
 ---------------------------
@@ -62,21 +46,19 @@ Setup workspace
 mkdir -p $P/workspace/{layers,build}
 cd $P/workspace/layers
 
-git clone --branch thud git://git.yoctoproject.org/poky.git
-git clone --branch thud git://git.openembedded.org/meta-openembedded
-git clone --branch thud git://git.yoctoproject.org/meta-virtualization
-git clone --branch thud git://git.yoctoproject.org/meta-cloud-services
-git clone --branch thud git://git.yoctoproject.org/meta-intel
-git clone --branch thud git://git.yoctoproject.org/meta-intel-qat
-git clone --branch thud git://git.yoctoproject.org/meta-selinux
-git clone --branch thud git://git.yoctoproject.org/meta-security
-git clone --branch thud https://github.com/jiazhang0/meta-secure-core.git
-git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git 
-git clone --branch thud https://github.com/rauc/meta-rauc.git
-git clone --branch thud git://git.yoctoproject.org/meta-intel
-git clone --branch thud git://git.yoctoproject.org/meta-intel-qat
-git clone --branch thud https://github.com/intel-iot-devkit/meta-iot-cloud.git
-git clone https://github.com/zbsarashki/meta-stx.git
+git clone --branch warrior git://git.yoctoproject.org/poky.git
+git clone --branch warrior git://git.openembedded.org/meta-openembedded
+git clone --branch warrior git://git.yoctoproject.org/meta-virtualization
+git clone --branch warrior git://git.yoctoproject.org/meta-cloud-services
+git clone --branch warrior git://git.yoctoproject.org/meta-security
+git clone --branch warrior git://git.yoctoproject.org/meta-intel
+git clone --branch warrior git://git.yoctoproject.org/meta-security
+git clone --branch warrior git://git.yoctoproject.org/meta-selinux
+git clone --branch warrior https://github.com/intel-iot-devkit/meta-iot-cloud.git
+git clone --branch warrior git://git.openembedded.org/meta-python2
+git clone --branch warrior https://git.yoctoproject.org/git/meta-dpdk
+git clone --branch warrior git@github.com:Wind-River/meta-stx.git
+git clone --branch warrior git@github.com:Wind-River/meta-stak-common.git
 
 ```
 Add the following layers to conf/bblayers.conf
@@ -97,7 +79,7 @@ BBPATH = "\${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \\
-	$P/workspace/layers/poky/meta \\
+$P/workspace/layers/poky/meta \\
 	$P/workspace/layers/poky/meta-poky \\
 	$P/workspace/layers/poky/meta-yocto-bsp \\
 	$P/workspace/layers/meta-openembedded/meta-oe \\
@@ -107,29 +89,18 @@ BBLAYERS ?= " \\
 	$P/workspace/layers/meta-openembedded/meta-python \\
 	$P/workspace/layers/meta-openembedded/meta-webserver \\
 	$P/workspace/layers/meta-openembedded/meta-initramfs \\
-	$P/workspace/layers/meta-openembedded/meta-gnome \\
 	$P/workspace/layers/meta-virtualization \\
 	$P/workspace/layers/meta-cloud-services \\
 	$P/workspace/layers/meta-cloud-services/meta-openstack \\
-	$P/workspace/layers/meta-cloud-services/meta-openstack-aio-deploy \\
-	$P/workspace/layers/meta-cloud-services/meta-openstack-compute-deploy \\
-	$P/workspace/layers/meta-cloud-services/meta-openstack-controller-deploy \\
-	$P/workspace/layers/meta-cloud-services/meta-openstack-qemu \\
-	$P/workspace/layers/meta-cloud-services/meta-openstack-swift-deploy \\
-	$P/workspace/layers/meta-secure-core/meta-signing-key \\
-	$P/workspace/layers/meta-secure-core/meta-efi-secure-boot \\
-	$P/workspace/layers/meta-secure-core/meta-encrypted-storage \\
-	$P/workspace/layers/meta-secure-core/meta-integrity \\
-	$P/workspace/layers/meta-secure-core/meta-tpm2 \\
-	$P/workspace/layers/meta-secure-core/meta \\
+	$P/workspace/layers/meta-intel \\
 	$P/workspace/layers/meta-security \\
 	$P/workspace/layers/meta-security/meta-security-compliance \\
 	$P/workspace/layers/meta-selinux \\
-	$P/workspace/layers/meta-intel \\
-	$P/workspace/layers/meta-intel-qat \\
-	$P/workspace/layers/meta-rauc \\
 	$P/workspace/layers/meta-iot-cloud \\
+	$P/workspace/layers/meta-python2 \\
+	$P/workspace/layers/meta-dpdk \\
 	$P/workspace/layers/meta-stx \\
+	$P/workspace/layers/meta-stak-common \\
 	"
 EOF
 	sed -i -e 's/^\(#MACHINE.*\"qemuarm\"\)/MACHINE \?= \"intel-corei7-64\"\n\1/g' conf/local.conf
