@@ -10,7 +10,4 @@ PV = "1.0.0"
 
 SRC_URI = "git://opendev.org/starlingx/metal.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
-#		file://0001-mtce-compute-dont-install-empty-directory-unless-nee.patch \
-#		file://0001-mtce-control-dont-install-empty-directory-unless-nee.patch \
-#		file://0001-mtce-storage-dont-install-empty-directory-unless-nee.patch \
-#		"
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"

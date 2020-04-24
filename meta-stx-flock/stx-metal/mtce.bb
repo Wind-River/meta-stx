@@ -42,10 +42,21 @@ RDEPENDS_${PN}_append = " \
 inherit systemd
 SYSTEMD_PACKAGES += "${PN}-pmon"
 SYSTEMD_SERVICE_${PN}-pmon = "pmon.service"
+SYSTEMD_AUTO_ENABLE_${PN}-pmon = "enable"
+
 SYSTEMD_PACKAGES += "${PN}-hwmon"
 SYSTEMD_SERVICE_${PN}-hwmon = "hwmon.service"
+SYSTEMD_AUTO_ENABLE_${PN}-hwmon = "enable"
+
 SYSTEMD_PACKAGES += "${PN}-hostw"
 SYSTEMD_SERVICE_${PN}-hostw = "hostw.service"
+SYSTEMD_AUTO_ENABLE_${PN}-hostw = "enable"
+
+
+SYSTEMD_PACKAGES += "${PN}-lmon"
+SYSTEMD_SERVICE_${PN}-hostw = "lmon.service"
+SYSTEMD_AUTO_ENABLE_${PN}-lmon = "enable"
+
 SYSTEMD_PACKAGES += "${PN}"
 SYSTEMD_SERVICE_${PN} = " \
 	hwclock.service \
@@ -56,8 +67,8 @@ SYSTEMD_SERVICE_${PN} = " \
 	goenabled.service \
 	mtcalarm.service \
 	runservices.service \
-	lmon.service \
 	"
+SYSTEMD_AUTO_ENABLE_${PN}-hostw= "enable"
 
 EXTRA_OEMAKE = ' -e VER=1 VER_MJR=1 INCLUDES=" -I. -I../alarm -I../heartbeat -I../maintenance \
 	                        -I../hostw -I../public -I../smash -I../common -I../hwmon \
@@ -236,6 +247,7 @@ FILES_${PN}-lmon = " \
 	${sysconfdir}/logrotate.d/lmon.logrotate \
 	${sysconfdir}/pmon.d/lmon.conf \
 	${sysconfdir}/init.d/lmon \
+        ${systemd_system_unitdir}/lmon.service \
 	"
 
 FILES_${PN} = " \
@@ -259,7 +271,6 @@ FILES_${PN} = " \
         ${systemd_system_unitdir}/hbsClient.service \
         ${systemd_system_unitdir}/hwclock.service \
         ${systemd_system_unitdir}/runservices.service \
-        ${systemd_system_unitdir}/lmon.service \
         ${sysconfdir}/pmon.d/nslcd.conf \
         ${sysconfdir}/pmon.d/mtclogd.conf \
         ${sysconfdir}/pmon.d/mtcalarm.conf \
