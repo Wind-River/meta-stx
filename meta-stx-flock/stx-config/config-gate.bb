@@ -14,9 +14,11 @@ RDEPENDS_${PN}_append = " bash"
 
 inherit systemd
 SYSTEMD_PACKAGES += "${PN}"
-SYSTEMD_PACKAGES += "config-gate-worker"
+SYSTEMD_PACKAGES += "${PN}-worker"
 SYSTEMD_SERVICE_${PN} = "config.service"
 SYSTEMD_SERVICE_config-gate-worker = "worker-config-gate.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+SYSTEMD_AUTO_ENABLE_${PN}-worker = "enable"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
