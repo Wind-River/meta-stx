@@ -12,21 +12,15 @@ SRC_URI = " \
 	file://openstack-barbican-api.service \
 	"
 
-do_configure() {
-	:
-}
-
-
-do_compile() {
-	:
-}
-
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install() {
 
 	install -m 0755 -d ${D}/${datadir}/starlingx/barbican/
 	install -m 0755 -d ${D}/${datadir}/starlingx/barbican/backup/
 	install -m 0755 -d ${D}/${systemd_system_unitdir}/
+	install -m 0755 -d ${D}/var/log/barbican/
 	install -m 0644 ${WORKDIR}/barbican.conf ${D}/${datadir}/starlingx/barbican
 	install -m 0644 ${WORKDIR}/barbican-api-paste.ini ${D}/${datadir}/starlingx/barbican
 	install -m 0644 ${WORKDIR}/gunicorn-config.py ${D}/${datadir}/starlingx/barbican
@@ -63,4 +57,5 @@ pkg_prerm_ontarget_${PN}() {
 FILES_${PN} = " \
 	${datadir}/starlingx/barbican/ \
 	${systemd_system_unitdir}/openstack-barbican-api.service \
+	/var/log/barbican \
 	"
