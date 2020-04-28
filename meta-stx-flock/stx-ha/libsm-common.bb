@@ -39,15 +39,13 @@ do_install_append () {
 	oe_runmake -e BUILDSUBDIR=${B} DEST_DIR=${D} BIN_DIR=${bindir} \
 		UNIT_DIR=${systemd_system_unitdir} LIB_DIR=${libdir} \
 		INC_DIR=${includedir} ETC_DIR=${sysconfdir} VER=0 VER_MJR=1 install
-	rm -f ${D}/var/lib/sm/watchdog/modules/libsm_watchdog_nfs.so
 	if [ -d ${D}/etc/pmon.d ] ; then
 		chmod 0755 ${D}/etc/pmon.d
 	fi
 }
 
-FILES_${PN}_append = " \
-	${systemd_system_unitdir}/sm-eru.service \
-	${systemd_system_unitdir}/sm-watchdog.service \
+FILES_${PN}-dev_append = " \
+	var/lib/sm/watchdog/modules/libsm_watchdog_nfs.so \
 	"
 
 FILES_${PN} = " \
