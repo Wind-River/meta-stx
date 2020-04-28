@@ -25,3 +25,11 @@ do_install () {
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "fminit.service"
+
+inherit useradd
+
+USERADD_PACKAGES = "fm-mgr"
+USERADD_PARAM_fm-mgr = "-r -g fm -G snmpd -u 195 -d /var/lib/fm -s /sbin/nologin -c 'fm-mgr' fm"
+GROUPADD_PARAM_fm-mgr = "-r -g 195 fm"
+
+RDEPENDS_fm-mgr += "net-snmp-server-snmpd"
