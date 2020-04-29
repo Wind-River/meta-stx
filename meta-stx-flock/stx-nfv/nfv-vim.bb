@@ -5,6 +5,15 @@ S = "${S_DIR}/nfv/nfv-vim"
 
 inherit setuptools
 
+do_configure_prepend() {
+       sed -i -e 's|@SYSCONFDIR@|${sysconfdir}|g' \
+               scripts/vim \
+               scripts/vim-api \
+               scripts/vim-webserver \
+               nfv_vim/config.ini
+       sed -i -e 's|@PYTHONROOT@|${libdir}/python2.7/site-packages|g' nfv_vim/config.ini
+}
+
 do_install_append() {
 	install -d -m 755 ${D}/usr/lib/ocf/resource.d/nfv
 	install -p -D -m 755 scripts/vim ${D}/usr/lib/ocf/resource.d/nfv/vim
