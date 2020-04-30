@@ -74,6 +74,9 @@ do_install_append() {
 
     sed -e "s:%BARBICAN_CONF_DIR%:${sysconfdir}/${SRCNAME}:g" \
         -i ${D}/${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/tests/api/test_resources_policy.py
+
+    install -m 0755 -d ${D}/${sysconfdir}/tmpfiles.d
+    echo "d ${localstatedir}/log/barbican 0750 barbican barbican -" >> ${D}/${sysconfdir}/tmpfiles.d/barbican.conf
 }
 
 USERADD_PACKAGES = "${PN}"
@@ -151,4 +154,7 @@ MONITOR_SERVICE_PACKAGES = "${SRCNAME}"
 MONITOR_SERVICE_${SRCNAME} = "barbican"
 
 
-FILES_${PN}_append = " ${datadir}/"
+FILES_${PN}_append = " \
+	${datadir}/ \
+	${sysconfdir}/tmpfiles.d/barbican.conf \
+	"
