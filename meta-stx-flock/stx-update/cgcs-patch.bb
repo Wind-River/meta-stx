@@ -83,6 +83,8 @@ do_install_append () {
 	
 	install -m 500 upgrade-start-pkg-extract ${D}/${sbindir}/upgrade-start-pkg-extract
 
+	sed -i -e 's/createrepo/createrepo_c/' ${D}/${sysconfdir}/init.d/sw-patch-controller
+
 }
 
 FILES_${PN} = " \
