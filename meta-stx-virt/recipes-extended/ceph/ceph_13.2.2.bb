@@ -67,6 +67,7 @@ SYSTEMD_SERVICE_${PN} = " \
     ceph-mgr.target \
     rbdmap.service \
 "
+SYSTEMD_AUTO_ENABLE = "disable"
 
 OECMAKE_GENERATOR = "Unix Makefiles"
 
