@@ -10,6 +10,7 @@ RDEPENDS_${PN}_append += " \
 	systemd \
 	collectd \
 	fm-api \
+	ntpq \
 	python-influxdb \
 	python-oslo.concurrency \
 	python-httplib2 \
