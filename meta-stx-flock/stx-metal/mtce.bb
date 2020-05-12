@@ -12,6 +12,7 @@ SRC_URI += " \
 	file://0001-mtce-avoid-overflowing-amon.tx_buf.patch \
 	file://0001-mtce-Use-LDFLAGS-when-linking.patch \
 	file://0002-mtce-Adjust-paths.patch \
+	file://mtce-set-systemctl-path.patch \
 	"
 
 PACKAGES += " ${PN}-pmon"
