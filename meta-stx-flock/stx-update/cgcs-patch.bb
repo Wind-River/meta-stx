@@ -14,6 +14,7 @@ SRC_URI += "file://0001-Remove-use-of-rpmUtils.miscutils-from-cgcs-patch.patch;s
        file://0004-Address-python3-pylint-errors-and-warnings.patch;striplevel=3 \
        file://0005-Clean-up-pylint-W1201-logging-not-lazy-in-cgcs-patch.patch;striplevel=3 \
        file://0006-Migrate-patch-agent-to-use-DNF-for-swmgmt.patch;striplevel=3 \
+       file://0007-patch_agent-do-not-do-the-packages_iter-if-pkggrp-is.patch;striplevel=3 \
         "
 
 RDEPENDS_${PN}_append = " \
