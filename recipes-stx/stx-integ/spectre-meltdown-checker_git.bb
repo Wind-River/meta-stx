@@ -36,5 +36,3 @@ do_install() {
 	install -d -p -m 0755 ${D}/${sbindir} 
 	install -m 0644 ${S}/${SRCNAME}.sh ${D}/${sbindir}/${SRCNAME}.sh
 }
-
-FILES_${PN} = "${sbindir}/"

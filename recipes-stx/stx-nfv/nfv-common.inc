@@ -13,31 +13,28 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " nfv-common"
+DESCRIPTION = "stx-nfv"
 
-inherit setuptools
+PROTOCOL = "https"
+BRANCH = "r/stx.3.0"
+SRCREV = "aaa932c00e028dcbaf0eed6843c4d3e51f09b2c1"
+S_DIR = "${WORKDIR}/git"
+PV = "1.0.0"
 
-do_configure_prepend () {
-	cd ${S}/nfv/nfv-common
-	distutils_do_configure
-} 
+LICENSE = "Apache-2.0"
 
-do_compile_prepend () {
-	cd ${S}/nfv/nfv-common
-	distutils_do_compile
-}
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-do_install_prepend () {
-	cd ${S}/nfv/nfv-common
-	distutils_do_install
-	
-}
 
-pkg_postinst_ontarget_nfv-common () {
+SRC_URI = "git://opendev.org/starlingx/nfv.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
-}
-
-FILES_nfv-common_append = " \
-	${libdir}/python2.7/site-packages/nfv_common \
-	${libdir}/python2.7/site-packages/windriver_nfv_common_plugins-1.0.0-py2.7.egg-info \
+DEPENDS += " \
+	python \
+	python-pbr-native \
+	mtce \
+	fm-common \
+	json-c \
+	openssl \
+	libevent \
+	libgcc \
 	"

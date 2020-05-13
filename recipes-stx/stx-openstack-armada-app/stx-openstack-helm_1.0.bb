@@ -42,9 +42,7 @@ app_folder = "${nonarch_libdir}/application"
 toolkit_version = "0.1.0"
 helmchart_version = "0.1.0"
 
-do_configure () {
-	:
-}
+do_configure[noexec] = "1"
 
 do_compile () {
 	# initialize helm and build the toolkit

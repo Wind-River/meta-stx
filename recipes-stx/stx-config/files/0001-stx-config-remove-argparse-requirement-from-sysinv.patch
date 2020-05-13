@@ -5,13 +5,13 @@ Subject: [PATCH] stx-config: remove argparse requirement from sysinv.
 
 argparse is part of stdlib
 ---
- sysinv/sysinv/sysinv/requirements.txt | 1 -
+ requirements.txt | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sysinv/sysinv/sysinv/requirements.txt b/sysinv/sysinv/sysinv/requirements.txt
+diff --git a/requirements.txt b/requirements.txt
 index fb4ef6a1..12a341c7 100644
---- a/sysinv/sysinv/sysinv/requirements.txt
-+++ b/sysinv/sysinv/sysinv/requirements.txt
+--- a/requirements.txt
++++ b/requirements.txt
 @@ -2,7 +2,6 @@ pbr>=0.5
  SQLAlchemy
  amqplib>=0.6.1

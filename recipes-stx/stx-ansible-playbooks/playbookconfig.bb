@@ -53,13 +53,8 @@ RDEPENDS_playbookconfig = " \
 	ipset \
 	"
 
-do_configure () {
-	:
-} 
-
-do_compile() {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install () {
 	cd ${S}/playbookconfig/src
@@ -75,6 +70,6 @@ pkg_postinst_ontarget_${PN}() {
 
 }
 
-FILES_${PN} = " \
+FILES_${PN}_append = " \
 	${datadir} \
 	"

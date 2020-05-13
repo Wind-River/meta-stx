@@ -48,9 +48,7 @@ app_staging = "${B}/staging"
 app_tarball = "${app_name}.tgz"
 app_folder = "/usr/local/share/applications/helm"
 
-do_configure () {
-	:
-}
+do_configure[noexec] = "1"
 
 do_compile () {
 	# initialize helm and build the toolkit

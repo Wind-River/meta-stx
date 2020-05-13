@@ -218,7 +218,7 @@ RDEPENDS_packagegroup-stx-integ = " \
 	python-setuptools \
 	python-ryu \
 	spectre-meltdown-checker \
-	kvm-timer-advance \
+	kvm-timer-advance-setup \
 	ceph \
 	lldpd \
         lvm2 \

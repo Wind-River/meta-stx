@@ -1,0 +1,101 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+require metal-common.inc
+
+S = "${S_DIR}/inventory/inventory/"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+
+SRC_URI += "file://0001-inventory-Remove-argparse-requirement.patch"
+
+RDEPENDS_inventory += " \
+		bash \
+		python-anyjson \
+		python-amqplib \
+		python-pyudev \
+		python-pyparted \
+		python-ipaddr \
+		python-paste \
+		python-eventlet \
+		python-futurist \
+		python-jsonpatch \
+		python-keystoneauth1 \
+		python-keystonemiddleware \
+		python-neutronclient \
+		python-oslo.concurrency \
+		python-oslo.config \
+		python-oslo.context \
+		python-oslo.db \
+		python-oslo.i18n \
+		python-oslo.log \
+		python-oslo.messaging \
+		python-oslo.middleware \
+		python-oslo.policy \
+		python-oslo.rootwrap \
+		python-oslo.serialization \
+		python-oslo.service \
+		python-oslo.utils \
+		python-oslo.versionedobjects \
+		python-osprofiler \
+		python-pbr \
+		python-pecan \
+		python-psutil \
+		python-requests \
+		python-retrying \
+		python-six \
+		python-sqlalchemy \
+		python-stevedore \
+		python-webob \
+		python-wsme \
+		"
+
+inherit systemd
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "inventory-api.service inventory-conductor.service"
+
+do_install_append () {
+	
+	install -d -m 755 ${D}/${sysconfdir}/goenabled.d
+	install -p -D -m 755 etc/inventory/inventory_goenabled_check.sh ${D}/${sysconfdir}/goenabled.d/inventory_goenabled_check.sh
+
+	install -d -m 755 ${D}/${sysconfdir}/inventory
+	install -p -D -m 755 etc/inventory/policy.json ${D}/${sysconfdir}/inventory/policy.json
+
+	install -d -m 755 ${D}/${sysconfdir}/motd.d
+	install -p -D -m 755 etc/inventory/motd-system ${D}/${sysconfdir}/motd.d/10-system-config
+
+	install -m 755 -p -D scripts/inventory-api ${D}/${libdir}/ocf/resource.d/platform/inventory-api
+	install -m 755 -p -D scripts/inventory-conductor ${D}/${libdir}/ocf/resource.d/platform/inventory-conductor
+
+	install -d -m 0755 ${D}/${systemd_system_unitdir}/
+	install -m 644 -p -D scripts/inventory-api.service ${D}/${systemd_system_unitdir}/
+	install -m 644 -p -D scripts/inventory-conductor.service ${D}/${systemd_system_unitdir}/
+
+	# Install sql migration
+	# install -m 644 inventory/db/sqlalchemy/migrate_repo/migrate.cfg ${D}/${libdir}/inventory/db/sqlalchemy/migrate_repo/migrate.cfg
+
+}
+
+#pkg_postinst_ontarget-inventory () {
+# install default config files
+#cd ${_builddir}/${name}-${version} && oslo-config-generator --config-file inventory/config-generator.conf --output-file ${_builddir}/${name}-${version}/inventory.conf.sample
+#}
+
+FILES_${PN}_append = " \
+	${libdir}/ocf/resource.d/platform/inventory-api \
+	${libdir}/ocf/resource.d/platform/inventory-conductor \
+	"

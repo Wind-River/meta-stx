@@ -30,13 +30,13 @@ SRC_URI = "git://opendev.org/starlingx/config.git;protocol=${PROTOCOL};rev=${SRC
 
 RDEPENDS_${PN} += " bash"
 
-do_configure () {
-	:
-} 
+inherit systemd
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN} = "${PN}.service"
+# SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 
-do_compile() {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install () {
 
@@ -49,11 +49,3 @@ do_install () {
 
 
 }
-
-#pkg_postinst_ontarget_${PN} () {
-#	/usr/bin/systemctl enable cloud-provider-openstack.service
-#}	
-
-FILES_${PN}_append += " \
-		${systemd_system_unitdir} \
-		"
