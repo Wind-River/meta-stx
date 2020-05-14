@@ -13,27 +13,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " fm-api"
+require fault-common.inc
 
-do_configure_append () {
-	cd ${S}/fm-api
-	distutils_do_configure
-} 
+S = "${S_DIR}/fm-doc/fm_doc"
 
-do_compile_append() {
-	cd ${S}/fm-api
-	distutils_do_compile
+do_configure () {
+     :
 }
 
-do_install_append() {
-	cd ${S}/fm-api
-	distutils_do_install
-
-	# fix the path for binaries
-	sed -i -e 's|/usr/local/bin|${bindir}|' ${D}${libdir}/python2.7/site-packages/fm_api/constants.py
+do_compile () {
+     :
 }
 
-FILES_fm-api_append = " \
-	${libdir}/python2.7/site-packages/fm_api-1.0.0-py2.7.egg-info/ \
-	${libdir}/python2.7/site-packages/fm_api \
-	"
+do_install () {
+    install -d -m 755 ${D}/${docdir}
+    install -d -m 755 ${D}/${sysconfdir}/fm
+    install -m 744 events.yaml ${D}/${sysconfdir}/fm/
+    install -m 644 events.yaml ${D}/${docdir}
+    install -m 755 checkEventYaml ${D}/${docdir}
+    install -m 644 parseEventYaml.py ${D}/${docdir}
+    install -m 644 check_missing_alarms.py ${D}/${docdir}
+}

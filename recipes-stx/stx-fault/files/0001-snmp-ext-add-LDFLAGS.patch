@@ -4,19 +4,19 @@ Date: Mon, 8 Jul 2019 21:56:11 -0700
 Subject: [PATCH] snmp-ext use build systems LDFLAGS
 
 ---
- snmp-ext/sources/Makefile | 2 +-
+ Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/snmp-ext/sources/Makefile b/snmp-ext/sources/Makefile
+diff --git a/Makefile b/Makefile
 index 408ea34..c00febe 100644
---- a/snmp-ext/sources/Makefile
-+++ b/snmp-ext/sources/Makefile
+--- a/Makefile
++++ b/Makefile
 @@ -23,7 +23,7 @@ LIBCGTSAGENT_SO := libcgtsAgentPlugin.so
  	$(CXX) $(CCFLAGS) $(INCLUDES) -c $< -o $@
  
  lib: $(OBJS)
 -	$(CXX) $(OBJS) $(LDLIBS) -o $(LIBCGTSAGENT_SO).$(MAJOR).$(MINOR).$(PATCH) -shared
-+	$(LDCXXSHARED) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(LIBCGTSAGENT_SO).$(MAJOR).$(MINOR).$(PATCH) 
++	$(CXX) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(LIBCGTSAGENT_SO).$(MAJOR).$(MINOR).$(PATCH) 
  	ln -sf $(LIBCGTSAGENT_SO).$(MAJOR).$(MINOR).$(PATCH) $(LIBCGTSAGENT_SO).$(MAJOR)
  	ln -sf $(LIBCGTSAGENT_SO).$(MAJOR).$(MINOR).$(PATCH) $(LIBCGTSAGENT_SO)
  

@@ -12,31 +12,24 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+inherit systemd
+require fault-common.inc
 
-PACKAGES += " fm-mgr"
+SRC_URI += "file://0001-fm-mgr-Fix-install-target.patch"
+S = "${S_DIR}/fm-mgr/sources"
 
-###################
-# DEPENDS = " fm-common"
-###################
+DEPENDS += "fm-common"
 
-do_compile_append() {
-	cd ${S}/fm-mgr/sources/
-	oe_runmake -e \
-		LDFLAGS="${LDFLAGS} -L${S}/fm-common/sources" \
+EXTRA_OEMAKE = 'LDFLAGS="${LDFLAGS} -L${S}/fm-common/sources" \
 		CCFLAGS="${CXXFLAGS}" \
 		INCLUDES="-I. -I${S}/fm-common/sources" \
-		build
-}
-
-do_install_append () {
-	cd ${S}/fm-mgr/sources/
-	install -d -m0755 ${D}/${systemd_system_unitdir} 
-	oe_runmake -e DESTDIR=${D} BINDIR=${bindir} \
-		LIBDIR=${libdir} UNITDIR=${systemd_system_unitdir} \
-			SYSCONFDIR=${sysconfdir} \
-			install
-	rm -rf ${D}/usr/lib/systemd
-
+                BINDIR="${bindir}" \
+		LIBDIR="${libdir}" \
+                UNITDIR="${systemd_system_unitdir}" \
+                DESTDIR="${D}" \
+               '
+do_install () {
+	oe_runmake install
 	# fix the path for init scripts
 	sed -i -e 's|rc.d/||' ${D}/${systemd_system_unitdir}/*.service
 
@@ -44,9 +37,5 @@ do_install_append () {
 	sed -i -e 's|/usr/local/bin/|${bindir}/|' ${D}${sysconfdir}/init.d/fminit
 }
 
-FILES_fm-mgr = "  \
-	${bindir}/fmManager \
-	${systemd_system_unitdir}/fminit.service \
-	${sysconfdir}/init.d/fminit \
-	${sysconfdir}/logrotate.d/fm.logrotate \
-	"
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "fminit.service"
