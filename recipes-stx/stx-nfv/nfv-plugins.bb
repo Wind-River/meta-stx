@@ -13,24 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " nfv-plugins"
+require nfv-common.inc
+
+S = "${S_DIR}/nfv/nfv-plugins"
 
 inherit setuptools
 
-
-do_configure_append () {
-	cd ${S}/nfv/nfv-plugins
-	distutils_do_configure
-} 
-
-do_compile_append () {
-	cd ${S}/nfv/nfv-plugins
-	distutils_do_compile
-}
-
 do_install_append () {
-	cd ${S}/nfv/nfv-plugins
-	distutils_do_install
 
 	install -d -m 755 ${D}/${sysconfdir}/nfv/
 	install -d -m 755 ${D}/${sysconfdir}/nfv/nfv_plugins/
@@ -54,13 +43,3 @@ do_install_append () {
 			${D}/${sysconfdir}/logrotate.d/nfvi-plugins.logrotate
 	
 }
-
-FILES_nfv-plugins += " \
-	${bindir}/nfv-forensic \
-	${bindir}/nfv-notify \
-	${libdir}/python2.7/site-packages/windriver_nfv_plugins*egg-info \
-	${libdir}/python2.7/site-packages/nfv_plugins \
-	${sysconfdir}/nfv/nfv_plugins/ \
-	${sysconfdir}/logrotate.d/nfvi-plugins.logrotate \
-	"
-

@@ -13,24 +13,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " nova-api-proxy"
+require nfv-common.inc
 
-inherit setuptools
+S = "${S_DIR}/nova-api-proxy/nova-api-proxy"
 
-
-do_configure_append () {
-	cd ${S}/nova-api-proxy/nova-api-proxy
-	distutils_do_configure
-} 
-
-do_compile_append( ) {
-	cd ${S}/nova-api-proxy/nova-api-proxy
-	distutils_do_compile
-}
+inherit setuptools systemd
+SYSTEMD_PACKAGES += "nova-api-proxy"
+SYSTEMD_SERVICE_${PN} = "api-proxy.service"
 
 do_install_append () {
-	cd ${S}/nova-api-proxy/nova-api-proxy
-	distutils_do_install
 
 	install -d -m 755 ${D}/${systemd_system_unitdir}
 	install -p -D -m 644 nova_api_proxy/scripts/api-proxy.service ${D}/${systemd_system_unitdir}/api-proxy.service
@@ -43,15 +34,3 @@ do_install_append () {
 	
 
 }
-
-
-FILES_nova-api-proxy = " \ 
-	${bindir}/nova-api-proxy \
-	${sysconfdir}/proxy/api-proxy-paste.ini \
-	${sysconfdir}/proxy/api-proxy-paste.conf \
-	${sysconfdir}/proxy/nova-api-proxy.conf \
-	${sysconfdir}/rc.d/init.d/api-proxy \
-	${systemd_system_unitdir}/api-proxy.service \
-	${libdir}/python2.7/site-packages/nova_api_proxy/ \
-	${libdir}/python2.7/site-packages/api_proxy*egg-info \
-	"

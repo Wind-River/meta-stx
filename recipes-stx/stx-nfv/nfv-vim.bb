@@ -13,23 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " nfv-vim"
+require nfv-common.inc
+
+S = "${S_DIR}/nfv/nfv-vim"
 
 inherit setuptools
 
-do_configure_prepend () {
-	cd ${S}/nfv/nfv-vim
-	distutils_do_configure
-} 
-
-do_compile_prepend () {
-	cd ${S}/nfv/nfv-vim
-	distutils_do_compile
-}
-
-do_install_prepend () {
-	cd ${S}/nfv/nfv-vim
-	distutils_do_install
+do_install_append() {
 	install -d -m 755 ${D}/usr/lib/ocf/resource.d/nfv
 	install -p -D -m 755 scripts/vim ${D}/usr/lib/ocf/resource.d/nfv/vim
 	install -p -D -m 755 scripts/vim-api ${D}/usr/lib/ocf/resource.d/nfv/vim-api
@@ -41,17 +31,8 @@ do_install_prepend () {
 
 }
 
-#pkg_postinst_ontarget_${PN} () {
-
-FILES_nfv-vim_append = " \
-	${sysconfdir}/nfv/vim \
+FILES_${PN}_append = " \
 	${libdir}/ocf/resource.d/nfv/vim \
 	${libdir}/ocf/resource.d/nfv/vim-api \
 	${libdir}/ocf/resource.d/nfv/vim-webserver \
-	${bindir}/nfv-vim-webserver \
-	${bindir}/nfv-vim-api \
-	${bindir}/nfv-vim-manage \
-	${bindir}/nfv-vim \
-	${libdir}/python2.7/site-packages/nfv_vim \
-	${libdir}/python2.7/site-packages/nfv_vim*egg-info \
 	"
