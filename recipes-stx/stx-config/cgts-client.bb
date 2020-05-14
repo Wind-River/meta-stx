@@ -13,34 +13,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " tsconfig"
+require config-common.inc
 
-inherit distutils
+S = "${S_DIR}/sysinv/cgts-client/cgts-client"
 
-RDEPENDS_tsconfig_append = " bash"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
-do_configure_append () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_configure
-} 
-
-do_compile_append () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_compile
-}
-
-do_install_append () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_install
-
-
-	install -m 755 -d ${D}/${bindir}
-	install -m 500 scripts/tsconfig ${D}/${bindir}/
-
-}
-
-FILES_tsconfig = " \
-	${PYTHON_SITEPACKAGES_DIR}/tsconfig \
-	${PYTHON_SITEPACKAGES_DIR}/tsconfig*.egg-info \
-	${bindir}/tsconfig \
+DEPENDS += " \
+	python-pbr-native \
 	"
+
+RDEPENDS_${PN}_append = " \
+	python-prettytable \
+	bash-completion \
+	python-neutronclient \
+	python-keystoneclient \
+	python-six \
+	python-httplib2 \
+	"
+
+inherit setuptools

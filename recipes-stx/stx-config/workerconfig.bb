@@ -14,36 +14,45 @@
 #  limitations under the License.
 
 PACKAGES += " \
-	workerconfig \
 	workerconfig-standalone \
 	workerconfig-subfunction \
 	"
 
-RDEPENDS_workerconfig += "bash"
+require config-common.inc
+
+S = "${S_DIR}/workerconfig/workerconfig"
+
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = "bash"
 RDEPENDS_workerconfig-standalone += "workerconfig"
 RDEPENDS_workerconfig-subfunction += "workerconfig"
 
 systemddir = "${sysconfdir}/systemd/system"
 
-do_install_append () {
-	cd ${S}/workerconfig/workerconfig/
-	oe_runmake GOENABLEDDIR=${D}/${sysconfdir}/goenabled.d  INITDDIR=${D}/${sysconfdir}/init.d \
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
+	oe_runmake -e GOENABLEDDIR=${D}/${sysconfdir}/goenabled.d  INITDDIR=${D}/${sysconfdir}/init.d \
 		SYSTEMDDIR=${D}/${systemddir} install
 
 	sed -i -e 's|/usr/local/bin|${bindir}|' \
 		${D}${sysconfdir}/init.d/worker_config
 }
 
-FILES_workerconfig += " \
+FILES_${PN} = " \
 	${sysconfdir}/init.d/worker_config \
 	"
 
-FILES_workerconfig-standalone += " \
+FILES_workerconfig-standalone = " \
 	${systemddir}/config/workerconfig-standalone.service \
 	${sysconfdir}/goenabled.d/config_goenabled_check.sh \
 	"
 
-FILES_workerconfig-subfunction += "  \
+FILES_workerconfig-subfunction = "  \
 	${sysconfdir}/systemd/system/config/workerconfig-combined.service \
 	"
 

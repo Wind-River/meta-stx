@@ -13,17 +13,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " sysinv"
+require config-common.inc
 
-RDEPENDS_sysinv += " python"
-RDEPENDS_sysinv += " bash"
+S = "${S_DIR}/sysinv/sysinv/sysinv"
 
-inherit setuptools distutils python-dir systemd
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
+SRC_URI += "file://0001-stx-config-remove-argparse-requirement-from-sysinv.patch"
+
+RDEPENDS_${PN}_append = " python bash"
 DEPENDS += " \
 	python-pbr-native \
 	"
-RDEPENDS_sysinv += " \
+RDEPENDS_${PN}_append  = " \
 	python-anyjson \
 	python-amqp \
 	python-amqplib \
@@ -61,24 +64,11 @@ RDEPENDS_sysinv += " \
 	gptfdisk \
 	"
 
-do_configure_append() {
-	echo "Configure sysinv..."
-	cd ${S}/sysinv/sysinv/sysinv
-	distutils_do_configure
-} 
-
-do_compile_append() {
-	
-	echo "Building sysinv..."
-	cd ${S}/sysinv/sysinv/sysinv
-	distutils_do_compile
-}
+inherit setuptools python-dir systemd
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN} = "sysinv-api.service sysinv-conductor.service"
 
 do_install_append() {
-
-	echo "Installing sysinv..."
-	cd ${S}/sysinv/sysinv/sysinv
-	distutils_do_install
 
 	install -d -m 755 ${D}${sysconfdir}/goenabled.d
 	install -p -D -m 755 etc/sysinv/sysinv_goenabled_check.sh ${D}${sysconfdir}/goenabled.d/sysinv_goenabled_check.sh
@@ -117,40 +107,3 @@ do_install_append() {
 		${D}${libdir}/python2.7/site-packages/sysinv/puppet/common.py
 }
 
-FILES_sysinv = " \
-	${bindir}/sysinv-agent \
-	${bindir}/sysinv-utils \
-	${bindir}/sysinv-conductor \
-	${bindir}/sysinv-api \
-	${bindir}/sysinv-helm \
-	${bindir}/sysinv-dbsync \
-	${bindir}/sysinv-dnsmasq-lease-update \
-	${bindir}/sysinv-puppet \
-	${bindir}/sysinv-rootwrap \
-	${bindir}/sysinv-upgrade \
-	${PYTHON_SITEPACKAGES_DIR}/sysinv/ \
-	${bindir}/manage-partitions \
-	${bindir}/query_pci_id \
-	${bindir}/partition_info.sh \
-	${libdir}/ocf \
-	${libdir}/ocf/resource.d \
-	${libdir}/ocf/resource.d/platform \
-	${libdir}/ocf/resource.d/platform/sysinv-conductor \
-	${libdir}/ocf/resource.d/platform/sysinv-api \
-	${sysconfdir}/motd.d \
-	${sysconfdir}/sysinv \
-	${sysconfdir}/motd.d/10-system \
-	${sysconfdir}/sysinv/profileSchema.xsd \
-	${sysconfdir}/sysinv/crushmap-controller-model.txt \
-	${sysconfdir}/sysinv/crushmap-storage-model.txt \
-	${sysconfdir}/sysinv/crushmap-aio-sx.txt \
-	${sysconfdir}/sysinv/policy.json \
-	${sysconfdir}/sysinv/upgrades \
-	${sysconfdir}/sysinv/upgrades/delete_load.sh \
-	${sysconfdir}/goenabled.d/sysinv_goenabled_check.sh \
-	${systemd_system_unitdir}/sysinv-api.service \
-	${systemd_system_unitdir}/sysinv-conductor.service \
-	"
-
-#pkg_postinst_ontarget_sysinv() {
-#}

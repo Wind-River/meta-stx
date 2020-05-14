@@ -13,9 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " controllerconfig"
+require config-common.inc
 
-RDEPENDS_controllerconfig += " \
+S = "${S_DIR}/controllerconfig/controllerconfig"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = " \
 	bash \
 	fm-api \
 	systemd \
@@ -32,27 +37,20 @@ RDEPENDS_controllerconfig += " \
 	python-ruamel.yaml \
 	"
 
-do_configure_prepend() {
-	cd ${S}/controllerconfig/controllerconfig
-	distutils_do_configure
-} 
+inherit setuptools python-dir systemd
+SYSTEMD_PACKAGES += "controllerconfig"
+SYSTEMD_SERVICE_controllerconfig = "controllerconfig.service"
+SYSTEMD_AUTO_ENABLE_controllerconfig = "enable"
 
-do_compile_prepend() {
-	cd ${S}/controllerconfig/controllerconfig
-	distutils_do_compile
-}
-
-do_install_prepend () {
-	cd ${S}/controllerconfig/controllerconfig
-	distutils_do_install
+do_install_append() {
 
         install -p -D -m 700 scripts/keyringstaging ${D}/${bindir}
         install -p -D -m 700 scripts/openstack_update_admin_password ${D}/${bindir}
         install -p -D -m 700 scripts/install_clone.py ${D}/${bindir}
         install -p -D -m 700 scripts/finish_install_clone.sh ${D}/${bindir}
 
-	install -d -m 700 ${D}/${sysconfdir}/goenabled.d
-	install -d -m 700 ${D}/${sysconfdir}/init.d
+	install -d -m 755 ${D}/${sysconfdir}/goenabled.d
+	install -d -m 755 ${D}/${sysconfdir}/init.d
         install -p -D -m 700 scripts/config_goenabled_check.sh ${D}/${sysconfdir}/goenabled.d
         install -p -D -m 755 scripts/controller_config ${D}/${sysconfdir}/init.d/controller_config
 
@@ -69,31 +67,3 @@ do_install_prepend () {
 		${D}${libdir}/python2.7/site-packages/controllerconfig/upgrades/utils.py \
 		${D}${sysconfdir}/init.d/controller_config
 }
-
-
-FILES_controllerconfig = " \
-		${sysconfdir}/goenabled.d/config_goenabled_check.sh  \
-		${sysconfdir}/upgrade.d/20-sysinv-retire-ceph-cache-tier-sp.py \
-		${sysconfdir}/upgrade.d/16-neutron-move-bindings-off-controller-1.py \
-		${sysconfdir}/init.d/controller_config \
-		${bindir}/keysringstaging \
-        	${bindir}/openstack_update_admin_password \
-        	${bindir}/install_clone.py \
-        	${bindir}/finish_install_clone.sh \
-        	${bindir}/finish_install_clone.sh \
-		${bindir}/upgrade_controller \
-		${bindir}/config_region \
-		${bindir}/config_subcloud \
-		${bindir}/config_management \
-		${bindir}/keyringstaging \
-		${bindir}/tidy_storage_post_restore \
-		${bindir}/config_controller \
-		${bindir}/upgrade_controller_simplex \
-		${sysconfdir}/systemd/system/controllerconfig.service \
-		${libdir}/python2.7/site-packages/controllerconfig*.egg-info/ \
-		${libdir}/python2.7/site-packages/controllerconfig/ \
-		"
-
-SYSTEMD_PACKAGES += "controllerconfig"
-SYSTEMD_SERVICE_controllerconfig = "controllerconfig.service"
-SYSTEMD_AUTO_ENABLE_controllerconfig = "enable"

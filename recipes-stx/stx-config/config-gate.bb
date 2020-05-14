@@ -14,23 +14,29 @@
 #  limitations under the License.
 
 PACKAGES += " config-gate-worker"
-PACKAGES += " config-gate"
 
-RDEPENDS_config-gate-worker += " bash"
-RDEPENDS_config-gate += " bash"
+require config-common.inc
 
-do_install_append() {
-	cd ${S}/config-gate/files
+S = "${S_DIR}/config-gate/files"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_config-gate-worker_append = " bash"
+RDEPENDS_${PN}_append = " bash"
+
+
+inherit systemd
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_PACKAGES += "config-gate-worker"
+SYSTEMD_SERVICE_${PN} = "config.service"
+SYSTEMD_SERVICE_config-gate-worker = "worker-config-gate.service"
+
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
 	oe_runmake -e \
                  SBINDIR=${D}/${sbindir} SYSTEMDDIR=${D}/${systemd_system_unitdir} \
 		 install
 }
-
-FILES_config-gate-worker = " \
-	${sbindir}/wait_for_worker_config_init.sh \
-	${systemd_system_unitdir}/worker-config-gate.service \
-	"
-FILES_config-gate = " \
-	${sbindir}/wait_for_config_init.sh \
-	${systemd_system_unitdir}/config.service \
-	"
