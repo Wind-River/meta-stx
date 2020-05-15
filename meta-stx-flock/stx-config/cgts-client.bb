@@ -20,3 +20,8 @@ RDEPENDS_${PN}_append = " \
 	"
 
 inherit setuptools
+
+do_install_append() {
+       install -d -m 755 ${D}/${sysconfdir}/bash_completion.d
+       install -p -D -m 664 tools/system.bash_completion ${D}/${sysconfdir}/bash_completion.d/system.bash_completion
+}
