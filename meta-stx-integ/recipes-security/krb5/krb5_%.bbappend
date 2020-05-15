@@ -16,8 +16,7 @@
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI_append = "file://soname_majversion.diff \
-                 "
+#SRC_URI_append = "file://soname_majversion.diff"
 DEPENDS += "libverto"
 
 PACKAGES_remove = "libverto"
