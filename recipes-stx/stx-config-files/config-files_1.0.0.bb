@@ -56,13 +56,8 @@ SRC_URI = " \
 	file://syslog-ng-conf-replace-match-with-message.patch \
 	"
 
-do_configure () {
-	:
-}
-
-do_compile () {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install () {
 	install -m 0755 -d ${D}/${datadir}/starlingx/config-files
