@@ -7,10 +7,10 @@ Subject: [PATCH] stx-metal: remove argparse requirement from inventory
  inventory/inventory/requirements.txt | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/inventory/inventory/requirements.txt b/inventory/inventory/requirements.txt
+diff --git a/requirements.txt b/requirements.txt
 index 993f224..82170c3 100644
---- a/inventory/inventory/requirements.txt
-+++ b/inventory/inventory/requirements.txt
+--- a/requirements.txt
++++ b/requirements.txt
 @@ -6,7 +6,6 @@ pbr>=2.0 # Apache-2.0
  SQLAlchemy
  amqplib>=0.6.1

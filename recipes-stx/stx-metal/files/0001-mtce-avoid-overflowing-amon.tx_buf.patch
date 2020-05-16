@@ -4,13 +4,13 @@ Date: Thu, 27 Jun 2019 21:40:34 -0700
 Subject: [PATCH] Use snprintf to avoid overflowing amon.tx_buf
 
 ---
- mtce/src/public/amon.c | 3 ++-
+ public/amon.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/mtce/src/public/amon.c b/mtce/src/public/amon.c
+diff --git a/public/amon.c b/public/amon.c
 index b9146a2..941f905 100644
---- a/mtce/src/public/amon.c
-+++ b/mtce/src/public/amon.c
+--- a/public/amon.c
++++ b/public/amon.c
 @@ -257,7 +257,8 @@ int  active_monitor_dispatch ( void )
              }
  

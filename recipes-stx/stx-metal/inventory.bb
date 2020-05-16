@@ -13,34 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " inventory"
+require metal-common.inc
 
-#DEPENDS = " \
-#	python \
-#	python-pbr-native \
-#	"
+S = "${S_DIR}/inventory/inventory/"
 
-#python-futurist >= 0.11.0
-#python-keystoneauth1 >= 3.1.0
-#python-keystonemiddleware >= 4.12.0
-#python-neutronclient >= 6.3.0
-#python-oslo-concurrency >= 3.8.0
-#python-oslo-config >= 2:4.0.0
-#python-oslo-context >= 2.14.0
-#python-oslo-db >= 4.24.0
-#python-oslo-i18n >= 2.1.0
-#python-oslo-log >= 3.22.0
-#python-oslo-messaging >= 5.24.2
-#python-oslo-middleware >= 3.27.0
-#python-oslo-policy >= 1.23.0
-#python-oslo-rootwrap >= 5.0.0
-#python-oslo-serialization >= 1.10.0
-#python-oslo-service >= 1.10.0
-#python-oslo-utils >= 3.20.0
-#python-oslo-versionedobjects >= 1.17.0
-#python-osprofiler >= 1.4.0
-#python-stevedore >= 1.20.0
-#python-webob >= 1.7.1
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+
+SRC_URI += "file://0001-inventory-Remove-argparse-requirement.patch"
 
 RDEPENDS_inventory += " \
 		bash \
@@ -83,21 +63,11 @@ RDEPENDS_inventory += " \
 		python-wsme \
 		"
 
+inherit systemd
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "inventory-api.service inventory-conductor.service"
 
-
-do_configure_prepend () {
-	cd ${S}/inventory/inventory
-	distutils_do_configure
-} 
-
-do_compile_prepend () {
-	cd ${S}/inventory/inventory
-	distutils_do_compile
-}
-
-do_install_prepend () {
-	cd ${S}/inventory/inventory
-	distutils_do_install
+do_install_append () {
 	
 	install -d -m 755 ${D}/${sysconfdir}/goenabled.d
 	install -p -D -m 755 etc/inventory/inventory_goenabled_check.sh ${D}/${sysconfdir}/goenabled.d/inventory_goenabled_check.sh
@@ -125,19 +95,7 @@ do_install_prepend () {
 #cd ${_builddir}/${name}-${version} && oslo-config-generator --config-file inventory/config-generator.conf --output-file ${_builddir}/${name}-${version}/inventory.conf.sample
 #}
 
-FILES_inventory = " \
-	${systemd_system_unitdir}/inventory-api.service \
-	${systemd_system_unitdir}/inventory-conductor.service \
-	${bindir}/inventory-api \
-	${bindir}/inventory-conductor \
-	${bindir}/inventory-dnsmasq-lease-update \
-	${bindir}/inventory-agent \
-	${bindir}/inventory-dbsync \
+FILES_${PN}_append = " \
 	${libdir}/ocf/resource.d/platform/inventory-api \
 	${libdir}/ocf/resource.d/platform/inventory-conductor \
-	${libdir}/python2.7/site-packages/inventory*.egg-info/ \
-	${libdir}/python2.7/site-packages/inventory/ \
-	${sysconfdir}/goenabled.d/inventory_goenabled_check.sh \
-	${sysconfdir}/motd.d/10-system-config \
-	${sysconfdir}/inventory/policy.json \
 	"

@@ -13,13 +13,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " mtce"
-PACKAGES += " mtce-pmon"
-PACKAGES += " mtce-hwmon"
-PACKAGES += " mtce-hostw"
-PACKAGES += " mtce-lmon"
+require metal-common.inc
 
-RDEPENDS_mtce-pmon_append = " \
+S = "${S_DIR}/mtce/src/"
+
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+
+SRC_URI += " \
+	file://0001-mtce-avoid-overflowing-amon.tx_buf.patch \
+	file://0001-mtce-Use-LDFLAGS-when-linking.patch \
+	file://0002-mtce-Adjust-paths.patch \
+	"
+
+PACKAGES += " ${PN}-pmon"
+PACKAGES += " ${PN}-hwmon"
+PACKAGES += " ${PN}-hostw"
+PACKAGES += " ${PN}-lmon"
+
+DEPENDS_append = " mtce-common"
+
+RDEPENDS_${PN}-pmon_append = " \
 	bash \
 	systemd \
 	dpkg \
@@ -32,30 +48,41 @@ RDEPENDS_mtce-pmon_append = " \
 	ipmitool \
 	"
 
-RDEPENDS_mtce_append = " \
+RDEPENDS_${PN}_append = " \
 	mtce-pmon \
 	python-redfishtool \
 	"
 
-do_configure_prepend () {
-	:
-} 
+inherit systemd
+SYSTEMD_PACKAGES += "${PN}-pmon"
+SYSTEMD_SERVICE_${PN}-pmon = "pmon.service"
+SYSTEMD_PACKAGES += "${PN}-hwmon"
+SYSTEMD_SERVICE_${PN}-hwmon = "hwmon.service"
+SYSTEMD_PACKAGES += "${PN}-hostw"
+SYSTEMD_SERVICE_${PN}-hostw = "hostw.service"
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN} = " \
+	hwclock.service \
+	fsmon.service \
+	mtcClient.service \
+	hbsClient.service \
+	mtclog.service \
+	goenabled.service \
+	mtcalarm.service \
+	runservices.service \
+	lmon.service \
+	"
 
-do_compile_prepend () {
-	cd ${S}/mtce/src/
-	oe_runmake -e VER=1 VER_MJR=1 INCLUDES=" -I. -I../alarm -I../heartbeat -I../maintenance \
+EXTRA_OEMAKE = ' -e VER=1 VER_MJR=1 INCLUDES=" -I. -I../alarm -I../heartbeat -I../maintenance \
 	                        -I../hostw -I../public -I../smash -I../common -I../hwmon \
-				-I${S}/mtce-common/src/common \
-				-I${S}/mtce-common/src/daemon " \
-		CCFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS} -L${S}/mtce-common/src/common \
-		-L${S}/mtce-common/src/daemon " build
-}
+				-I${STAGING_INCDIR}/mtce-common/ -I${STAGING_INCDIR}/mtce-daemon" \
+		CCFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" '
 
-do_install_prepend () {
-# TODO: 
-# Really need to fix the package;s Makefile
 
-	cd ${S}/mtce/src/
+
+do_install() {
+
+	cd ${S}/
 	install -m 755 -d ${D}/${bindir}
 	install -m 755 -d ${D}/${sbindir}
 	install -m 755 -d ${D}/${libdir}
@@ -74,7 +101,6 @@ do_install_prepend () {
 	install -m 755 -d ${D}/${sysconfdir}/serverices.d/worker
 	install -m 755 -d ${D}/${sysconfdir}/serverices.d/storage
 	
-	cd ${S}/mtce/src/
 	install -m 755 -p -D scripts/mtcAgent ${D}/${libdir}/ocf/resource.d/platform
 	install -m 755 -p -D hwmon/scripts/ocf/hwmon ${D}/${libdir}/ocf/resource.d/platform
 	
@@ -190,21 +216,7 @@ do_install_prepend () {
 	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so
 }
 
-#pkg_postinst_ontarget-mtce () {
-#	/usr/bin/systemctl enable hbsClient.service
-#	/usr/bin/systemctl enable mtcalarm.service 
-#	/usr/bin/systemctl enable mtclog.service 
-#	/usr/bin/systemctl enable mtcClient.service 
-#	/usr/bin/systemctl enable goenabled.service 
-#	/usr/bin/systemctl enable lmon.service 
-#	/usr/bin/systemctl enable hostw.service 
-#	/usr/bin/systemctl enable fsmon.service 
-#	/usr/bin/systemctl enable pmon.service 
-#	# /usr/bin/systemctl enable hwclock.service 
-#	# /usr/bin/systemctl enable runservices.service 
-#}
-
-FILES_mtce-pmon = " \
+FILES_${PN}-pmon = " \
 	${sbindir}/pmon-restart \
 	${sbindir}/pmon-start \
 	${sbindir}/pmon-stop \
@@ -215,7 +227,7 @@ FILES_mtce-pmon = " \
 	${sysconfdir}/logrotate.d/pmon.logrotate \
 	"
 
-FILES_mtce-hwmon = " \
+FILES_${PN}-hwmon = " \
 	${bindir}/hwmond \
 	${sysconfdir}/init.d/hwmon \
 	${libdir}/ocf/resource.d/platform/hwmon \
@@ -224,7 +236,7 @@ FILES_mtce-hwmon = " \
 	${sysconfdir}/mtc/hwmond.conf \
 	"
 
-FILES_mtce-hostw = " \
+FILES_${PN}-hostw = " \
 	${sysconfdir}/mtc/hostwd.conf \
 	${sysconfdir}/logrotate.d/hostw.logrotate \
 	${systemd_system_unitdir}/hostw.service \
@@ -232,7 +244,7 @@ FILES_mtce-hostw = " \
 	${bindir}/hostwd \
 	"
 
-FILES_mtce-lmon= " \
+FILES_${PN}-lmon = " \
 	${bindir}/lmond \
 	${sysconfdir}/mtc/lmond.conf \
 	${sysconfdir}/logrotate.d/lmon.logrotate \
@@ -240,53 +252,55 @@ FILES_mtce-lmon= " \
 	${sysconfdir}/init.d/lmon \
 	"
 
-FILES_mtce = " \
-	${bindir}/mtcAgent \
-	${bindir}/mtcClient \
-	${bindir}/fsmond \
-	${bindir}/hbsAgent \
-	${bindir}/wipedisk \
-	${bindir}/hbsClient \
-	${bindir}/mtcalarmd \
-	${bindir}/mtclogd \
-	${sbindir}/fsync \
-	${sbindir}/dmemchk.sh \
-	${libdir}/ocf/resource.d/platform/mtcAgent \
-	${libdir}/libamon.so.1 \
-	${systemd_system_unitdir}/mtcalarm.service \
-	${systemd_system_unitdir}/goenabled.service \
-	${systemd_system_unitdir}/mtclog.service \
-	${systemd_system_unitdir}/mtcClient.service \
-	${systemd_system_unitdir}/fsmon.service \
-	${systemd_system_unitdir}/hbsClient.service \
-	${systemd_system_unitdir}/hwclock.service \
-	${systemd_system_unitdir}/runservices.service \
-	${systemd_system_unitdir}/lmon.service \
-	${sysconfdir}/pmon.d/nslcd.conf \
-	${sysconfdir}/pmon.d/mtclogd.conf \
-	${sysconfdir}/pmon.d/mtcalarm.conf \
-	${sysconfdir}/pmon.d/syslog-ng.conf \
-	${sysconfdir}/pmon.d/acpid.conf \
-	${sysconfdir}/pmon.d/sshd.conf \
-	${sysconfdir}/pmon.d/fsmon.conf \
-	${sysconfdir}/pmon.d/hbsClient.conf \
-	${sysconfdir}/pmon.d/mtcClient.conf \
-	${sysconfdir}/init.d/runservices \
-	${sysconfdir}/init.d/goenabled \
-	${sysconfdir}/init.d/mtcClient \
-	${sysconfdir}/init.d/hwclock.sh \
-	${sysconfdir}/init.d/mtclog \
-	${sysconfdir}/init.d/mtcalarm \
-	${sysconfdir}/init.d/hbsClient \
-	${sysconfdir}/init.d/fsmon \
-	${sysconfdir}/mtc.conf \
-	${sysconfdir}/bmc/server_profiles.d/sensor_hp380_v1_ilo_v4.profile \
-	${sysconfdir}/bmc/server_profiles.d/sensor_hp360_v1_ilo_v4.profile \
-	${sysconfdir}/bmc/server_profiles.d/sensor_quanta_v1_ilo_v4.profile \
-	${sysconfdir}/serverices.d/worker/mtcTest \
-	${sysconfdir}/serverices.d/controller/mtcTest \
-	${sysconfdir}/serverices.d/storage/mtcTest \
-	${sysconfdir}/mtc/fsmond.conf \
+FILES_${PN} = " \
+        ${bindir}/mtcAgent \
+        ${bindir}/mtcClient \
+        ${bindir}/fsmond \
+        ${bindir}/hbsAgent \
+        ${bindir}/wipedisk \
+        ${bindir}/hbsClient \
+        ${bindir}/mtcalarmd \
+        ${bindir}/mtclogd \
+        ${sbindir}/fsync \
+        ${sbindir}/dmemchk.sh \
+        ${libdir}/ocf/resource.d/platform/mtcAgent \
+        ${libdir}/libamon.so.1 \
+        ${systemd_system_unitdir}/mtcalarm.service \
+        ${systemd_system_unitdir}/goenabled.service \
+        ${systemd_system_unitdir}/mtclog.service \
+        ${systemd_system_unitdir}/mtcClient.service \
+        ${systemd_system_unitdir}/fsmon.service \
+        ${systemd_system_unitdir}/hbsClient.service \
+        ${systemd_system_unitdir}/hwclock.service \
+        ${systemd_system_unitdir}/runservices.service \
+        ${systemd_system_unitdir}/lmon.service \
+        ${sysconfdir}/pmon.d/nslcd.conf \
+        ${sysconfdir}/pmon.d/mtclogd.conf \
+        ${sysconfdir}/pmon.d/mtcalarm.conf \
+        ${sysconfdir}/pmon.d/syslog-ng.conf \
+        ${sysconfdir}/pmon.d/acpid.conf \
+        ${sysconfdir}/pmon.d/sshd.conf \
+        ${sysconfdir}/pmon.d/fsmon.conf \
+        ${sysconfdir}/pmon.d/hbsClient.conf \
+        ${sysconfdir}/pmon.d/mtcClient.conf \
+        ${sysconfdir}/init.d/runservices \
+        ${sysconfdir}/init.d/goenabled \
+        ${sysconfdir}/init.d/mtcClient \
+        ${sysconfdir}/init.d/hwclock.sh \
+        ${sysconfdir}/init.d/mtclog \
+        ${sysconfdir}/init.d/mtcalarm \
+        ${sysconfdir}/init.d/hbsClient \
+        ${sysconfdir}/init.d/fsmon \
+        ${sysconfdir}/mtc.conf \
+        ${sysconfdir}/bmc/server_profiles.d/sensor_hp380_v1_ilo_v4.profile \
+        ${sysconfdir}/bmc/server_profiles.d/sensor_hp360_v1_ilo_v4.profile \
+        ${sysconfdir}/bmc/server_profiles.d/sensor_quanta_v1_ilo_v4.profile \
+        ${sysconfdir}/serverices.d/worker/mtcTest \
+        ${sysconfdir}/serverices.d/controller/mtcTest \
+        ${sysconfdir}/serverices.d/storage/mtcTest \
+        ${sysconfdir}/mtc/fsmond.conf \
+        ${sysconfdir}/mtc/tmp/ \
+        ${sysconfdir}/mtc.ini \
 	${sysconfdir}/mtc/tmp/ \
 	${sysconfdir}/mtc.ini \
 	${sysconfdir}/logrotate.d/fsmon.logrotate \

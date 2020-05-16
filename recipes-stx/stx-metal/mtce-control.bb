@@ -13,41 +13,33 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " mtce-control"
+require metal-common.inc
 
-RDEPENDS_mtce-control += " \
+S = "${S_DIR}/mtce-control/src/"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = " \
 	bash \
 	systemd \
 	lighttpd \
 	qemu \
 	"
 
-do_configure_prepend () {
-	:
-} 
+inherit systemd
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "hbsAgent.service"
 
-do_compile_prepend () {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
-do_install_prepend () {
-	cd ${S}/mtce-control/src/
+do_install() {
+	cd ${S}
 	oe_runmake buildroot=${D} \
 		_sysconfdir=${sysconfdir} _unitdir=${systemd_system_unitdir} _datarootdir=${datadir} \
 		install
-
 }
 
-#pkg_postinst_ontarget_mtce-control () {
-#	# /usr/bin/systemctl enable lighttpd.service
-#	# /usr/bin/systemctl enable qemu_clean.service
-#	/usr/bin/systemctl enable hbsAgent.service
-#}
+FILES_${PN}_append = " ${datadir}/licenses/mtce-control-1.0/LICENSE"
 
-FILES_mtce-control = " \
-	${datadir}/licenses/mtce-control-1.0/LICENSE \
-	${systemd_system_unitdir}/hbsAgent.service \
-	${sysconfdir}/pmon.d/hbsAgent.conf \
-	${sysconfdir}/init.d/hbsAgent \
-	${sysconfdir}/init.d/goenabledControl \
-	"

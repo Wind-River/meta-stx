@@ -13,36 +13,33 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " mtce-compute"
+require metal-common.inc
 
-RDEPENDS_mtce-compute += " \
+S = "${S_DIR}/mtce-storage/src/"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = " \
 	bash \
 	systemd \
-	qemu \
 	"
 
-do_configure_prepend () {
-	:
-} 
+inherit systemd
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "goenabled-storage.service"
 
-do_compile_prepend () {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
-do_install_prepend () {
-	cd ${S}/mtce-compute/src/
+do_install() {
+	cd ${S}
 	oe_runmake buildroot=${D} \
 		_sysconfdir=${sysconfdir} _unitdir=${systemd_system_unitdir} _datarootdir=${datadir} \
 		install
+	chmod 0750 ${D}/etc/services.d/storage
 }
 
-#pkg_postinst_ontarget_mtce-compute() { 
-#	/usr/bin/systemctl enable goenabled-worker.service
-#}
 
-FILES_mtce-compute = " \
-	${datadir}/licenses/mtce-compute-1.0/LICENSE \
-	${systemd_system_unitdir}/goenabled-worker.service \
-	${sysconfdir}/goenabled.d/virt-support-goenabled.sh \
-	${sysconfdir}/init.d/goenabledWorker \
-	"
+FILES_${PN}_append = " ${datadir}/licenses/mtce-storage-1.0/LICENSE"
+

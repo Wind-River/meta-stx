@@ -4,23 +4,23 @@ Date: Thu, 27 Jun 2019 22:25:15 -0700
 Subject: [PATCH] Use LDFLAGS when linking and pass flags down to submakes
 
 ---
- mtce/src/Makefile             | 27 +++++++++++++++------------
- mtce/src/alarm/Makefile       |  2 +-
- mtce/src/fsmon/Makefile       |  2 +-
- mtce/src/fsync/Makefile       |  2 +-
- mtce/src/heartbeat/Makefile   |  7 +++++--
- mtce/src/hostw/Makefile       |  2 +-
- mtce/src/hwmon/Makefile       |  2 +-
- mtce/src/lmon/Makefile        |  2 +-
- mtce/src/maintenance/Makefile |  4 ++--
- mtce/src/mtclog/Makefile      |  2 +-
- mtce/src/pmon/Makefile        |  2 +-
+ Makefile             | 27 +++++++++++++++------------
+ alarm/Makefile       |  2 +-
+ fsmon/Makefile       |  2 +-
+ fsync/Makefile       |  2 +-
+ heartbeat/Makefile   |  7 +++++--
+ hostw/Makefile       |  2 +-
+ hwmon/Makefile       |  2 +-
+ lmon/Makefile        |  2 +-
+ maintenance/Makefile |  4 ++--
+ mtclog/Makefile      |  2 +-
+ pmon/Makefile        |  2 +-
  11 files changed, 30 insertions(+), 24 deletions(-)
 
-diff --git a/mtce/src/Makefile b/mtce/src/Makefile
+diff --git a/Makefile b/Makefile
 index a9ec0e2..8c256f1 100755
---- a/mtce/src/Makefile
-+++ b/mtce/src/Makefile
+--- a/Makefile
++++ b/Makefile
 @@ -8,18 +8,21 @@ VER=1
  VER_MJR=1
  
@@ -55,10 +55,10 @@ index a9ec0e2..8c256f1 100755
  
  clean:
  	@( cd common ; make clean )
-diff --git a/mtce/src/alarm/Makefile b/mtce/src/alarm/Makefile
+diff --git a/alarm/Makefile b/alarm/Makefile
 index a27b0fb..cff233c 100755
---- a/mtce/src/alarm/Makefile
-+++ b/mtce/src/alarm/Makefile
+--- a/alarm/Makefile
++++ b/alarm/Makefile
 @@ -43,7 +43,7 @@ library:
  	 ar rcs libalarm.a alarm.o $(EXTRAARFLAGS)
  
@@ -68,10 +68,10 @@ index a27b0fb..cff233c 100755
  
  clean_bins:
  	@rm -v -f $(BINS)
-diff --git a/mtce/src/fsmon/Makefile b/mtce/src/fsmon/Makefile
+diff --git a/fsmon/Makefile b/fsmon/Makefile
 index b53cce0..33256ab 100644
---- a/mtce/src/fsmon/Makefile
-+++ b/mtce/src/fsmon/Makefile
+--- a/fsmon/Makefile
++++ b/fsmon/Makefile
 @@ -28,7 +28,7 @@ else
  endif
  
@@ -81,10 +81,10 @@ index b53cce0..33256ab 100644
  
  common:
  	( cd ../common ; make clean ; make lib VER=$(VER) VER_MJR=$(VER_MJR))
-diff --git a/mtce/src/fsync/Makefile b/mtce/src/fsync/Makefile
+diff --git a/fsync/Makefile b/fsync/Makefile
 index b041f15..85c1543 100644
---- a/mtce/src/fsync/Makefile
-+++ b/mtce/src/fsync/Makefile
+--- a/fsync/Makefile
++++ b/fsync/Makefile
 @@ -16,7 +16,7 @@ all: build
  	$(CC) $(INCLUDES) $(CCFLAGS) $(EXTRACCFLAGS) -c $< -o $@
  
@@ -94,10 +94,10 @@ index b041f15..85c1543 100644
  
  clean: 
  	@rm -v -f $(OBJS) fsync
-diff --git a/mtce/src/heartbeat/Makefile b/mtce/src/heartbeat/Makefile
+diff --git a/heartbeat/Makefile b/heartbeat/Makefile
 index a625f20..b8deda7 100755
---- a/mtce/src/heartbeat/Makefile
-+++ b/mtce/src/heartbeat/Makefile
+--- a/heartbeat/Makefile
++++ b/heartbeat/Makefile
 @@ -33,8 +33,11 @@ endif
  all: static_analysis common agent client
  
@@ -112,10 +112,10 @@ index a625f20..b8deda7 100755
  
  common:
  	( cd ../common ; make clean ; make lib VER=$(VER) VER_MJR=$(VER_MJR))
-diff --git a/mtce/src/hostw/Makefile b/mtce/src/hostw/Makefile
+diff --git a//hostw/Makefile b/hostw/Makefile
 index d72708c..af18059 100755
---- a/mtce/src/hostw/Makefile
-+++ b/mtce/src/hostw/Makefile
+--- a/hostw/Makefile
++++ b/hostw/Makefile
 @@ -28,7 +28,7 @@ else
  endif
  
@@ -125,10 +125,10 @@ index d72708c..af18059 100755
  
  common:
  	( cd ../common ; make clean ; make -j1 lib VER=$(VER) VER_MJR=$(VER_MJR))
-diff --git a/mtce/src/hwmon/Makefile b/mtce/src/hwmon/Makefile
+diff --git a/hwmon/Makefile b/hwmon/Makefile
 index 6d7cee3..c168c43 100644
---- a/mtce/src/hwmon/Makefile
-+++ b/mtce/src/hwmon/Makefile
+--- a/hwmon/Makefile
++++ b/hwmon/Makefile
 @@ -45,7 +45,7 @@ else
  endif
  
@@ -138,10 +138,10 @@ index 6d7cee3..c168c43 100644
  
  common:
  	( cd ../common ; make lib VER=$(VER) VER_MJR=$(VER_MJR))
-diff --git a/mtce/src/lmon/Makefile b/mtce/src/lmon/Makefile
+diff --git a/lmon/Makefile b/lmon/Makefile
 index 9e328a4..a1a8519 100755
---- a/mtce/src/lmon/Makefile
-+++ b/mtce/src/lmon/Makefile
+--- a/lmon/Makefile
++++ b/lmon/Makefile
 @@ -29,7 +29,7 @@ else
  endif
  
@@ -151,10 +151,10 @@ index 9e328a4..a1a8519 100755
  
  clean:
  	@rm -v -f $(OBJ) lmond *.o *.a
-diff --git a/mtce/src/maintenance/Makefile b/mtce/src/maintenance/Makefile
+diff --git a/maintenance/Makefile b/maintenance/Makefile
 index 85c2db6..e6a8892 100755
---- a/mtce/src/maintenance/Makefile
-+++ b/mtce/src/maintenance/Makefile
+--- a/maintenance/Makefile
++++ b/maintenance/Makefile
 @@ -77,10 +77,10 @@ common:
  	( cd ../common ; make clean ; make lib VER=$(VER) VER_MJR=$(VER_MJR))
  
@@ -168,10 +168,10 @@ index 85c2db6..e6a8892 100755
  
  remove_bins:
  	@rm -v -f $(BINS)
-diff --git a/mtce/src/mtclog/Makefile b/mtce/src/mtclog/Makefile
+diff --git a/mtclog/Makefile b/mtclog/Makefile
 index 1d49aa4..fb513d9 100644
---- a/mtce/src/mtclog/Makefile
-+++ b/mtce/src/mtclog/Makefile
+--- a/mtclog/Makefile
++++ b/mtclog/Makefile
 @@ -30,7 +30,7 @@ else
  endif
  
@@ -181,10 +181,10 @@ index 1d49aa4..fb513d9 100644
  
  common:
  	( cd ../common ; make clean ; make lib VER=$(VER) VER_MJR=$(VER_MJR))
-diff --git a/mtce/src/pmon/Makefile b/mtce/src/pmon/Makefile
+diff --git a/pmon/Makefile b/pmon/Makefile
 index f75f2be..c34e204 100755
---- a/mtce/src/pmon/Makefile
-+++ b/mtce/src/pmon/Makefile
+--- a/pmon/Makefile
++++ b/pmon/Makefile
 @@ -29,7 +29,7 @@ else
  endif
  

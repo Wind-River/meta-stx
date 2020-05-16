@@ -13,18 +13,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " python-inventoryclient"
+require metal-common.inc
+
+S = "${S_DIR}/python-inventoryclient/inventoryclient"
 
 
-# python-keystoneauth1 >= 3.1.0
-# python-pbr >= 2.0.0
-# python-six >= 1.9.0
-# python-oslo-i18n >= 2.1.0
-# python-oslo-utils >= 3.20.0
-# python-requests
-# bash-completion
-#
-RDEPENDS_python-inventoryclient_append = " \
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+
+RDEPENDS_${PN}_append = " \
 	python \
 	python-pbr \
 	python-six \
@@ -35,26 +32,15 @@ RDEPENDS_python-inventoryclient_append = " \
 	bash-completion \
 	"
 
-do_configure_prepend () {
-	cd ${S}/python-inventoryclient/inventoryclient
-	distutils_do_configure
-} 
 
-do_compile_prepend () {
-	cd ${S}/python-inventoryclient/inventoryclient
-	distutils_do_compile
-}
-
-do_install_prepend () {
-	cd ${S}/python-inventoryclient/inventoryclient
-	distutils_do_install
+do_install_append () {
 	
 	install -d -m 755 ${D}/${sysconfdir}/bash_completion.d
 	install -p -D -m 664 tools/inventory.bash_completion ${D}/${sysconfdir}/bash_completion.d
 
 }
 
-FILES_python-inventoryclient = " \
+_FILES_${PN}_append = " \
 	${bindir}/inventory \
 	${sysconfdir}/bash_completion.d/inventory.bash_completion \
 	${libdir}/python2.7/site-packages/inventoryclient-*.egg-info/ \

@@ -13,11 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " mtce-common"
+require metal-common.inc
 
+S = "${S_DIR}/mtce-common/src/"
 
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-RDEPENDS_mtce-common = " \
+RDEPENDS_${PN}_append = " \
 	util-linux \
 	bash \
 	systemd \
@@ -30,20 +33,18 @@ RDEPENDS_mtce-common = " \
 	fm-common \
 	"
 
-do_configure_prepend () {
-	:
-} 
+DEPENDS_append = " \
+	fm-common \
+	libevent \
+	openssl \
+	json-c \
+	"
 
-do_compile_prepend () {
-	cd ${S}/mtce-common/src/
-	oe_runmake clean
-	oe_runmake -e build VER=0 VER_MJR=1 \
-		CCFLAGS="${CXXFLAGS} -DBUILDINFO=\"\\\"\$\$(date)\\\"\"" 
-}
+EXTRA_OEMAKE = ' -e build VER=0 VER_MJR=1 CCFLAGS="${CXXFLAGS} -DBUILDINFO=\"\\\"\$\$(date)\\\"\"" '
 
-do_install_prepend () {
+do_install_append() {
 
-	cd ${S}/mtce-common/src
+	cd ${S}/
 
 	install -m 755 -d ${D}/${libdir}
 
@@ -94,7 +95,3 @@ do_install_prepend () {
 	install -m 644 -p -D common/tokenUtil.h ${D}/${includedir}/mtce-common
 	install -m 644 -p -D common/secretUtil.h ${D}/${includedir}/mtce-common
 }
-
-# Headers, and static devs go into stx-mtce-dev 
-# and stx-mtce-staticdev packages respecitively
-FILES_mtce-common = " "

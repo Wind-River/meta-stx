@@ -13,24 +13,23 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " pxe-network-installer"
+require metal-common.inc
+
+S = "${S_DIR}/installer/pxe-network-installer/pxe-network-installer"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 DEPENDS += " syslinux"
-RDEPENDS_pxe-network-installer += " \
+
+RDEPENDS_${PN}_append += " \
 		syslinux \
 		bash \
 		"
 
-do_configure_prepend () {
-	:
-} 
+do_compile[noexec] = "1"
 
-do_compile_prepend () {
-	:
-}
-
-do_install_prepend () {
-	cd ${S}/installer/pxe-network-installer/pxe-network-installer
+do_install() {
 	install -d -m 0755 ${D}/pxeboot
 	install -d -m 0755 ${D}/pxeboot/pxelinux.cfg.files
 	install -d -m 0755 ${D}/pxeboot/rel-${STX_REL}
@@ -51,7 +50,9 @@ do_install_prepend () {
 	fi
 
 	install -m 755 pxeboot-update.sh ${D}/${sbindir}/pxeboot-update-${STX_REL}.sh
-	install -m 644 ${S}/bsp-files/kickstarts/post_clone_iso_ks.cfg ${D}/pxeboot/post_clone_iso_ks.cfg
+
+	install -m 644 ${S_DIR}/bsp-files/kickstarts/post_clone_iso_ks.cfg ${D}/pxeboot/post_clone_iso_ks.cfg
+
 	install -m 644 default ${D}/pxeboot/pxelinux.cfg.files/default
 	install -m 644 default.static ${D}/pxeboot/pxelinux.cfg.files/default.static
 	install -m 644 centos-pxe-controller-install ${D}/pxeboot/pxelinux.cfg.files/pxe-controller-install-${STX_REL}
@@ -79,7 +80,8 @@ do_install_prepend () {
 	sed -i "s/xxxSW_VERSIONxxx/${STX_REL}/g" ${D}/pxeboot/pxelinux.cfg.files/pxe-* ${D}/pxeboot/pxelinux.cfg.files/efi-pxe-* 
 	
 	# Copy Titanium grub.cfg. It will be used to create ISO on the Controller.
-	install -m 0644 ${S}/bsp-files/grub.cfg ${D}/pxeboot/EFI/ 
+	install -m 0644 ${S_DIR}/bsp-files/grub.cfg ${D}/pxeboot/EFI/ 
+
 	# UEFI bootloader expect the grub.cfg file to be in /pxeboot/ so create a symlink for it
 	ln -fs pxelinux.cfg/grub.cfg ${D}/pxeboot/grub.cfg
 }
@@ -95,7 +97,7 @@ pkg_postinst_ontarget_pxe-network_installer() {
 	install -m 0644 /usr/share/syslinux/gpxelinux.0 /pxeboot
 }
 
-FILES_pxe-network-installer = " \
+FILES_${PN}_append  = " \
 	/pxeboot \
 	${sbindir}/pxeboot-update-${STX_REL}.sh \
 	"
