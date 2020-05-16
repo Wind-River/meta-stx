@@ -13,28 +13,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " stx-ocf-scripts"
+S = "${S_DIR}/service-mgmt-api/sm-api"
 
-RDEPENDS_stx-ocf-scripts += " \
+require ha-common.inc
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = " \
 	bash \
-	openstack-ras \
+	python-six \
+	chkconfig \
+	mtce-pmon \
 	"
-
-do_configure_append () {
-	:
-}
-
-do_compile_append() {
-	:
-}
-
-do_install_append () {
-	cd ${S}/stx-ocf-scripts/src/ocf
-
-	install -d -m 755 ${D}/usr/lib/ocf/resource.d/openstack
-	install -p -D -m 755 $(find . -type f) ${D}/usr/lib/ocf/resource.d/openstack/ 
-}
-
-FILES_stx-ocf-scripts = " \
-	${libdir}/ocf/resource.d/openstack/ \
-	"
+inherit setuptools

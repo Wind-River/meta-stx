@@ -13,32 +13,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " sm-client"
+S = "${S_DIR}/service-mgmt-client/sm-client"
 
-RDEPENDS_sm-client += " \
+require ha-common.inc
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = " \
+	file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2 \
+	file://${S_DIR}/service-mgmt-client/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	"
+
+RDEPENDS_${PN}_append = " \
 	python \
 	python-six \
 	"
 
-do_configure_append () {
-	cd ${S}/service-mgmt-client/sm-client
-	distutils_do_configure
-} 
-
-do_compile_append() {
-	cd ${S}/service-mgmt-client/sm-client
-	distutils_do_compile
-}
-
-do_install_append () {
-	cd ${S}/service-mgmt-client/sm-client
-	distutils_do_install
-	install -d -m 0755 ${D}/${bindir}
-	install -m 755 usr/bin/smc ${D}/${bindir}
-}
-
-FILES_sm-client = " \
-	${bindir}/smc \
-	${libdir}/python2.7/site-packages/sm_client*.egg-info/ \
-	${libdir}/python2.7/site-packages/sm_client/ \
-	"
+inherit setuptools
