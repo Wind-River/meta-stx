@@ -13,23 +13,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " enable-dev-patch"
+require update-common.inc
 
-do_configure_prepend () {
-	:
-} 
+S = "${S_DIR}/enable-dev-patch"
 
-do_compile_prepend () {
-	:
-}
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://${S_DIR}/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-do_install_prepend () {
-	cd ${S}/enable-dev-patch/
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install () {
 	install -m 755 -d ${D}/${sysconfdir}/pki/wrs
 	install -m 444 enable-dev-patch/dev_certificate_enable.bin ${D}/${sysconfdir}/pki/wrs
-
 }
-
-FILES_enable-dev-patch = " \
-	${sysconfdir}/pki/wrs/dev_certificate_enable.bin \
-	"

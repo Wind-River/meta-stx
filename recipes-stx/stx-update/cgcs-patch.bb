@@ -13,41 +13,43 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " cgcs-patch"
-PACKAGES += " cgcs-patch-agent"
-PACKAGES += " cgcs-patch-controller"
+PACKAGES += " ${PN}-agent"
+PACKAGES += " ${PN}-controller"
 
-inherit setuptools
+require update-common.inc
 
-RDEPENDS_cgcs-patch_append = " \
+S = "${S_DIR}/cgcs-patch/cgcs-patch"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+
+RDEPENDS_${PN}_append = " \
 	bash \
 	"
-RDEPENDS_cgcs-patch-agent_append = " \
+RDEPENDS_${PN}-agent_append = " \
 	bash \
 	python \
 	"
 
-RDEPENDS_cgcs-patch-controller_append = " \
+RDEPENDS_${PN}-controller_append = " \
 	bash \
 	python-requests-toolbelt \
 	createrepo-c \
 	"
 
-do_configure_append () {
-	cd ${S}/cgcs-patch/cgcs-patch
-	distutils_do_configure
-} 
-
-do_compile_append () {
-	cd ${S}/cgcs-patch/cgcs-patch
-	distutils_do_compile
-}
+inherit setuptools systemd
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+SYSTEMD_PACKAGES += " ${PN}-controller"
+SYSTEMD_SERVICE_${PN}-controller = "sw-patch-controller.service sw-patch-controller-daemon.service "
+SYSTEMD_PACKAGES += " ${PN}-agent"
+SYSTEMD_SERVICE_${PN}-agent = " sw-patch-agent.service"
+SYSTEMD_PACKAGES += " ${PN}"
+SYSTEMD_SERVICE_${PN} = "sw-patch.service"
 
 do_install_append () {
-	cd ${S}/cgcs-patch/cgcs-patch
-	distutils_do_install
 
-	cd ${S}/cgcs-patch/bin
+	cd ${S_DIR}/cgcs-patch/bin
 
 	install -m 755 -d ${D}/${sbindir}
 	install -m 755 -d ${D}/${sysconfdir}/bash_completion.d
@@ -96,7 +98,7 @@ do_install_append () {
 
 }
 
-FILES_cgcs-patch = " \
+FILES_${PN} = " \
 	${libdir}/python2.7/site-packages/cgcs_patch \
 	${libdir}/python2.7/site-packages/cgcs_patch-1.0-py2.7.egg-info \
 	${libdir}/python2.7/site-packages/cgcs_make_patch \
@@ -113,7 +115,7 @@ FILES_cgcs-patch = " \
 	${sysconfdir}/patching/patch-functions \
 "
 
-FILES_cgcs-patch-agent = " \
+FILES_${PN}-agent = " \
 	${sbindir}/sw-patch-agent \
 	${sbindir}/sw-patch-agent-restart \
 	${sysconfdir}/pmon.d/sw-patch-agent.conf \
@@ -123,7 +125,7 @@ FILES_cgcs-patch-agent = " \
 	${sysconfdir}/bash_completion.d/sw-patch \
 	"
 
-FILES_cgcs-patch-controller = " \
+FILES_${PN}-controller = " \
 	${sbindir}/sw-patch-controller-daemon-restart \
 	${sysconfdir}/init.d/sw-patch-controller-daemon \
 	${sbindir}/sw-patch-controller-daemon \

@@ -13,34 +13,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " tsconfig"
+DESCRIPTION = "stx-update"
 
-inherit setuptools
-
-RDEPENDS_tsconfig_append = " bash"
-
-do_configure_prepend () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_configure
-} 
-
-do_compile_prepend () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_compile
-}
-
-do_install_prepend () {
-	cd ${S}/tsconfig/tsconfig
-	distutils_do_install
+PROTOCOL = "https"
+BRANCH = "r/stx.3.0"
+SRCREV = "2542c5539bab060830009d02cbb257cc8bf4a376"
+S_DIR = "${WORKDIR}/git"
+PV = "1.0.0"
 
 
-	install -m 755 -d ${D}/${bindir}
-	install -m 500 scripts/tsconfig ${D}/${bindir}/
+SRC_URI = "git://opendev.org/starlingx/update.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH}"
 
-}
-
-FILES_tsconfig = " \
-	${libdir}/python2.7/site-packages/tsconfig \
-	${libdir}/python2.7/site-packages/tsconfig*.egg-info \
-	${bindir}/tsconfig \
+DEPENDS = " \
+	python \
+	python-pbr-native \
 	"

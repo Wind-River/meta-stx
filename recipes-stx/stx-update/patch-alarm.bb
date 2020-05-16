@@ -13,45 +13,31 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " patch-alarm"
-DESCRIPTION_patch-alarm = "TIS Platform Patching"
-SUMMARY_patch-alarm = "Patch alarm management"
+DESCRIPTION = "TIS Platform Patching"
+SUMMARY = "Patch alarm management"
+
+require update-common.inc
+
+S = "${S_DIR}/patch-alarm/patch-alarm"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append = " \
+	bash \
+	python \
+	python-requests-toolbelt \
+	"
 
 inherit setuptools
 
-RDEPENDS_patch-alarm_append = " \
-	bash \
-	python \
-	"
-
-do_configure_append () {
-	cd ${S}/patch-alarm/patch-alarm
-	distutils_do_configure
-} 
-
-do_compile_append () {
-	cd ${S}/patch-alarm/patch-alarm
-	distutils_do_compile
-}
-
 do_install_append () {
-	cd ${S}/patch-alarm/patch-alarm
-	distutils_do_install
 
-	cd ${S}/patch-alarm/
+	cd ${S_DIR}/patch-alarm/
 
 	install -m 755 -d ${D}/${bindir}
 	install -m 755 -d ${D}/${sysconfdir}/init.d
 
 	install -m 700 scripts/bin/patch-alarm-manager ${D}/${bindir}/
 	install -m 700 scripts/bin/patch-alarm-manager ${D}/${sysconfdir}/init.d/
-	
-
 }
-
-FILES_patch-alarm = " \
-	${libdir}/python2.7/site-packages/patch_alarm \
-	${libdir}/python2.7/site-packages/patch_alarm*.egg-info \
-	${bindir}/patch-alarm-manager \
-	${sysconfdir}/init.d/patch-alarm-manager \
-	"
