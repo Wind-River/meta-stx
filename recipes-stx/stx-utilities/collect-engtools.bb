@@ -13,7 +13,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " collect-engtools"
+DESCRIPTION = " \
+This package contains data collection tools to monitor host performance. \
+Tools are general purpose engineering and debugging related. Includes \
+overall memory, cpu occupancy, per-task cpu, per-task scheduling, per-task \
+io. \
+"
+SUMMARY = "Host performance data collection tools package"
+
+require utilities-common.inc
+S = "${S_DIR}/tools/engtools/hostdata-collectors/scripts"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 RDEPENDS_collect-engtools += " \
 	iperf3 \
@@ -22,24 +34,15 @@ RDEPENDS_collect-engtools += " \
 	python \
 	"
 
-SUMMARY_collect-engtools= "Host performance data collection tools package"
-DESCRIPTION_collect-engtools= " \
-This package contains data collection tools to monitor host performance. \
-Tools are general purpose engineering and debugging related. Includes \
-overall memory, cpu occupancy, per-task cpu, per-task scheduling, per-task \
-io. \
-"
+inherit systemd
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN} = " ${PN}.service"
 
-
-do_configure_append() {
-	:
-}
-do_compile_append() {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install_append() {
-	cd ${S}/tools/engtools/hostdata-collectors/scripts
 
 	install -d -m0755 ${D}/${bindir}
 	install -m 755 buddyinfo.py ${D}/${bindir}
@@ -75,32 +78,3 @@ do_install_append() {
 	install -m0644 -p -D collect-engtools.service ${D}/${systemd_system_unitdir}
 
 }
-
-FILES_collect-engtools = "  \
-	${bindir}/buddyinfo.py \
-	${bindir}/chewmem \
-	${bindir}/ceph.sh \
-	${bindir}/cleanup-engtools.sh \
-	${bindir}/collect-engtools.sh \
-	${bindir}/diskstats.sh \
-	${bindir}/engtools_util.sh \
-	${bindir}/filestats.sh \
-	${bindir}/iostat.sh \
-	${bindir}/linux_benchmark.sh \
-	${bindir}/memstats.sh \
-	${bindir}/netstats.sh \
-	${bindir}/postgres.sh \
-	${bindir}/rabbitmq.sh \
-	${bindir}/rbzip2-engtools.sh \
-	${bindir}/rstart-engtools.sh \
-	${bindir}/rstop-engtools.sh \
-	${bindir}/rsync-engtools-data.sh \
-	${bindir}/slab.sh \
-	${bindir}/ticker.sh \
-	${bindir}/top.sh \
-	${bindir}/vswitch.sh \
-	${bindir}/live_stream.py \
-	${sysconfdir}/engtools/engtools.conf \
-	${sysconfdir}/init.d/collect-engtools.sh \
-	${systemd_system_unitdir}/collect-engtools.service \
-	"

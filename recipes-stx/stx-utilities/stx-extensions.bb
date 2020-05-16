@@ -13,24 +13,22 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " stx-extensions"
+DESCRIPTION  = "TIS Extensions to thirdparty pkgs"
+SUMMARY  = "TIS Extensions to thirdparty pkgs"
 
-RDEPENDS_stx-extensions  += " systemd"
-DESCRIPTION_stx-extensions  = "TIS Extensions to thirdparty pkgs"
-SUMMARY_stx-extensions  = "TIS Extensions to thirdparty pkgs"
+require utilities-common.inc
 
-inherit setuptools distutils
+S = "${S_DIR}/utilities/stx-extensions/files"
 
-do_configure_append() {
-	:
-}
-do_compile_append() {
-	:
-}
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-do_install_append() {
-	cd ${S}/utilities/stx-extensions/files
+RDEPENDS_${PN}  += " systemd"
 
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
 
 	install -p -d -m0755 ${D}/${sysconfdir}/sysctl.d
 	install -m0755 coredump-sysctl.conf ${D}/${sysconfdir}/sysctl.d/50-coredump.conf
@@ -42,9 +40,3 @@ do_install_append() {
 	install -m0644 modules-load-vfio.conf ${D}/${sysconfdir}/modules-load.d/vfio.conf
 
 }
-
-FILES_stx-extensions = "  \
-	${sysconfdir}/sysctl.d/50-coredump.conf \
-	${sysconfdir}/systemd/coredump.conf.d/coredump.conf \
-	${sysconfdir}/modules-load.d/vfio.conf \
-	"

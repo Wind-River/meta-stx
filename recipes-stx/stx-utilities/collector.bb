@@ -13,24 +13,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " collector"
 
-RDEPENDS_collector += " bash"
-DESCRIPTION_collector= " \
+DESCRIPTION = " \
 This packages scripts that implement data and log collection that field \
 support can execute to gather current state and runtime history for off \
 platform analysis and debug. \
 "
 
-do_configure_append() {
-	:
-}
-do_compile_append() {
-	:
-}
+require utilities-common.inc
+S = "${S_DIR}/tools/collector/scripts"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-do_install_append() {
-	cd ${S}/tools/collector/scripts
+RDEPENDS_${PN}_append += " bash"
+
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
 
 	install -m0755 -d ${D}/${sysconfdir}/collect.d
 	install -m0755 -d ${D}/${sysconfdir}/collect
@@ -67,31 +67,3 @@ do_install_append() {
 
 	ln -sf ${sbindir}/collect ${D}/${bindir}/collect
 }
-
-FILES_collector = "  \
-	${sbindir}/collect \
-	${sbindir}/collect_host \
-	${sbindir}/collect_date \
-	${sbindir}/collect_utils \
-	${sbindir}/collect_parms \
-	${sbindir}/collect_mask_passwords \
-	${sbindir}/expect_done \
-	${sysconfdir}/collect.d/collect_sysinv \
-	${sysconfdir}/collect.d/collect_psqldb \
-	${sysconfdir}/collect.d/collect_openstack \
-	${sysconfdir}/collect.d/collect_networking \
-	${sysconfdir}/collect.d/collect_ceph \
-	${sysconfdir}/collect.d/collect_sm \
-	${sysconfdir}/collect.d/collect_tc \
-	${sysconfdir}/collect.d/collect_nfv_vim \
-	${sysconfdir}/collect.d/collect_ovs \
-	${sysconfdir}/collect.d/collect_patching \
-	${sysconfdir}/collect.d/collect_coredump \
-	${sysconfdir}/collect.d/collect_crash \
-	${sysconfdir}/collect.d/collect_ima \
-	${sysconfdir}/collect.d/collect_fm \
-	${sysconfdir}/collect.d/collect_containerization \
-	${sysconfdir}/collect/etc.exclude \
-	${sysconfdir}/collect/run.exclude \
-	${bindir}/collect \
-	"

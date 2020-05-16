@@ -13,28 +13,26 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " platform-util"
+DESCRIPTION  = "platform-util"
+SUMMARY  = "StarlingX Platform utilities installed only on controllers"
 
-RDEPENDS_platform-util  += " bash"
-DESCRIPTION_platform-util  = "platform-util"
-SUMMARY_platform-util  = "StarlingX Platform utilities installed only on controllers"
+require utilities-common.inc
 
-inherit setuptools distutils
+S = "${S_DIR}/utilities/platform-util/platform-util"
 
-do_configure_append() {
-	cd ${S}/utilities/platform-util/platform-util
-	distutils_do_configure
-}
-do_compile_append() {
-	cd ${S}/utilities/platform-util/platform-util
-	distutils_do_configure
-}
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append  = " bash"
+
+inherit setuptools systemd
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+SYSTEMD_PACKAGES += " ${PN}"
+SYSTEMD_SERVICE_${PN} = "opt-platform.service"
 
 do_install_append() {
-	cd ${S}/utilities/platform-util/platform-util
-	distutils_do_install
 
-	cd ${S}/utilities/platform-util/scripts
+	cd ${S_DIR}/utilities/platform-util/scripts
 
 	install -d -m0755 ${D}/${bindir}
 	install -m0755 tc_setup.sh ${D}/${bindir}/tc_setup.sh
@@ -59,18 +57,4 @@ do_install_append() {
 
 }
 
-FILES_platform-util = "  \
-	${bindir}/tc_setup.sh \
-	${bindir}/verify-license \
-	${bindir}/remotelogging_tc_setup.sh \
-	${bindir}/connectivity_test \
-	${bindir}/update-iso.sh \
-	${sysconfdir}/init.d/log_functions.sh \
-	${sbindir}/patch-restart-mtce \
-	${sbindir}/patch-restart-processes \
-	${sbindir}/patch-restart-haproxy \
-	${systemd_system_unitdir}/opt-platform.mount \
-	${systemd_system_unitdir}/opt-platform.service \
-	${PYTHON_SITEPACKAGES_DIR}/platform_util/ \
-	${PYTHON_SITEPACKAGES_DIR}/platform_util-${PV}-py${PYTHON_BASEVERSION}.egg-info/ \
-	"
+FILES_${PN}_append  = " ${systemd_system_unitdir}/opt-platform.mount" 

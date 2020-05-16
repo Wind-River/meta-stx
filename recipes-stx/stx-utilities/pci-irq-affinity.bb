@@ -13,28 +13,26 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " pci-irq-affinity"
+DESCRIPTION  = "StarlingX PCI Interrupt Affinity Agent Package"
+SUMMARY  = "StarlingX PCI Interrupt Affinity Agent Package"
 
-RDEPENDS_pci-irq-affinity  += " python-novaclient"
-DESCRIPTION_pci-irq-affinity  = "StarlingX PCI Interrupt Affinity Agent Package"
-SUMMARY_pci-irq-affinity  = "StarlingX PCI Interrupt Affinity Agent Package"
+require utilities-common.inc
 
-inherit setuptools distutils
+S = "${S_DIR}/utilities/pci-irq-affinity-agent/pci_irq_affinity"
 
-do_configure_append() {
-	cd ${S}/utilities/pci-irq-affinity-agent/pci_irq_affinity
-	distutils_do_configure
-}
-do_compile_append() {
-	cd ${S}/utilities/pci-irq-affinity-agent/pci_irq_affinity
-	distutils_do_compile
-}
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://setup.py;md5=6980f60051ba4d376975eefc777fb8ae"
+
+RDEPENDS_${PN}_append = " python-novaclient"
+
+inherit setuptools systemd
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN} = "${PN}-agent.service"
 
 do_install_append() {
-	cd ${S}/utilities/pci-irq-affinity-agent/pci_irq_affinity
-	distutils_do_install
 
-	cd ${S}/utilities/pci-irq-affinity-agent/files
+	cd ${S_DIR}/utilities/pci-irq-affinity-agent/files
 
 	install -p -d -m0755 ${D}/${sysconfdir}/init.d
 	install -p -d -m0755 ${D}/${sysconfdir}/pmon.d
@@ -48,13 +46,3 @@ do_install_append() {
 	install -m0755 nova-sriov ${D}/${bindir}/nova-sriov
 	install -m0755 config.ini ${D}/${sysconfdir}/pci_irq_affinity/config.ini
 }
-
-FILES_pci-irq-affinity = "  \
-	${bindir}/pci-irq-affinity-agent \
-	${sysconfdir}/pci_irq_affinity/config.ini \
-	${bindir}/nova-sriov \
-	${sysconfdir}/init.d/pci-irq-affinity-agent \
-	${systemd_system_unitdir}/pci-irq-affinity-agent.service \
-	${PYTHON_SITEPACKAGES_DIR}/pci_irq_affinity/ \
-	${PYTHON_SITEPACKAGES_DIR}/pci_irq_affinity_agent-${PV}-py${PYTHON_BASEVERSION}.egg-info/ \
-	"

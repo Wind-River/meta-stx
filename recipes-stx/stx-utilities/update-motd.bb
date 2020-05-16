@@ -13,24 +13,23 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " update-motd"
+DESCRIPTION  = "dynamic MOTD generation"
+SUMMARY  = "dynamic MOTD generation"
+
+require utilities-common.inc
+
+S = "${S_DIR}/utilities/update-motd/files"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 RDEPENDS_update-motd  += " cronie bash"
-DESCRIPTION_update-motd  = "dynamic MOTD generation"
-SUMMARY_update-motd  = "dynamic MOTD generation"
 
-inherit setuptools distutils
 
-do_configure_append() {
-	:
-}
-do_compile_append() {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
-do_install_append() {
-	cd ${S}/utilities/update-motd/files
-
+do_install() {
 
 	install -d ${D}/${sbindir}
 	install -m 700 motd-update ${D}/${sbindir}/motd-update
@@ -49,14 +48,3 @@ do_install_append() {
 	install -m 700 install_banner_customization ${D}/${sbindir}/install_banner_customization
 
 }
-
-FILES_update-motd = "  \
-	${sbindir}/motd-update \
-	${sysconfdir}/motd.d/00-header \
-	${sysconfdir}/motd.d/99-footer \
-	${sysconfdir}/motd.d/motd.head \
-	${sysconfdir}/cron.d/motd-update \
-	${sbindir}/customize-banner \
-	${sbindir}/apply_banner_customization \
-	${sbindir}/install_banner_customization \
-	"

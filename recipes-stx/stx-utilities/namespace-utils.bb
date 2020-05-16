@@ -13,24 +13,27 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " build-info"
+DESCRIPTION = "Titanium Cloud namespace utilities"
+SUMMARY = "namespace utils"
 
-DESCRIPTION_build-info  = "Build Info"
-SUMMARY_update-motd  = "Build Info"
+require utilities-common.inc
 
-SRC_URI += "file://build.info"
+S = "${S_DIR}/utilities/namespace-utils/namespace-utils"
 
-do_install_append() {
-	install -d ${D}/${sysconfdir}
-	install -m 644 ${WORKDIR}/build.info ${D}/${sysconfdir}
-	sed -i -e "s/@OS@/${DISTRO}/" \
-	       -e "s/@STX_RELEASE@/${STX_REL}/" \
-	       -e "s/@STX_ID@/${STX_ID}/" \
-	       -e "s/@BUILD_DATE@/${STX_BUILD_DATE}/" \
-	       ${D}/${sysconfdir}/build.info
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
+RDEPENDS_${PN}_append = " bash"
+
+do_configure[noexec] = "1"
+
+do_compile() {
+	$CC ${LDFLAGS} ${CFLAGS} -o bashns bashns.c
 }
 
-do_install[vardepsexclude] += "STX_BUILD_DATE"
+do_install() {
 
-FILES_build-info = "${sysconfdir}/build.info"
+	install -d -m0755 ${D}/${sbindir}
+	install -m0500 bashns ${D}/${sbindir}
+	install -m0500 umount-in-namespace  ${D}/${sbindir}
+}
