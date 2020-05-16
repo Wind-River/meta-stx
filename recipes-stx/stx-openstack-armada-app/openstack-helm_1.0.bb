@@ -53,9 +53,7 @@ do_patch () {
 	git am ${patch_folder}/0006-Add-Placement-Chart.patch
 }
 
-do_configure () {
-	:
-}
+do_configure[noexec] = "1"
 
 do_compile () {
 	# initialize helm and build the toolkit
