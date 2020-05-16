@@ -13,9 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " collectd-extensions"
+require monitoring-common.inc
 
-RDEPENDS_collectd-extensions += " \
+S = "${S_DIR}/collectd-extensions/src"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN}_append += " \
 	systemd \
 	collectd \
 	fm-api \
@@ -25,13 +30,6 @@ RDEPENDS_collectd-extensions += " \
 	tsconfig \
 	"
 
-do_configure_append () {
-	:
-} 
-
-do_compile_append() {
-	:
-}
 
 local_unit_dir = "${sysconfdir}/systemd/system"
 local_plugin_dir = "${sysconfdir}/collectd.d"
@@ -41,7 +39,6 @@ local_config_extensions_dir = "/opt/collectd/extensions/config"
 
 do_install_append() {
 
-	cd ${S}/collectd-extensions/src
 	install -m 755 -d ${D}/${sysconfdir}
 	install -m 755 -d ${D}/${local_unit_dir}
 	install -m 755 -d ${D}/${local_plugin_dir}
@@ -81,7 +78,11 @@ do_install_append() {
 
 }
 
-FILES_collectd-extensions = " \
+FILES_${PN}_append = " \
+	${local_python_extensions_dir} \
+	${local_config_extensions_dir} \
+	"
+_FILES_collectd-extensions = " \
 	${local_unit_dir}/collectd.service \
 	${local_config_extensions_dir}/collectd.conf.pmon \
 	${local_python_extensions_dir}/fm_notifier.py \
@@ -105,3 +106,6 @@ FILES_collectd-extensions = " \
 	${local_plugin_dir}/ptp.conf \
 	${local_plugin_dir}/ovs_interface.conf \
 	"
+
+#SYSTEMD_PACKAGES += "${PN}"
+#SYSTEMD_SERVICE_${PN}= "collectd.service"

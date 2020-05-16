@@ -13,37 +13,31 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-PACKAGES += " vm-topology"
+require monitoring-common.inc
 
-RDEPENDS_vm-topology += " \
-	python \
-	libvirt \
-	python-keyring \
+S = "${S_DIR}/influxdb-extensions/src"
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
+RDEPENDS_${PN} += " \
+	systemd \
+	python-influxdb \
 	"
 
-DEPENDS += " \
-	python-keyring \
-	libvirt \
-	"
 
-inherit setuptools distutils python-dir
-
-do_configure_append () {
-	cd ${S}/vm-topology/vm-topology
-	distutils_do_configure
-} 
-
-do_compile_append() {
-	cd ${S}/vm-topology/vm-topology
-	distutils_do_compile
-}
+local_unit_dir = "${sysconfdir}/systemd/system"
 
 do_install_append() {
-	cd ${S}/vm-topology/vm-topology
-	distutils_do_install
+
+	install -m 755 -d ${D}/${sysconfdir}
+	install -m 755 -d ${D}/${local_unit_dir}
+	install -m 755 -d ${D}/${sysconfdir}/influxdb
+
+	# support files ; service and pmon conf
+	install -m 644 influxdb.service  ${D}/${local_unit_dir}
+	install -m 600 influxdb.conf.pmon  ${D}/${sysconfdir}/influxdb
 }
 
-FILES_vm-topology  = " \
-	${bindir}/vm-topology \
-	${PYTHON_SITEPACKAGES_DIR}/ \
-	"
+#SYSTEMD_PACKAGES += "${PN}"
+#SYSTEMD_SERVICE_${PN} = "influxdb.service"
