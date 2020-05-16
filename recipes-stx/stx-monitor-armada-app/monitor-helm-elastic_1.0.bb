@@ -51,9 +51,7 @@ do_patch () {
 	git am ${patch_folder}/0005-set-initial-masters-to-master-0.patch
 }
 
-do_configure () {
-	:
-}
+do_configure[noexec] = "1"
 
 do_compile () {
 	# initialize helm and build the toolkit

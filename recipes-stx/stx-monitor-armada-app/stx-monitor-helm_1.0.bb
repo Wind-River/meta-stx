@@ -38,13 +38,8 @@ helm_folder = "${nonarch_libdir}/helm"
 armada_folder = "${nonarch_libdir}/armada"
 app_folder = "${nonarch_libdir}/application"
 
-do_configure () {
-	:
-}
-
-do_compile () {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install () {
 	install -d -m 755 ${D}${armada_folder}
