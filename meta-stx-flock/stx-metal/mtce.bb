@@ -13,6 +13,7 @@ SRC_URI += " \
 	file://0001-mtce-Use-LDFLAGS-when-linking.patch \
 	file://0002-mtce-Adjust-paths.patch \
 	file://mtce-set-systemctl-path.patch \
+	file://pmon_send_pulse.patch;striplevel=3 \
 	"
 
 PACKAGES += " ${PN}-pmon"
