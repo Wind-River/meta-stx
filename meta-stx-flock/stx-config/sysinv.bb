@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 SRC_URI += "file://0001-stx-config-remove-argparse-requirement-from-sysinv.patch \
 	file://0002-cgts-client-handle-exceptions-other-than-CalledProcessErr.patch;striplevel=4 \
+	file://sriovph-bring-up.patch;striplevel=4 \
 	"
 
 RDEPENDS_${PN}_append = " python bash"
