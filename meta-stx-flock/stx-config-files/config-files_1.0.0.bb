@@ -9,8 +9,6 @@ S = "${WORKDIR}/git"
 PV = "1.0.0"
 
 
-# TODO:
-
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "\
 	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
@@ -640,15 +638,6 @@ pkg_postinst_syslog-ng-config() {
 	if [ -z "$D" ]; then
 		systemctl --no-block restart syslog-ng.service
 	fi
-
-# TODO
-#preun:
-#	%systemd_preun syslog-ng.service 
-#postun:
-#	ldconfig
-#	%systemd_postun_with_restart syslog-ng.service 
-#	systemctl daemon-reload 2>&1 || :
-#	systemctl try-restart 
 }
 
 pkg_postinst_ontarget_systemd-config() {
