@@ -78,6 +78,8 @@ EXTRA_OEMAKE = ' -e VER=1 VER_MJR=1 INCLUDES=" -I. -I../alarm -I../heartbeat -I.
 
 
 
+MAJOR = "${@d.getVar('PV').split('.')[0]}"
+MINOR = "${@d.getVar('PV').split('.')[1]}"
 do_install() {
 
 	cd ${S}/
@@ -210,8 +212,8 @@ do_install() {
 	# software development files
 	install -m 644 -p -D heartbeat/mtceHbsCluster.h ${D}/${includedir}/mtceHbsCluster.h
 	install -m 755 -p -D public/libamon.so.1 ${D}/${libdir}/
-	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so.$MAJOR.$MINOR
-	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so
+	cd ${D}/${libdir} ; ln -s libamon.so.$MAJOR libamon.so.$MAJOR.$MINOR
+	cd ${D}/${libdir} ; ln -s libamon.so.$MAJOR libamon.so
 }
 
 FILES_${PN}-pmon = " \
@@ -263,7 +265,7 @@ FILES_${PN} = " \
         ${sbindir}/fsync \
         ${sbindir}/dmemchk.sh \
         ${libdir}/ocf/resource.d/platform/mtcAgent \
-        ${libdir}/libamon.so.1 \
+        ${libdir}/libamon${SOLIBS} \
         ${systemd_system_unitdir}/mtcalarm.service \
         ${systemd_system_unitdir}/goenabled.service \
         ${systemd_system_unitdir}/mtclog.service \
