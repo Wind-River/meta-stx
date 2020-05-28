@@ -109,11 +109,6 @@ DEPENDS += " \
         python-pip \
         python-pbr-native \
         "
-# Stx config files
-DEPENDS += " \
-	openstack-barbican-api \
-	"
-
 
 RDEPENDS_${SRCNAME} = "${PN} \
                        ${SRCNAME}-setup \
