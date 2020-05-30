@@ -38,6 +38,7 @@ IMAGE_FEATURES += " \
 	ssh-server-openssh \
 	"
 
+inherit stx-image-list
 inherit stx-postrun
 inherit extrausers-config
 inherit core-image
