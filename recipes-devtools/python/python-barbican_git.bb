@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 DESCRIPTION = "Barbican is a ReST API designed for the secure storage, provisioning and management of secrets."
 HOMEPAGE = "https://wiki.openstack.org/wiki/Barbican"
 SECTION = "devel/python"
@@ -73,6 +88,9 @@ do_install_append() {
 
     sed -e "s:%BARBICAN_CONF_DIR%:${sysconfdir}/${SRCNAME}:g" \
         -i ${D}/${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/tests/api/test_resources_policy.py
+
+    install -m 0755 -d ${D}/${sysconfdir}/tmpfiles.d
+    echo "d ${localstatedir}/log/barbican 0750 barbican barbican -" >> ${D}/${sysconfdir}/tmpfiles.d/barbican.conf
 }
 
 USERADD_PACKAGES = "${PN}"
@@ -91,6 +109,7 @@ FILES_${SRCNAME} = "${sysconfdir}/${SRCNAME}/* \
 	            ${bindir}/* \
                     ${localstatedir}/* \
                     ${systemd_system_unitdir} \
+                    ${sysconfdir}/tmpfiles.d/barbican.conf \
 "
 
 ALLOW_EMPTY_${SRCNAME}-setup = "1"
@@ -105,11 +124,6 @@ DEPENDS += " \
         python-pip \
         python-pbr-native \
         "
-# Stx config files
-DEPENDS += " \
-	openstack-barbican-api \
-	"
-
 
 RDEPENDS_${SRCNAME} = "${PN} \
                        ${SRCNAME}-setup \
@@ -131,7 +145,6 @@ RDEPENDS_${PN} += " \
         python-pastedeploy \
         python-paste \
         python-pycrypto \
-        python-pysqlite \
         python-keystoneclient \
         python-sqlalchemy \
         python-stevedore \

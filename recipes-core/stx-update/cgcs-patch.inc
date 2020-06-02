@@ -1,8 +1,23 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 PACKAGES += " cgcs-patch"
 PACKAGES += " cgcs-patch-agent"
 PACKAGES += " cgcs-patch-controller"
 
-inherit setuptools
+inherit setuptools systemd
 
 RDEPENDS_cgcs-patch_append = " \
 	bash \
@@ -74,6 +89,9 @@ do_install_append () {
 	install -m 500 sw-patch-agent-restart ${D}/${sbindir}/sw-patch-agent-restart 
 	install -m 500 sw-patch-init.sh ${D}/${sysconfdir}/init.d/sw-patch
 	install -m 500 sw-patch-controller-init.sh ${D}/${sysconfdir}/init.d/sw-patch-controller 
+
+	sed -i -e 's/createrepo/createrepo_c/' ${D}/${sysconfdir}/init.d/sw-patch-controller
+
 	install -m 555 patch_check_goenabled.sh ${D}/${sysconfdir}/goenabled.d/patch_check_goenabled.sh 
 	install -m 444 patching.logrotate ${D}/${sysconfdir}/logrotate.d/patching 
 	
@@ -119,3 +137,18 @@ FILES_cgcs-patch-controller = " \
 	${sysconfdir}/init.d/sw-patch-controller \
 	${systemd_system_unitdir}/sw-patch-controller.service \
 	"
+
+SYSTEMD_PACKAGES += "cgcs-patch"
+SYSTEMD_SERVICE_cgcs-patch = "sw-patch.service"
+SYSTEMD_AUTO_ENABLE_cgcs-patch = "enable"
+
+SYSTEMD_PACKAGES += "cgcs-patch-agent"
+SYSTEMD_SERVICE_cgcs-patch-agent = "sw-patch-agent.service"
+SYSTEMD_AUTO_ENABLE_cgcs-patch-agent = "enable"
+
+SYSTEMD_PACKAGES += "cgcs-patch-controller"
+SYSTEMD_SERVICE_cgcs-patch-controller = " \
+	sw-patch-controller.service \
+	sw-patch-controller-daemon.service \
+	"
+SYSTEMD_AUTO_ENABLE_cgcs-patch-controller = "enable"

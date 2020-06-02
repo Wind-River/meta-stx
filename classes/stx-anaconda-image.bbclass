@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 RPM_POSTPROCESS_COMMANDS_append = "wrl_installer;"
 do_rootfs[vardeps] += "INSTALLER_TARGET_BUILD INSTALLER_TARGET_IMAGE"
 
@@ -14,7 +29,12 @@ INSTALLER_CONFDIR = "${IMAGE_ROOTFS}/installer-config"
 KICKSTART_FILE ??= ""
 KICKSTART_FILE_EXTRA ??= ""
 WRL_INSTALLER_CONF ?= ""
-REPO_EXCLUDE_PKG ?= ""
+
+# Extra packages that will be added in the rpm repo in anaconda installer ISO image
+REPO_EXTRA_PKG = "\
+    xfsprogs-* \
+    glibc-binary-localedata-* \
+"
 
 build_iso_prepend() {
 	install -d ${ISODIR}
@@ -59,6 +79,17 @@ wrl_installer_hardlinktree() {
 
 wrl_installer_copy_local_repos() {
     deploy_dir_rpm=$1
+    target_build="$2"
+    target_image="$3"
+
+    target_image_input_pkglist=$(sed -n 's/^IMAGE_LIST="\(.*\)"/\1/p' ${target_build}/installersupport_${target_image})
+    if [ ! -f ${target_image_input_pkglist} ]; then
+        bberror "The target image pkglist '${target_image_input_pkglist}' doesn't exist!"
+    fi
+
+    target_image_output_pkglist="${IMGDEPLOYDIR}/${IMAGE_NAME}.${target_image}.pkglist"
+    target_image_output_pkglist_link="${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${target_image}.pkglist"
+
 
     if [ -d "$deploy_dir_rpm" ]; then
         echo "Copy rpms from target build to installer image."
@@ -79,13 +110,39 @@ wrl_installer_copy_local_repos() {
             if [ -d "$deploy_dir_rpm/"$arch -a ! -d "${IMAGE_ROOTFS}/Packages.$prj_name/"$arch ]; then
                 channel_priority=$(expr $channel_priority - 5)
                 echo "$channel_priority $arch" >> ${IMAGE_ROOTFS}/Packages.$prj_name/.feedpriority
-                wrl_installer_hardlinktree "$deploy_dir_rpm/"$arch "${IMAGE_ROOTFS}/Packages.$prj_name/."
             fi
         done
 
-        for pkg in ${REPO_EXCLUDE_PKG}; do
-            rm -rf ${IMAGE_ROOTFS}/Packages.$prj_name/${pkg}
+        cd ${deploy_dir_rpm}
+        set -x
+        # Add the packages in target image pkglist
+        cat ${target_image_input_pkglist} > ${target_image_output_pkglist}.tmp
+
+        # Add the extra packages required by anaconda
+        for pkgs in ${REPO_EXTRA_PKG}; do
+            pkg_files=$(find . -type f -name ${pkgs})
+            if [ -z "${pkg_files}" ]; then
+                bbwarn "Package ${pkgs} not found, please check if there is anything wrong or just remove it from the list."
+            else
+                for pkg_file in ${pkg_files}; do
+                    basename ${pkg_file} >> ${target_image_output_pkglist}.tmp
+                done
+            fi
         done
+
+        cat ${target_image_output_pkglist}.tmp|sort|uniq > ${target_image_output_pkglist}
+        ln -s ${IMAGE_NAME}.${target_image}.pkglist ${target_image_output_pkglist_link}
+        rm -f ${target_image_output_pkglist}.tmp
+
+        for pkg in $(cat ${target_image_output_pkglist}); do
+            pkg_file=$(find . -type f -name ${pkg})
+            if [ -z "${pkg_file}" ]; then
+                bbwarn "Package ${pkg} not found, please check if there is anything wrong or just remove it from the list."
+            else
+                cp --parents -vf ${pkg_file} ${IMAGE_ROOTFS}/Packages.$prj_name/
+            fi
+        done
+        cd -
 
         createrepo_c --update -q ${IMAGE_ROOTFS}/Packages.$prj_name/
     fi
@@ -175,7 +232,7 @@ _EOF
         # Copy local repos while the image is not initramfs
         bpn=${BPN}
         if [ "${bpn##*initramfs}" = "${bpn%%initramfs*}" ]; then
-            wrl_installer_copy_local_repos $WORKDIR/oe-rootfs-repo/rpm
+            wrl_installer_copy_local_repos $WORKDIR/oe-rootfs-repo/rpm $target_build $target_image
         fi
         echo "$DISTRO::$prj_name::$DISTRO_NAME::$DISTRO_VERSION" >> ${IMAGE_ROOTFS}/.target_build_list
     fi

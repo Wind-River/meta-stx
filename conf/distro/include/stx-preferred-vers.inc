@@ -1,3 +1,20 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+PREFERRED_VERSION_ceph = "13.2.2"
+PREFERRED_VERSION_dnsmasq = "2.76"
 PREFERRED_VERSION_keyutils = "1.6"
 PREFERRED_VERSION_python-voluptuous = "0.8.9"
 PREFERRED_VERSION_python3-cherrypy = "18.2.0"
@@ -35,7 +52,6 @@ PREFERRED_VERSION_python-django-babel = "0.6.2+%"
 PREFERRED_VERSION_python-pysnmp = "4.2.5"
 PREFERRED_VERSION_python-dateutil = "2.8.1"
 PREFERRED_VERSION_python-adal = "1.0.2"
-PREFERRED_VERSION_python-sqlalchemy = "1.0.2"
 PREFERRED_VERSION_python-osprofiler = "2.3.0+%"
 PREFERRED_VERSION_python-amqp = "2.5.2"
 PREFERRED_VERSION_python-ryu = "4.24+%"
@@ -44,3 +60,5 @@ PREFERRED_VERSION_kuberenetes = "1.16.%"
 PREFERRED_VERSION_ruby = "2.0.0-p648"
 PREFERRED_VERSION_ruby-native = "2.0.0-p648"
 PREFERRED_VERSION_puppet = "4.8.2"
+PREFERRED_VERSION_python-eventlet = "0.18.4"
+PREFERRED_VERSION_lldpd = "0.9.0"

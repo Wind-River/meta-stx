@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 PACKAGES += " collect-engtools"
 
 RDEPENDS_collect-engtools += " \
@@ -59,6 +74,12 @@ do_install_append() {
 	install -d -m0755 ${D}/${systemd_system_unitdir}
 	install -m0644 -p -D collect-engtools.service ${D}/${systemd_system_unitdir}
 
+	sed -i -e 's/network.service/networking.service/' \
+		${D}/${systemd_system_unitdir}/collect-engtools.service
+
+	sed -i -e 's|/usr/local/bin/|${bindir}/|' \
+		${D}/${sysconfdir}/init.d/collect-engtools.sh \
+	        ${D}/${bindir}/cleanup-engtools.sh
 }
 
 FILES_collect-engtools = "  \
@@ -89,3 +110,7 @@ FILES_collect-engtools = "  \
 	${sysconfdir}/init.d/collect-engtools.sh \
 	${systemd_system_unitdir}/collect-engtools.service \
 	"
+
+SYSTEMD_PACKAGES += "collect-engtools"
+SYSTEMD_SERVICE_collect-engtools = "collect-engtools.service"
+SYSTEMD_AUTO_ENABLE_collect-engtools = "enable"

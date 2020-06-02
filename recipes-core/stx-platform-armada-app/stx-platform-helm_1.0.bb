@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 SUMMARY = "StarlingX Platform Helm charts"
 DESCRIPTION = "StarlingX Platform Helm charts"
 
@@ -65,6 +80,7 @@ do_compile () {
 
 	# Host a server for the charts
 	helm serve --repo-path . &
+	sleep 1
 	helm repo rm local
 	helm repo add local http://localhost:8879/charts
 
@@ -77,9 +93,8 @@ do_compile () {
 	make node-feature-discovery
 	cd -
 
-	# Terminate helm server
-	pid=`/bin/pidof helm`
-	kill ${pid}
+	# Terminate helm server (the last backgrounded task)
+	kill $!
 	rm -rf ${helm_home}
 
 	# Create a chart tarball compliant with sysinv kube-app.py

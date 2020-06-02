@@ -1,3 +1,21 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+MAJOR = "${@d.getVar('PV').split('.')[0]}"
+MINOR = "${@d.getVar('PV').split('.')[1]}"
+
 PACKAGES += " mtce"
 PACKAGES += " mtce-pmon"
 PACKAGES += " mtce-hwmon"
@@ -27,6 +45,8 @@ do_configure_prepend () {
 } 
 
 do_compile_prepend () {
+	# use sed to correct the path of systemctl
+	sed -i -e 's|${bindir}/systemctl|${base_bindir}/systemctl|' ${S}/mtce/src/pmon/pmonHdlr.cpp
 	cd ${S}/mtce/src/
 	oe_runmake -e VER=1 VER_MJR=1 INCLUDES=" -I. -I../alarm -I../heartbeat -I../maintenance \
 	                        -I../hostw -I../public -I../smash -I../common -I../hwmon \
@@ -37,9 +57,6 @@ do_compile_prepend () {
 }
 
 do_install_prepend () {
-# TODO: 
-# Really need to fix the package;s Makefile
-
 	cd ${S}/mtce/src/
 	install -m 755 -d ${D}/${bindir}
 	install -m 755 -d ${D}/${sbindir}
@@ -54,10 +71,10 @@ do_install_prepend () {
 	install -m 755 -d ${D}/${sysconfdir}/pmon.d
 	install -m 755 -d ${D}/${sysconfdir}/logrotate.d
 	
-	install -m 755 -d ${D}/${sysconfdir}/serverices.d
-	install -m 755 -d ${D}/${sysconfdir}/serverices.d/controller
-	install -m 755 -d ${D}/${sysconfdir}/serverices.d/worker
-	install -m 755 -d ${D}/${sysconfdir}/serverices.d/storage
+	install -m 755 -d ${D}/${sysconfdir}/services.d
+	install -m 750 -d ${D}/${sysconfdir}/services.d/controller
+	install -m 750 -d ${D}/${sysconfdir}/services.d/worker
+	install -m 750 -d ${D}/${sysconfdir}/services.d/storage
 	
 	cd ${S}/mtce/src/
 	install -m 755 -p -D scripts/mtcAgent ${D}/${libdir}/ocf/resource.d/platform
@@ -136,9 +153,9 @@ do_install_prepend () {
 	install -m 755 -p -D scripts/goenabled ${D}/${sysconfdir}/init.d/goenabled
 	
 	# start or stop services test script
-	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/worker
-	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/controller
-	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/serverices.d/storage
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/services.d/worker
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/services.d/controller
+	install -m 755 -p -D scripts/mtcTest ${D}/${sysconfdir}/services.d/storage
 	install -m 755 -p -D scripts/runservices ${D}/${sysconfdir}/init.d/runservices
 	
 	
@@ -170,24 +187,34 @@ do_install_prepend () {
 	
 	# software development files
 	install -m 644 -p -D heartbeat/mtceHbsCluster.h ${D}/${includedir}/mtceHbsCluster.h
-	install -m 755 -p -D public/libamon.so.1 ${D}/${libdir}/
-	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so.$MAJOR.$MINOR
-	#cd ${D}/%{_libdir} ; ln -s libamon.so.$MAJOR libamon.so
+	install -m 755 -p -D public/libamon.so.${MAJOR} ${D}/${libdir}/
+	cd ${D}/${libdir} ; ln -s libamon.so.${MAJOR} libamon.so.${MAJOR}.${MINOR}
+	cd ${D}/${libdir} ; ln -s libamon.so.${MAJOR} libamon.so
 }
 
-#pkg_postinst_ontarget-mtce () {
-#	/usr/bin/systemctl enable hbsClient.service
-#	/usr/bin/systemctl enable mtcalarm.service 
-#	/usr/bin/systemctl enable mtclog.service 
-#	/usr/bin/systemctl enable mtcClient.service 
-#	/usr/bin/systemctl enable goenabled.service 
-#	/usr/bin/systemctl enable lmon.service 
-#	/usr/bin/systemctl enable hostw.service 
-#	/usr/bin/systemctl enable fsmon.service 
-#	/usr/bin/systemctl enable pmon.service 
-#	# /usr/bin/systemctl enable hwclock.service 
-#	# /usr/bin/systemctl enable runservices.service 
-#}
+SYSTEMD_PACKAGES += " \
+	mtce \
+	mtce-hostw \
+	mtce-lmon \
+	mtce-pmon \
+	"
+
+SYSTEMD_SERVICE_mtce = " \
+	fsmon.service \
+	goenabled.service \
+	hbsClient.service \
+	mtcClient.service \
+	mtcalarm.service \
+	mtclog.service \
+	"
+SYSTEMD_SERVICE_mtce-hostw = "hostw.service"
+SYSTEMD_SERVICE_mtce-lmon = "lmon.service"
+SYSTEMD_SERVICE_mtce-pmon = "pmon.service"
+
+SYSTEMD_AUTO_ENABLE_mtce = "enable"
+SYSTEMD_AUTO_ENABLE_mtce-hostw = "enable"
+SYSTEMD_AUTO_ENABLE_mtce-lmon = "enable"
+SYSTEMD_AUTO_ENABLE_mtce-pmon = "enable"
 
 FILES_mtce-pmon = " \
 	${sbindir}/pmon-restart \
@@ -223,6 +250,7 @@ FILES_mtce-lmon= " \
 	${sysconfdir}/logrotate.d/lmon.logrotate \
 	${sysconfdir}/pmon.d/lmon.conf \
 	${sysconfdir}/init.d/lmon \
+	${systemd_system_unitdir}/lmon.service \
 	"
 
 FILES_mtce = " \
@@ -237,7 +265,7 @@ FILES_mtce = " \
 	${sbindir}/fsync \
 	${sbindir}/dmemchk.sh \
 	${libdir}/ocf/resource.d/platform/mtcAgent \
-	${libdir}/libamon.so.1 \
+	${libdir}/libamon${SOLIBS} \
 	${systemd_system_unitdir}/mtcalarm.service \
 	${systemd_system_unitdir}/goenabled.service \
 	${systemd_system_unitdir}/mtclog.service \
@@ -246,7 +274,6 @@ FILES_mtce = " \
 	${systemd_system_unitdir}/hbsClient.service \
 	${systemd_system_unitdir}/hwclock.service \
 	${systemd_system_unitdir}/runservices.service \
-	${systemd_system_unitdir}/lmon.service \
 	${sysconfdir}/pmon.d/nslcd.conf \
 	${sysconfdir}/pmon.d/mtclogd.conf \
 	${sysconfdir}/pmon.d/mtcalarm.conf \
@@ -268,9 +295,9 @@ FILES_mtce = " \
 	${sysconfdir}/bmc/server_profiles.d/sensor_hp380_v1_ilo_v4.profile \
 	${sysconfdir}/bmc/server_profiles.d/sensor_hp360_v1_ilo_v4.profile \
 	${sysconfdir}/bmc/server_profiles.d/sensor_quanta_v1_ilo_v4.profile \
-	${sysconfdir}/serverices.d/worker/mtcTest \
-	${sysconfdir}/serverices.d/controller/mtcTest \
-	${sysconfdir}/serverices.d/storage/mtcTest \
+	${sysconfdir}/services.d/worker/mtcTest \
+	${sysconfdir}/services.d/controller/mtcTest \
+	${sysconfdir}/services.d/storage/mtcTest \
 	${sysconfdir}/mtc/fsmond.conf \
 	${sysconfdir}/mtc/tmp/ \
 	${sysconfdir}/mtc.ini \

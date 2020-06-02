@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 EXTRA_IMAGE_FEATURES += " empty-root-password"
 EXTRA_IMAGE_FEATURES += " allow-empty-password"
 EXTRA_IMAGE_FEATURES += " allow-root-login"
@@ -34,6 +49,10 @@ DISTRO_FEATURES_append = " virtualization"
 DISTRO_FEATURES_append = " kvm"
 DISTRO_FEATURES_append = " openstack"
 PREFERRED_PROVIDER_virtual/containerd = "containerd-opencontainers"
+
+# packagegroup-base-zeroconf depends on libnss-mdns which breaks
+# the dns resolution for StarlingX
+DISTRO_FEATURES_remove = "zeroconf"
 
 #Graphics and misc
 #DISTRO_FEATURES_append = " x11 opengl"

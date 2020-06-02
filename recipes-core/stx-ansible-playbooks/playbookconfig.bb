@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/patches:${THISDIR}/files:"
 DESCRIPTION = " stx-ansible-playbooks"
 
@@ -21,6 +36,7 @@ SRC_URI = " \
 	file://0003-update_sysinv_database-wait-after-provision.patch \
 	file://0004-bringup_flock_services-use-systmd-for-fminit-and-add.patch \
 	file://0005-persist-config-add-retry-for-etcd.patch \
+	file://0006-bringup_helm-wait-after-initialize-helm-to-avoid-tim.patch \
         "
 
 RDEPENDS_playbookconfig = " \
@@ -52,12 +68,18 @@ do_install () {
 		DESTDIR=${D}/${datadir}/ansible/stx-ansible
 }
 
-pkg_postinst_ontarget_${PN}() { 
-	cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig
-	cp /etc/ansible/hosts /etc/ansible/hosts.orig
-	cp /usr/share/ansible/stx-ansible/playbooks/ansible.cfg /etc/ansible
-	cp /usr/share/ansible/stx-ansible/playbooks/hosts /etc/ansible
+ANSIBLE_SSH_TIMEOUT = "60"
+ANSIBLE_SSH_RETRY = "3"
 
+pkg_postinst_${PN}() {
+	cp $D${sysconfdir}/ansible/ansible.cfg $D${sysconfdir}/ansible/ansible.cfg.orig
+	cp $D${sysconfdir}/ansible/hosts $D${sysconfdir}/ansible/hosts.orig
+	cp $D${datadir}/ansible/stx-ansible/playbooks/ansible.cfg $D${sysconfdir}/ansible
+	cp $D${datadir}/ansible/stx-ansible/playbooks/hosts $D${sysconfdir}/ansible
+
+	sed -i -e 's/#timeout = .*/timeout = ${ANSIBLE_SSH_TIMEOUT}/' \
+	       -e 's/#retries = .*/retries = ${ANSIBLE_SSH_RETRY}/' \
+	       $D${sysconfdir}/ansible/ansible.cfg
 }
 
 FILES_${PN} = " \

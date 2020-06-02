@@ -1,3 +1,18 @@
+#
+## Copyright (C) 2019 Wind River Systems, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 DESCRIPTION = "stx-config-files"
 
 PROTOCOL = "https"
@@ -6,9 +21,6 @@ SRCREV = "d778e862571957ece3c404c0c37d325769772fde"
 SRCNAME = "config-files"
 S = "${WORKDIR}/git"
 PV = "1.0.0"
-
-
-# TODO:
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "\
@@ -37,8 +49,8 @@ SRC_URI = " \
 	file://util-linux-pam-postlogin.patch \
 	file://syslog-ng-config-parse-err.patch \
 	file://syslog-ng-config-systemd-service.patch \
-	file://syslog-ng-conf-fix-the-source.patch \
 	file://syslog-ng-conf-replace-match-with-message.patch \
+	file://lighttpd-init-script-chroot.patch \
 	"
 
 do_configure () {
@@ -51,18 +63,22 @@ do_compile () {
 
 do_install () {
 	install -m 0755 -d ${D}/${datadir}/starlingx/config-files
-	# for f in $(find ./ -not -path "./docker-config/*" -name '*\.spec' | cut -d '/' -f2);
 	for f in $(find ./ -name '*\.spec' | cut -d '/' -f2);
 	do 
 		tar -c $f -f - | tar -C ${D}/${datadir}/starlingx/config-files -xf -;
 	done
 	find ${D}/${datadir}/starlingx/config-files -name centos -exec rm -rf {} +
-	rm -rf ${D}/${datadir}/starlingx/config-files/centos-release-config 
 	chown -R root:root ${D}/${datadir}/starlingx/config-files/
+
+	# For io-scheduler-config
+	mkdir -p  ${D}/${sysconfdir}/udev/rules.d
+	install -m 644 ${S}/io-scheduler/centos/files/60-io-scheduler.rules ${D}/${sysconfdir}/udev/rules.d/60-io-scheduler.rules
+	rm -rf ${D}/${datadir}/starlingx/config-files/io-scheduler
 }
 
 PACKAGES ?= ""
 PACKAGES += "audit-config"
+PACKAGES += "centos-release-config"
 PACKAGES += "dhclient-config"
 PACKAGES += "dnsmasq-config"
 PACKAGES += "docker-config"
@@ -92,15 +108,16 @@ PACKAGES += "syslog-ng-config"
 PACKAGES += "systemd-config"
 PACKAGES += "util-linux-config"
 
-
+FILES_${PN} = ""
 FILES_audit-config = "${datadir}/starlingx/config-files/audit-config/"
+FILES_centos-release-config = "${datadir}/starlingx/config-files/centos-release-config/"
 FILES_dhclient-config = "${datadir}/starlingx/config-files/dhcp-config/"
 FILES_dnsmasq-config = "${datadir}/starlingx/config-files/dnsmasq-config/"
 FILES_docker-config = "${datadir}/starlingx/config-files/docker-config/"
 FILES_initscripts-config = "${datadir}/starlingx/config-files/initscripts-config/"
 FILES_filesystem-scripts= "${datadir}/starlingx/config-files/filesystem-scripts/"
 FILES_haproxy-config= "${datadir}/starlingx/config-files/haproxy-config/"
-FILES_ioscheduler-config= "${datadir}/starlingx/config-files/io-scheduler/"
+FILES_ioscheduler-config= "${sysconfdir}/udev/rules.d/60-io-scheduler.rules"
 FILES_iptables-config= "${datadir}/starlingx/config-files/iptables-config/"
 FILES_iscsi-initiator-utils-config = "${datadir}/starlingx/config-files/iscsi-initiator-utils-config/"
 FILES_lighttpd-config= "${datadir}/starlingx/config-files/lighttpd-config/"
@@ -129,7 +146,7 @@ RDEPENDS_audit-config += " \
 	audit-python \
 	"
 RDEPENDS_dhclient-config += "dhcp-client"
-RDEPENDS_dnsmasq-config += ""
+RDEPENDS_dnsmasq-config += "dnsmasq"
 RDEPENDS_docker-config += "docker-ce logrotate "
 RDEPENDS_initscripts-config += "initscripts"
 RDEPENDS_filesystem-scripts += ""
@@ -145,7 +162,11 @@ RDEPENDS_lighttpd-config += " \
 RDEPENDS_logrotate-config += " logrotate cronie"
 RDEPENDS_memcached-custom += "memcached"
 RDEPENDS_mlx4-config += ""
-RDEPENDS_net-snmp-config += " net-snmp"
+RDEPENDS_net-snmp-config += " \
+	net-snmp \
+	net-snmp-server-snmpd \
+	net-snmp-server-snmptrapd \
+	"
 RDEPENDS_nfs-utils-config += " nfs-utils"
 RDEPENDS_ntp-config += " ntp"
 RDEPENDS_openldap-config += " \
@@ -227,6 +248,13 @@ RDEPENDS_util-linux-config += " util-linux"
 pkg_postinst_ontarget_audit-config() {
 	cp -f ${datadir}/starlingx/config-files/audit-config/files/syslog.conf ${sysconfdir}/audisp/plugins.d/syslog.conf
 	chmod 640 ${sysconfdir}/audisp/plugins.d/syslog.conf
+}
+
+pkg_postinst_centos-release-config() {
+        sed 's/@PLATFORM_RELEASE@/${STX_REL}/' $D${datadir}/starlingx/config-files/centos-release-config/files/issue >> $D${sysconfdir}/issue
+        sed 's/@PLATFORM_RELEASE@/${STX_REL}/' $D${datadir}/starlingx/config-files/centos-release-config/files/issue.net >> $D${sysconfdir}/issue.net
+        chmod 644 $D${sysconfdir}/issue
+        chmod 644 $D${sysconfdir}/issue.net
 }
 
 pkg_postinst_ontarget_dhclient-config() {
@@ -343,7 +371,9 @@ pkg_postinst_ontarget_lighttpd-config() {
 
 	# /etc/rc.d/init.d/lighttpd is not a config file, so replace it here if it doesn't match
 	cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.init ${sysconfdir}/rc.d/init.d/lighttpd
+	cp --preserve=xattr -f ${datadir}/starlingx/lighttpd.init ${sysconfdir}/init.d/lighttpd
 	chmod 755 ${sysconfdir}/rc.d/init.d/lighttpd
+	chmod 755 ${sysconfdir}/init.d/lighttpd
 }
 
 pkg_postinst_ontarget_logrotate-config() {
@@ -396,6 +426,7 @@ pkg_postinst_ontarget_net-snmp-config() {
 
 	install -m 644 ${SRCPATH}/stx.snmpd.conf    ${datadir}/starlingx/stx.snmpd.conf
 	install -m 755 ${SRCPATH}/stx.snmpd         ${sysconfdir}/rc.d/init.d/snmpd
+	install -m 755 ${SRCPATH}/stx.snmpd         ${sysconfdir}/init.d/snmpd
 	install -m 660 ${SRCPATH}/stx.snmp.conf     ${datadir}/snmp/snmp.conf
 	install -m 644 ${SRCPATH}/snmpd.service     ${sysconfdir}/systemd/system/snmpd.service
 	
@@ -475,25 +506,43 @@ pkg_postinst_ontarget_openldap-config() {
 	chmod 644 ${systemd_system_unitdir}/slapd
 }
 
-pkg_postinst_ontarget_openssh-config() {
+pkg_postinst_openssh-config() {
 #	%description
 #	package StarlingX configuration files of openssh to system folder.
 
 
-	SRCPATH=${datadir}/starlingx/config-files/openssh-config/files
+	SRCPATH=$D${datadir}/starlingx/config-files/openssh-config/files
 
-	install -m 644 ${SRCPATH}/sshd.service  ${sysconfdir}/systemd/system/sshd.service
-	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
-	install -m 600 ${SRCPATH}/sshd_config   ${datadir}/starlingx/sshd_config
+	install -m 644 ${SRCPATH}/sshd.service  $D${sysconfdir}/systemd/system/sshd.service
+	install -m 644 ${SRCPATH}/ssh_config    $D${datadir}/starlingx/ssh_config
+	install -m 600 ${SRCPATH}/sshd_config   $D${datadir}/starlingx/sshd_config
 
-	# remove the unsopported and deprecated options
+	# remove the unsupported and deprecated options
 	sed -i -e 's/^\(GSSAPIAuthentication.*\)/#\1/' \
 	       -e 's/^\(GSSAPICleanupCredentials.*\)/#\1/' \
 	       -e 's/^\(UsePrivilegeSeparation.*\)/#\1/' \
-	       ${datadir}/starlingx/sshd_config
+	       $D${datadir}/starlingx/sshd_config
+
+	sed -i -e 's/\(GSSAPIAuthentication yes\)/#\1/' $D${datadir}/starlingx/ssh_config
 	
-	cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
-	cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
+	cp -f $D${datadir}/starlingx/ssh_config  $D${sysconfdir}/ssh/ssh_config
+	cp -f $D${datadir}/starlingx/sshd_config $D${sysconfdir}/ssh/sshd_config
+
+	# enable syslog-ng service by default
+	OPTS=""
+	if [ -n "$D" ]; then
+		OPTS="--root=$D"
+	fi
+	if [ -z "$D" ]; then
+		systemctl daemon-reload
+	fi
+
+	systemctl $OPTS enable sshd.service
+
+	if [ -z "$D" ]; then
+		systemctl --no-block restart sshd.service
+	fi
+
 }
 
 pkg_postinst_ontarget_openvswitch-config() {
@@ -637,15 +686,6 @@ pkg_postinst_syslog-ng-config() {
 	if [ -z "$D" ]; then
 		systemctl --no-block restart syslog-ng.service
 	fi
-
-# TODO
-#preun:
-#	%systemd_preun syslog-ng.service 
-#postun:
-#	ldconfig
-#	%systemd_postun_with_restart syslog-ng.service 
-#	systemctl daemon-reload 2>&1 || :
-#	systemctl try-restart 
 }
 
 pkg_postinst_ontarget_systemd-config() {
@@ -683,10 +723,6 @@ pkg_postinst_ontarget_util-linux-config() {
 pkg_postinst_ontarget_ioscheduler-config() {
 #	%description
 #	CGCS io scheduler configuration and tuning.
-
-	SRCPATH=${datadir}/starlingx/config-files/io-scheduler/
-
-	install -m 644 ${SRCPATH}/60-io-scheduler.rules ${sysconfdir}/udev/rules.d/60-io-scheduler.rules
 
 	/bin/udevadm control --reload-rules
 	/bin/udevadm trigger --type=devices --subsystem-match=block
