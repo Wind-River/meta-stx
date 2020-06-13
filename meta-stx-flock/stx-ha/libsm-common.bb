@@ -1,4 +1,3 @@
-
 PACKAGES += " sm-common-libs"
 PACKAGES += " sm-eru"
 
@@ -19,7 +18,6 @@ inherit pkgconfig
 
 RDEPENDS_sm-common-libs += " \
 	bash \
-	sqlite \
 	util-linux \
 	systemd \
 	"

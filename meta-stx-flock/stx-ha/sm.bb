@@ -20,7 +20,6 @@ DEPENDS_append = " \
 	libsm-common \
 	mtce \
 	sm-db \
-	sqlite3 \
 	"
 
 EXTRA_OEMAKE = ' \

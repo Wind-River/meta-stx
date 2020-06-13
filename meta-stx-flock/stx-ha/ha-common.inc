@@ -19,5 +19,4 @@ DEPENDS += " \
 	sqlite3 \
 	python \
 	python-pbr-native \
-	sqlite3 \
 	"
