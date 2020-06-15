@@ -15,7 +15,10 @@ RDEPENDS_${PN} += " \
 
 local_unit_dir = "${sysconfdir}/systemd/system"
 
-do_install_append() {
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
 
 	install -m 755 -d ${D}/${sysconfdir}
 	install -m 755 -d ${D}/${local_unit_dir}
@@ -25,6 +28,3 @@ do_install_append() {
 	install -m 644 influxdb.service  ${D}/${local_unit_dir}
 	install -m 600 influxdb.conf.pmon  ${D}/${sysconfdir}/influxdb
 }
-
-#SYSTEMD_PACKAGES += "${PN}"
-#SYSTEMD_SERVICE_${PN} = "influxdb.service"

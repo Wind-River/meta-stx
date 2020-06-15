@@ -69,30 +69,3 @@ FILES_${PN}_append = " \
 	${local_python_extensions_dir} \
 	${local_config_extensions_dir} \
 	"
-_FILES_collectd-extensions = " \
-	${local_unit_dir}/collectd.service \
-	${local_config_extensions_dir}/collectd.conf.pmon \
-	${local_python_extensions_dir}/fm_notifier.py \
-	${local_python_extensions_dir}/plugin_common.py \
-	${local_python_extensions_dir}/cpu.py \
-	${local_python_extensions_dir}/memory.py \
-	${local_python_extensions_dir}/example.py \
-	${local_python_extensions_dir}/ntpq.py \
-	${local_python_extensions_dir}/interface.py \
-	${local_python_extensions_dir}/remotels.py \
-	${local_python_extensions_dir}/ptp.py \
-	${local_python_extensions_dir}/ovs_interface.py \
-	${local_plugin_dir}/python_plugins.conf \
-	${local_plugin_dir}/cpu.conf \
-	${local_plugin_dir}/memory.conf \
-	${local_plugin_dir}/df.conf \
-	${local_plugin_dir}/example.conf \
-	${local_plugin_dir}/ntpq.conf \
-	${local_plugin_dir}/interface.conf \
-	${local_plugin_dir}/remotels.conf \
-	${local_plugin_dir}/ptp.conf \
-	${local_plugin_dir}/ovs_interface.conf \
-	"
-
-#SYSTEMD_PACKAGES += "${PN}"
-#SYSTEMD_SERVICE_${PN}= "collectd.service"
