@@ -32,4 +32,4 @@ USERADD_PACKAGES = "fm-mgr"
 USERADD_PARAM_fm-mgr = "-r -g fm -u 195 -d /var/lib/fm -s /sbin/nologin -c 'fm-mgr' fm"
 GROUPADD_PARAM_fm-mgr = "-r -g 195 fm"
 
-RDEPENDS_fm-mgr += "net-snmp-server-snmpd"
+RDEPENDS_${PN}_append = " net-snmp-server-snmpd"
