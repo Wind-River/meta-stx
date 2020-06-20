@@ -150,7 +150,6 @@ RDEPENDS_openldap-config += " \
 	openldap \
 	"
 RRECOMMENDS_openldap-config += " \
-	openldap-slapd \
 	openldap-backend-shell \
 	openldap-backend-passwd \
 	openldap-backend-null \
@@ -231,7 +230,7 @@ pkg_postinst_ontarget_dhclient-config() {
 	SRCPATH=${datadir}/starlingx/config-files/dhcp-config/files
 	install -m 0755 -p ${SRCPATH}/dhclient-enter-hooks ${sysconfdir}/dhcp/dhclient-enter-hooks
 	install -m 0755 -p ${SRCPATH}/dhclient.conf ${sysconfdir}/dhcp/dhclient/dhclient.conf
-	ln -fs ${sysconfdir}/dhcp/dhclient-enter-hooks ${sysconfdir}/dhclient-enter-hooks
+	ln -rs ${sysconfdir}/dhcp/dhclient-enter-hooks ${sysconfdir}/dhclient-enter-hooks
 }
 	
 pkg_postinst_ontarget_dnsmasq-config() {
@@ -252,12 +251,14 @@ pkg_postinst_ontarget_filesystem-scripts() {
 	SRCPATH=${datadir}/starlingx/config-files/filesystem-scripts/filesystem-scripts-1.0
 	install -D -m 755 ${SRCPATH}/uexportfs ${sysconfdir}/init.d/uexportfs
 
+	# Libdir here is hardcoded in other scripts. 
 	install -d -m 0755 /usr/lib/ocf/resource.d/platform/
 	install -D -m 755 ${SRCPATH}/nfsserver-mgmt /usr/lib/ocf/resource.d/platform/nfsserver-mgmt
 
 	install -p -D -m 755 ${SRCPATH}/nfs-mount ${bindir}/nfs-mount
 	install -D -m 755 ${SRCPATH}/uexportfs.service ${systemd_system_unitdir}/uexportfs.service
 
+	systemctl daemon-reload
 	systemctl enable uexportfs.service
 }
 
@@ -311,7 +312,8 @@ pkg_postinst_ontarget_iscsi-initiator-utils-config() {
 	chmod 0750 ${sysconfdir}/iscsi
 	chmod 0640 ${sysconfdir}/iscsi/iscsid.conf
 	
-	/bin/systemctl disable iscsi-shutdown.service
+	systemctl daemon-reload
+	systemctl disable iscsi-shutdown.service
 }
 
 pkg_postinst_ontarget_lighttpd-config() {
@@ -382,7 +384,8 @@ pkg_postinst_ontarget_mlx4-config() {
 	install -m 555 ${SRCPATH}/mlx4_core_goenabled.sh ${sysconfdir}/goenabled.d/
 	install -m 755 ${SRCPATH}/mlx4_core_config.sh	${bindir}/
 
-	/bin/systemctl enable mlx4-config.service >/dev/null 2>&1
+	systemctl daemon-reload
+	systemctl enable mlx4-config.service >/dev/null 2>&1
 }
 
 
@@ -405,7 +408,8 @@ pkg_postinst_ontarget_net-snmp-config() {
 	chmod 640 ${sysconfdir}/snmp/snmpd.conf
 	chmod 640 ${sysconfdir}/snmp/snmptrapd.conf
 	
-	/bin/systemctl disable snmpd.service
+	systemctl daemon-reload
+	systemctl disable snmpd.service
 }
 
 
@@ -426,11 +430,13 @@ pkg_postinst_ontarget_nfs-utils-config() {
 	cp -f ${datadir}/starlingx/stx.nfsmount.conf ${sysconfdir}/nfsmount.conf
 	chmod 644 ${sysconfdir}/nfsmount.conf
 
+	systemctl daemon-reload
+
 	# STX - disable these service files as rpc-statd is started by nfscommon
-	/bin/systemctl disable rpc-statd.service
-	/bin/systemctl disable rpc-statd-notify.service
-	/bin/systemctl disable nfs-lock.service
-	/bin/systemctl disable nfslock.service 
+	systemctl disable rpc-statd.service
+	systemctl disable rpc-statd-notify.service
+	systemctl disable nfs-lock.service
+	systemctl disable nfslock.service 
 
 	/bin/systemctl enable nfscommon.service  >/dev/null 2>&1 || :
 	/bin/systemctl enable nfsserver.service  >/dev/null 2>&1 || :
@@ -476,40 +482,30 @@ pkg_postinst_ontarget_openldap-config() {
 	chmod 644 ${systemd_system_unitdir}/slapd
 }
 
-pkg_postinst_openssh-config() {
+pkg_postinst_ontarget_openssh-config() {
 #	%description
 #	package StarlingX configuration files of openssh to system folder.
 
 
 	SRCPATH=${datadir}/starlingx/config-files/openssh-config/files
 
-	install -m 644 ${SRCPATH}/sshd.service  $D${sysconfdir}/systemd/system/sshd.service
-	install -m 644 ${SRCPATH}/ssh_config    $D${datadir}/starlingx/ssh_config
-	install -m 600 ${SRCPATH}/sshd_config   $D${datadir}/starlingx/sshd_config
+	install -m 644 ${SRCPATH}/sshd.service  ${sysconfdir}/systemd/system/sshd.service
+	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
+	install -m 600 ${SRCPATH}/sshd_config   ${datadir}/starlingx/sshd_config
 
-	# remove the unsopported and deprecated options
+	# remove the unsupported and deprecated options
 	sed -i -e 's/^\(GSSAPIAuthentication.*\)/#\1/' \
 	       -e 's/^\(GSSAPICleanupCredentials.*\)/#\1/' \
 	       -e 's/^\(UsePrivilegeSeparation.*\)/#\1/' \
-	       $D${datadir}/starlingx/sshd_config
+	       ${datadir}/starlingx/sshd_config
 	
-	cp -f ${datadir}/starlingx/ssh_config  $D${sysconfdir}/ssh/ssh_config
-	cp -f ${datadir}/starlingx/sshd_config $D${sysconfdir}/ssh/sshd_config
+	cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
+	cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
 
-	# enable syslog-ng service by default
-	OPTS=""
-	if [ -n "$D" ]; then
-		OPTS="--root=$D"
-	fi
-	if [ -z "$D" ]; then
-		systemctl daemon-reload
-	fi
+	systemctl daemon-reload
+	systemctl enable sshd.service
 
-	systemctl $OPTS enable sshd.service
-
-	if [ -z "$D" ]; then
-		systemctl --no-block restart sshd.service
-	fi
+	systemctl --no-block restart sshd.service
 
 }
 
@@ -597,63 +593,55 @@ pkg_postinst_ontarget_shadow-utils-config() {
 
 	cp -f ${datadir}/starlingx/login.defs ${sysconfdir}/login.defs
 	chmod 644 ${sysconfdir}/login.defs
-	/bin/systemctl preset clear_shadow_locks.service
+
+	systemctl daemon-reload
+	systemctl preset clear_shadow_locks.service
 }
 
 pkg_postinst_ontarget_sudo-config() {
 #	%description
 #	StarlingX sudo configuration file
 
-	SYSADMIN_P="4SuW8cnXFyxsk"
+#	SYSADMIN_P="4SuW8cnXFyxsk"
 	SRCPATH=${datadir}/starlingx/config-files/sudo-config/files
 
 	install -m 440 ${SRCPATH}/sysadmin.sudo  ${sysconfdir}/sudoers.d/sysadmin
 
-	getent group sys_protected >/dev/null || groupadd -f -g 345 sys_protected
-	getent passwd sysadmin > /dev/null || \
-		useradd -m -g sys_protected -G root  -d /home/sysadmin -p ${SYSADMIN_P} -s /bin/sh sysadmin 2> /dev/null || :
+#	getent group sys_protected >/dev/null || groupadd -f -g 345 sys_protected
+#	getent passwd sysadmin > /dev/null || \
+#		useradd -m -g sys_protected -G root  -d /home/sysadmin -p ${SYSADMIN_P} -s /bin/sh sysadmin 2> /dev/null || :
 }
 
-pkg_postinst_syslog-ng-config() {
+pkg_postinst_ontarget_syslog-ng-config() {
 #	%description
 #	StarlingX syslog-ng configuration file
 
-	SRCPATH=$D${datadir}/starlingx/config-files/syslog-ng-config/files
+	SRCPATH=${datadir}/starlingx/config-files/syslog-ng-config/files
 
-	install -D -m644 ${SRCPATH}/syslog-ng.conf $D${datadir}/starlingx/syslog-ng.conf
+	install -D -m644 ${SRCPATH}/syslog-ng.conf ${datadir}/starlingx/syslog-ng.conf
 
 	# Fix the config version to avoid warning
-	sed -i -e 's/\(@version: \).*/\1 3.19/' $D${datadir}/starlingx/syslog-ng.conf
+	sed -i -e 's/\(@version: \).*/\1 3.19/' ${datadir}/starlingx/syslog-ng.conf
 
 	# Workaround: comment out the udp source to aviod the service fail to start at boot time
-	sed -i -e 's/\(.*s_udp.*\)/#\1/' $D${datadir}/starlingx/syslog-ng.conf
+	sed -i -e 's/\(.*s_udp.*\)/#\1/' ${datadir}/starlingx/syslog-ng.conf
 
-	install -D -m644 ${SRCPATH}/syslog-ng.logrotate $D${datadir}/starlingx/syslog-ng.logrotate
-	install -D -m644 ${SRCPATH}/remotelogging.conf $D${sysconfdir}/syslog-ng/remotelogging.conf
-	install -D -m700 ${SRCPATH}/fm_event_syslogger $D${sbindir}/fm_event_syslogger
-	install -D -m644 ${SRCPATH}/syslog-ng.service $D${datadir}/starlingx/syslog-ng.service
+	install -D -m644 ${SRCPATH}/syslog-ng.logrotate ${datadir}/starlingx/syslog-ng.logrotate
+	install -D -m644 ${SRCPATH}/remotelogging.conf ${sysconfdir}/syslog-ng/remotelogging.conf
+	install -D -m700 ${SRCPATH}/fm_event_syslogger ${sbindir}/fm_event_syslogger
+	install -D -m644 ${SRCPATH}/syslog-ng.service ${datadir}/starlingx/syslog-ng.service
 
-	cp -f $D${datadir}/starlingx/syslog-ng.conf $D${sysconfdir}/syslog-ng/syslog-ng.conf
-	chmod 644 $D${sysconfdir}/syslog-ng/syslog-ng.conf
-	cp -f $D${datadir}/starlingx/syslog-ng.logrotate $D${sysconfdir}/logrotate.d/syslog
-	chmod 644 $D${sysconfdir}/logrotate.d/syslog
-	cp -f $D${datadir}/starlingx/syslog-ng.service $D${systemd_system_unitdir}/syslog-ng.service
-	chmod 644 $D${systemd_system_unitdir}/syslog-ng.service
+	cp -f ${datadir}/starlingx/syslog-ng.conf ${sysconfdir}/syslog-ng/syslog-ng.conf
+	chmod 644 ${sysconfdir}/syslog-ng/syslog-ng.conf
+	cp -f ${datadir}/starlingx/syslog-ng.logrotate ${sysconfdir}/logrotate.d/syslog
+	chmod 644 ${sysconfdir}/logrotate.d/syslog
+	cp -f ${datadir}/starlingx/syslog-ng.service ${systemd_system_unitdir}/syslog-ng.service
+	chmod 644 ${systemd_system_unitdir}/syslog-ng.service
 
 	# enable syslog-ng service by default
-	OPTS=""
-	if [ -n "$D" ]; then
-		OPTS="--root=$D"
-	fi
-	if [ -z "$D" ]; then
-		systemctl daemon-reload
-	fi
-
-	systemctl $OPTS enable syslog-ng.service
-
-	if [ -z "$D" ]; then
-		systemctl --no-block restart syslog-ng.service
-	fi
+	systemctl daemon-reload
+	systemctl enable syslog-ng.service
+	systemctl --no-block restart syslog-ng.service
 }
 
 pkg_postinst_ontarget_systemd-config() {
@@ -696,8 +684,8 @@ pkg_postinst_ontarget_ioscheduler-config() {
 
 	install -m 644 ${SRCPATH}/60-io-scheduler.rules ${sysconfdir}/udev/rules.d/60-io-scheduler.rules
 
-	/bin/udevadm control --reload-rules
-	/bin/udevadm trigger --type=devices --subsystem-match=block
+#	/bin/udevadm control --reload-rules
+#	/bin/udevadm trigger --type=devices --subsystem-match=block
 }
 
 pkg_postinst_ontarget_iptables-config() {
@@ -713,5 +701,6 @@ pkg_postinst_ontarget_iptables-config() {
 	chmod 600 ${sysconfdir}/sysconfig/iptables
 	cp -f ${datadir}/starlingx/ip6tables.rules ${sysconfdir}/sysconfig/ip6tables
 	chmod 600 ${sysconfdir}/sysconfig/ip6tables
-	/bin/systemctl enable iptables.service ip6tables.service >/dev/null 2>&1
+
+	systemctl enable iptables.service ip6tables.service >/dev/null 2>&1
 }
