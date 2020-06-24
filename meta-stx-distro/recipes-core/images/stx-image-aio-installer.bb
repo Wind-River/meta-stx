@@ -37,20 +37,20 @@ IMAGE_ROOTFS_EXTRA_SPACE =" + 102400"
 
 inherit core-image stx-anaconda-image
 
-KICKSTART_FILE ?= "${LAYER_PATH_meta-stx}/conf/distro/files/ks/poky_stx_aio_ks.cfg"
+KICKSTART_FILE ?= "${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/poky_stx_aio_ks.cfg"
 
 # Only the ones prefix with poky_stx_ are tested and working
 KICKSTART_FILE_EXTRA ?= " \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/poky_stx_aio_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/aio_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/aio_lowlatency_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/controller_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_controller_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_smallsystem_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_smallsystem_lowlatency_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_storage_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_worker_ks.cfg \
-    ${LAYER_PATH_meta-stx}/conf/distro/files/ks/net_worker_lowlatency_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/poky_stx_aio_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/aio_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/aio_lowlatency_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/controller_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_controller_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_smallsystem_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_smallsystem_lowlatency_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_storage_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_worker_ks.cfg \
+    ${LAYER_PATH_meta-stx-distro}/conf/distro/files/ks/net_worker_lowlatency_ks.cfg \
 "
 
-SYSLINUX_CFG_LIVE = "${LAYER_PATH_meta-stx}/conf/distro/files/syslinux.cfg"
+SYSLINUX_CFG_LIVE = "${LAYER_PATH_meta-stx-distro}/conf/distro/files/syslinux.cfg"
