@@ -65,4 +65,5 @@ do_install_append() {
 	install -d -m0755 ${D}/${systemd_system_unitdir}
 	install -m0644 -p -D collect-engtools.service ${D}/${systemd_system_unitdir}
 
+	sed -i -e 's|/local/bin|/bin|g' ${D}/${sysconfdir}/init.d/collect-engtools.sh
 }
