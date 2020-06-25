@@ -25,6 +25,8 @@ do_install () {
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "fminit.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
 inherit useradd
 
