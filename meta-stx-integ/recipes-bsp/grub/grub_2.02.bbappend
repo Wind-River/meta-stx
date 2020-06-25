@@ -11,7 +11,3 @@ do_install_append() {
 }
 
 FILES_${PN}-editenv = "${bindir}/grub2-editenv"
-
-pkg_postinst_ontarget_${PN}() {
-	grub-mkconfig -o /boot/grub/grub.cfg
-}
