@@ -13,6 +13,8 @@ SYSTEMD_PACKAGES += "mtce-guestagent"
 SYSTEMD_PACKAGES += "mtce-guestserver"
 SYSTEMD_SERVICE_mtce-guestagent = "guestAgent.service"
 SYSTEMD_SERVICE_mtce-guestserver= "guestServer.service"
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
+
 
 EXTRA_OEMAKE = '-e MAJOR="1" MINONR="0" \
 		INCLUDES=" -I. -I${STAGING_INCDIR}/mtce-common/ -I${STAGING_INCDIR}/mtce-daemon/ " \
