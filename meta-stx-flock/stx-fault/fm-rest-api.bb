@@ -17,4 +17,5 @@ do_install_append() {
 inherit systemd
 SYSTEMD_PACKAGES += "fm-rest-api"
 SYSTEMD_SERVICE_${PN} = "fm-api.service"
-SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
