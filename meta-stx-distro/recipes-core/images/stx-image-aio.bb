@@ -31,6 +31,7 @@ IMAGE_INSTALL_append = " \
 	distributedcloud-client-dcmanager \
 	registry-token-server \
 	rt-tests \
+	kernel-dev \
 	"
 
 IMAGE_FEATURES += " \
