@@ -143,8 +143,7 @@ RDEPENDS_packagegroup-stx-nfv = " \
 	nfv-tools \
 	nfv-vim \
 	nfv-client \
-	mtce-guestagent \
-	mtce-guestserver \
+	mtce-guest\
 	"
 
 RDEPENDS_packagegroup-stx-upstream = " \
