@@ -48,7 +48,7 @@ SYSTEMD_AUTO_ENABLE_${PN}-pmon = "enable"
 
 SYSTEMD_PACKAGES += "${PN}-hwmon"
 SYSTEMD_SERVICE_${PN}-hwmon = "hwmon.service"
-SYSTEMD_AUTO_ENABLE_${PN}-hwmon = "enable"
+SYSTEMD_AUTO_ENABLE_${PN}-hwmon = "disable"
 
 SYSTEMD_PACKAGES += "${PN}-hostw"
 SYSTEMD_SERVICE_${PN}-hostw = "hostw.service"
