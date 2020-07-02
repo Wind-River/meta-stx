@@ -6,12 +6,14 @@ S = "${S_DIR}/sysinv/sysinv-agent"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
+SRC_URI += "file://0003-sysinv-agent-remove-legacy-pid-directory.patch;striplevel=3"
+
 RDEPENDS_sysinv-agent += " python"
 
 inherit systemd
 SYSTEMD_PACKAGES += "sysinv-agent"
 SYSTEMD_SERVICE_sysinv-agent = "sysinv-agent.service"
-SYSTEMD_AUTO_ENABLE_sysinv-agent = "disable"
+SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
