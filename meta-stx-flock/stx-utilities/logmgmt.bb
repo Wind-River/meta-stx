@@ -16,6 +16,8 @@ RDEPENDS_${PN}_append = " \
 inherit setuptools systemd
 SYSTEMD_PACKAGES += "logmgmt"
 SYSTEMD_SERVICE_${PN} = "logmgmt.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
 
 do_install_append() {
