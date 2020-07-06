@@ -12,7 +12,6 @@ PV = "1.0.0"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "\
 	file://systemd-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
-	file://audit-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	file://docker-config/files/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	file://filesystem-scripts/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
 	file://filesystem-scripts/filesystem-scripts-1.0/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
@@ -55,7 +54,6 @@ do_install () {
 }
 
 PACKAGES ?= ""
-PACKAGES += "audit-config"
 PACKAGES += "dhclient-config"
 PACKAGES += "dnsmasq-config"
 PACKAGES += "docker-config"
@@ -85,7 +83,6 @@ PACKAGES += "systemd-config"
 PACKAGES += "util-linux-config"
 
 
-FILES_audit-config = "${datadir}/starlingx/config-files/audit-config/"
 FILES_dhclient-config = "${datadir}/starlingx/config-files/dhcp-config/"
 FILES_dnsmasq-config = "${datadir}/starlingx/config-files/dnsmasq-config/"
 FILES_docker-config = "${datadir}/starlingx/config-files/docker-config/"
@@ -114,11 +111,6 @@ FILES_syslog-ng-config= "${datadir}/starlingx/config-files/syslog-ng-config/"
 FILES_systemd-config= "${datadir}/starlingx/config-files/systemd-config/"
 FILES_util-linux-config= "${datadir}/starlingx/config-files/util-linux-config/"
 
-RDEPENDS_audit-config += " \
-	audit \
-	auditd \
-	audit-python \
-	"
 RDEPENDS_dhclient-config += "dhcp-client"
 RDEPENDS_dnsmasq-config += "dnsmasq"
 RDEPENDS_docker-config += "docker-ce logrotate "
@@ -216,11 +208,6 @@ RDEPENDS_sudo-config += " sudo"
 RDEPENDS_syslog-ng-config += " syslog-ng"
 RDEPENDS_systemd-config += " systemd"
 RDEPENDS_util-linux-config += " util-linux"
-
-pkg_postinst_ontarget_audit-config() {
-	cp -f ${datadir}/starlingx/config-files/audit-config/files/syslog.conf ${sysconfdir}/audisp/plugins.d/syslog.conf
-	chmod 640 ${sysconfdir}/audisp/plugins.d/syslog.conf
-}
 
 pkg_postinst_ontarget_dhclient-config() {
 	SRCPATH=${datadir}/starlingx/config-files/dhcp-config/files
