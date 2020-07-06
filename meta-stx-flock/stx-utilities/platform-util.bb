@@ -15,6 +15,7 @@ inherit setuptools systemd
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 SYSTEMD_PACKAGES += " ${PN}"
 SYSTEMD_SERVICE_${PN} = "opt-platform.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
 do_install_append() {
 
