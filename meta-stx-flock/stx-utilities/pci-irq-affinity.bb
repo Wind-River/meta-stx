@@ -9,7 +9,7 @@ S = "${S_DIR}/utilities/pci-irq-affinity-agent/pci_irq_affinity"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://setup.py;md5=6980f60051ba4d376975eefc777fb8ae"
 
-RDEPENDS_${PN}_append = " python-novaclient"
+RDEPENDS_${PN}_append = " python-novaclient libvirt libvirt-python"
 
 inherit setuptools systemd
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
