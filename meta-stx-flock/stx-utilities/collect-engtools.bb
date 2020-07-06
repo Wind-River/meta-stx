@@ -26,6 +26,7 @@ inherit systemd
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 SYSTEMD_PACKAGES += "${PN}"
 SYSTEMD_SERVICE_${PN} = " ${PN}.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
