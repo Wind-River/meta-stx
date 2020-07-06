@@ -32,7 +32,6 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
-	file://openssh-config-rm-hmac-ripemd160.patch \
 	file://util-linux-pam-postlogin.patch \
 	file://syslog-ng-config-parse-err.patch \
 	file://syslog-ng-config-systemd-service.patch \
@@ -74,7 +73,6 @@ PACKAGES += "net-snmp-config"
 PACKAGES += "nfs-utils-config"
 PACKAGES += "ntp-config"
 PACKAGES += "openldap-config"
-PACKAGES += "openssh-config"
 PACKAGES += "openvswitch-config"
 PACKAGES += "pam-config"
 PACKAGES += "rabbitmq-server-config"
@@ -105,7 +103,6 @@ FILES_net-snmp-config= "${datadir}/starlingx/config-files/net-snmp-config/"
 FILES_nfs-utils-config= "${datadir}/starlingx/config-files/nfs-utils-config/"
 FILES_ntp-config= "${datadir}/starlingx/config-files/ntp-config/"
 FILES_openldap-config= "${datadir}/starlingx/config-files/openldap-config/"
-FILES_openssh-config= "${datadir}/starlingx/config-files/openssh-config/"
 FILES_openvswitch-config= "${datadir}/starlingx/config-files/openvswitch-config/"
 FILES_pam-config= "${datadir}/starlingx/config-files/pam-config/"
 FILES_rabbitmq-server-config= "${datadir}/starlingx/config-files/rabbitmq-server-config/"
@@ -165,7 +162,6 @@ RRECOMMENDS_openldap-config += " \
 	openldap-bin \
 	"
 
-RDEPENDS_openssh-config += " openssh"
 RDEPENDS_openvswitch-config += " openvswitch"
 RDEPENDS_pam-config += " \
 	libpam-runtime \
@@ -480,33 +476,6 @@ pkg_postinst_ontarget_openldap-config() {
 	
 	cp -f ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
 	chmod 644 ${systemd_system_unitdir}/slapd
-}
-
-pkg_postinst_ontarget_openssh-config() {
-#	%description
-#	package StarlingX configuration files of openssh to system folder.
-
-
-	SRCPATH=${datadir}/starlingx/config-files/openssh-config/files
-
-	install -m 644 ${SRCPATH}/sshd.service  ${sysconfdir}/systemd/system/sshd.service
-	install -m 644 ${SRCPATH}/ssh_config    ${datadir}/starlingx/ssh_config
-	install -m 600 ${SRCPATH}/sshd_config   ${datadir}/starlingx/sshd_config
-
-	# remove the unsupported and deprecated options
-	sed -i -e 's/^\(GSSAPIAuthentication.*\)/#\1/' \
-	       -e 's/^\(GSSAPICleanupCredentials.*\)/#\1/' \
-	       -e 's/^\(UsePrivilegeSeparation.*\)/#\1/' \
-	       ${datadir}/starlingx/sshd_config
-	
-	cp -f ${datadir}/starlingx/ssh_config  ${sysconfdir}/ssh/ssh_config
-	cp -f ${datadir}/starlingx/sshd_config ${sysconfdir}/ssh/sshd_config
-
-	systemctl daemon-reload
-	systemctl enable sshd.service
-
-	systemctl --no-block restart sshd.service
-
 }
 
 pkg_postinst_ontarget_openvswitch-config() {
