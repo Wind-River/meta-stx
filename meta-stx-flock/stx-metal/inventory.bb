@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 SRC_URI += "file://0001-inventory-Remove-argparse-requirement.patch"
 
-RDEPENDS_inventory += " \
+RDEPENDS_${PN} += " \
 		bash \
 		python-anyjson \
 		python-amqplib \
@@ -49,9 +49,17 @@ RDEPENDS_inventory += " \
 		python-wsme \
 		"
 
+DEPENDS += " \
+	python-pbr-native \
+	"
+
 inherit systemd
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "inventory-api.service inventory-conductor.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+
+inherit setuptools python-dir
+
 
 do_install_append () {
 	
@@ -72,14 +80,10 @@ do_install_append () {
 	install -m 644 -p -D scripts/inventory-conductor.service ${D}/${systemd_system_unitdir}/
 
 	# Install sql migration
-	# install -m 644 inventory/db/sqlalchemy/migrate_repo/migrate.cfg ${D}/${libdir}/inventory/db/sqlalchemy/migrate_repo/migrate.cfg
+	install -m 644 inventory/db/sqlalchemy/migrate_repo/migrate.cfg \
+		${D}/${PYTHON_SITEPACKAGES_DIR}/inventory/db/sqlalchemy/migrate_repo/migrate.cfg
 
 }
-
-#pkg_postinst_ontarget-inventory () {
-# install default config files
-#cd ${_builddir}/${name}-${version} && oslo-config-generator --config-file inventory/config-generator.conf --output-file ${_builddir}/${name}-${version}/inventory.conf.sample
-#}
 
 FILES_${PN}_append = " \
 	${libdir}/ocf/resource.d/platform/inventory-api \
