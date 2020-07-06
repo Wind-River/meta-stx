@@ -56,6 +56,7 @@ RDEPENDS_${PN}_append  = " \
 inherit setuptools python-dir systemd useradd
 SYSTEMD_PACKAGES += "${PN}"
 SYSTEMD_SERVICE_${PN} = "sysinv-api.service sysinv-conductor.service"
+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
 USERADD_PACKAGES = "sysinv"
 USERADD_PARAM_sysinv = "-r -g sysinv -u 168 -d /var/lib/sysinv -s /sbin/nologin -c 'sysinv Daemons' sysinv"
