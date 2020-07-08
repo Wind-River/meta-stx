@@ -16,7 +16,7 @@ SYSTEMD_PACKAGES += "mtce-guestagent"
 SYSTEMD_PACKAGES += "mtce-guestserver"
 SYSTEMD_SERVICE_mtce-guestagent = "guestAgent.service"
 SYSTEMD_SERVICE_mtce-guestserver= "guestServer.service"
-SYSTEMD_AUTO_ENABLE_mtce-geustagent = "disable"
+SYSTEMD_AUTO_ENABLE_mtce-guestagent = "disable"
 SYSTEMD_AUTO_ENABLE_mtce-geustserver = "enable"
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
