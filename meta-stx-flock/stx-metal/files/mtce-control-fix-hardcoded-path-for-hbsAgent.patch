@@ -7,7 +7,7 @@ index d05177d..13443d0 100644
  
  DAEMON_NAME="hbsAgent"
 -DAEMON="/usr/local/bin/${DAEMON_NAME}"
-+DAEMON="${bindir}/${DAEMON_NAME}"
++DAEMON="/usr/bin/${DAEMON_NAME}"
  PIDFILE="/var/run/${DAEMON_NAME}.pid"
  
  VIRT_TOOL='virt-what'
