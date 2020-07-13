@@ -4,7 +4,7 @@ meta-stx
 Introduction
 ------------------------
 
-This layer enables starlingx on poky. 
+This layer enables starlingx on poky.
 
 
 Dependencies
@@ -58,7 +58,7 @@ This layer depends on:
 	branch: warrior
 	revision: HEAD
 
-	URI: git://git.openembedded.org/meta-python2 
+	URI: git://git.openembedded.org/meta-python2
 	layer: meta-python2
 	branch: warrior
 	revision: HEAD
@@ -80,15 +80,97 @@ Babak A. Sarashki
 
 Build:
 ---------------------------
+
+Tasks:
+- Build Runtime image
+- Build Installer image
+
+Build Runtime image:
+---------------------------
+
+Setup build environment with the following added to the bblayers.conf:
+
 ```
-git clone --branch warrior git@github.com:zbsarashki/staging-stx.git
-cd staging-stx
-./setup.sh
+
+ ${LAYER_PATH}/layers/poky/meta
+ ${LAYER_PATH}/layers/poky/meta-poky
+ ${LAYER_PATH}/layers/poky/meta-yocto-bsp
+ ${LAYER_PATH}/layers/meta-openembedded/meta-oe
+ ${LAYER_PATH}/layers/meta-openembedded/meta-filesystems
+ ${LAYER_PATH}/layers/meta-openembedded/meta-initramfs
+ ${LAYER_PATH}/layers/meta-openembedded/meta-networking
+ ${LAYER_PATH}/layers/meta-openembedded/meta-perl
+ ${LAYER_PATH}/layers/meta-openembedded/meta-python
+ ${LAYER_PATH}/layers/meta-openembedded/meta-webserver
+ ${LAYER_PATH}/layers/meta-openembedded/meta-gnome
+ ${LAYER_PATH}/layers/meta-virtualization
+ ${LAYER_PATH}/layers/meta-cloud-services
+ ${LAYER_PATH}/layers/meta-cloud-services/meta-openstack
+ ${LAYER_PATH}/layers/meta-intel
+ ${LAYER_PATH}/layers/meta-security
+ ${LAYER_PATH}/layers/meta-selinux
+ ${LAYER_PATH}/layers/meta-iot-cloud
+ ${LAYER_PATH}/layers/meta-python2
+ ${LAYER_PATH}/layers/meta-dpdk
+ ${LAYER_PATH}/layers/meta-stx/meta-stx-cloud
+ ${LAYER_PATH}/layers/meta-stx/meta-stx-distro
+ ${LAYER_PATH}/layers/meta-stx/meta-stx-flock
+ ${LAYER_PATH}/layers/meta-stx/meta-stx-integ
+ ${LAYER_PATH}/layers/meta-stx/meta-stx-virt
+ ${LAYER_PATH}/layers/meta-anaconda
+
+```
+
+Edit conf/local.conf and set:
+
+```
+MACHINE = "intel-corei7-64"
+PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+IMAGE_FSTYPES = " tar.bz2"
+IMAGE_FSTYPES = " tar.bz2 live"
+LABELS_LIVE = "install"
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+EXTRA_IMAGE_FEATURES += "tools-sdk"
+EXTRA_IMAGE_FEATURES += "tools-debug"
+EXTRA_IMAGE_FEATURES += "package-management"
+DISTRO = "poky-stx"
+DISTRO_FEATURES_append = " anaconda-support"
+```
+
+Build target with:
+
+```
+bitbake stx-image-aio
+```
+
+Build Installer image:
+---------------------------
+Setup build environment with the bblayers.conf as in RunTime image.
+
+Edit conf/local.conf and set:
+
+```
+CONF_VERSION = "1"
+DISTRO = 'anaconda'
+MACHINE = "intel-corei7-64"
+PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
+INSTALLER_TARGET_BUILD = "/<PATH_TO_RUNTIME_STX_PRJ_DIR>/build/"
+INSTALLER_TARGET_IMAGE = "stx-image-aio"
+
+```
+Build installer target with:
+
+```
+bitbake stx-image-installer-aio
 
 ```
 
 Use Case:
 ---------------------------
+
+This layer currently limited to AIO simplex mode has been tested to provision on virtualized host as outlined at:
+
+https://docs.starlingx.io/deploy_install_guides/r3_release/virtual/aio_simplex.html
 
 License
 -------
