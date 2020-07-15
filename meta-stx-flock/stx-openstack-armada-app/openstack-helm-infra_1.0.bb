@@ -12,29 +12,31 @@ BRANCH = "r/stx.3.0"
 SRCREV_openstack-helm-infra = "c9d6676bf9a5aceb311dc31dadd07cba6a3d6392"
 SRCREV_openstack-armada-app = "863f4b9733d3d4f4fd490606a94b84cfdaf2df2c"
 
+# Patches pulled from:
+# SRCREV_openstack-armada-app = "863f4b9733d3d4f4fd490606a94b84cfdaf2df2c"
+# git://opendev.org/starlingx/openstack-armada-app
+
 SRC_URI = " \
     git://github.com/openstack/openstack-helm-infra;protocol=${PROTOCOL};name=openstack-helm-infra \
-    git://opendev.org/starlingx/openstack-armada-app;protocol=${PROTOCOL};branch=${BRANCH};name=openstack-armada-app;destsuffix=openstack-armada-app \
-"
+    file://0001-Allow-multiple-containers-per-daemonset-pod.patch \
+    file://0002-Add-imagePullSecrets-in-service-account.patch \
+    file://0003-Set-Min-NGINX-handles.patch \
+    file://0004-Partial-revert-of-31e3469d28858d7b5eb6355e88b6f49fd6.patch \
+    file://0005-Add-TLS-support-for-Gnocchi-public-endpoint.patch \
+    file://0006-Fix-pod-restarts-on-all-workers-when-worker-added-re.patch \
+    file://0007-Add-io_thread_pool-for-rabbitmq.patch \
+    file://0008-Enable-override-of-rabbitmq-probe-parameters.patch \
+    file://repositories.yaml \
+    "
+
+PATCHTOOL = "git"
+PATCH_COMMIT_FUNCTIONS = "1"
 
 S = "${WORKDIR}/git"
 
 inherit allarch
 
-patch_folder = "${WORKDIR}/openstack-armada-app/openstack-helm-infra/files"
 helm_folder = "${nonarch_libdir}/helm"
-
-do_patch () {
-	cd ${S}
-	git am ${patch_folder}/0001-Allow-multiple-containers-per-daemonset-pod.patch
-	git am ${patch_folder}/0002-Add-imagePullSecrets-in-service-account.patch
-	git am ${patch_folder}/0003-Set-Min-NGINX-handles.patch
-	git am ${patch_folder}/0004-Partial-revert-of-31e3469d28858d7b5eb6355e88b6f49fd6.patch
-	git am ${patch_folder}/0005-Add-TLS-support-for-Gnocchi-public-endpoint.patch
-	git am ${patch_folder}/0006-Fix-pod-restarts-on-all-workers-when-worker-added-re.patch
-	git am ${patch_folder}/0007-Add-io_thread_pool-for-rabbitmq.patch
-	git am ${patch_folder}/0008-Enable-override-of-rabbitmq-probe-parameters.patch
-}
 
 do_configure[noexec] = "1"
 
@@ -56,7 +58,7 @@ do_compile () {
 	mkdir ${helm_home}/cache/archive
 
 	# Stage a repository file that only has a local repo
-	install -m 0644 ${patch_folder}/repositories.yaml \
+	install -m 0644 ${WORKDIR}/repositories.yaml \
 		${helm_home}/repository/repositories.yaml
 
 	# Host a server for the charts
