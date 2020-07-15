@@ -17,27 +17,26 @@ SRCREV_openstack-armada-app = "863f4b9733d3d4f4fd490606a94b84cfdaf2df2c"
 
 SRC_URI = " \
     git://github.com/openstack/openstack-helm;protocol=${PROTOCOL};name=openstack-helm \
-    git://opendev.org/starlingx/openstack-armada-app;protocol=${PROTOCOL};branch=${BRANCH};name=openstack-armada-app;destsuffix=openstack-armada-app \
-"
+    file://0001-Ceilometer-chart-add-the-ability-to-publish-events-t.patch \
+    file://0002-Remove-stale-Apache2-service-pids-when-a-POD-starts.patch \
+    file://0003-Nova-console-ip-address-search-optionality.patch \
+    file://0004-Nova-chart-Support-ephemeral-pool-creation.patch \
+    file://0005-Nova-Add-support-for-disabling-Readiness-Liveness-pr.patch \
+    file://0006-Add-Placement-Chart.patch \
+    file://repositories.yaml \
+    file://index.yaml \
+    "
+
+PATCHTOOL = "git"
+PATCH_COMMIT_FUNCTIONS = "1"
 
 S = "${WORKDIR}/git"
 
 inherit allarch
 
-patch_folder = "${WORKDIR}/openstack-armada-app/openstack-helm/files"
 helm_folder = "${nonarch_libdir}/helm"
 toolkit_version = "0.1.0"
 helmchart_version = "0.1.0"
-
-do_patch () {
-	cd ${S}
-	git am ${patch_folder}/0001-Ceilometer-chart-add-the-ability-to-publish-events-t.patch
-	git am ${patch_folder}/0002-Remove-stale-Apache2-service-pids-when-a-POD-starts.patch
-	git am ${patch_folder}/0003-Nova-console-ip-address-search-optionality.patch
-	git am ${patch_folder}/0004-Nova-chart-Support-ephemeral-pool-creation.patch
-	git am ${patch_folder}/0005-Nova-Add-support-for-disabling-Readiness-Liveness-pr.patch
-	git am ${patch_folder}/0006-Add-Placement-Chart.patch
-}
 
 do_configure[noexec] = "1"
 
@@ -59,10 +58,10 @@ do_compile () {
 	mkdir ${helm_home}/cache/archive
 
 	# Stage a repository file that only has a local repo
-	install -m 0644 ${patch_folder}/repositories.yaml ${helm_home}/repository/repositories.yaml
+	install -m 0644 ${WORKDIR}/repositories.yaml ${helm_home}/repository/repositories.yaml
 
 	# Stage a local repo index that can be updated by the build
-	install -m 0644 ${patch_folder}/index.yaml ${helm_home}/repository/local/index.yaml
+	install -m 0644 ${WORKDIR}/index.yaml ${helm_home}/repository/local/index.yaml
 
 	# Stage helm-toolkit in the local repo
 	cp ${RECIPE_SYSROOT}${helm_folder}/helm-toolkit-${toolkit_version}.tgz .
