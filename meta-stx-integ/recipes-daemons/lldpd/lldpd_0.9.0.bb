@@ -20,14 +20,23 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/ISC;md5=f3b90e
 
 DEPENDS = "libbsd libevent json-c"
 
-PROTOCOL = "https"
-BRANCH = "r/stx.3.0"
-SRCNAME = "integ"
-SRCREV = "0bf4b546df8c7fdec8cfc6cb6f71b9609ee54306"
+
+# Patches pullled from
+# PROTOCOL = "https"
+# BRANCH = "r/stx.3.0"
+# SRCNAME = "integ"
+# SRCREV = "0bf4b546df8c7fdec8cfc6cb6f71b9609ee54306"
+# git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH};destsuffix=stx-patches;subpath=networking/lldpd 
 
 SRC_URI = "\
     http://media.luffy.cx/files/${BPN}/${BPN}-${PV}.tar.gz \
-    git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH};destsuffix=stx-patches;subpath=networking/lldpd \
+    file://lldpd-interface-show.patch \
+    file://lldpd-create-run-dir.patch \
+    file://lldpd-i40e-disable.patch \
+    file://lldpd-clear-station.patch \
+    file://i40e-lldp-configure.sh \
+    file://lldpd.init \
+    file://lldpd.default\
     "
 
 SRC_URI[md5sum] = "ed0226129b0c90b3a45c273fe1aba8de"
@@ -37,17 +46,9 @@ do_patch_append () {
     bb.build.exec_func('stx_do_patch', d)
 }
 
-stx_do_patch () {
-       cd ${S}
-       patch -p1 < ${WORKDIR}/stx-patches/lldpd-0.9.0/lldpd-interface-show.patch
-       patch -p1 < ${WORKDIR}/stx-patches/centos/files/lldpd-create-run-dir.patch
-       patch -p1 < ${WORKDIR}/stx-patches/centos/files/lldpd-i40e-disable.patch
-       patch -p1 < ${WORKDIR}/stx-patches/centos/files/lldpd-clear-station.patch
-}
-
-SOURCE1 = "${WORKDIR}/stx-patches/lldpd-0.9.0/lldpd.init"
-SOURCE2 = "${WORKDIR}/stx-patches/lldpd-0.9.0/lldpd.default"
-SOURCE3 = "${WORKDIR}/stx-patches/centos/files/i40e-lldp-configure.sh"
+SOURCE1 = "${WORKDIR}/lldpd.init"
+SOURCE2 = "${WORKDIR}/lldpd.default"
+SOURCE3 = "${WORKDIR}/i40e-lldp-configure.sh"
 
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
