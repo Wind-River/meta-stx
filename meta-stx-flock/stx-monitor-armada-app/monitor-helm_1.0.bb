@@ -18,32 +18,32 @@ SRCREV_monitor-armada-app = "e5ee6b3a07b74479b93fe90eff0662cf81890f73"
 SRC_URI = " \
     git://github.com/helm/charts;protocol=${PROTOCOL};name=helm-charts \
     git://opendev.org/starlingx/monitor-armada-app.git;protocol=${PROTOCOL};branch=${BRANCH};name=monitor-armada-app;destsuffix=monitor-armada-app \
-"
+    file://0001-Add-Makefile-for-helm-charts.patch \
+    file://0002-kibana-workaround-checksum-for-configmap.yaml.patch \
+    file://0003-helm-chart-changes-for-stx-monitor.patch \
+    file://0004-ipv6-helm-chart-changes.patch \
+    file://0005-decouple-config.patch \
+    file://0006-add-system-info.patch \
+    file://0007-three-masters.patch \
+    file://0008-Update-stx-monitor-for-kubernetes-API-1.16.patch \
+    file://0009-add-curator-as-of-2019-10-10.patch \
+    file://0010-Update-kube-state-metrics-1.8.0-to-commit-09daf19.patch \
+    file://0011-update-init-container-env-to-include-node-name.patch \
+    file://0012-Add-imagePullSecrets.patch \
+    file://0013-removed-unused-images.patch \
+    file://index.yaml \
+    file://repositories.yaml \
+    "
+
+PATCHTOOL = "git"
+PATCH_COMMIT_FUNCTIONS = "1"
 
 S = "${WORKDIR}/git"
 
 inherit allarch
 
-patch_folder = "${WORKDIR}/monitor-armada-app/monitor-helm/files"
 helm_folder = "${nonarch_libdir}/helm"
 helmchart_version = "0.1.0"
-
-do_patch () {
-	cd ${S}
-	git am ${patch_folder}/0001-Add-Makefile-for-helm-charts.patch
-	git am ${patch_folder}/0002-kibana-workaround-checksum-for-configmap.yaml.patch
-	git am ${patch_folder}/0003-helm-chart-changes-for-stx-monitor.patch
-	git am ${patch_folder}/0004-ipv6-helm-chart-changes.patch
-	git am ${patch_folder}/0005-decouple-config.patch
-	git am ${patch_folder}/0006-add-system-info.patch
-	git am ${patch_folder}/0007-three-masters.patch
-	git am ${patch_folder}/0008-Update-stx-monitor-for-kubernetes-API-1.16.patch
-	git am ${patch_folder}/0009-add-curator-as-of-2019-10-10.patch
-	git am ${patch_folder}/0010-Update-kube-state-metrics-1.8.0-to-commit-09daf19.patch
-	git am ${patch_folder}/0011-update-init-container-env-to-include-node-name.patch
-	git am ${patch_folder}/0012-Add-imagePullSecrets.patch
-	git am ${patch_folder}/0013-removed-unused-images.patch
-}
 
 do_configure[noexec] = "1"
 
@@ -65,10 +65,10 @@ do_compile () {
 	mkdir ${helm_home}/cache/archive
 
 	# Stage a repository file that only has a local repo
-	install -m 0644 ${patch_folder}/repositories.yaml ${helm_home}/repository/repositories.yaml
+	install -m 0644 ${WORKDIR}/repositories.yaml ${helm_home}/repository/repositories.yaml
 
 	# Stage a local repo index that can be updated by the build
-	install -m 0644 ${patch_folder}/index.yaml ${helm_home}/repository/local/index.yaml
+	install -m 0644 ${WORKDIR}/index.yaml ${helm_home}/repository/local/index.yaml
 
 	# Host a server for the charts
 	helm serve --repo-path . &
