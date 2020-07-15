@@ -13,29 +13,31 @@ DEPENDS += " \
 PROTOCOL = "https"
 BRANCH = "r/stx.3.0"
 SRCREV_helm-charts-elastic = "2bd7616ceddbdf2eee88965e2028ee37d304c79c"
-SRCREV_monitor-armada-app = "e5ee6b3a07b74479b93fe90eff0662cf81890f73"
+
+# Patches pulled from:
+# SRCREV_monitor-armada-app = "e5ee6b3a07b74479b93fe90eff0662cf81890f73"
+# git://opendev.org/starlingx/monitor-armada-app.git
 
 SRC_URI = " \
     git://github.com/elastic/helm-charts;protocol=${PROTOCOL};name=helm-charts-elastic \
-    git://opendev.org/starlingx/monitor-armada-app.git;protocol=${PROTOCOL};branch=${BRANCH};name=monitor-armada-app;destsuffix=monitor-armada-app \
-"
+    file://0001-add-makefile.patch \
+    file://0002-Add-compatibility-for-k8s-1.16.patch \
+    file://0003-use-oss-image.patch \
+    file://0004-Update-to-Elastic-7.4.0-Release.patch \
+    file://0005-set-initial-masters-to-master-0.patch \
+    file://index.yaml \
+    file://repositories.yaml \
+    "
+
+PATCHTOOL = "git"
+PATCH_COMMIT_FUNCTIONS = "1"
 
 S = "${WORKDIR}/git"
 
 inherit allarch
 
-patch_folder = "${WORKDIR}/monitor-armada-app/monitor-helm-elastic/files"
 helm_folder = "${nonarch_libdir}/helm"
 helmchart_version = "0.1.0"
-
-do_patch () {
-	cd ${S}
-	git am ${patch_folder}/0001-add-makefile.patch
-	git am ${patch_folder}/0002-Add-compatibility-for-k8s-1.16.patch
-	git am ${patch_folder}/0003-use-oss-image.patch
-	git am ${patch_folder}/0004-Update-to-Elastic-7.4.0-Release.patch
-	git am ${patch_folder}/0005-set-initial-masters-to-master-0.patch
-}
 
 do_configure[noexec] = "1"
 
@@ -57,11 +59,11 @@ do_compile () {
 	mkdir ${helm_home}/cache/archive
 
 	# Stage a repository file that only has a local repo
-	install -m 0644 ${patch_folder}/repositories.yaml \
+	install -m 0644 ${WORKDIR}/repositories.yaml \
 		${helm_home}/repository/repositories.yaml
 
 	# Stage a local repo index that can be updated by the build
-	install -m 0644 ${patch_folder}/index.yaml ${helm_home}/repository/local/index.yaml
+	install -m 0644 ${WORKDIR}/index.yaml ${helm_home}/repository/local/index.yaml
 
 	# Host a server for the charts
 	helm serve --repo-path . &
@@ -70,7 +72,7 @@ do_compile () {
 	helm repo add local http://localhost:8879/charts
 
 	# Create the tgz files
-	rm elasticsearch/Makefile
+	rm -f elasticsearch/Makefile
 	make elasticsearch
 
 	# terminate helm server (the last backgrounded task)
