@@ -51,6 +51,8 @@ do_install () {
 	find ${D}/${datadir}/starlingx/config-files -name centos -exec rm -rf {} +
 	rm -rf ${D}/${datadir}/starlingx/config-files/centos-release-config 
 	chown -R root:root ${D}/${datadir}/starlingx/config-files/
+	rm -rf ${D}/${datadir}/starlingx/config-files/audit-config
+	rm -rf ${D}/${datadir}/starlingx/config-files/openssh-config
 }
 
 PACKAGES ?= ""

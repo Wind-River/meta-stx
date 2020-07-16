@@ -55,7 +55,6 @@ RDEPENDS_packagegroup-stx-config = " \
 	"
 
 RDEPENDS_packagegroup-stx-config-files  = " \
-	audit-config \
 	dhclient-config \
 	dnsmasq-config \
 	docker-config \
@@ -73,7 +72,6 @@ RDEPENDS_packagegroup-stx-config-files  = " \
 	nfs-utils-config \
 	ntp-config \
 	openldap-config \
-	openssh-config \
 	openvswitch-config \
 	pam-config \
 	rabbitmq-server-config \
