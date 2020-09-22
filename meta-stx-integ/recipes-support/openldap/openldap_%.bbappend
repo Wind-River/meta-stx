@@ -1,51 +1,48 @@
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-#PACKAGES += " openldap-config"
+SRCREV_FORMAT = "opendev"
+SRCREV_opendev = "d778e862571957ece3c404c0c37d325769772fde"
+SUBPATH0 = "openldap-config"
+DSTSUFX0 = "stx-configfiles"
 
-#####################################################################################
-# Port is NOT complete yet:
-# See files/centos_patches_notported_yet for patches that have not been ported yet. 
-# See files/sources for scripts and conf files that need to be set in the recipe. 
-#####################################################################################
-
+LICENSE_append = "& Apache-2.0"
+LIC_FILES_CHKSUM += "\
+	file://stx-configfiles-LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	"
 
 SRC_URI += " \
+	git://opendev.org/starlingx/config-files.git;protocol=https;destsuffix=${DSTSUFX0};branch="r/stx.3.0";subpath=${SUBPATH0};name=opendev \
 	file://rootdn-should-not-bypass-ppolicy.patch \
 	file://0021-openldap-and-stx-source-and-config-files.patch \
-	file://stx-slapd.service \
 	"
-#	file://0001-Various-manual-pages-changes.patch \
-#	file://0002-Correct-log-levels-in-ppolicy-overlay.patch \
-#	file://0003-Removes-unnecessary-linking-of-SQL-Libs-into-slad.patch \
-#	file://0004-openlap-reentrant-gethostby.patch \
-#	file://0005-openldap-smbk5pwd-overlay.patch \
-#	file://0006-openldap-ldaprc-currentdir.patch \
-#	file://0007-openldap-userconfig-setgid.patch \
-#	file://0008-openldap-allop-overlay.patch \
-#	file://0009-openldap-syncrepl-unset-tls-options.patch \
-#	file://0010-openldap-ai-addrconfig.patch \
-##	file://0011-openldap-switch-to-t_dlopenadvise-to-get-RTLD_GLOBAL.patch \
-#	file://0012-openldap-ldapi-sasl.patch \
-#	file://0013-openldap-missing-unlock-in-accesslog-overlay.patch \
-#	"
-#	file://0014-openldap-module-passwd-sha2.patch 
-#	file://0015-openldap-man-tls-reqcert.patch \
-#	file://0016-openldap-man-ldap-conf.patch \
-#	file://0017-openldap-bdb_idl_fetch_key-correct-key-pointer.patch \
-#	file://0018-openldap-tlsmc.patch \
-#	file://0019-openldap-openssl-ITS7596-Add-EC-support.patch \
-#	file://0020-openldap-openssl-ITS7596-Add-EC-support-patch-2.patch \
-#	file://0021-openldap-and-stx-source-and-config-files.patch \
-#	file://0022-ltb-project-openldap-ppolicy-check-password-1.1.patch \
-#	file://0001-stx-openldap-config-files.patch \
-#	"
+RRECOMMENDS_openldap += " \
+        openldap-backend-shell \
+        openldap-backend-passwd \
+        openldap-backend-null \
+        openldap-backend-monitor \
+        openldap-backend-meta \
+        openldap-backend-ldap \
+        openldap-backend-dnssrv \
+        openldap-staticdev \
+        openldap-locale \
+        openldap-overlay-proxycache \
+        openldap-slapd \
+        openldap-slurpd \
+        openldap-bin \
+        "
 
 inherit pkgconfig useradd
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "-r -g ldap -u 55 -d / -s /sbin/nologin -c 'OpenLDAP server' ldap"
 GROUPADD_PARAM_${PN} = "-r -g 55 ldap"
+
+inherit systemd
+SYSTEMD_PACKAGES += "${PN}"
+SYSTEMD_SERVICE_${PN}_append = "slapd.service"
+SYSETMD_AUTO_ENABLE_${PN} = "enable"
+# Needed for stx init.d/openldap
+DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
 PACKAGECONFIG_CONFARGS_remove = "--with-tls=gnutls "
 DEPENDS += " \
@@ -112,6 +109,14 @@ EXTRA_OECONF += " \
 # --enable-wrappers
 # --enable-moznss-compatibility=yes
 
+do_unpack_append() {
+    bb.build.exec_func('do_copy_config_files', d)
+}
+
+do_copy_config_files () {
+    cp -pf ${WORKDIR}/${DSTSUFX0}/files/LICENSE ${S}/stx-configfiles-LICENSE
+}
+
 do_configure_append () {
    cd ${S}
    ln -f -s ${S}/contrib/slapd-modules/smbk5pwd/smbk5pwd.c servers/slapd/overlays
@@ -121,12 +126,6 @@ do_configure_append () {
    ln -f -s ${S}/contrib/slapd-modules/passwd/sha2/slapd-sha2.c servers/slapd/overlays
 }
 
-
-# If liblmdb is needed, then patch the Makefile
-#do_compile_append () {
-#   cd ${S}/ltb-project-openldap-ppolicy-check-password-1.1
-#   oe_runmake
-#}
 
 do_install_append () {
 	
@@ -154,7 +153,6 @@ do_install_append () {
 	install -m 0755 libexec-generate-server-cert.sh ${D}/${libexecdir}/openldap/generate-server-cert.sh
 	install -m 0755 libexec-update-ppolicy-schema.sh ${D}/${libexecdir}/openldap/update-ppolicy-schema.sh
 
-	install -m 0644  ${S}/../stx-slapd.service ${D}/${systemd_system_unitdir}/stx-slapd.service
 	install -m 0755 -d ${D}/${sysconfdir}/sysconfig
 	install -m 0644 slapd.sysconfig ${D}/${sysconfdir}/sysconfig/slapd
 	install -m 0755 -d ${D}/${datadir}/openldap-servers
@@ -162,53 +160,36 @@ do_install_append () {
 	install -m 0750 -d ${D}/${sysconfdir}/openldap/slapd.d
 	rm -rf ${D}/var/run
 
-	# openldap-config
-#	cd ${S}/stx-openldap-config
-#	mkdir -p ${D}/${sysconfdir}/rc.d/init.d
-#	install -m 755 initscript ${D}/${sysconfdir}/rc.d/init.d/openldap
-#	install -d -m 740 ${D}/${sysconfdir}/openldap
-#	install -m 644 slapd.conf ${D}/${sysconfdir}/openldap/slapd.conf
-#	install -m 644 initial_config.ldif ${D}/${sysconfdir}/openldap/initial_config.ldif
+	sed -i -e 's:\(/sbin/runuser\):/usr\1:g' ${D}/usr/libexec/openldap/functions 
 
-#	install -d ${D}/${datadir}/starlingx
-#	install -m 644 ${S}/../stx-slapd.service ${D}/${datadir}/starlingx/slapd.service
-#	install -m 644 slapd.sysconfig ${D}/${datadir}/starlingx/slapd.sysconfig
+	install -m 755 ${WORKDIR}/${DSTSUFX0}/files/initscript ${D}/${sysconfdir}/init.d/openldap
+        install -m 600 ${WORKDIR}/${DSTSUFX0}/files/slapd.conf ${D}/${sysconfdir}/openldap/slapd.conf
 
-	#cd ${S}/
-	#oe_runmake -e -C servers/slapd/overlays  DESTDIR=${D} install
-	sed -i -e 's:\(/sbin/runuser\):/usr\1:g' ${D}/usr/libexec/openldap/functions
+        install -m 600 ${WORKDIR}/${DSTSUFX0}/files/initial_config.ldif ${D}/${sysconfdir}/openldap/initial_config.ldif
+
+        # install -D -m 644 ${WORKDIR}/${DSTSUFX0}/files/slapd.service ${D}/${sysconfdir}/systemd/system/slapd.service
+        install -D -m 644 ${WORKDIR}/${DSTSUFX0}/files/slapd.service ${D}/${systemd_system_unitdir}/slapd.service
+        sed -i -e 's|/var/run|/run|' ${D}/${systemd_system_unitdir}/slapd.service
+
+        install -m 644 ${WORKDIR}/${DSTSUFX0}/files/slapd.sysconfig ${D}/${sysconfdir}/sysconfig/slapd
 
 }
 
-#FILES_openldap-config = " \
-#	${sysconfdir}/rc.d/init.d/openldap \
-#	${sysconfdir}/openldap/initial_config.ldif \
-##	${datadir}/starlingx/slapd.service \
-#	${datadir}/starlingx/slapd.sysconfig \
-#	"
-
-#pkg_postinst_ontarget_libldap-2.4_append () {
-#	cp /usr/share/starlingx/slapd.service ${systemd_system_unitdir}/slapd.service
-#	chmod 644 ${systemd_system_unitdir}/slapd.service
-#	cp ${datadir}/starlingx/slapd.sysconfig ${sysconfdir}/sysconfig/slapd
-#	systemctl daemon-reload
-#	chmod 755 /etc/openldap
-#	chmod 755 /etc/openldap/slapd.d
-#}
 
 FILES_${PN}_append = " \
 	${datadir}/openldap-servers/ \
 	${libexecdir}/openldap/ \
 	${sysconfdir}/sysconfig \
 	${sysconfdir}/tmpfiles.d \
-	${systemd_system_unitdir}/stx-slapd.service \
+	${systemd_system_unitdir}/slapd.service  \
+	${sysconfdir}/openldap/initial_config.ldif \
 	"
 
-# *.la are openldap modules, so re-define
-# to remove the *.la from -dev package
+# *.la are openldap modules. 
 FILES_${PN}-dev = " \
 	${includedir} \
 	${FILES_SOLIBSDEV} \
 	${libdir}/*.la \
 	${libexecdir}/openldap/*${SOLIBSDEV} \
 	"
+

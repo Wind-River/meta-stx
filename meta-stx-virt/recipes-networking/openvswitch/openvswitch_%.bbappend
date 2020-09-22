@@ -1,4 +1,3 @@
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 RDEPENDS_${PN} += " \
@@ -12,18 +11,25 @@ PACKAGECONFIG = "libcap-ng ssl dpdk"
 PACKAGECONFIG[ssl] = "--enable-ssl,--disable-ssl,openssl,"
 PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
 
+SRCREV_FORMAT = "opendev"
+SRCREV_opendev = "d778e862571957ece3c404c0c37d325769772fde"
+SUBPATH0 = "openvswitch-config"
+DSTSUFX0 = "stx-configfiles"
 
+LICENSE_append = "& Apache-2.0"
+LIC_FILES_CHKSUM += "\
+	file://stx-configfiles-LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+	"
 SRC_URI += " \
+	git://opendev.org/starlingx/config-files.git;protocol=https;destsuffix=${DSTSUFX0};branch="r/stx.3.0";subpath=${SUBPATH0};name=opendev \
 	"
 
-EXTRA_OECONF += " \
-		"
-do_configure_append () {
-	:
+do_unpack_append() {
+    bb.build.exec_func('do_copy_config_files', d)
 }
 
-do_compile_append () {
-	:
+do_copy_config_files () {
+    cp -pf ${WORKDIR}/stx-configfiles/files/LICENSE ${S}/stx-configfiles-LICENSE
 }
 
 do_install_append () {
@@ -88,6 +94,10 @@ do_install_append () {
 		install -m 0755 ${STAGING_DATADIR}/dpdk/usertools/dpdk-pmdinfo.py ${D}${datadir}/openvswitch/scripts/dpdk-pmdinfo.py
 		install -m 0755 ${STAGING_DATADIR}/dpdk/usertools/dpdk-devbind.py ${D}${datadir}/openvswitch/scripts/dpdk-devbind.py
 	fi
+
+	install -m 0644 ${WORKDIR}/stx-configfiles/files/ovsdb-server.pmon.conf ${D}/${sysconfdir}/openvswitch/ovsdb-server.pmon.conf
+	install -m 0644 ${WORKDIR}/stx-configfiles/files/ovs-vswitchd.pmon.conf ${D}/${sysconfdir}/openvswitch/ovs-vswitchd.pmon.conf
+	install -m 0644 ${WORKDIR}/stx-configfiles/files/etc_logrotate.d_openvswitch ${D}/${sysconfdir}/logrotate.d/openvswitch
       
 }
 

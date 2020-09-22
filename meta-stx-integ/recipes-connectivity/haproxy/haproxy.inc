@@ -1,4 +1,3 @@
-
 SUMMARY = "TCP/HTTP proxy and load balancer for high availability environments"
 DESCRIPTION = " \
 HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high \
@@ -23,7 +22,14 @@ DEPENDS = "libpcre openssl zlib"
 
 MAJOR_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-SRC_URI = "https://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz \
+SRCREV_FORMAT = "opendev"
+SRCREV_opendev = "d778e862571957ece3c404c0c37d325769772fde"
+SUBPATH0 = "haproxy-config"
+DSTSUFX0 = "stx-configfiles"
+
+SRC_URI = "\
+        git://opendev.org/starlingx/config-files.git;protocol=https;destsuffix=${DSTSUFX0};branch="r/stx.3.0";subpath=${SUBPATH0};name=opendev \
+	https://www.haproxy.org/download/${MAJOR_VER}/src/haproxy-${PV}.tar.gz \
            file://haproxy.service \
            file://haproxy.cfg \
           "
@@ -79,6 +85,8 @@ do_install() {
 	           INCLUDEDIR=${includedir}
 
 	install -D -m 0644 ${WORKDIR}/haproxy.service ${D}${systemd_system_unitdir}/haproxy.service
+	sed -i -e 's#/usr/bin/haproxy#/usr/sbin/haproxy#g' ${D}${systemd_system_unitdir}/haproxy.service
+
 	install -D -m 0644 ${WORKDIR}/haproxy.cfg ${D}${sysconfdir}/haproxy/haproxy.cfg
 
 	# install ssl folder for certificate
@@ -88,6 +96,11 @@ do_install() {
 	# install halog and iprange
 	install -D -m 755 contrib/halog/halog ${D}${bindir}/halog
 	install -D -m 755 contrib/iprange/iprange ${D}${bindir}/iprange
+	
+	install -d -m 755 ${D}/${sysconfdir}/haproxy/errors/
+	install -m 755 ${WORKDIR}/stx-configfiles/files/503.http ${D}/${sysconfdir}/haproxy/errors/503.http
+	
+	install -p -D -m 0755 ${WORKDIR}/stx-configfiles/files/haproxy.sh ${D}/${sysconfdir}/init.d/haproxy
 }
 
 FILES_${PN} = " \

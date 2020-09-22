@@ -2,7 +2,7 @@ diff --git a/util-linux-config/files/stx.postlogin b/util-linux-config/files/stx
 new file mode 100644
 index 0000000..292bd8a
 --- /dev/null
-+++ b/util-linux-config/files/stx.postlogin
++++ b/stx.postlogin
 @@ -0,0 +1,3 @@
 +session     [default=1]   pam_lastlog.so nowtmp showfailed
 +session     optional      pam_lastlog.so silent noupdate showfailed

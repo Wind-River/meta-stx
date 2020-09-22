@@ -55,33 +55,34 @@ RDEPENDS_packagegroup-stx-config = " \
 	"
 
 RDEPENDS_packagegroup-stx-config-files  = " \
-	dhclient-config \
-	dnsmasq-config \
-	docker-config \
-	initscripts-config \
-	filesystem-scripts \
-	haproxy-config \
-	ioscheduler-config \
-	iptables-config \
-	iscsi-initiator-utils-config \
-	lighttpd-config \
-	logrotate-config \
-	memcached-custom \
-	mlx4-config \
-	net-snmp-config \
-	nfs-utils-config \
-	ntp-config \
-	openldap-config \
-	openvswitch-config \
-	pam-config \
-	rabbitmq-server-config \
-	rsync-config \
-	setup-config \
-	shadow-utils-config \
-	sudo-config \
-	syslog-ng-config \
-	systemd-config \
-	util-linux-config \
+	lighttpd \
+	lighttpd-module-proxy \
+	lighttpd-module-setenv \
+	dnsmasq \
+	shadow \
+	openldap \
+	ntp \
+	haproxy \
+	syslog-ng \ 
+	sudo \
+	docker-ce \
+	openvswitch \
+	systemd \
+	nfs-utils \
+	iptables \
+	logrotate \
+	mlx4-init \
+	initscripts \
+	procps \
+	iscsi-initiator-utils \
+	memcached \
+	net-snmp \
+	net-snmp-server-snmpd \
+	net-snmp-server-snmptrapd \
+	libpam-runtime \
+	rabbitmq-server \
+	rsync \
+	base-files \
 	"
 
 RDEPENDS_packagegroup-stx-fault = " \
