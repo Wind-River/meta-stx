@@ -1,7 +1,6 @@
-
 require metal-common.inc
 
-S = "${S_DIR}/python-inventoryclient/inventoryclient"
+SUBPATH0 = "python-inventoryclient/inventoryclient"
 
 
 LICENSE = "Apache-2.0"

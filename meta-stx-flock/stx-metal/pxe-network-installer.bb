@@ -1,7 +1,5 @@
-
 require metal-common.inc
-
-S = "${S_DIR}/installer/pxe-network-installer/pxe-network-installer"
+SUBPATH0 = "installer/pxe-network-installer/pxe-network-installer"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
@@ -15,20 +13,30 @@ RDEPENDS_${PN}_append += " \
 
 do_compile[noexec] = "1"
 
+do_unpack_append() {
+    bb.build.exec_func('do_restore_files', d)
+}
+
+do_restore_files() {
+	cd ${S}
+	git reset ${SRCREV} bsp-files/
+	git checkout bsp-files
+}
+
 do_install() {
 	install -d -m 0755 ${D}/pxeboot
 	install -d -m 0755 ${D}/pxeboot/pxelinux.cfg.files
 	install -d -m 0755 ${D}/pxeboot/rel-${STX_REL}
 	install -d -m 0755 ${D}/pxeboot/EFI
 
-        install -d -m 0755 ${D}/pxeboot/EFI/poky-stx
-        ln -fs poky-stx ${D}/pxeboot/EFI/centos
-        ln -fs ${libdir}/grub/x86_64-efi ${D}/pxeboot/EFI/poky-stx/
- 
-        install -d -m 0755 ${D}/${sbindir}
+	install -d -m 0755 ${D}/pxeboot/EFI/poky-stx
+	ln -fs poky-stx ${D}/pxeboot/EFI/centos
+	ln -fs ${libdir}/grub/x86_64-efi ${D}/pxeboot/EFI/poky-stx/
+
+	install -d -m 0755 ${D}/${sbindir}
 	install -m 755 pxeboot-update.sh ${D}/${sbindir}/pxeboot-update-${STX_REL}.sh
 
-	install -m 644 ${S_DIR}/bsp-files/kickstarts/post_clone_iso_ks.cfg ${D}/pxeboot/post_clone_iso_ks.cfg
+	install -m 644 bsp-files/kickstarts/post_clone_iso_ks.cfg ${D}/pxeboot/post_clone_iso_ks.cfg
 
 	install -m 644 default ${D}/pxeboot/pxelinux.cfg.files/default
 	install -m 644 default.static ${D}/pxeboot/pxelinux.cfg.files/default.static
@@ -56,7 +64,7 @@ do_install() {
 		${D}/pxeboot/pxelinux.cfg.files/pxe-* ${D}/pxeboot/pxelinux.cfg.files/efi-pxe-*
 
 	# Copy Titanium grub.cfg. It will be used to create ISO on the Controller.
-	install -m 0644 ${S_DIR}/bsp-files/grub.cfg ${D}/pxeboot/EFI/ 
+	install -m 0644 bsp-files/grub.cfg ${D}/pxeboot/EFI/ 
 
 	# UEFI bootloader expect the grub.cfg file to be in /pxeboot/ so create a symlink for it
 	ln -fs pxelinux.cfg/grub.cfg ${D}/pxeboot/grub.cfg
