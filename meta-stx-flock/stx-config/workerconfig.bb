@@ -1,4 +1,3 @@
-
 PACKAGES += " \
 	workerconfig-standalone \
 	workerconfig-subfunction \
@@ -6,7 +5,7 @@ PACKAGES += " \
 
 require config-common.inc
 
-S = "${S_DIR}/workerconfig/workerconfig"
+SUBPATH0 = "workerconfig/workerconfig"
 
 
 LICENSE = "Apache-2.0"

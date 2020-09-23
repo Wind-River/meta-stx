@@ -1,9 +1,8 @@
-
 PACKAGES += " config-gate-worker"
 
 require config-common.inc
 
-S = "${S_DIR}/config-gate/files"
+SUBPATH0 = "config-gate/files"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"

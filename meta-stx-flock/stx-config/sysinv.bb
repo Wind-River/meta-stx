@@ -1,7 +1,6 @@
-
 require config-common.inc
 
-S = "${S_DIR}/sysinv/sysinv/sysinv"
+SUBPATH0 = "sysinv/sysinv/sysinv"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
