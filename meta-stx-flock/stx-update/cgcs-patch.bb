@@ -1,10 +1,9 @@
-
 PACKAGES += " ${PN}-agent"
 PACKAGES += " ${PN}-controller"
 
 require update-common.inc
 
-S = "${S_DIR}/cgcs-patch/cgcs-patch"
+SUBPATH0 = "cgcs-patch/cgcs-patch"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
@@ -40,10 +39,20 @@ SYSTEMD_SERVICE_${PN}-agent = " sw-patch-agent.service"
 SYSTEMD_PACKAGES += " ${PN}"
 SYSTEMD_SERVICE_${PN} = "sw-patch.service"
 
+
+do_unpack_append() {
+    bb.build.exec_func('do_restore_files', d)
+}
+
+do_restore_files() {
+	cd ${S}
+	git reset ${SRCREV} cgcs-patch/bin
+	git checkout cgcs-patch/bin
+}
+
 do_install_append () {
 
-	cd ${S_DIR}/cgcs-patch/bin
-
+	cd ${S}/cgcs-patch/bin
 	install -m 755 -d ${D}/${sbindir}
 	install -m 755 -d ${D}/${sysconfdir}/bash_completion.d
 	install -m 755 -d ${D}/${sysconfdir}/goenabled.d
