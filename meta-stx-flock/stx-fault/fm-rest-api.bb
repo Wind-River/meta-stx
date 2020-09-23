@@ -1,8 +1,9 @@
 inherit setuptools
 
 require fault-common.inc
+SUBPATH0 = "fm-rest-api/fm"
 
-S = "${S_DIR}/fm-rest-api/fm"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 
 do_install_append() {

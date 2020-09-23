@@ -4,7 +4,8 @@ DEPENDS += "fm-common snmp-audittrail"
 
 SRC_URI += "file://0001-snmp-ext-add-LDFLAGS.patch"
 
-S = "${S_DIR}/snmp-ext/sources"
+SUBPATH0 = "snmp-ext/sources"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 EXTRA_OEMAKE = '-e PATCH=0 \
 		INCLUDES="-I. -I${S}/fm-common/sources" \

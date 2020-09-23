@@ -2,7 +2,9 @@ inherit systemd
 require fault-common.inc
 
 SRC_URI += "file://0001-fm-mgr-Fix-install-target.patch"
-S = "${S_DIR}/fm-mgr/sources"
+
+SUBPATH0 = "fm-mgr/sources"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 DEPENDS += "fm-common"
 

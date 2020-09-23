@@ -1,7 +1,7 @@
-
 require fault-common.inc
 
-S = "${S_DIR}/fm-doc/fm_doc"
+SUBPATH0 = "fm-doc/fm_doc"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 do_configure () {
      :
