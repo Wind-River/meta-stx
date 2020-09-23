@@ -1,4 +1,3 @@
-
 DESCRIPTION = "stx-gui"
 
 PACKAGES = "starlingx-dashboard"
