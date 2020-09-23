@@ -1,4 +1,3 @@
-
 DESCRIPTION = "Build Info"
 SUMMARY  = "Build Info"
 

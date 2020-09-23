@@ -1,10 +1,9 @@
-
 DESCRIPTION  = "StarlingX PCI Interrupt Affinity Agent Package"
 SUMMARY  = "StarlingX PCI Interrupt Affinity Agent Package"
 
 require utilities-common.inc
 
-S = "${S_DIR}/utilities/pci-irq-affinity-agent/pci_irq_affinity"
+SUBPATH0 = "utilities/pci-irq-affinity-agent/pci_irq_affinity"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://setup.py;md5=6980f60051ba4d376975eefc777fb8ae"
@@ -16,9 +15,20 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 SYSTEMD_PACKAGES += "${PN}"
 SYSTEMD_SERVICE_${PN} = "${PN}-agent.service"
 
+do_unpack_append() {
+    bb.build.exec_func('do_restore_files', d)
+}
+
+do_restore_files() {
+	cd ${S}
+	git reset ${SRCREV} utilities/pci-irq-affinity-agent/files
+	git checkout utilities/pci-irq-affinity-agent/files
+}
+
+
 do_install_append() {
 
-	cd ${S_DIR}/utilities/pci-irq-affinity-agent/files
+	cd ${S}/utilities/pci-irq-affinity-agent/files
 
 	install -p -d -m0755 ${D}/${sysconfdir}/init.d
 	install -p -d -m0755 ${D}/${sysconfdir}/pmon.d

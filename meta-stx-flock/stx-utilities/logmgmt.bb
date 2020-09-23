@@ -1,9 +1,7 @@
-
 DESCRIPTION = "Management of /var/log filesystem"
 
 require utilities-common.inc
-
-S = "${S_DIR}/utilities/logmgmt/logmgmt/"
+SUBPATH0 = "utilities/logmgmt/logmgmt/"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
@@ -19,10 +17,19 @@ SYSTEMD_SERVICE_${PN} = "logmgmt.service"
 SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 DISTRO_FEATURES_BACKFILL_CONSIDERED_remove = "sysvinit"
 
+do_unpack_append() {
+    bb.build.exec_func('do_restore_files', d)
+}
+
+do_restore_files() {
+	cd ${S}
+	git reset ${SRCREV} utilities/logmgmt/scripts
+	git checkout utilities/logmgmt/scripts
+}
 
 do_install_append() {
 
-	cd ${S}/../scripts
+	cd ${S}/utilities/logmgmt/scripts
 	install -d -m0755 ${D}/${bindir}
 	install -m0700 bin/logmgmt ${D}/${bindir}
 	install -m0700 bin/logmgmt_postrotate ${D}/${bindir}

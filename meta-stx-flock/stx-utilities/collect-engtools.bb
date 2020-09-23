@@ -1,4 +1,3 @@
-
 DESCRIPTION = " \
 This package contains data collection tools to monitor host performance. \
 Tools are general purpose engineering and debugging related. Includes \
@@ -8,7 +7,7 @@ io. \
 SUMMARY = "Host performance data collection tools package"
 
 require utilities-common.inc
-S = "${S_DIR}/tools/engtools/hostdata-collectors/scripts"
+SUBPATH0 = "tools/engtools/hostdata-collectors/scripts"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"

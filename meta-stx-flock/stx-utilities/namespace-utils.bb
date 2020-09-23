@@ -1,10 +1,8 @@
-
 DESCRIPTION = "Titanium Cloud namespace utilities"
 SUMMARY = "namespace utils"
 
 require utilities-common.inc
-
-S = "${S_DIR}/utilities/namespace-utils/namespace-utils"
+SUBPATH0 = "utilities/namespace-utils/namespace-utils"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"

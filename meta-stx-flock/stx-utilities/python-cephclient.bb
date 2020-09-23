@@ -1,4 +1,3 @@
-
 DESCRIPTION = " \
 A client library in Python for Ceph Mgr RESTful plugin providing REST API \
 access to the cluster over an SSL-secured connection. Python API is compatible \
@@ -8,8 +7,7 @@ mimic because Ceph REST API component was removed. \
 "
 
 require utilities-common.inc
-
-S = "${S_DIR}/ceph/python-cephclient/python-cephclient"
+SUBPATH0 = "ceph/python-cephclient/python-cephclient"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=41687b590435621fc0676ac02c51154f"

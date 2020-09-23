@@ -1,5 +1,3 @@
-
-
 DESCRIPTION = " \
 This packages scripts that implement data and log collection that field \
 support can execute to gather current state and runtime history for off \
@@ -7,7 +5,8 @@ platform analysis and debug. \
 "
 
 require utilities-common.inc
-S = "${S_DIR}/tools/collector/scripts"
+SUBPATH0 = "tools/collector/scripts"
+
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 

@@ -1,10 +1,9 @@
-
 DESCRIPTION  = "platform-util"
 SUMMARY  = "StarlingX Platform utilities installed only on controllers"
 
 require utilities-common.inc
 
-S = "${S_DIR}/utilities/platform-util/platform-util"
+SUBPATH0 = "utilities/platform-util/platform-util"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
@@ -17,9 +16,19 @@ SYSTEMD_PACKAGES += " ${PN}"
 SYSTEMD_SERVICE_${PN} = "opt-platform.service"
 SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 
+do_unpack_append() {
+    bb.build.exec_func('do_restore_files', d)
+}
+
+do_restore_files() {
+	cd ${S}
+	git reset ${SRCREV} utilities/platform-util/scripts
+	git checkout utilities/platform-util/scripts
+}
+
 do_install_append() {
 
-	cd ${S_DIR}/utilities/platform-util/scripts
+	cd ${S}/utilities/platform-util/scripts
 
 	install -d -m0755 ${D}/${bindir}
 	install -m0755 tc_setup.sh ${D}/${bindir}/tc_setup.sh
