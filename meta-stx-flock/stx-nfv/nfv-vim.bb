@@ -1,7 +1,6 @@
-
 require nfv-common.inc
 
-S = "${S_DIR}/nfv/nfv-vim"
+SUBPATH0 = "nfv/nfv-vim"
 
 inherit setuptools
 

@@ -1,6 +1,5 @@
-
 require nfv-common.inc
 
-S = "${S_DIR}/nfv/nfv-tools"
+SUBPATH0 = "nfv/nfv-tools"
 
 inherit setuptools

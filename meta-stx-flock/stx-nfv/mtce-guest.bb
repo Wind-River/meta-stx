@@ -3,7 +3,7 @@ PACKAGES += " mtce-guestserver"
 
 require nfv-common.inc
 
-S = "${S_DIR}/mtce-guest/src"
+SUBPATH0 = "mtce-guest/src"
 
 SRC_URI += " \
 	file://0001-mtce-guest-Fix-ldflags-usage.patch \

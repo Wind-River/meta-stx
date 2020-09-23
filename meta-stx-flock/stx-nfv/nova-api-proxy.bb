@@ -1,7 +1,5 @@
-
 require nfv-common.inc
-
-S = "${S_DIR}/nova-api-proxy/nova-api-proxy"
+SUBPATH0 = "nova-api-proxy/nova-api-proxy"
 
 inherit setuptools systemd
 SYSTEMD_PACKAGES += "nova-api-proxy"
