@@ -1,7 +1,6 @@
-
 require monitoring-common.inc
 
-S = "${S_DIR}/vm-topology/vm-topology"
+SUBPATH0 = "vm-topology/vm-topology"
 
 
 LICENSE = "Apache-2.0"
