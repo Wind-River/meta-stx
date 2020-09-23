@@ -1,4 +1,3 @@
-
 DESCRIPTION = "StarlingX KVM Timer Advance Package"
 
 STABLE = "starlingx/master"

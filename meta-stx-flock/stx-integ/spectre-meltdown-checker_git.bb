@@ -1,4 +1,3 @@
-
 DESCRIPTION = " \
 A shell script to tell if your system is vulnerable against the several \
 \"speculative execution\" CVEs that were made public since 2018. \
