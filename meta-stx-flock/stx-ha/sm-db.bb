@@ -1,7 +1,5 @@
-
-S = "${S_DIR}/service-mgmt/sm-db"
-
 require ha-common.inc
+SUBPATH0 = "service-mgmt/sm-db"
 
 DEPENDS_append =  " \
 	sqlite3-native \

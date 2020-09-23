@@ -1,7 +1,5 @@
-
-S = "${S_DIR}/service-mgmt-api/sm-api"
-
 require ha-common.inc
+SUBPATH0 = "service-mgmt-api/sm-api"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
