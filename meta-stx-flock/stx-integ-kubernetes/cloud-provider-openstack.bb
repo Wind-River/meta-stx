@@ -1,4 +1,3 @@
-
 DESCRIPTION = "cloud-provider-openstack"
 
 STABLE = "starlingx/master"
