@@ -1,4 +1,3 @@
-
 DESCRIPTION = "StarlingX distributedcloud packages collection"
 HOMEPAGE = "https://opendev.org/starlingx"
 SECTION = "network"
@@ -15,17 +14,6 @@ S = "${WORKDIR}/git"
 SRC_URI = " \
 	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH} \
 	"
-
-# TODO: 
-# 1 - Patch service unit files to create the following directories:
-#	- var/log/dcdbsync 
-#	- var/log/dcmanager
-#	- var/log/dcorch
-# python-jsonschema >= 2.0.0
-# python-keystoneauth1 >= 3.1.0
-# python-pbr >= 1.8
-# python-pecan >= 1.0.0
-# python-routes >= 1.12.3
 
 PACKAGES += "distributedcloud-dcmanager"
 PACKAGES += "distributedcloud-dcorch"

@@ -1,4 +1,3 @@
-
 DESCRIPTION = " \
 	Client library for Distributed Cloud built on the Distributed Cloud API. \
 	It provides a command-line tool (dcmanager).  \
