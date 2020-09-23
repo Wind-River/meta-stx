@@ -1,4 +1,3 @@
-
 SUMMARY = "StarlingX Monitor Application Armada Helm Charts"
 DESCRIPTION = "StarlingX Monitor Application Armada Helm Charts"
 
@@ -12,11 +11,15 @@ DEPENDS += " \
 
 PROTOCOL = "https"
 BRANCH = "r/stx.3.0"
+SRCNAME = "monitor-armada-app"
 SRCREV = "e5ee6b3a07b74479b93fe90eff0662cf81890f73"
+SRCREV_opendev = "e5ee6b3a07b74479b93fe90eff0662cf81890f73"
+DESTSUFFIX = "${PN}-${PV}"
+SUBPATH0 = "stx-monitor-helm/stx-monitor-helm"
 
-SRC_URI = "git://opendev.org/starlingx/monitor-armada-app.git;protocol=${PROTOCOL};branch=${BRANCH}"
-
-S = "${WORKDIR}/git/stx-monitor-helm/stx-monitor-helm"
+SRC_URI = " \
+	git://opendev.org/starlingx/${SRCNAME}.git;protocol=${PROTOCOL};rev=${SRCREV};branch=${BRANCH};destsuffix=${DESTSUFFIX};subpath=${SUBPATH0};name=opendev \
+	"
 
 inherit allarch
 
